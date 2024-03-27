@@ -1,0 +1,11 @@
+---
+title: Blog
+listing:
+    id: my-listings
+    contents: posts
+---
+
+::: {#my-listings}
+:::
+
+# IT WORKS!!! REEE

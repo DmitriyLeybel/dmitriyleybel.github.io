@@ -2,18 +2,26 @@ project:
   type: website
 
 website:
-  title: "dmlbl"
+  # title: "dmlbl"
+
   navbar:
+    logo: "images/dmlbl_logo.png"
     left:
-      - href: index.qmd
-        text: Home
+      - blog.qmd
       - about.qmd
+  twitter-card: true
+  open-graph: true
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - superhero
+      - custom.scss
     css: styles.css
     toc: true
+    mainfont: Merriweather
+    
+    monofont: Inconsolata
 
 
 
