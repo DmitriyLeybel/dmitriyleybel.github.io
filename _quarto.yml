@@ -1,27 +1,53 @@
 project:
   type: website
-
+  preview:
+    port: 6222
 website:
   # title: "dmlbl"
 
   navbar:
     logo: "images/dmlbl_logo.png"
     left:
-      - blog.qmd
+      - text: Technical Blog
+        href: technical_blog.qmd
+      - text: Personal Blog
+        href: personal_blog.qmd
       - about.qmd
+    tools:
+      - icon: file-person-fill
+        href: resume.qmd
+      - icon: twitter-x
+        href: https://twitter.com/dmitriyleybel
+      - icon: linkedin
+        href: https://www.linkedin.com/in/dmlbl/
+      - icon: envelope-fill
+        href: mailto:dmleybel@.com
+  page-footer:
+    center:
+      - text: "© 2024 - Dmitriy Leybel"
+      - icon: twitter-x
+        href: https://twitter.com/dmitriyleybel
+      - icon: linkedin
+        href: https://www.linkedin.com/in/dmlbl/
+
   twitter-card: true
   open-graph: true
+  favicon: "images/favicon.ico"
 
 format:
   html:
     theme:
       - superhero
       - custom.scss
-    css: styles.css
     toc: true
     mainfont: Merriweather
-    
     monofont: Inconsolata
+    title-block-banner: true
+    email-obfuscation: 'javascript'
+  
+
+resources:
+  - CNAME
 
 
 

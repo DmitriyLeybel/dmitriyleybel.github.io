@@ -1,0 +1,157 @@
+---
+title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks -- *Part Zero*"
+date: 2024-04-05
+description: Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
+abstract: Out of the many retrieval algorithms, building knowledge graphs in conjuction with vector stores is a promising path forward as tracing and veracity of LLMs becomes more and more critical in the successful adoption and application in this newfound frontier of AI. It is my goal to convince you that the combination of symbolic representational knowledge and semantic embeddings is a powerful venue to explore in this space. 
+aliases:
+    - knowledge-graph-benchmark-0
+number-sections: true
+code-fold: true
+---
+
+It's finally happening. *It*, being me writing a blog entry. (I'm editing this at 10k words. I guess it's more of an article and less of a blog entry)
+
+<br>
+
+The motivation behind this post is twofold, to run a basic knowledge graph *Retrieval Augmented Generation*(RAG) benchmark I can build off of and improve in future posts, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.
+
+I fully believe in **democratizing** the ability to build and test your own LLM tools, as they are a critical frontier of artificial intelligence. That is the path towards progress and away from the centralization of these fantastic technologies.
+
+# Background
+
+## RAG {#rag}
+
+*Large Language Models*(LLMs) are fantastic...that is, until you attempt to verify their output.
+
+::: {layout="[70, 60]"}
+For this reason, RAG has been a fundamental component of truthiness. It also allows you to augment the LLM output through context-stuffing. The amount of tokens you can stuff into your context is not limitless, and so you can't merely stuff all of your documents and tables into it. Out of this limit emerge dozens of RAG techniques which try to [hydrate](https://twitter.com/jxnlco/status/1757938871843651858) the prompt. The fine folks at [Langchain](https://python.langchain.com/docs/get_started/introduction) have illustrated a small portion of these techniques here([Fig @fig-rag_techniques_langchain]). Even with the promise of a [10 million token context window](https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/), there is no abatement of upcoming RAG techniques and companies built around it.
+
+![Soiree of RAG techniques\
+(Click to enlarge)\
+Source: Langchain blog](images/paste-4.png){#fig-rag_techniques_langchain fig-align="center" width="437"}
+:::
+
+An [ever-growing survey](https://github.com/hymie122/RAG-Survey) of these techniques exists - and even that is not fully exhaustive. P.S. [exa.ai](exa.ai) is a fantastic source for research. ![](images/exaai.png)
+
+For reference, here([Fig @fig-simple-rag]) is a diagram of one of the simplest versions of RAG being implemented.
+
+![Basic RAG Example](images/simple%20rag.drawio.png){#fig-simple-rag .column-page}
+
+## Knowledge Graphs
+
+It's much easier to illustrate than explicate what a knowledge graph is([Fig @fig-basic-knowledege-graph-example]). Below, we have a knowledge graph that represents places, people, and things along with their relationships to one another. This is a directed graph, in the sense that the connections flow in one direction - this generally makes it easier to specify the relationships between entities. There are many names for the entities within a knowledge graph as well as the connections between them; one of the most common naming conventions for them are **nodes** for the entities such as "Bob" or "The Louvre" and **edges** for the connections between the nodes such as "was created by" or "is located in". Additionally, these nodes and edges can both have properties or **attributes** - for instance, the 'Museum' node can have attributes that enrich it such as "capacity: 2,000" and the edge 'visited' can be assigned a date attribute "date: March 28th, 2005". You'll often hear the word **triple** in reference to two nodes connected by an edge(`Node A`, `Edge`, `Node B`)
+
+![An example of a basic knowledge graph.](images/paste-1.png){#fig-basic-knowledege-graph-example}
+
+Knowledge graphs are often created within *graph databases* such as Neo4j, memgraph, or Amazon Neptune. They are often used within enterprises to integrate data from structured and unstructured databases alike to enable a single source of truth or knowledge. In theory, they are fantastic tools for information storage and retrieval, however, in practice they have a lot of quirks that prevent many companies from using them. The distillation of a company's data into a neat set of nodes and edges is a complex task that requires knowledge graph experts, as well as alignment from all corners of the organization.
+
+While the appeal of knowledge graphs is immense because it appeals to our intuitive sense of informational organization and structure, you can see for yourself how difficult the task is by trying to organize the things on your desk into a knowledge graph. Your brain has no problem with making sense of it all and maintaining its own knowledge representation of what's in front of your nose, but reproducing it in a knowledge graph is not as straightforward as our intuition leads us to believe.
+
+"Are you done sh\*tting on knowledge graphs, Dmitriy?"
+
+### LLM Synergy
+
+Yes. In fact, here I am proudly generating a knowledge graph for the world to see.
+
+```{=html}
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Real-time knowledge graph creation with GPT-3.5 Turbo <br><br>Using:<a href="https://twitter.com/LangChainAI?ref_src=twsrc%5Etfw">@LangChainAI</a> <a href="https://twitter.com/visjs?ref_src=twsrc%5Etfw">@visjs</a><br>Panel from <a href="https://twitter.com/HoloViz_org?ref_src=twsrc%5Etfw">@HoloViz_org</a> for handling interpreter/browser bidirectional communication <a href="https://t.co/P4mtAZDMaP">pic.twitter.com/P4mtAZDMaP</a></p>&mdash; dmitriy (@DmitriyLeybel) <a href="https://twitter.com/DmitriyLeybel/status/1759302451923189899?ref_src=twsrc%5Etfw">February 18, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+It may seem like this is the start of an all-hands meeting that's 45 minutes too long, but I promise you that it's not(unless you want it to be?). The word 'synergy' is perfect for describing the relationship between LLMs and knowledge graphs. The lowest hanging fruit for this match made in heaven was writing queries. Given a schema, an LLM can query a graph database to retrieve information.
+
+Some graph databases can be queried with Cypher(a graph querying language):
+
+``` html
+MATCH (n:Person)-[r:KNOWS]->(m:Person)
+WHERE n.name = 'Alice'
+RETURN n, r, m
+```
+
+If you're familiar with SQL, you immediately see the similarities. This query returns the person node `n` with the name Alice and all of the people(`m`) she knows(`r`). Fortunately, LLMs are superb at query languages, so your Cypher prowess can be minimal to nonexistent in order to compose this masterpiece:
+
+> yo chatgpt, this is my graph db's schema:`schema here` I need you to write a Cypher query that returns all of the people Alice knows
+
+Cool. Now we can fire all of these data analysts, right? Maybe next year. **(DISCLAIMER: this is a joke, not business advice)**
+
+Query generation turns out to be fairly popular, with frameworks like [Langchain](https://python.langchain.com/docs/use_cases/graph/integrations/graph_cypher_qa) and [LlamaIndex](https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_query_engine/) creating modules to do just that. Turns out, using LLMs, we can not only build queries, but we can build the knowledge graph itself. I will later go over this at length, so to be brief, you can have a LLM go over a set of documents chunk by chunk and output these triplets of nodes and edges iteratively. After loading them into a graph database, you can end the process there and trot along with your newly minted database, or you can now let the LLM create queries against that database as described earlier.
+
+::: column-margin
+[Langchain](https://python.langchain.com/docs/use_cases/graph/constructing) and [LlamaIndex](https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphDemo/) also have their own plug-n-play knowledge graph creation modules.
+:::
+
+At this point, like any rational human being, you may be asking, can this get any better? I mean, you've lasted this long, so I imagine that you already know the answer.
+
+## RAG + Knowledge Graphs
+
+::: callout-important
+Remember, there are many ways you can skin a cat. The examples provided are merely the ones I believe are most illustrative of the main components. The extent of the composability is only limited by your imagination.
+:::
+
+When you combine RAG with knowledge graphs, you get the best of both worlds. On one hand, you get a fuzzy(probabalistic) semantic layer which can be used to compare the essence of sentences or paragraphs to via embeddings. On the other, you have a discrete and symbolic representation of knowledge. That sounds an awful lot like humans – vibes-based logical processors.
+
+There are limitless ways to construct a system that exploits both modalities, so I'm going to focus on the base cases. The fundamental relationship takes place between the vector embeddings and the knowledge graph. The nodes(and in some cases, the edges) are linked to an embedding related to their source material.
+
+The first objective is to use an LLM to create the knowledge graph in conjunction with the embeddings. The embeddings will be stored in a **vector database** or **vector store**, which is essentially an optimized container that allows extremely fast vector comparison operations so you can quickly find the most similar embeddings. Some vector databases live in the cloud([Pinecone](https://www.pinecone.io)), they can be self-hosted([Chroma](https://www.trychroma.com)), or they can stay in your very program's memory([FAISS](https://ai.meta.com/tools/faiss/)). [Fig @fig-graph-gen] illustrates the fundamentals of generating your knowledge graph and vector store.
+
+### Generating Knowledge Graphs and Populating Vector Stores
+
+Once a corpus of documents is chunked into pieces, those pieces can be processed by the LLM and converted into triples which are then loaded into the knowledge graph. Concurrently, embeddings are created for the document chunks and loaded into the vector store. In each case, you can attach the reference for the node or embedding in its respective twin – this is where the magic lies. The text from the chunked documents can be stored in either the knowledge graph or in the vector store, or both. Once both are established, there are multiple retrieval strategies we can use to take advantage of this system.
+
+::: callout-note
+Building the knowledge graph sounds simpler than it is, and just as the architectural design of these systems, it is open to myriads of potential options – some good, and some not so good. This will be addressed.
+:::
+
+![Knowledge Graph and Embedding Generation](images/graph%20generation.png){#fig-graph-gen .column-page}
+
+### Retrieval Strategy #1 Focused on Embeddings Search Followed by Knowledge Graph Adjacency
+
+With a populated vector store and knowledge graph, we are set to experiment with a wide array of retrieval strategies in pursuit of finding the best one to hydrate our prompt. [Fig @fig-adjacency-strategy] involves using the vector store to find the nearest matching embedding, find its reference in the knowledge graph, and then find the adjacent nodes within the knowledge graph to add to our prompt. This makes intuitive sense because concepts related to the initial node are likely to be relevant for the LLM in addressing the user's query.
+
+![One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt](images/adjacency%20strategy.png){#fig-adjacency-strategy .column-page}
+
+### Retrieval Strategy #2 Focused on Graph Query Generation
+
+Another retrieval strategy would switch the knowledge graph and vector store steps around. This will involve an extra call to the LLM in order to construct the query we'll send to the knowledge graph. Once the nodes(and edges) are returned, we can trace the node to its referenced embedding, and retrieve the neighborhood of embeddings along with their text. Alternatively, we can ignore the embeddings and simply focus on the neighborhood of the returned nodes. For the example in [Fig @fig-graph-query-retrieval], I'll focus on the former. As much as we both love flowcharts, I have a feeling you're getting somewhat tired of them. That said, here's one more.
+
+![Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.](images/nearest%20embedding%20strategy.png){#fig-graph-query-retrieval .column-page .preview-image}
+
+# Finding a benchmark
+
+In order to benchmark the performance of this RAG + Knowledge Graph flow, we need to find a dataset or datasets that are commonly used for benchmarking RAG pipelines as well as some metrics used. We can go back to the [survey](https://github.com/hymie122/RAG-Survey) mentioned in the section on [RAG](#rag) and look at its corresponding [arxiv.org paper](https://arxiv.org/pdf/2312.10997.pdf). Within it, there is a table of tasks as seen in [Fig @fig-rag-datasets] and a table of metrics used [Fig @fig-rag-metrics].
+
+::: {layout="[30, 70]"}
+![RAG Datasets](images/paste-2.png){#fig-rag-datasets}
+
+![RAG Metrics](images/paste-3.png){#fig-rag-metrics}
+:::
+
+This is a perfect starting point because now we have a smorgasbord of references to peruse to gain an understanding of how to best proceed with benchmarking. The first option that comes to mind is the GraphQA subtask; however, looking into the mentioned paper on arxiv, [G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering](https://arxiv.org/pdf/2402.07630.pdf), it is evident that it is concerned with creating a graph dataset for the purpose of benchmarking the ability of an LLM to chat with graphs. Which adjacently relevant, our current goal is to use knowledge graphs as tools in retrieval, and not the main subject of a *question-answering*(QA) task.
+
+## Hotpot and Beer?
+
+Single-hop benchmarking appears to be most popular according to the RAG survey, however, we have more faith in knowledge graphs than a measly single-hop reasoning task. A single-hop requires the information from a single document to answer a question, however a multi-hop task requires you to hop between documents in order to answer the question. HotPotQA appears to be the most popular multi-hop dataset. Mentioned immediately on the [HotPotQA website](https://hotpotqa.github.io) is another dataset which they shout out as newer, with a more diverse set of hops required, while including the HotPotQA dataset within it - [BeerQA](https://beerqa.github.io)(is anyone else thirsty...). It combines QA data from three datasets, being HotPotQA, SQuAD, and its own formulated questions from Wikipedia for even **more** hops. Upon further inspection, BeerQA specifies that it primarily focuses on a *fullwiki* evaluation, that is to say, you must use the entirety of wikipedia in the task. Due to time and resource constraints, we do not currently want to build a knowledge graph from a 24GB dataset from the get-go. We do, however, want to be able to iterate in a quick and agile manner. HotPotQA doesn't have the same compute-heavy requirement, and neither does another amusingly named dataset.
+
+## MuSiQue to my ears
+
+According to the [HotpotQA paper](https://arxiv.org/pdf/1809.09600.pdf), it also has the option for using the full wiki in the evaluation criterion, however, it also has a *distractor* option where you're given 2 'gold' paragraphs containing the connecting information coupled with 8 irrelevant 'distractors' that serve as noise. Another dataset was created as an improvement over HotpotQA as well as its successor, 2WikiMultihopQA – [**MuSiQue**](https://arxiv.org/pdf/2108.00573.pdf)(Multihop Questions via Single-hop QUestion Composition) improves over its predecessors and includes questions with upwards of 18 distractors and numerous *gold* paragraphs in order to create questions of up to 4 hops. In addition, it handles some cases that would've allowed cheating within HotPotQA(such as inferring the information that is present in the hops). In addition, MuSiQue adds **answerability** to the mix – roughly half of the questions are unanswerable given the data, with the breadcrumbs provided by the provided distractors being misleading.
+
+::: {layout="[30,70]"}
+This is a great augmentation because this is the type of eval that will often be present in the real world, since we often expect real world retrieval of information retrieval to come up short.
+
+![Answerable and Nonanswerable Multihop Questions](images/mus_hop.png){#fig-mus-q}
+:::
+
+MuSiQue contains two evaluations, one with only answerable questions, and the other, evenly divided between non-answerable and answerable questions. If we look at the MuSiQue leaderboards in [Fig @fig-leaderboard], we see that the F1 score(harmonic mean of precision and recall – the higher the better) is substantially better for the Answerable dataset, as it removed the option of there being unanswerable questions for the models to hallucinate on.
+
+![MuSiQue Leaderboard Comparison](images/musique-leaderboards.png){#fig-leaderboard}
+
+Before wrapping up, I'd like to at least share some of the dev dataset meant to be used in the development of your data pipeline, published in the [MuSiQue github repo](https://github.com/StonyBrookNLP/musique).
+
+::: {style="max-height: 200px; overflow: auto"}
+{{< embed ../../notebooks/musique_eda.ipynb#musique_entry echo=true >}}
+:::
+
+This is but one entry in the `jsonl` file. Althought it has an answer `'answer': 'Walt Disney'`, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of `'answerable': False`. Each paragraph has a `is_supporting` label that is to be used in evaluating the pipeline's ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.
+
+# Finale(more of a cliffhanger)
+
+That's it for this initial explanatory and exploratory chapter. In the next post, we'll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.

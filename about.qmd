@@ -1,7 +1,8 @@
 ---
 title: "About"
+about:
+    template: jolla
 ---
+![](images/horse.jpg){fig-align="center"}
 
-Something or other about me.
-
-blah blah blahs
+I was born in Kiev, Ukraine but I moved to Los Angeles, CA at the age of 5 -- where I've lived most of my life. After a couple of decades of unyielding sun and pleasant weather, I decided that a change of scenery was in order. So I moved to Oregon.

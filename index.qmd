@@ -1,21 +1,30 @@
 ---
-title: "Welcome to my page!"
+title: "Howdy!"
+page-layout: article
 ---
 
 ::: {layout="[20,80]"}
-<img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%; width: 150px; object-fit: cover;"/>
+<img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="169"/>
 
-My name is Dmitriy, and I'm an **absolute** *legend*
+<div>
 
+If you're here, you probably know my name. If you don't, it's Dmitriy Leybel.
 
+In any case, **welcome** to my page!
+
+By profession, I'm a founder, consultant, and data scientist. Those are but some of the hats I've worn. At this point, [I've probably worked](resume.qmd) with every part of the tech stack(including MPUs and MCUs).
+
+<sub><sup>Except for bare-metal DevOps. We don't speak of bare-metal DevOps in these parts.</sup></sub>
+
+Above all else, I consider myself a tinkerer.
+
+</div>
 :::
 
-::: {layout="[80,40]" align="right"}
+I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or send me a message here.
 
-I am also an avid enjoyer of Corgis
+A side project of mine and micro-startup that I've founded is [Hippograph](https://hippograph.io). The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on the site. :)
 
+I am also an avid enjoyer of Corgis. A *corgoisseur*, one may say.
 
-<img src="images/corgo_pic.jpg" alt="corgi lol" style="border-radius: 20%; width: 150px; object-fit: cover;"/>
-
-:::
-
+<img src="images/corgo_pic.jpg" alt="corgi lol" style="border-radius: 20%;  object-fit: cover;" width="293"/>

@@ -1,0 +1,8 @@
+author: Dmitriy Leybel
+notebook-links: false
+format:
+  html:
+    css: technical_blog.css
+    toc-title: "Contents:"
+    toc-location: left
+    lightbox: true

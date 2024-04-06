@@ -1,0 +1,10 @@
+---
+title: Technical Blog
+listing:
+    id: my-listings
+    contents: technical_blog
+    fields: 
+---
+
+::: {.column-page #my-listings}
+:::

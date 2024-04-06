@@ -1,0 +1,1 @@
+docker cp  C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io/cross_test.ipynb e981e44f8d4d:/workspaces/AIIGS/cross_test.ipynb

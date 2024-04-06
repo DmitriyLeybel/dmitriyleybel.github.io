@@ -3,10 +3,36 @@
 
 /*-- scss:defaults --*/
 $navbar-brand-font-family: "Anonymous Pro", monospace !default;
+$font-weight-base: 100;
 
 /*-- scss:rules --*/
+
+p code:not(.sourceCode) {
+    background-color: #2c3f4e;
+    font-size: 1.2em;
+    color: $orange;
+    font-weight: 600;
+}
+
+
+strong {
+    font-weight: 900;
+}
+
+
+figure figcaption {
+    font-size: .8em
+}
+
+// Sets the background of images in the lightbox to the body background color
+// Fix for transparent images
+.gslide-media.gslide-image img {
+    background-color: $body-bg
+}
+//
+
 .navbar {
-    background-color: #df6919;
+    background-color: $orange;
 }
 .navbar-brand {
     font-family: $navbar-brand-font-family !important;
@@ -42,6 +68,16 @@ $navbar-brand-font-family: "Anonymous Pro", monospace !default;
 // Underline active navbar element
 .navbar-nav .nav-link.active {
     border-bottom: 2px solid $gray-100;
+  }
+//
+
+// Description text in title
+.quarto-title {
+    &.column-body {
+      .description {
+        color: $gray-400;
+      }
+    }
   }
 //
 

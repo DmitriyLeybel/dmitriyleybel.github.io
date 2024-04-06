@@ -1,0 +1,5 @@
+---
+title: "Resume"
+---
+
+<embed src="files/Dmitriy Leybel Resume.pdf" type="application/pdf" width=100% height=1100px class="column-page">
