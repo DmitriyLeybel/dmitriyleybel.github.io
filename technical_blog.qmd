@@ -3,7 +3,7 @@ title: Technical Blog
 listing:
     id: my-listings
     contents: technical_blog
-    fields: 
+    categories: true
 ---
 
 ::: {.column-page #my-listings}

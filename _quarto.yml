@@ -3,8 +3,6 @@ project:
   preview:
     port: 6222
 website:
-  # title: "dmlbl"
-
   navbar:
     logo: "images/dmlbl_logo.png"
     left:
@@ -29,6 +27,7 @@ website:
         href: https://twitter.com/dmitriyleybel
       - icon: linkedin
         href: https://www.linkedin.com/in/dmlbl/
+  google-analytics: "G-SB4HQ6BZVQ"
 
   twitter-card: true
   open-graph: true

@@ -1,7 +1,3 @@
 ---
 title: Personal Blog
 ---
-
-![](images/horse.jpg){fig-align="center"}
-
-I was born in Kiev, Ukraine but I moved to Los Angeles, CA at the age of 5 where I lived most of my life. After a couple of decades of unyielding sun and pleasant weather, I decided that a change of scenery was in order and moved to Oregon.

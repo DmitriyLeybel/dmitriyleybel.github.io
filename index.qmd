@@ -1,6 +1,7 @@
 ---
-title: "Howdy!"
+title: "Dmitriy Leybel"
 page-layout: article
+subtitle: "Howdy!"
 ---
 
 ::: {layout="[20,80]"}
@@ -21,9 +22,12 @@ Above all else, I consider myself a tinkerer.
 </div>
 :::
 
-I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or send me a message here.
+I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or shoot me a message [here](mailto:dmleybel@gmail.com).
 
-A side project of mine and micro-startup that I've founded is [Hippograph](https://hippograph.io). The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on the site. :)
+
+
+A side project of mine and micro-startup that I've founded is [Hippograph](https://hippograph.io). The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on its [site](https://hippograph.io). :)
+Also, feel free to [reach out](mailto:dmleybel@gmail.com) if you're interested in teaming up.
 
 I am also an avid enjoyer of Corgis. A *corgoisseur*, one may say.
 

@@ -7,13 +7,17 @@ aliases:
     - knowledge-graph-benchmark-0
 number-sections: true
 code-fold: true
+categories:
+    - knowledge-graphs
+    - rag
+    - benchmarking
 ---
 
 It's finally happening. *It*, being me writing a blog entry. (I'm editing this at 10k words. I guess it's more of an article and less of a blog entry)
 
 <br>
 
-The motivation behind this post is twofold, to run a basic knowledge graph *Retrieval Augmented Generation*(RAG) benchmark I can build off of and improve in future posts, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.
+The motivation behind this series of posts is twofold, to run a basic knowledge graph *Retrieval Augmented Generation*(RAG) benchmark I can build off of and iteratively improve, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.
 
 I fully believe in **democratizing** the ability to build and test your own LLM tools, as they are a critical frontier of artificial intelligence. That is the path towards progress and away from the centralization of these fantastic technologies.
 
@@ -150,7 +154,7 @@ Before wrapping up, I'd like to at least share some of the dev dataset meant to 
 {{< embed ../../notebooks/musique_eda.ipynb#musique_entry echo=true >}}
 :::
 
-This is but one entry in the `jsonl` file. Althought it has an answer `'answer': 'Walt Disney'`, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of `'answerable': False`. Each paragraph has a `is_supporting` label that is to be used in evaluating the pipeline's ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.
+This is but one entry in the `jsonl` file. Although it has an answer `'answer': 'Walt Disney'`, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of `'answerable': False`. Each paragraph has a `is_supporting` label that is to be used in evaluating the pipeline's ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.
 
 # Finale(more of a cliffhanger)
 
