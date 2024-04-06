@@ -1,8 +1,8 @@
 [
   {
-    "listing": "/blog.html",
+    "listing": "/technical_blog.html",
     "items": [
-      "/posts/test_post/index.html"
+      "/technical_blog/knowledge-graph-rag-benchmark-0/index.html"
     ]
   }
 ]

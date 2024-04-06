@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://DmitriyLeybel.github.io/dmitriyleybel.github.io/posts/test_post/index.html</loc>
-    <lastmod>2024-03-27T05:22:04.150Z</lastmod>
+    <loc>https://www.dmlbl.com/technical_blog.html</loc>
+    <lastmod>2024-04-06T04:07:07.854Z</lastmod>
   </url>
   <url>
-    <loc>https://DmitriyLeybel.github.io/dmitriyleybel.github.io/blog.html</loc>
-    <lastmod>2024-03-27T05:22:04.147Z</lastmod>
+    <loc>https://www.dmlbl.com/resume.html</loc>
+    <lastmod>2024-04-06T01:17:09.127Z</lastmod>
   </url>
   <url>
-    <loc>https://DmitriyLeybel.github.io/dmitriyleybel.github.io/about.html</loc>
-    <lastmod>2024-03-27T05:22:04.147Z</lastmod>
+    <loc>https://www.dmlbl.com/notebooks/musique_eda.html</loc>
+    <lastmod>2024-04-05T23:41:16.000Z</lastmod>
   </url>
   <url>
-    <loc>https://DmitriyLeybel.github.io/dmitriyleybel.github.io/index.html</loc>
-    <lastmod>2024-03-27T05:22:04.150Z</lastmod>
+    <loc>https://www.dmlbl.com/index.html</loc>
+    <lastmod>2024-04-06T03:02:54.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/about.html</loc>
+    <lastmod>2024-04-06T03:58:02.882Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/notebooks/cross_test.html</loc>
+    <lastmod>2024-03-28T18:33:16.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/personal_blog.html</loc>
+    <lastmod>2024-04-06T02:54:53.591Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/index.html</loc>
+    <lastmod>2024-04-06T02:01:12.855Z</lastmod>
   </url>
 </urlset>

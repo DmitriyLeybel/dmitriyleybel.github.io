@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Howdy!</title>
+<title>Technical Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./images/favicon.ico" rel="icon">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,12 +69,68 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-my-listings .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
 
-<meta property="og:title" content="Howdy!">
-<meta property="og:description" content="">
-<meta name="twitter:title" content="Howdy!">
-<meta name="twitter:description" content="">
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-my-listings'] = new List('listing-my-listings', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Technical Blog">
+<meta name="twitter:title" content="Technical Blog">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -94,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./technical_blog.html"> 
+    <a class="nav-link active" href="./technical_blog.html" aria-current="page"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
@@ -120,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Howdy!</h1>
+      <h1 class="title">Technical Blog</h1>
                       </div>
   </div>
     
@@ -140,33 +198,48 @@ ul.task-list li input[type="checkbox"] {
         
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
 
 
-<div>
-
+<div id="listing-my-listings" class="column-page quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1712368872855" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2512">
+<div class="thumbnail">
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
+<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-0\images\nearest embedding strategy.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p>
 </div>
-<div class="quarto-layout-panel" data-layout="[20,80]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
-<p><img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="169"></p>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 80.0%;justify-content: flex-start;">
-<p>If you’re here, you probably know my name. If you don’t, it’s Dmitriy Leybel.</p>
-<p>In any case, <strong>welcome</strong> to my page!</p>
-<p>By profession, I’m a founder, consultant, and data scientist. Those are but some of the hats I’ve worn. At this point, <a href="./resume.html">I’ve probably worked</a> with every part of the tech stack(including MPUs and MCUs).</p>
-<p><sub><sup>Except for bare-metal DevOps. We don’t speak of bare-metal DevOps in these parts.</sup></sub></p>
-<p>Above all else, I consider myself a tinkerer.</p>
+<div class="listing-description">
+<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</a>
 </div>
 </div>
+<div class="metadata">
+<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
+<div class="listing-date">
+Apr 5, 2024
 </div>
-<p>I run a data consultancy, <a href="https://prudentpatterns.com">Prudent Patterns</a>, specializing in data of all sizes, big and small alike. If you’re looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or send me a message here.</p>
-<p>A side project of mine and micro-startup that I’ve founded is <a href="https://hippograph.io">Hippograph</a>. The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y’know, the mythical creature(<em>yeah, sometimes I consider myself clever)</em>. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It’s easier demo’d than said, so I’d suggest you check out the video on the site. :)</p>
-<p>I am also an avid enjoyer of Corgis. A <em>corgoisseur</em>, one may say.</p>
-<p><img src="images/corgo_pic.jpg" alt="corgi lol" style="border-radius: 20%;  object-fit: cover;" width="293"></p>
+<div class="listing-author">
+Dmitriy Leybel
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+
 
 
 

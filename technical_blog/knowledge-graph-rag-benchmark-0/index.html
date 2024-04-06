@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dmitriy Leybel">
+<meta name="dcterms.date" content="2024-04-05">
+<meta name="description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
+
+<title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks – Part Zero</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../technical_blog.css">
+<meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks – Part Zero">
+<meta property="og:description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
+<meta property="og:image:height" content="738">
+<meta property="og:image:width" content="1203">
+<meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks – Part Zero">
+<meta name="twitter:description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
+<meta name="twitter:image-height" content="738">
+<meta name="twitter:image-width" content="1203">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../technical_blog.html"> 
+<span class="menu-text">Technical Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../personal_blog.html"> 
+<span class="menu-text">Personal Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools tools-wide">
+    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
+    <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="mailto:dmleybel@.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></h1>
+                  <div>
+        <div class="description">
+          Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Dmitriy Leybel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 5, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="block-title">Abstract</div>
+      Out of the many retrieval algorithms, building knowledge graphs in conjuction with vector stores is a promising path forward as tracing and veracity of LLMs becomes more and more critical in the successful adoption and application in this newfound frontier of AI. It is my goal to convince you that the combination of symbolic representational knowledge and semantic embeddings is a powerful venue to explore in this space.
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents:</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">1</span> Background</a>
+  <ul class="collapse">
+  <li><a href="#rag" id="toc-rag" class="nav-link" data-scroll-target="#rag"><span class="header-section-number">1.1</span> RAG</a></li>
+  <li><a href="#knowledge-graphs" id="toc-knowledge-graphs" class="nav-link" data-scroll-target="#knowledge-graphs"><span class="header-section-number">1.2</span> Knowledge Graphs</a>
+  <ul class="collapse">
+  <li><a href="#llm-synergy" id="toc-llm-synergy" class="nav-link" data-scroll-target="#llm-synergy"><span class="header-section-number">1.2.1</span> LLM Synergy</a></li>
+  </ul></li>
+  <li><a href="#rag-knowledge-graphs" id="toc-rag-knowledge-graphs" class="nav-link" data-scroll-target="#rag-knowledge-graphs"><span class="header-section-number">1.3</span> RAG + Knowledge Graphs</a>
+  <ul class="collapse">
+  <li><a href="#generating-knowledge-graphs-and-populating-vector-stores" id="toc-generating-knowledge-graphs-and-populating-vector-stores" class="nav-link" data-scroll-target="#generating-knowledge-graphs-and-populating-vector-stores"><span class="header-section-number">1.3.1</span> Generating Knowledge Graphs and Populating Vector Stores</a></li>
+  <li><a href="#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency" id="toc-retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency" class="nav-link" data-scroll-target="#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency"><span class="header-section-number">1.3.2</span> Retrieval Strategy #1 Focused on Embeddings Search Followed by Knowledge Graph Adjacency</a></li>
+  <li><a href="#retrieval-strategy-2-focused-on-graph-query-generation" id="toc-retrieval-strategy-2-focused-on-graph-query-generation" class="nav-link" data-scroll-target="#retrieval-strategy-2-focused-on-graph-query-generation"><span class="header-section-number">1.3.3</span> Retrieval Strategy #2 Focused on Graph Query Generation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#finding-a-benchmark" id="toc-finding-a-benchmark" class="nav-link" data-scroll-target="#finding-a-benchmark"><span class="header-section-number">2</span> Finding a benchmark</a>
+  <ul class="collapse">
+  <li><a href="#hotpot-and-beer" id="toc-hotpot-and-beer" class="nav-link" data-scroll-target="#hotpot-and-beer"><span class="header-section-number">2.1</span> Hotpot and Beer?</a></li>
+  <li><a href="#musique-to-my-ears" id="toc-musique-to-my-ears" class="nav-link" data-scroll-target="#musique-to-my-ears"><span class="header-section-number">2.2</span> MuSiQue to my ears</a></li>
+  </ul></li>
+  <li><a href="#finalemore-of-a-cliffhanger" id="toc-finalemore-of-a-cliffhanger" class="nav-link" data-scroll-target="#finalemore-of-a-cliffhanger"><span class="header-section-number">3</span> Finale(more of a cliffhanger)</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p>It’s finally happening. <em>It</em>, being me writing a blog entry. (I’m editing this at 10k words. I guess it’s more of an article and less of a blog entry)</p>
+<p><br></p>
+<p>The motivation behind this post is twofold, to run a basic knowledge graph <em>Retrieval Augmented Generation</em>(RAG) benchmark I can build off of and improve in future posts, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.</p>
+<p>I fully believe in <strong>democratizing</strong> the ability to build and test your own LLM tools, as they are a critical frontier of artificial intelligence. That is the path towards progress and away from the centralization of these fantastic technologies.</p>
+<section id="background" class="level1 page-columns page-full" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Background</h1>
+<section id="rag" class="level2 page-columns page-full" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="rag"><span class="header-section-number">1.1</span> RAG</h2>
+<p><em>Large Language Models</em>(LLMs) are fantastic…that is, until you attempt to verify their output.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[70, 60]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 53.9%;justify-content: flex-start;">
+<p>For this reason, RAG has been a fundamental component of truthiness. It also allows you to augment the LLM output through context-stuffing. The amount of tokens you can stuff into your context is not limitless, and so you can’t merely stuff all of your documents and tables into it. Out of this limit emerge dozens of RAG techniques which try to <a href="https://twitter.com/jxnlco/status/1757938871843651858">hydrate</a> the prompt. The fine folks at <a href="https://python.langchain.com/docs/get_started/introduction">Langchain</a> have illustrated a small portion of these techniques here(<a href="#fig-rag_techniques_langchain" class="quarto-xref">Fig&nbsp;1</a>). Even with the promise of a <a href="https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/">10 million token context window</a>, there is no abatement of upcoming RAG techniques and companies built around it.</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 46.2%;justify-content: flex-start;">
+<div id="fig-rag_techniques_langchain" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/paste-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Soiree of RAG techniques<br>
+(Click to enlarge)<br>
+Source: Langchain blog
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>An <a href="https://github.com/hymie122/RAG-Survey">ever-growing survey</a> of these techniques exists - and even that is not fully exhaustive. P.S. <a href="exa.ai">exa.ai</a> is a fantastic source for research. <img src="images/exaai.png" class="img-fluid"></p>
+<p>For reference, here(<a href="#fig-simple-rag" class="quarto-xref">Fig&nbsp;2</a>) is a diagram of one of the simplest versions of RAG being implemented.</p>
+<div id="fig-simple-rag" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Basic RAG Example
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="knowledge-graphs" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="knowledge-graphs"><span class="header-section-number">1.2</span> Knowledge Graphs</h2>
+<p>It’s much easier to illustrate than explicate what a knowledge graph is(<a href="#fig-basic-knowledege-graph-example" class="quarto-xref">Fig&nbsp;3</a>). Below, we have a knowledge graph that represents places, people, and things along with their relationships to one another. This is a directed graph, in the sense that the connections flow in one direction - this generally makes it easier to specify the relationships between entities. There are many names for the entities within a knowledge graph as well as the connections between them; one of the most common naming conventions for them are <strong>nodes</strong> for the entities such as “Bob” or “The Louvre” and <strong>edges</strong> for the connections between the nodes such as “was created by” or “is located in”. Additionally, these nodes and edges can both have properties or <strong>attributes</strong> - for instance, the ‘Museum’ node can have attributes that enrich it such as “capacity: 2,000” and the edge ‘visited’ can be assigned a date attribute “date: March 28th, 2005”. You’ll often hear the word <strong>triple</strong> in reference to two nodes connected by an edge(<code>Node A</code>, <code>Edge</code>, <code>Node B</code>)</p>
+<div id="fig-basic-knowledege-graph-example" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="images/paste-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: An example of a basic knowledge graph.
+</figcaption>
+</figure>
+</div>
+<p>Knowledge graphs are often created within <em>graph databases</em> such as Neo4j, memgraph, or Amazon Neptune. They are often used within enterprises to integrate data from structured and unstructured databases alike to enable a single source of truth or knowledge. In theory, they are fantastic tools for information storage and retrieval, however, in practice they have a lot of quirks that prevent many companies from using them. The distillation of a company’s data into a neat set of nodes and edges is a complex task that requires knowledge graph experts, as well as alignment from all corners of the organization.</p>
+<p>While the appeal of knowledge graphs is immense because it appeals to our intuitive sense of informational organization and structure, you can see for yourself how difficult the task is by trying to organize the things on your desk into a knowledge graph. Your brain has no problem with making sense of it all and maintaining its own knowledge representation of what’s in front of your nose, but reproducing it in a knowledge graph is not as straightforward as our intuition leads us to believe.</p>
+<p>“Are you done sh*tting on knowledge graphs, Dmitriy?”</p>
+<section id="llm-synergy" class="level3 page-columns page-full" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="llm-synergy"><span class="header-section-number">1.2.1</span> LLM Synergy</h3>
+<p>Yes. In fact, here I am proudly generating a knowledge graph for the world to see.</p>
+<blockquote class="twitter-tweet blockquote" data-theme="dark"><p lang="en" dir="ltr">Real-time knowledge graph creation with GPT-3.5 Turbo <br><br>Using:<a href="https://twitter.com/LangChainAI?ref_src=twsrc%5Etfw">@LangChainAI</a> <a href="https://twitter.com/visjs?ref_src=twsrc%5Etfw">@visjs</a><br>Panel from <a href="https://twitter.com/HoloViz_org?ref_src=twsrc%5Etfw">@HoloViz_org</a> for handling interpreter/browser bidirectional communication <a href="https://t.co/P4mtAZDMaP">pic.twitter.com/P4mtAZDMaP</a></p>— dmitriy (@DmitriyLeybel) <a href="https://twitter.com/DmitriyLeybel/status/1759302451923189899?ref_src=twsrc%5Etfw">February 18, 2024</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>It may seem like this is the start of an all-hands meeting that’s 45 minutes too long, but I promise you that it’s not(unless you want it to be?). The word ‘synergy’ is perfect for describing the relationship between LLMs and knowledge graphs. The lowest hanging fruit for this match made in heaven was writing queries. Given a schema, an LLM can query a graph database to retrieve information.</p>
+<p>Some graph databases can be queried with Cypher(a graph querying language):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>MATCH (n:Person)-[r:KNOWS]-&gt;(m:Person)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>WHERE n.name = 'Alice'</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>RETURN n, r, m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you’re familiar with SQL, you immediately see the similarities. This query returns the person node <code>n</code> with the name Alice and all of the people(<code>m</code>) she knows(<code>r</code>). Fortunately, LLMs are superb at query languages, so your Cypher prowess can be minimal to nonexistent in order to compose this masterpiece:</p>
+<blockquote class="blockquote">
+<p>yo chatgpt, this is my graph db’s schema:<code>schema here</code> I need you to write a Cypher query that returns all of the people Alice knows</p>
+</blockquote>
+<p>Cool. Now we can fire all of these data analysts, right? Maybe next year. <strong>(DISCLAIMER: this is a joke, not business advice)</strong></p>
+<p>Query generation turns out to be fairly popular, with frameworks like <a href="https://python.langchain.com/docs/use_cases/graph/integrations/graph_cypher_qa">Langchain</a> and <a href="https://docs.llamaindex.ai/en/stable/examples/query_engine/knowledge_graph_query_engine/">LlamaIndex</a> creating modules to do just that. Turns out, using LLMs, we can not only build queries, but we can build the knowledge graph itself. I will later go over this at length, so to be brief, you can have a LLM go over a set of documents chunk by chunk and output these triplets of nodes and edges iteratively. After loading them into a graph database, you can end the process there and trot along with your newly minted database, or you can now let the LLM create queries against that database as described earlier.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://python.langchain.com/docs/use_cases/graph/constructing">Langchain</a> and <a href="https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphDemo/">LlamaIndex</a> also have their own plug-n-play knowledge graph creation modules.</p>
+</div></div><p>At this point, like any rational human being, you may be asking, can this get any better? I mean, you’ve lasted this long, so I imagine that you already know the answer.</p>
+</section>
+</section>
+<section id="rag-knowledge-graphs" class="level2 page-columns page-full" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="rag-knowledge-graphs"><span class="header-section-number">1.3</span> RAG + Knowledge Graphs</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember, there are many ways you can skin a cat. The examples provided are merely the ones I believe are most illustrative of the main components. The extent of the composability is only limited by your imagination.</p>
+</div>
+</div>
+<p>When you combine RAG with knowledge graphs, you get the best of both worlds. On one hand, you get a fuzzy(probabalistic) semantic layer which can be used to compare the essence of sentences or paragraphs to via embeddings. On the other, you have a discrete and symbolic representation of knowledge. That sounds an awful lot like humans – vibes-based logical processors.</p>
+<p>There are limitless ways to construct a system that exploits both modalities, so I’m going to focus on the base cases. The fundamental relationship takes place between the vector embeddings and the knowledge graph. The nodes(and in some cases, the edges) are linked to an embedding related to their source material.</p>
+<p>The first objective is to use an LLM to create the knowledge graph in conjunction with the embeddings. The embeddings will be stored in a <strong>vector database</strong> or <strong>vector store</strong>, which is essentially an optimized container that allows extremely fast vector comparison operations so you can quickly find the most similar embeddings. Some vector databases live in the cloud(<a href="https://www.pinecone.io">Pinecone</a>), they can be self-hosted(<a href="https://www.trychroma.com">Chroma</a>), or they can stay in your very program’s memory(<a href="https://ai.meta.com/tools/faiss/">FAISS</a>). <a href="#fig-graph-gen" class="quarto-xref">Fig&nbsp;4</a> illustrates the fundamentals of generating your knowledge graph and vector store.</p>
+<section id="generating-knowledge-graphs-and-populating-vector-stores" class="level3 page-columns page-full" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="generating-knowledge-graphs-and-populating-vector-stores"><span class="header-section-number">1.3.1</span> Generating Knowledge Graphs and Populating Vector Stores</h3>
+<p>Once a corpus of documents is chunked into pieces, those pieces can be processed by the LLM and converted into triples which are then loaded into the knowledge graph. Concurrently, embeddings are created for the document chunks and loaded into the vector store. In each case, you can attach the reference for the node or embedding in its respective twin – this is where the magic lies. The text from the chunked documents can be stored in either the knowledge graph or in the vector store, or both. Once both are established, there are multiple retrieval strategies we can use to take advantage of this system.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Building the knowledge graph sounds simpler than it is, and just as the architectural design of these systems, it is open to myriads of potential options – some good, and some not so good. This will be addressed.</p>
+</div>
+</div>
+<div id="fig-graph-gen" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/graph generation.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="images/graph generation.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Knowledge Graph and Embedding Generation
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency" class="level3 page-columns page-full" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency"><span class="header-section-number">1.3.2</span> Retrieval Strategy #1 Focused on Embeddings Search Followed by Knowledge Graph Adjacency</h3>
+<p>With a populated vector store and knowledge graph, we are set to experiment with a wide array of retrieval strategies in pursuit of finding the best one to hydrate our prompt. <a href="#fig-adjacency-strategy" class="quarto-xref">Fig&nbsp;5</a> involves using the vector store to find the nearest matching embedding, find its reference in the knowledge graph, and then find the adjacent nodes within the knowledge graph to add to our prompt. This makes intuitive sense because concepts related to the initial node are likely to be relevant for the LLM in addressing the user’s query.</p>
+<div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5"><img src="images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="retrieval-strategy-2-focused-on-graph-query-generation" class="level3 page-columns page-full" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="retrieval-strategy-2-focused-on-graph-query-generation"><span class="header-section-number">1.3.3</span> Retrieval Strategy #2 Focused on Graph Query Generation</h3>
+<p>Another retrieval strategy would switch the knowledge graph and vector store steps around. This will involve an extra call to the LLM in order to construct the query we’ll send to the knowledge graph. Once the nodes(and edges) are returned, we can trace the node to its referenced embedding, and retrieve the neighborhood of embeddings along with their text. Alternatively, we can ignore the embeddings and simply focus on the neighborhood of the returned nodes. For the example in <a href="#fig-graph-query-retrieval" class="quarto-xref">Fig&nbsp;6</a>, I’ll focus on the former. As much as we both love flowcharts, I have a feeling you’re getting somewhat tired of them. That said, here’s one more.</p>
+<div id="fig-graph-query-retrieval" class="preview-image quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="finding-a-benchmark" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Finding a benchmark</h1>
+<p>In order to benchmark the performance of this RAG + Knowledge Graph flow, we need to find a dataset or datasets that are commonly used for benchmarking RAG pipelines as well as some metrics used. We can go back to the <a href="https://github.com/hymie122/RAG-Survey">survey</a> mentioned in the section on <a href="#rag">RAG</a> and look at its corresponding <a href="https://arxiv.org/pdf/2312.10997.pdf">arxiv.org paper</a>. Within it, there is a table of tasks as seen in <a href="#fig-rag-datasets" class="quarto-xref">Fig&nbsp;7</a> and a table of metrics used <a href="#fig-rag-metrics" class="quarto-xref">Fig&nbsp;8</a>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[30, 70]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<div id="fig-rag-datasets" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="images/paste-2.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: RAG Datasets
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
+<div id="fig-rag-metrics" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="images/paste-3.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: RAG Metrics
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>This is a perfect starting point because now we have a smorgasbord of references to peruse to gain an understanding of how to best proceed with benchmarking. The first option that comes to mind is the GraphQA subtask; however, looking into the mentioned paper on arxiv, <a href="https://arxiv.org/pdf/2402.07630.pdf">G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering</a>, it is evident that it is concerned with creating a graph dataset for the purpose of benchmarking the ability of an LLM to chat with graphs. Which adjacently relevant, our current goal is to use knowledge graphs as tools in retrieval, and not the main subject of a <em>question-answering</em>(QA) task.</p>
+<section id="hotpot-and-beer" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="hotpot-and-beer"><span class="header-section-number">2.1</span> Hotpot and Beer?</h2>
+<p>Single-hop benchmarking appears to be most popular according to the RAG survey, however, we have more faith in knowledge graphs than a measly single-hop reasoning task. A single-hop requires the information from a single document to answer a question, however a multi-hop task requires you to hop between documents in order to answer the question. HotPotQA appears to be the most popular multi-hop dataset. Mentioned immediately on the <a href="https://hotpotqa.github.io">HotPotQA website</a> is another dataset which they shout out as newer, with a more diverse set of hops required, while including the HotPotQA dataset within it - <a href="https://beerqa.github.io">BeerQA</a>(is anyone else thirsty…). It combines QA data from three datasets, being HotPotQA, SQuAD, and its own formulated questions from Wikipedia for even <strong>more</strong> hops. Upon further inspection, BeerQA specifies that it primarily focuses on a <em>fullwiki</em> evaluation, that is to say, you must use the entirety of wikipedia in the task. Due to time and resource constraints, we do not currently want to build a knowledge graph from a 24GB dataset from the get-go. We do, however, want to be able to iterate in a quick and agile manner. HotPotQA doesn’t have the same compute-heavy requirement, and neither does another amusingly named dataset.</p>
+</section>
+<section id="musique-to-my-ears" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="musique-to-my-ears"><span class="header-section-number">2.2</span> MuSiQue to my ears</h2>
+<p>According to the <a href="https://arxiv.org/pdf/1809.09600.pdf">HotpotQA paper</a>, it also has the option for using the full wiki in the evaluation criterion, however, it also has a <em>distractor</em> option where you’re given 2 ‘gold’ paragraphs containing the connecting information coupled with 8 irrelevant ‘distractors’ that serve as noise. Another dataset was created as an improvement over HotpotQA as well as its successor, 2WikiMultihopQA – <a href="https://arxiv.org/pdf/2108.00573.pdf"><strong>MuSiQue</strong></a>(Multihop Questions via Single-hop QUestion Composition) improves over its predecessors and includes questions with upwards of 18 distractors and numerous <em>gold</em> paragraphs in order to create questions of up to 4 hops. In addition, it handles some cases that would’ve allowed cheating within HotPotQA(such as inferring the information that is present in the hops). In addition, MuSiQue adds <strong>answerability</strong> to the mix – roughly half of the questions are unanswerable given the data, with the breadcrumbs provided by the provided distractors being misleading.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[30,70]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<p>This is a great augmentation because this is the type of eval that will often be present in the real world, since we often expect real world retrieval of information retrieval to come up short.</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
+<div id="fig-mus-q" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/mus_hop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="images/mus_hop.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>MuSiQue contains two evaluations, one with only answerable questions, and the other, evenly divided between non-answerable and answerable questions. If we look at the MuSiQue leaderboards in <a href="#fig-leaderboard" class="quarto-xref">Fig&nbsp;10</a>, we see that the F1 score(harmonic mean of precision and recall – the higher the better) is substantially better for the Answerable dataset, as it removed the option of there being unanswerable questions for the models to hallucinate on.</p>
+<div id="fig-leaderboard" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/musique-leaderboards.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="images/musique-leaderboards.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: MuSiQue Leaderboard Comparison
+</figcaption>
+</figure>
+</div>
+<p>Before wrapping up, I’d like to at least share some of the dev dataset meant to be used in the development of your data pipeline, published in the <a href="https://github.com/StonyBrookNLP/musique">MuSiQue github repo</a>.</p>
+<div style="max-height: 200px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\notebooks\musique_eda.ipynb" data-notebook-cellid="cell-0">
+<div id="cell-0" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jsonlines</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>js_list <span class="op">=</span> []</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(<span class="st">'data/musique_full_v1.0_dev.jsonl'</span>) <span class="im">as</span> reader:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        js_list.append(reader.read())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>{'id': '2hop__153573_109006',
+ 'paragraphs': [{'idx': 0,
+   'title': 'History of the Internet',
+   'paragraph_text': "Precursors to the web browser emerged in the form of hyperlinked applications during the mid and late 1980s (the bare concept of hyperlinking had by then existed for some decades). Following these, Tim Berners - Lee is credited with inventing the World Wide Web in 1989 and developing in 1990 both the first web server, and the first web browser, called WorldWideWeb (no spaces) and later renamed Nexus. Many others were soon developed, with Marc Andreessen's 1993 Mosaic (later Netscape), being particularly easy to use and install, and often credited with sparking the internet boom of the 1990s. Today, the major web browsers are Firefox, Internet Explorer, Google Chrome, Opera and Safari.",
+   'is_supporting': False},
+  {'idx': 1,
+   'title': 'Ceville',
+   'paragraph_text': "Ceville is a humorous graphic adventure video game developed by the German game studio Realmforge Studios and published by Kalypso Media. Despite the game's use of 3D environments and models, the gameplay is very true to the graphical point-and-click adventure tradition of gameplay, immortalized by game series like Monkey Island from LucasArts and the King's Quest series from Sierra Online.",
+   'is_supporting': False},
+  {'idx': 2,
+   'title': 'Zipline Safari',
+   'paragraph_text': "Zipline Safari is a zip-line course in Florida. It is the only zip-line course in the state, and is claimed to be the world's only zip-line created for flat land. Zipline Safari opened on 16 January 2009 in Forever Florida, a wildlife attraction near Holopaw, Florida. The zip-line cost $350,000 to build, and consists of nine platforms built up from the ground and traveled between by zip-lining. Forever Florida built the course to promote ecotourism and interaction with the natural environment of Florida.",
+   'is_supporting': False},
+  {'idx': 3,
+   'title': 'Parc Safari',
+   'paragraph_text': "Parc Safari is a zoo in Hemmingford, Quebec, Canada, and is one of the region's major tourist attractions; that has both African &amp; Asian species of elephant.",
+   'is_supporting': False},
+  {'idx': 4,
+   'title': 'The Reporter (TV series)',
+   'paragraph_text': 'The Reporter is an American drama series that aired on CBS from September 25 to December 18, 1964. The series was created by Jerome Weidman and developed by executive producers Keefe Brasselle and John Simon.',
+   'is_supporting': False},
+  {'idx': 5,
+   'title': 'Earthworm Jim 4',
+   'paragraph_text': 'Earthworm Jim 4 is a video game in the "Earthworm Jim" series. It was originally announced by Interplay Entertainment in 2008, and referred to by Interplay as "still in development" in May 2011. Later commentary from individual developers would claim that development hadn\'t started, though desire to create a new entry in the series remained. In May 2019, it was announced that the game was to begin development exclusively for the upcoming Intellivision Amico console.',
+   'is_supporting': False},
+  {'idx': 6,
+   'title': 'Adobe Flash Player',
+   'paragraph_text': 'Availability on desktop operating systems Platform Latest version Browser support Windows XP and later Windows Server 2003 and later 27.0. 0.183 Firefox, Chrome, Chromium, Safari, Opera, Internet Explorer, Microsoft Edge Windows 2000 11.1. 102.55? Windows 98 and ME 9.0. 115.0? Windows 95 and NT 4 7.0. 14.0? Mac OS X 10.6 or later 27.0. 0.183 Firefox, Chrome, Chromium, Safari, Opera Mac OS X 10.5 10.3. 183.90? Classic Mac OS, PowerPC 7.0. 14.0? Classic Mac OS, 68k 5.0? Linux 27.0. 0.183 Firefox, Chrome, Chromium, Opera',
+   'is_supporting': False},
+  {'idx': 7,
+   'title': 'Apple Inc.',
+   'paragraph_text': "Apple Inc. is an American multinational technology company headquartered in Cupertino, California that designs, develops, and sells consumer electronics, computer software, and online services. The company's hardware products include the iPhone smartphone, the iPad tablet computer, the Mac personal computer, the iPod portable media player, the Apple Watch smartwatch, the Apple TV digital media player, and the HomePod smart speaker. Apple's consumer software includes the macOS and iOS operating systems, the iTunes media player, the Safari web browser, and the iLife and iWork creativity and productivity suites. Its online services include the iTunes Store, the iOS App Store and Mac App Store, Apple Music, and iCloud.",
+   'is_supporting': False},
+  {'idx': 8,
+   'title': 'Philadelphia Zoo',
+   'paragraph_text': 'The Philadelphia Zoo, located in the Centennial District of Philadelphia, Pennsylvania, on the west bank of the Schuylkill River, was the first true zoo in the United States. Chartered by the Commonwealth of Pennsylvania on March 21, 1859, its opening was delayed by the American Civil War until July 1, 1874. It opened with 1,000 animals and an admission price of 25 cents. For a brief time, the zoo also housed animals brought over from safari on behalf of the Smithsonian Institution, which had not yet built the National Zoo.',
+   'is_supporting': False},
+  {'idx': 9,
+   'title': 'Web browser',
+   'paragraph_text': "Apple's Safari had its first beta release in January 2003; as of April 2011, it had a dominant share of Apple-based web browsing, accounting for just over 7% of the entire browser market.",
+   'is_supporting': False},
+  {'idx': 10,
+   'title': 'List of The 100 episodes',
+   'paragraph_text': 'The 100 (pronounced The Hundred) is an American post-apocalyptic science fiction drama television series developed by Jason Rothenberg, which premiered on March 19, 2014, on The CW. It is loosely based on a 2013 book of the same name, the first in a book series by Kass Morgan. The series follows a group of teens as they become the first people from a space habitat to return to Earth after a devastating nuclear apocalypse.',
+   'is_supporting': False},
+  {'idx': 11,
+   'title': 'Shiira',
+   'paragraph_text': 'Shiira (シイラ, Japanese for the common dolphin-fish) is a discontinued open source web browser for the Mac OS X operating system. According to its lead developer Makoto Kinoshita, the goal of Shiira was "to create a browser that is better and more useful than Safari". Shiira used WebKit for rendering and scripting. The project reached version 2.3 before it was discontinued, and by December 2011 the developer\'s website had been removed.',
+   'is_supporting': False},
+  {'idx': 12,
+   'title': 'Traffic Department 2192',
+   'paragraph_text': 'Traffic Department 2192 is a top down shooter game for IBM PC, developed by P-Squared Productions and released in 1994 by Safari Software and distributed by Epic MegaGames. The full game contains three episodes (Alpha, Beta, Gamma), each with twenty missions, in which the player pilots a "hoverskid" about a war-torn city to complete certain mission objectives. The game was released as freeware under the Creative Commons License CC BY-ND 3.0 in 2007.',
+   'is_supporting': False},
+  {'idx': 13,
+   'title': 'Maciej Stachowiak',
+   'paragraph_text': "Maciej Stachowiak (; born June 6, 1976) is a Polish American software developer currently employed by Apple Inc., where he is a leader of the development team responsible for the Safari web browser and WebKit Framework. A longtime proponent of open source software, Stachowiak was involved with the SCWM, GNOME and Nautilus projects for Linux before joining Apple. He is actively involved the development of web standards, and is a co-chair of the World Wide Web Consortium's HTML 5 working group and a member of the Web Hypertext Application Technology Working Group steering committee.",
+   'is_supporting': False},
+  {'idx': 14,
+   'title': 'Ellery Queen (TV series)',
+   'paragraph_text': 'Ellery Queen is an American TV series, developed by Richard Levinson and William Link, who based it on the fictional character of the same name. The series ran on NBC from September 11, 1975, to April 4, 1976 featuring the titular fictional sleuth. The series stars Jim Hutton as the titular character, and David Wayne as his father, Inspector Richard Queen.',
+   'is_supporting': False},
+  {'idx': 15,
+   'title': 'Hunting',
+   'paragraph_text': 'In the 19th century, southern and central European sport hunters often pursued game only for a trophy, usually the head or pelt of an animal, which was then displayed as a sign of prowess. The rest of the animal was typically discarded. Some cultures, however, disapprove of such waste. In Nordic countries, hunting for trophies was—and still is—frowned upon. Hunting in North America in the 19th century was done primarily as a way to supplement food supplies, although it is now undertaken mainly for sport.[citation needed] The safari method of hunting was a development of sport hunting that saw elaborate travel in Africa, India and other places in pursuit of trophies. In modern times, trophy hunting persists and is a significant industry in some areas.[citation needed]',
+   'is_supporting': False},
+  {'idx': 16,
+   'title': 'Safari School',
+   'paragraph_text': 'Safari School is a BBC Two reality television series presented by Dr Charlotte Uhlenbroek in which eight celebrities take part in a four-week ranger training course in the Shamwari Game Reserve in South Africa.',
+   'is_supporting': False},
+  {'idx': 17,
+   'title': 'African Safari Wildlife Park',
+   'paragraph_text': 'The African Safari Wildlife Park is a drive through wildlife park in Port Clinton, Ohio, United States. Visitors can drive through the preserve and watch and feed the animals from their car. Visitors can spend as much time in the preserve as they wish, observing and feeding the animals, before proceeding to the walk through part of the park, called Safari Junction. The park is closed during the winter.',
+   'is_supporting': False},
+  {'idx': 18,
+   'title': 'White armored car',
+   'paragraph_text': 'The White armored car was a series of armored cars developed by the White Motor Company in Cleveland, Ohio from 1915.',
+   'is_supporting': False},
+  {'idx': 19,
+   'title': 'Blue Tea Games',
+   'paragraph_text': 'The 14th game of this series. The BETA game was released in September 2017. This episode will be developed by Blue Tea Games who return to the series since 2014.',
+   'is_supporting': False}],
+ 'question': "Who developed the eponymous character from the series that contains Mickey's Safari in Letterland?",
+ 'question_decomposition': [{'id': 153573,
+   'question': "What series is Mickey's Safari in Letterland from?",
+   'answer': 'Mickey Mouse',
+   'paragraph_support_idx': None},
+  {'id': 109006,
+   'question': 'Who developed #1 ?',
+   'answer': 'Walt Disney',
+   'paragraph_support_idx': None}],
+ 'answer': 'Walt Disney',
+ 'answer_aliases': [],
+ 'answerable': False}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>This is but one entry in the <code>jsonl</code> file. Althought it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
+</section>
+</section>
+<section id="finalemore-of-a-cliffhanger" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Finale(more of a cliffhanger)</h1>
+<p>That’s it for this initial explanatory and exploratory chapter. In the next post, we’ll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.</p>
+
+
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Soiree of RAG techniques<br>
+(Click to enlarge)<br>
+Source: Langchain blog</span>
+<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Basic RAG Example</span>
+<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;3: An example of a basic knowledge graph.</span>
+<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;4: Knowledge Graph and Embedding Generation</span>
+<span class="glightbox-desc lightbox-desc-5">Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt</span>
+<span class="glightbox-desc lightbox-desc-6">Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.</span>
+<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;7: RAG Datasets</span>
+<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;8: RAG Metrics</span>
+<span class="glightbox-desc lightbox-desc-9">Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions</span>
+<span class="glightbox-desc lightbox-desc-10">Figure&nbsp;10: MuSiQue Leaderboard Comparison</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © 2024 - Dmitriy Leybel
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/dmitriyleybel">
+      <i class="bi bi-twitter-x" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dmlbl/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
+
+
+
+
+</body></html>
