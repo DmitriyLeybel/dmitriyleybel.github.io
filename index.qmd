@@ -22,7 +22,7 @@ Above all else, I consider myself a tinkerer.
 </div>
 :::
 
-I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or shoot me a message [here](mailto:dmleybel@gmail.com).
+I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, and experimentation, feel free to reach out to me there or shoot me a message at my [email, here](mailto:dmleybel@gmail.com).
 
 
 

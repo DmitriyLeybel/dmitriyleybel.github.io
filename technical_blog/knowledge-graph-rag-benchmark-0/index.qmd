@@ -35,7 +35,7 @@ For this reason, RAG has been a fundamental component of truthiness. It also all
 Source: Langchain blog](images/paste-4.png){#fig-rag_techniques_langchain fig-align="center" width="437"}
 :::
 
-An [ever-growing survey](https://github.com/hymie122/RAG-Survey) of these techniques exists - and even that is not fully exhaustive. P.S. [exa.ai](exa.ai) is a fantastic source for research. ![](images/exaai.png)
+An [ever-growing survey](https://github.com/hymie122/RAG-Survey) of these techniques exists - and even that is not fully exhaustive. P.S. [exa.ai](https://exa.ai/search?c=all) is a fantastic source for research. ![](images/exaai.png)
 
 For reference, here([Fig @fig-simple-rag]) is a diagram of one of the simplest versions of RAG being implemented.
 
@@ -87,7 +87,7 @@ At this point, like any rational human being, you may be asking, can this get an
 ## RAG + Knowledge Graphs
 
 ::: callout-important
-Remember, there are many ways you can skin a cat. The examples provided are merely the ones I believe are most illustrative of the main components. The extent of the composability is only limited by your imagination.
+Remember, there is more than one way you can skin a cat. The examples provided are merely the ones I believe are most illustrative of the main components. The extent of the composability is only limited by your imagination.
 :::
 
 When you combine RAG with knowledge graphs, you get the best of both worlds. On one hand, you get a fuzzy(probabalistic) semantic layer which can be used to compare the essence of sentences or paragraphs to via embeddings. On the other, you have a discrete and symbolic representation of knowledge. That sounds an awful lot like humans – vibes-based logical processors.
