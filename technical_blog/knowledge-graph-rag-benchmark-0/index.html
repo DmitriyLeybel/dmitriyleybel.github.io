@@ -173,7 +173,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">knowledge-graphs</div>
+                <div class="quarto-category">rag</div>
+                <div class="quarto-category">benchmarking</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -246,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>It’s finally happening. <em>It</em>, being me writing a blog entry. (I’m editing this at 10k words. I guess it’s more of an article and less of a blog entry)</p>
 <p><br></p>
-<p>The motivation behind this post is twofold, to run a basic knowledge graph <em>Retrieval Augmented Generation</em>(RAG) benchmark I can build off of and improve in future posts, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.</p>
+<p>The motivation behind this series of posts is twofold, to run a basic knowledge graph <em>Retrieval Augmented Generation</em>(RAG) benchmark I can build off of and iteratively improve, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.</p>
 <p>I fully believe in <strong>democratizing</strong> the ability to build and test your own LLM tools, as they are a critical frontier of artificial intelligence. That is the path towards progress and away from the centralization of these fantastic technologies.</p>
 <section id="background" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Background</h1>
@@ -590,7 +595,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 </div>
 </div>
-<p>This is but one entry in the <code>jsonl</code> file. Althought it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
+<p>This is but one entry in the <code>jsonl</code> file. Although it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
 </section>
 </section>
 <section id="finalemore-of-a-cliffhanger" class="level1" data-number="3">
@@ -1054,7 +1059,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
