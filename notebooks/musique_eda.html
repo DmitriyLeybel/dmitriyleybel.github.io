@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -110,6 +110,9 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -167,16 +170,604 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 
 
 
-<div id="cell-0" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jsonlines</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>js_list <span class="op">=</span> []</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(<span class="st">'data/musique_full_v1.0_dev.jsonl'</span>) <span class="im">as</span> reader:</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        js_list.append(reader.read())</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="cell-0" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> panel <span class="im">as</span> pn</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pn.extension()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/javascript">
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+  var py_version = '3.4.0'.replace('rc', '-rc.').replace('.dev', '-dev.');
+  var reloading = false;
+  var Bokeh = root.Bokeh;
+
+  if (typeof (root._bokeh_timeout) === "undefined" || force) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks;
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, js_modules, js_exports, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+    if (js_modules == null) js_modules = [];
+    if (js_exports == null) js_exports = {};
+
+    root._bokeh_onload_callbacks.push(callback);
+
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls.length === 0 && js_modules.length === 0 && Object.keys(js_exports).length === 0) {
+      run_callbacks();
+      return null;
+    }
+    if (!reloading) {
+      console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    }
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+    window._bokeh_on_load = on_load
+
+    function on_error() {
+      console.error("failed to load " + url);
+    }
+
+    var skip = [];
+    if (window.requirejs) {
+      window.requirejs.config({'packages': {}, 'paths': {'tabulator': 'https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.0/dist/js/tabulator.min', 'moment': 'https://cdn.jsdelivr.net/npm/luxon/build/global/luxon.min'}, 'shim': {}});
+      require(["tabulator"], function(Tabulator) {
+    window.Tabulator = Tabulator
+    on_load()
+      })
+      require(["moment"], function(moment) {
+    window.moment = moment
+    on_load()
+      })
+      root._bokeh_is_loading = css_urls.length + 2;
+    } else {
+      root._bokeh_is_loading = css_urls.length + js_urls.length + js_modules.length + Object.keys(js_exports).length;
+    }
+
+    var existing_stylesheets = []
+    var links = document.getElementsByTagName('link')
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i]
+      if (link.href != null) {
+    existing_stylesheets.push(link.href)
+      }
+    }
+    for (var i = 0; i < css_urls.length; i++) {
+      var url = css_urls[i];
+      if (existing_stylesheets.indexOf(url) !== -1) {
+    on_load()
+    continue;
+      }
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }    if (((window['Tabulator'] !== undefined) && (!(window['Tabulator'] instanceof HTMLElement))) || window.requirejs) {
+      var urls = ['https://cdn.holoviz.org/panel/1.4.0/dist/bundled/datatabulator/tabulator-tables@5.5.0/dist/js/tabulator.min.js'];
+      for (var i = 0; i < urls.length; i++) {
+        skip.push(urls[i])
+      }
+    }    if (((window['moment'] !== undefined) && (!(window['moment'] instanceof HTMLElement))) || window.requirejs) {
+      var urls = ['https://cdn.holoviz.org/panel/1.4.0/dist/bundled/datatabulator/luxon/build/global/luxon.min.js'];
+      for (var i = 0; i < urls.length; i++) {
+        skip.push(urls[i])
+      }
+    }    var existing_scripts = []
+    var scripts = document.getElementsByTagName('script')
+    for (var i = 0; i < scripts.length; i++) {
+      var script = scripts[i]
+      if (script.src != null) {
+    existing_scripts.push(script.src)
+      }
+    }
+    for (var i = 0; i < js_urls.length; i++) {
+      var url = js_urls[i];
+      if (skip.indexOf(url) !== -1 || existing_scripts.indexOf(url) !== -1) {
+    if (!window.requirejs) {
+      on_load();
+    }
+    continue;
+      }
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+    for (var i = 0; i < js_modules.length; i++) {
+      var url = js_modules[i];
+      if (skip.indexOf(url) !== -1 || existing_scripts.indexOf(url) !== -1) {
+    if (!window.requirejs) {
+      on_load();
+    }
+    continue;
+      }
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      element.type = "module";
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+    for (const name in js_exports) {
+      var url = js_exports[name];
+      if (skip.indexOf(url) >= 0 || root[name] != null) {
+    if (!window.requirejs) {
+      on_load();
+    }
+    continue;
+      }
+      var element = document.createElement('script');
+      element.onerror = on_error;
+      element.async = false;
+      element.type = "module";
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      element.textContent = `
+      import ${name} from "${url}"
+      window.${name} = ${name}
+      window._bokeh_on_load()
+      `
+      document.head.appendChild(element);
+    }
+    if (!js_urls.length && !js_modules.length) {
+      on_load()
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  var js_urls = ["https://cdn.holoviz.org/panel/1.4.0/dist/bundled/datatabulator/tabulator-tables@5.5.0/dist/js/tabulator.min.js", "https://cdn.holoviz.org/panel/1.4.0/dist/bundled/datatabulator/luxon/build/global/luxon.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-3.4.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.4.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.4.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.4.0.min.js", "https://cdn.holoviz.org/panel/1.4.0/dist/panel.min.js"];
+  var js_modules = [];
+  var js_exports = {};
+  var css_urls = ["https://cdn.holoviz.org/panel/1.4.0/dist/bundled/datatabulator/tabulator-tables@5.5.0/dist/css/tabulator_simple.min.css?v=1.4.0"];
+  var inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {} // ensure no trailing comma for IE
+  ];
+
+  function run_inline_js() {
+    if ((root.Bokeh !== undefined) || (force === true)) {
+      for (var i = 0; i < inline_js.length; i++) {
+    try {
+          inline_js[i].call(root, root.Bokeh);
+    } catch(e) {
+      if (!reloading) {
+        throw e;
+      }
+    }
+      }
+      // Cache old bokeh versions
+      if (Bokeh != undefined && !reloading) {
+    var NewBokeh = root.Bokeh;
+    if (Bokeh.versions === undefined) {
+      Bokeh.versions = new Map();
+    }
+    if (NewBokeh.version !== Bokeh.version) {
+      Bokeh.versions.set(NewBokeh.version, NewBokeh)
+    }
+    root.Bokeh = Bokeh;
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    }
+    root._bokeh_is_initializing = false
+  }
+
+  function load_or_wait() {
+    // Implement a backoff loop that tries to ensure we do not load multiple
+    // versions of Bokeh and its dependencies at the same time.
+    // In recent versions we use the root._bokeh_is_initializing flag
+    // to determine whether there is an ongoing attempt to initialize
+    // bokeh, however for backward compatibility we also try to ensure
+    // that we do not start loading a newer (Panel>=1.0 and Bokeh>3) version
+    // before older versions are fully initialized.
+    if (root._bokeh_is_initializing && Date.now() > root._bokeh_timeout) {
+      root._bokeh_is_initializing = false;
+      root._bokeh_onload_callbacks = undefined;
+      console.log("Bokeh: BokehJS was loaded multiple times but one version failed to initialize.");
+      load_or_wait();
+    } else if (root._bokeh_is_initializing || (typeof root._bokeh_is_initializing === "undefined" && root._bokeh_onload_callbacks !== undefined)) {
+      setTimeout(load_or_wait, 100);
+    } else {
+      root._bokeh_is_initializing = true
+      root._bokeh_onload_callbacks = []
+      var bokeh_loaded = Bokeh != null && (Bokeh.version === py_version || (Bokeh.versions !== undefined && Bokeh.versions.has(py_version)));
+      if (!reloading && !bokeh_loaded) {
+    root.Bokeh = undefined;
+      }
+      load_libs(css_urls, js_urls, js_modules, js_exports, function() {
+    console.debug("Bokeh: BokehJS plotting callback run at", now());
+    run_inline_js();
+      });
+    }
+  }
+  // Give older versions of the autoload script a head-start to ensure
+  // they initialize before we start loading newer version.
+  setTimeout(load_or_wait, 100)
+}(window));
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/javascript">
+
+if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
+  window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
+}
+
+
+    function JupyterCommManager() {
+    }
+
+    JupyterCommManager.prototype.register_target = function(plot_id, comm_id, msg_handler) {
+      if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        comm_manager.register_target(comm_id, function(comm) {
+          comm.on_msg(msg_handler);
+        });
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        window.PyViz.kernels[plot_id].registerCommTarget(comm_id, function(comm) {
+          comm.onMsg = msg_handler;
+        });
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        google.colab.kernel.comms.registerTarget(comm_id, (comm) => {
+          var messages = comm.messages[Symbol.asyncIterator]();
+          function processIteratorResult(result) {
+            var message = result.value;
+            console.log(message)
+            var content = {data: message.data, comm_id};
+            var buffers = []
+            for (var buffer of message.buffers || []) {
+              buffers.push(new DataView(buffer))
+            }
+            var metadata = message.metadata || {};
+            var msg = {content, buffers, metadata}
+            msg_handler(msg);
+            return messages.next().then(processIteratorResult);
+          }
+          return messages.next().then(processIteratorResult);
+        })
+      }
+    }
+
+    JupyterCommManager.prototype.get_client_comm = function(plot_id, comm_id, msg_handler) {
+      if (comm_id in window.PyViz.comms) {
+        return window.PyViz.comms[comm_id];
+      } else if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        var comm = comm_manager.new_comm(comm_id, {}, {}, {}, comm_id);
+        if (msg_handler) {
+          comm.on_msg(msg_handler);
+        }
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        var comm = window.PyViz.kernels[plot_id].connectToComm(comm_id);
+        comm.open();
+        if (msg_handler) {
+          comm.onMsg = msg_handler;
+        }
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        var comm_promise = google.colab.kernel.comms.open(comm_id)
+        comm_promise.then((comm) => {
+          window.PyViz.comms[comm_id] = comm;
+          if (msg_handler) {
+            var messages = comm.messages[Symbol.asyncIterator]();
+            function processIteratorResult(result) {
+              var message = result.value;
+              var content = {data: message.data};
+              var metadata = message.metadata || {comm_id};
+              var msg = {content, metadata}
+              msg_handler(msg);
+              return messages.next().then(processIteratorResult);
+            }
+            return messages.next().then(processIteratorResult);
+          }
+        }) 
+        var sendClosure = (data, metadata, buffers, disposeOnDone) => {
+          return comm_promise.then((comm) => {
+            comm.send(data, metadata, buffers, disposeOnDone);
+          });
+        };
+        var comm = {
+          send: sendClosure
+        };
+      }
+      window.PyViz.comms[comm_id] = comm;
+      return comm;
+    }
+    window.PyViz.comm_manager = new JupyterCommManager();
+    
+
+
+var JS_MIME_TYPE = 'application/javascript';
+var HTML_MIME_TYPE = 'text/html';
+var EXEC_MIME_TYPE = 'application/vnd.holoviews_exec.v0+json';
+var CLASS_NAME = 'output';
+
+/**
+ * Render data to the DOM node
+ */
+function render(props, node) {
+  var div = document.createElement("div");
+  var script = document.createElement("script");
+  node.appendChild(div);
+  node.appendChild(script);
+}
+
+/**
+ * Handle when a new output is added
+ */
+function handle_add_output(event, handle) {
+  var output_area = handle.output_area;
+  var output = handle.output;
+  if ((output.data == undefined) || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
+    return
+  }
+  var id = output.metadata[EXEC_MIME_TYPE]["id"];
+  var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+  if (id !== undefined) {
+    var nchildren = toinsert.length;
+    var html_node = toinsert[nchildren-1].children[0];
+    html_node.innerHTML = output.data[HTML_MIME_TYPE];
+    var scripts = [];
+    var nodelist = html_node.querySelectorAll("script");
+    for (var i in nodelist) {
+      if (nodelist.hasOwnProperty(i)) {
+        scripts.push(nodelist[i])
+      }
+    }
+
+    scripts.forEach( function (oldScript) {
+      var newScript = document.createElement("script");
+      var attrs = [];
+      var nodemap = oldScript.attributes;
+      for (var j in nodemap) {
+        if (nodemap.hasOwnProperty(j)) {
+          attrs.push(nodemap[j])
+        }
+      }
+      attrs.forEach(function(attr) { newScript.setAttribute(attr.name, attr.value) });
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+    if (JS_MIME_TYPE in output.data) {
+      toinsert[nchildren-1].children[1].textContent = output.data[JS_MIME_TYPE];
+    }
+    output_area._hv_plot_id = id;
+    if ((window.Bokeh !== undefined) && (id in Bokeh.index)) {
+      window.PyViz.plot_index[id] = Bokeh.index[id];
+    } else {
+      window.PyViz.plot_index[id] = null;
+    }
+  } else if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+    var bk_div = document.createElement("div");
+    bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+    var script_attrs = bk_div.children[0].attributes;
+    for (var i = 0; i < script_attrs.length; i++) {
+      toinsert[toinsert.length - 1].childNodes[1].setAttribute(script_attrs[i].name, script_attrs[i].value);
+    }
+    // store reference to server id on output_area
+    output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+  }
+}
+
+/**
+ * Handle when an output is cleared or removed
+ */
+function handle_clear_output(event, handle) {
+  var id = handle.cell.output_area._hv_plot_id;
+  var server_id = handle.cell.output_area._bokeh_server_id;
+  if (((id === undefined) || !(id in PyViz.plot_index)) && (server_id !== undefined)) { return; }
+  var comm = window.PyViz.comm_manager.get_client_comm("hv-extension-comm", "hv-extension-comm", function () {});
+  if (server_id !== null) {
+    comm.send({event_type: 'server_delete', 'id': server_id});
+    return;
+  } else if (comm !== null) {
+    comm.send({event_type: 'delete', 'id': id});
+  }
+  delete PyViz.plot_index[id];
+  if ((window.Bokeh !== undefined) & (id in window.Bokeh.index)) {
+    var doc = window.Bokeh.index[id].model.document
+    doc.clear();
+    const i = window.Bokeh.documents.indexOf(doc);
+    if (i > -1) {
+      window.Bokeh.documents.splice(i, 1);
+    }
+  }
+}
+
+/**
+ * Handle kernel restart event
+ */
+function handle_kernel_cleanup(event, handle) {
+  delete PyViz.comms["hv-extension-comm"];
+  window.PyViz.plot_index = {}
+}
+
+/**
+ * Handle update_display_data messages
+ */
+function handle_update_output(event, handle) {
+  handle_clear_output(event, {cell: {output_area: handle.output_area}})
+  handle_add_output(event, handle)
+}
+
+function register_renderer(events, OutputArea) {
+  function append_mime(data, metadata, element) {
+    // create a DOM node to render to
+    var toinsert = this.create_output_subarea(
+    metadata,
+    CLASS_NAME,
+    EXEC_MIME_TYPE
+    );
+    this.keyboard_manager.register_events(toinsert);
+    // Render to node
+    var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+    render(props, toinsert[0]);
+    element.append(toinsert);
+    return toinsert
+  }
+
+  events.on('output_added.OutputArea', handle_add_output);
+  events.on('output_updated.OutputArea', handle_update_output);
+  events.on('clear_output.CodeCell', handle_clear_output);
+  events.on('delete.Cell', handle_clear_output);
+  events.on('kernel_ready.Kernel', handle_kernel_cleanup);
+
+  OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+    safe: true,
+    index: 0
+  });
+}
+
+if (window.Jupyter !== undefined) {
+  try {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  } catch(err) {
+  }
+}
+
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<style>*[data-root-id],
+*[data-root-id] > * {
+  box-sizing: border-box;
+  font-family: var(--jp-ui-font-family);
+  font-size: var(--jp-ui-font-size1);
+  color: var(--vscode-editor-foreground, var(--jp-ui-font-color1));
+}
+
+/* Override VSCode background color */
+.cell-output-ipywidget-background:has(
+    > .cell-output-ipywidget-background > .lm-Widget > *[data-root-id]
+  ),
+.cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
+  background-color: transparent !important;
+}
+</style>
+</div>
+<div class="cell-output cell-output-display">
+<div id="4bfec118-655a-4097-8eb6-ddea04926ade">
+  <div id="e2ae1eb8-8df3-4c90-ab50-c7ae5d4b8fb0" data-root-id="4bfec118-655a-4097-8eb6-ddea04926ade" style="display: contents;"></div>
+</div>
+<script type="application/javascript">(function(root) {
+  var docs_json = {"56c231ba-de2a-49e0-a850-7ad100e14f55":{"version":"3.4.0","title":"Bokeh Application","roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"4bfec118-655a-4097-8eb6-ddea04926ade"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"c25ad8ea-e556-4b06-a105-2087c4f52c24","attributes":{"plot_id":"4bfec118-655a-4097-8eb6-ddea04926ade","comm_id":"e271ca10a1424b26bb93e121fde04ad1","client_comm_id":"ee6bc460fe66461892f151f5c52bc33a"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"justify_content","kind":"Any","default":"flex-start"},{"name":"gap","kind":"Any","default":""}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"mode","kind":"Any","default":"warn"},{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationAreaBase1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"copy_to_clipboard1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"value","kind":"Any","default":null}]}]}};
+  var render_items = [{"docid":"56c231ba-de2a-49e0-a850-7ad100e14f55","roots":{"4bfec118-655a-4097-8eb6-ddea04926ade":"e2ae1eb8-8df3-4c90-ab50-c7ae5d4b8fb0"},"root_ids":["4bfec118-655a-4097-8eb6-ddea04926ade"]}];
+  var docs = Object.values(docs_json)
+  if (!docs) {
+    return
+  }
+  const py_version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
+  function embed_document(root) {
+    var Bokeh = get_bokeh(root)
+    Bokeh.embed.embed_items_notebook(docs_json, render_items);
+    for (const render_item of render_items) {
+      for (const root_id of render_item.root_ids) {
+    const id_el = document.getElementById(root_id)
+    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+      const root_el = id_el.children[0]
+      root_el.id = root_el.id + '-rendered'
+    }
+      }
+    }
+  }
+  function get_bokeh(root) {
+    if (root.Bokeh === undefined) {
+      return null
+    } else if (root.Bokeh.version !== py_version) {
+      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
+    return null
+      }
+      return root.Bokeh.versions.get(py_version);
+    } else if (root.Bokeh.version === py_version) {
+      return root.Bokeh
+    }
+    return null
+  }
+  function is_loaded(root) {
+    var Bokeh = get_bokeh(root)
+    return (Bokeh != null && Bokeh.Panel !== undefined)
+  }
+  if (is_loaded(root)) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (is_loaded(root)) {
+        clearInterval(timer);
+        embed_document(root);
+      } else if (document.readyState == "complete") {
+        attempts++;
+        if (attempts > 200) {
+          clearInterval(timer);
+      var Bokeh = get_bokeh(root)
+      if (Bokeh == null || Bokeh.Panel == null) {
+            console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
+      } else {
+        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+        embed_document(root)
+      }
+        }
+      }
+    }, 25, root)
+  }
+})(window);</script>
+</div>
+</div>
+<div id="cell-1" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jsonlines</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>js_list <span class="op">=</span> []</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(<span class="st">'data/musique_full_v1.0_dev.jsonl'</span>) <span class="im">as</span> reader:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        js_list.append(reader.read())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>{'id': '2hop__153573_109006',
  'paragraphs': [{'idx': 0,
    'title': 'History of the Internet',
@@ -272,108 +863,82 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
  'answerable': False}</code></pre>
 </div>
 </div>
-<div id="cell-1" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>].keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>dict_keys(['id', 'paragraphs', 'question', 'question_decomposition', 'answer', 'answer_aliases', 'answerable'])</code></pre>
+<div id="cell-2" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>].keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-3" class="cell" data-tags="[&quot;json_test&quot;]">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pn.pane.JSON(js_list[<span class="op">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprint <span class="im">import</span> pprint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-5" class="cell" data-tags="[&quot;supporting_paragraphs&quot;]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>supporting_paragraphs <span class="op">=</span> [paragraph <span class="cf">for</span> paragraph <span class="kw">in</span> js_list[<span class="op">-</span><span class="dv">1</span>][<span class="st">'paragraphs'</span>] <span class="cf">if</span> paragraph.get(<span class="st">'is_supporting'</span>, <span class="va">False</span>)]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pprint(supporting_paragraphs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[{'idx': 3,
+  'is_supporting': True,
+  'paragraph_text': 'Lloyd Dane (August 19, 1925 – December 11, 2015) was a '
+                    'NASCAR Grand National Series driver from Eldon, Missouri. '
+                    'He participated part-time in the 1951 and 1954 to 1964 '
+                    'seasons, capturing four wins, all in his own car. Two of '
+                    "Dane's wins came during the 1956 season, when he finished "
+                    'a career best 23rd in points.',
+  'title': 'Lloyd Dane'},
+ {'idx': 11,
+  'is_supporting': True,
+  'paragraph_text': 'Eldon is a city in Miller County, Missouri, United '
+                    'States, located thirty miles southwest of Jefferson City. '
+                    'The population was 4,567 at the 2010 census.',
+  'title': 'Eldon, Missouri'}]</code></pre>
 </div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>{'id': '2hop__153573_109006',
- 'paragraphs': [{'idx': 0,
-   'title': 'History of the Internet',
-   'paragraph_text': "Precursors to the web browser emerged in the form of hyperlinked applications during the mid and late 1980s (the bare concept of hyperlinking had by then existed for some decades). Following these, Tim Berners - Lee is credited with inventing the World Wide Web in 1989 and developing in 1990 both the first web server, and the first web browser, called WorldWideWeb (no spaces) and later renamed Nexus. Many others were soon developed, with Marc Andreessen's 1993 Mosaic (later Netscape), being particularly easy to use and install, and often credited with sparking the internet boom of the 1990s. Today, the major web browsers are Firefox, Internet Explorer, Google Chrome, Opera and Safari.",
-   'is_supporting': False},
-  {'idx': 1,
-   'title': 'Ceville',
-   'paragraph_text': "Ceville is a humorous graphic adventure video game developed by the German game studio Realmforge Studios and published by Kalypso Media. Despite the game's use of 3D environments and models, the gameplay is very true to the graphical point-and-click adventure tradition of gameplay, immortalized by game series like Monkey Island from LucasArts and the King's Quest series from Sierra Online.",
-   'is_supporting': False},
-  {'idx': 2,
-   'title': 'Zipline Safari',
-   'paragraph_text': "Zipline Safari is a zip-line course in Florida. It is the only zip-line course in the state, and is claimed to be the world's only zip-line created for flat land. Zipline Safari opened on 16 January 2009 in Forever Florida, a wildlife attraction near Holopaw, Florida. The zip-line cost $350,000 to build, and consists of nine platforms built up from the ground and traveled between by zip-lining. Forever Florida built the course to promote ecotourism and interaction with the natural environment of Florida.",
-   'is_supporting': False},
-  {'idx': 3,
-   'title': 'Parc Safari',
-   'paragraph_text': "Parc Safari is a zoo in Hemmingford, Quebec, Canada, and is one of the region's major tourist attractions; that has both African &amp; Asian species of elephant.",
-   'is_supporting': False},
-  {'idx': 4,
-   'title': 'The Reporter (TV series)',
-   'paragraph_text': 'The Reporter is an American drama series that aired on CBS from September 25 to December 18, 1964. The series was created by Jerome Weidman and developed by executive producers Keefe Brasselle and John Simon.',
-   'is_supporting': False},
-  {'idx': 5,
-   'title': 'Earthworm Jim 4',
-   'paragraph_text': 'Earthworm Jim 4 is a video game in the "Earthworm Jim" series. It was originally announced by Interplay Entertainment in 2008, and referred to by Interplay as "still in development" in May 2011. Later commentary from individual developers would claim that development hadn\'t started, though desire to create a new entry in the series remained. In May 2019, it was announced that the game was to begin development exclusively for the upcoming Intellivision Amico console.',
-   'is_supporting': False},
-  {'idx': 6,
-   'title': 'Adobe Flash Player',
-   'paragraph_text': 'Availability on desktop operating systems Platform Latest version Browser support Windows XP and later Windows Server 2003 and later 27.0. 0.183 Firefox, Chrome, Chromium, Safari, Opera, Internet Explorer, Microsoft Edge Windows 2000 11.1. 102.55? Windows 98 and ME 9.0. 115.0? Windows 95 and NT 4 7.0. 14.0? Mac OS X 10.6 or later 27.0. 0.183 Firefox, Chrome, Chromium, Safari, Opera Mac OS X 10.5 10.3. 183.90? Classic Mac OS, PowerPC 7.0. 14.0? Classic Mac OS, 68k 5.0? Linux 27.0. 0.183 Firefox, Chrome, Chromium, Opera',
-   'is_supporting': False},
-  {'idx': 7,
-   'title': 'Apple Inc.',
-   'paragraph_text': "Apple Inc. is an American multinational technology company headquartered in Cupertino, California that designs, develops, and sells consumer electronics, computer software, and online services. The company's hardware products include the iPhone smartphone, the iPad tablet computer, the Mac personal computer, the iPod portable media player, the Apple Watch smartwatch, the Apple TV digital media player, and the HomePod smart speaker. Apple's consumer software includes the macOS and iOS operating systems, the iTunes media player, the Safari web browser, and the iLife and iWork creativity and productivity suites. Its online services include the iTunes Store, the iOS App Store and Mac App Store, Apple Music, and iCloud.",
-   'is_supporting': False},
-  {'idx': 8,
-   'title': 'Philadelphia Zoo',
-   'paragraph_text': 'The Philadelphia Zoo, located in the Centennial District of Philadelphia, Pennsylvania, on the west bank of the Schuylkill River, was the first true zoo in the United States. Chartered by the Commonwealth of Pennsylvania on March 21, 1859, its opening was delayed by the American Civil War until July 1, 1874. It opened with 1,000 animals and an admission price of 25 cents. For a brief time, the zoo also housed animals brought over from safari on behalf of the Smithsonian Institution, which had not yet built the National Zoo.',
-   'is_supporting': False},
-  {'idx': 9,
-   'title': 'Web browser',
-   'paragraph_text': "Apple's Safari had its first beta release in January 2003; as of April 2011, it had a dominant share of Apple-based web browsing, accounting for just over 7% of the entire browser market.",
-   'is_supporting': False},
-  {'idx': 10,
-   'title': 'List of The 100 episodes',
-   'paragraph_text': 'The 100 (pronounced The Hundred) is an American post-apocalyptic science fiction drama television series developed by Jason Rothenberg, which premiered on March 19, 2014, on The CW. It is loosely based on a 2013 book of the same name, the first in a book series by Kass Morgan. The series follows a group of teens as they become the first people from a space habitat to return to Earth after a devastating nuclear apocalypse.',
-   'is_supporting': False},
-  {'idx': 11,
-   'title': 'Shiira',
-   'paragraph_text': 'Shiira (シイラ, Japanese for the common dolphin-fish) is a discontinued open source web browser for the Mac OS X operating system. According to its lead developer Makoto Kinoshita, the goal of Shiira was "to create a browser that is better and more useful than Safari". Shiira used WebKit for rendering and scripting. The project reached version 2.3 before it was discontinued, and by December 2011 the developer\'s website had been removed.',
-   'is_supporting': False},
-  {'idx': 12,
-   'title': 'Traffic Department 2192',
-   'paragraph_text': 'Traffic Department 2192 is a top down shooter game for IBM PC, developed by P-Squared Productions and released in 1994 by Safari Software and distributed by Epic MegaGames. The full game contains three episodes (Alpha, Beta, Gamma), each with twenty missions, in which the player pilots a "hoverskid" about a war-torn city to complete certain mission objectives. The game was released as freeware under the Creative Commons License CC BY-ND 3.0 in 2007.',
-   'is_supporting': False},
-  {'idx': 13,
-   'title': 'Maciej Stachowiak',
-   'paragraph_text': "Maciej Stachowiak (; born June 6, 1976) is a Polish American software developer currently employed by Apple Inc., where he is a leader of the development team responsible for the Safari web browser and WebKit Framework. A longtime proponent of open source software, Stachowiak was involved with the SCWM, GNOME and Nautilus projects for Linux before joining Apple. He is actively involved the development of web standards, and is a co-chair of the World Wide Web Consortium's HTML 5 working group and a member of the Web Hypertext Application Technology Working Group steering committee.",
-   'is_supporting': False},
-  {'idx': 14,
-   'title': 'Ellery Queen (TV series)',
-   'paragraph_text': 'Ellery Queen is an American TV series, developed by Richard Levinson and William Link, who based it on the fictional character of the same name. The series ran on NBC from September 11, 1975, to April 4, 1976 featuring the titular fictional sleuth. The series stars Jim Hutton as the titular character, and David Wayne as his father, Inspector Richard Queen.',
-   'is_supporting': False},
-  {'idx': 15,
-   'title': 'Hunting',
-   'paragraph_text': 'In the 19th century, southern and central European sport hunters often pursued game only for a trophy, usually the head or pelt of an animal, which was then displayed as a sign of prowess. The rest of the animal was typically discarded. Some cultures, however, disapprove of such waste. In Nordic countries, hunting for trophies was—and still is—frowned upon. Hunting in North America in the 19th century was done primarily as a way to supplement food supplies, although it is now undertaken mainly for sport.[citation needed] The safari method of hunting was a development of sport hunting that saw elaborate travel in Africa, India and other places in pursuit of trophies. In modern times, trophy hunting persists and is a significant industry in some areas.[citation needed]',
-   'is_supporting': False},
-  {'idx': 16,
-   'title': 'Safari School',
-   'paragraph_text': 'Safari School is a BBC Two reality television series presented by Dr Charlotte Uhlenbroek in which eight celebrities take part in a four-week ranger training course in the Shamwari Game Reserve in South Africa.',
-   'is_supporting': False},
-  {'idx': 17,
-   'title': 'African Safari Wildlife Park',
-   'paragraph_text': 'The African Safari Wildlife Park is a drive through wildlife park in Port Clinton, Ohio, United States. Visitors can drive through the preserve and watch and feed the animals from their car. Visitors can spend as much time in the preserve as they wish, observing and feeding the animals, before proceeding to the walk through part of the park, called Safari Junction. The park is closed during the winter.',
-   'is_supporting': False},
-  {'idx': 18,
-   'title': 'White armored car',
-   'paragraph_text': 'The White armored car was a series of armored cars developed by the White Motor Company in Cleveland, Ohio from 1915.',
-   'is_supporting': False},
-  {'idx': 19,
-   'title': 'Blue Tea Games',
-   'paragraph_text': 'The 14th game of this series. The BETA game was released in September 2017. This episode will be developed by Blue Tea Games who return to the series since 2014.',
-   'is_supporting': False}],
- 'question': "Who developed the eponymous character from the series that contains Mickey's Safari in Letterland?",
- 'question_decomposition': [{'id': 153573,
-   'question': "What series is Mickey's Safari in Letterland from?",
-   'answer': 'Mickey Mouse',
-   'paragraph_support_idx': None},
-  {'id': 109006,
-   'question': 'Who developed #1 ?',
-   'answer': 'Walt Disney',
-   'paragraph_support_idx': None}],
- 'answer': 'Walt Disney',
- 'answer_aliases': [],
- 'answerable': False}</code></pre>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>js_list[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-8" class="cell" data-tags="[&quot;gold_examples&quot;]" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>display(js_list[<span class="op">-</span><span class="dv">1</span>][<span class="st">'question'</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>p_list <span class="op">=</span> []</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> js_list[<span class="op">-</span><span class="dv">1</span>][<span class="st">'paragraphs'</span>]:</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> paragraph.get(<span class="st">'is_supporting'</span>, <span class="va">False</span>):</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        p_list.append(paragraph)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>pprint(p_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>"Which county does Lloyd Dane's birthplace belong to?"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[{'idx': 3,
+  'is_supporting': True,
+  'paragraph_text': 'Lloyd Dane (August 19, 1925 – December 11, 2015) was a '
+                    'NASCAR Grand National Series driver from Eldon, Missouri. '
+                    'He participated part-time in the 1951 and 1954 to 1964 '
+                    'seasons, capturing four wins, all in his own car. Two of '
+                    "Dane's wins came during the 1956 season, when he finished "
+                    'a career best 23rd in points.',
+  'title': 'Lloyd Dane'},
+ {'idx': 11,
+  'is_supporting': True,
+  'paragraph_text': 'Eldon is a city in Miller County, Missouri, United '
+                    'States, located thirty miles southwest of Jefferson City. '
+                    'The population was 4,567 at the 2010 census.',
+  'title': 'Eldon, Missouri'}]</code></pre>
+</div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_supporting_paragraphs(json_obj):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> paragraph <span class="kw">in</span> json_obj[<span class="st">'paragraphs'</span>]:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> paragraph.get(<span class="st">'is_supporting'</span>, <span class="va">False</span>):</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>num_supporting_paragraphs <span class="op">=</span> count_supporting_paragraphs(js_list[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of supporting paragraphs: </span><span class="sc">{</span>num_supporting_paragraphs<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of supporting paragraphs: 2</code></pre>
 </div>
 </div>
 
