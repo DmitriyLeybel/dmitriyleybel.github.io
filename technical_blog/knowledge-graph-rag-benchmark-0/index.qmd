@@ -156,6 +156,10 @@ Before wrapping up, I'd like to at least share some of the dev dataset meant to 
 
 This is but one entry in the `jsonl` file. Although it has an answer `'answer': 'Walt Disney'`, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of `'answerable': False`. Each paragraph has a `is_supporting` label that is to be used in evaluating the pipeline's ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.
 
+And furthermore, here are examples of a couple of gold paragraphs from another question, where `is_supporting == True`. Here you can witness for yourself the necessary connection between Lloyd Dane and the county of his birthplace. Just one of the paragraphs by itself wouldn't be enough to make that connection:
+
+{{< embed ../../notebooks/musique_eda.ipynb#gold_examples echo=true >}}
+
 # Finale(more of a cliffhanger)
 
 That's it for this initial explanatory and exploratory chapter. In the next post, we'll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.
