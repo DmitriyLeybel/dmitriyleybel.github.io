@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dmitriy Leybel">
+<meta name="dcterms.date" content="2024-04-12">
+<meta name="description" content="Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models">
+
+<title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SB4HQ6BZVQ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../technical_blog.css">
+<meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One">
+<meta property="og:description" content="Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models">
+<meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One">
+<meta name="twitter:description" content="Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../technical_blog.html"> 
+<span class="menu-text">Technical Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../personal_blog.html"> 
+<span class="menu-text">Personal Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools tools-wide">
+    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
+    <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="mailto:dmleybel@.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></h1>
+                  <div>
+        <div class="description">
+          Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">knowledge-graphs</div>
+                <div class="quarto-category">rag</div>
+                <div class="quarto-category">benchmarking</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Dmitriy Leybel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 12, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="block-title">Abstract</div>
+      This post introduces you to the dataset and prediction format we will be using, the tokenization of the questions, the process of choosing a model, and the high-level tasks necessary to build a knowledge graph from text.
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents:</h2>
+   
+  <ul>
+  <li><a href="#what-are-we-predicting" id="toc-what-are-we-predicting" class="nav-link active" data-scroll-target="#what-are-we-predicting"><span class="header-section-number">1</span> What are we predicting?</a>
+  <ul class="collapse">
+  <li><a href="#data-and-prediction-datasets" id="toc-data-and-prediction-datasets" class="nav-link" data-scroll-target="#data-and-prediction-datasets"><span class="header-section-number">1.1</span> Data and Prediction Datasets</a></li>
+  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link" data-scroll-target="#inputs-and-outputs"><span class="header-section-number">1.2</span> Inputs and Outputs</a></li>
+  </ul></li>
+  <li><a href="#tokens-and-tokens-and-more-tokens" id="toc-tokens-and-tokens-and-more-tokens" class="nav-link" data-scroll-target="#tokens-and-tokens-and-more-tokens"><span class="header-section-number">2</span> Tokens and Tokens and <em>More</em> Tokens</a>
+  <ul class="collapse">
+  <li><a href="#tokens" id="toc-tokens" class="nav-link" data-scroll-target="#tokens"><span class="header-section-number">2.0.1</span> Tokens?</a></li>
+  <li><a href="#token-measurement" id="toc-token-measurement" class="nav-link" data-scroll-target="#token-measurement"><span class="header-section-number">2.0.2</span> Token Measurement</a></li>
+  </ul></li>
+  <li><a href="#motivation-for-rag-over-large-context-windows" id="toc-motivation-for-rag-over-large-context-windows" class="nav-link" data-scroll-target="#motivation-for-rag-over-large-context-windows"><span class="header-section-number">3</span> Motivation for RAG over Large Context Windows</a></li>
+  <li><a href="#choosing-a-model" id="toc-choosing-a-model" class="nav-link" data-scroll-target="#choosing-a-model"><span class="header-section-number">4</span> Choosing a Model</a>
+  <ul class="collapse">
+  <li><a href="#jean-claude-van-damme-tell-me-a-haiku" id="toc-jean-claude-van-damme-tell-me-a-haiku" class="nav-link" data-scroll-target="#jean-claude-van-damme-tell-me-a-haiku"><span class="header-section-number">4.1</span> Jean-<em>Claude</em> Van Damme, tell me a <em>Haiku</em></a>
+  <ul class="collapse">
+  <li><a href="#claude-tokenization" id="toc-claude-tokenization" class="nav-link" data-scroll-target="#claude-tokenization"><span class="header-section-number">4.1.1</span> Claude Tokenization</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#creating-a-knowledge-graph" id="toc-creating-a-knowledge-graph" class="nav-link" data-scroll-target="#creating-a-knowledge-graph"><span class="header-section-number">5</span> Creating a Knowledge Graph</a>
+  <ul class="collapse">
+  <li><a href="#strategy" id="toc-strategy" class="nav-link" data-scroll-target="#strategy"><span class="header-section-number">5.1</span> Strategy</a>
+  <ul class="collapse">
+  <li><a href="#sliding-windows" id="toc-sliding-windows" class="nav-link" data-scroll-target="#sliding-windows"><span class="header-section-number">5.1.1</span> Sliding Windows</a></li>
+  <li><a href="#knowledge-stuffing" id="toc-knowledge-stuffing" class="nav-link" data-scroll-target="#knowledge-stuffing"><span class="header-section-number">5.1.2</span> Knowledge-Stuffing</a></li>
+  <li><a href="#letting-the-llm-loose" id="toc-letting-the-llm-loose" class="nav-link" data-scroll-target="#letting-the-llm-loose"><span class="header-section-number">5.1.3</span> Letting the LLM Loose</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up"><span class="header-section-number">6</span> Wrapping up</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>:</p>
+<ul>
+<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
+<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
+<li><p>The <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
+</ul>
+<hr>
+<section id="what-are-we-predicting" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> What are we predicting?</h1>
+<p>First and foremost, if we want to build a knowledge graph to assist us with a certain task, we want to ascertain exactly what the output at the end of this pipeline should look like.</p>
+<section id="data-and-prediction-datasets" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="data-and-prediction-datasets"><span class="header-section-number">1.1</span> Data and Prediction Datasets</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+By ‘predictions’, we mean ‘the answers’ and any other expected outputs. It’s a vestige of machine learning vernacular.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>Fortunately for us, the fine folks who’ve created the MuSiQue benchmark have made it simple. They’ve ran several models on the dataset and used them for evaluations. We can find the generated predictions in their <a href="https://github.com/StonyBrookNLP/musique">github repo</a>; this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.</p>
+<div style="max-height: 280px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
+<div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="80">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(musique_dir <span class="op">+</span> <span class="st">'/data/musique_full_v1.0_train.jsonl'</span>) <span class="im">as</span> reader:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> [reader.read() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>)]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Line Example**'</span>), pprint(lines[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'answer': 'north',
+ 'answer_aliases': ['North', 'N'],
+ 'answerable': True,
+ 'id': '2hop__269805_135710',
+ 'paragraphs': [{'idx': 0,
+                 'is_supporting': False,
+                 'paragraph_text': 'Milton F. Pavlic (1909–1942) was a United '
+                                   'States Navy officer killed in action '
+                                   'during World War II for whom a U.S. Navy '
+                                   'high-speed transport was named.',
+                 'title': 'Milton F. Pavlic'},
+                {'idx': 1,
+                 'is_supporting': False,
+                 'paragraph_text': 'Osmund Holm-Hansen (also known as Oz '
+                                   'Holm-Hansen) is a Norwegian-born American '
+                                   'scientist, for whom Mount Holm-Hansen, in '
+                                   'Antarctica is named. A plant physiologist '
+                                   'by training, from 1962 Holm-Hansen was the '
+                                   'head of polar research at the Scripps '
+                                   'Institution of Oceanography.',
+                 'title': 'Osmund Holm-Hansen'},
+                {'idx': 2,
+                 'is_supporting': False,
+                 'paragraph_text': '"Sapphire Princess" was built in Japan by '
+                                   'Mitsubishi Heavy Industries, the second '
+                                   'Princess Cruises ship to be built in a '
+                                   'Japanese shipyard. Her only sister ship is '
+                                   '"Diamond Princess", with whom she swapped '
+                                   'names during construction.',
+                 'title': 'Sapphire Princess'},
+                {'idx': 3,
+                 'is_supporting': False,
+                 'paragraph_text': 'Lake Pontchartrain is named for Louis '
+                                   'Phélypeaux, comte de Pontchartrain. He was '
+                                   'the French Minister of the Marine, '
+                                   'Chancellor, and Controller-General of '
+                                   "Finances during the reign of France's "
+                                   '"Sun King", Louis XIV, for whom the colony '
+                                   'of "La Louisiane" was named.',
+                 'title': 'Lake Pontchartrain'},
+                {'idx': 4,
+                 'is_supporting': False,
+                 'paragraph_text': 'Henry Crater is a large crater in the '
+                                   'Arabia quadrangle of Mars, located at '
+                                   '10.9° north latitude and 23.3° east '
+                                   'longitude. It is in diameter and was named '
+                                   'after the brothers Paul Henry and Prosper '
+                                   'Henry, both of whom were French telescope '
+                                   'makers and astronomers.',
+                 'title': 'Henry (Martian crater)'},
+                {'idx': 5,
+                 'is_supporting': False,
+                 'paragraph_text': 'Where Dead Voices Gather is a book by Nick '
+                                   'Tosches. It is, in part, a biography of '
+                                   'Emmett Miller, one of the last minstrel '
+                                   'singers. Just as importantly, it depicts '
+                                   "Tosches' search for information about "
+                                   'Miller, about whom he initially wrote in '
+                                   'his book "Country: The Twisted Roots of '
+                                   'Rock and Roll". It is also a study of '
+                                   'minstrelsy and its connection to American '
+                                   'folk music, country music, the blues and '
+                                   'ultimately, rock and roll. In that way, it '
+                                   'is a companion volume to his other books '
+                                   'of music journalism, "Country" and "Unsung '
+                                   'Heroes of Rock N\' Roll".',
+                 'title': 'Where Dead Voices Gather'},
+                {'idx': 6,
+                 'is_supporting': True,
+                 'paragraph_text': 'Norway has a total area of and a '
+                                   'population of 5,312,300 (as of August '
+                                   '2018). The country shares a long eastern '
+                                   'border with Sweden (1,619 km or 1,006\xa0'
+                                   'mi long). Norway is bordered by Finland '
+                                   'and Russia to the north-east, and the '
+                                   'Skagerrak strait to the south, with '
+                                   'Denmark on the other side. Norway has an '
+                                   'extensive coastline, facing the North '
+                                   'Atlantic Ocean and the Barents Sea. The '
+                                   "maritime influence also dominates Norway's "
+                                   'climate with mild lowland temperatures on '
+                                   'the sea coasts, whereas the interior, '
+                                   'while colder, also is a lot milder than '
+                                   'areas elsewhere in the world on such '
+                                   'northerly latitudes. Even during polar '
+                                   'night in the north, temperatures above '
+                                   'freezing are commonplace on the coastline. '
+                                   'The maritime influence brings high '
+                                   'rainfall and snowfall to some areas of the '
+                                   'country.',
+                 'title': 'Norway'},
+                {'idx': 7,
+                 'is_supporting': False,
+                 'paragraph_text': 'The Hireling Shepherd (1851) is a painting '
+                                   'by the Pre-Raphaelite artist William '
+                                   'Holman Hunt. It represents a shepherd '
+                                   'neglecting his flock in favour of an '
+                                   'attractive country girl to whom he shows a '
+                                   "death's-head hawkmoth. The meaning of the "
+                                   'image has been much debated.',
+                 'title': 'The Hireling Shepherd'},
+                {'idx': 8,
+                 'is_supporting': False,
+                 'paragraph_text': 'Naissa Mosque is a mosque in Qardaha, '
+                                   'along the Syrian coast. It was built in '
+                                   '1989 by architect Abdul Rahman Naassan, '
+                                   'and funded by the mother of former '
+                                   'president Hafez al-Assad, Naissa '
+                                   'Assad—after whom the mosque was named. The '
+                                   'state funeral of Hafez al-Assad was '
+                                   'observed at the mosque.',
+                 'title': 'Naissa Mosque'},
+                {'idx': 9,
+                 'is_supporting': False,
+                 'paragraph_text': 'The quick German victory over the French '
+                                   'stunned neutral observers, many of whom '
+                                   'had expected a French victory and most of '
+                                   'whom had expected a long war. The '
+                                   'strategic advantages possessed by the '
+                                   'Germans were not appreciated outside '
+                                   'Germany until after hostilities had '
+                                   'ceased. Other countries quickly discerned '
+                                   'the advantages given to the Germans by '
+                                   'their military system, and adopted many of '
+                                   'their innovations, particularly the '
+                                   'General Staff, universal conscription and '
+                                   'highly detailed mobilization systems.',
+                 'title': 'Franco-Prussian War'},
+                {'idx': 10,
+                 'is_supporting': True,
+                 'paragraph_text': 'Tveitsund is a village in Nissedal '
+                                   'municipality, Norway. The urban area '
+                                   'Tveitsund, which consists of Tveitsund and '
+                                   'Treungen, has a population of 361.',
+                 'title': 'Tveitsund'},
+                {'idx': 11,
+                 'is_supporting': False,
+                 'paragraph_text': 'John Francis Sheehan (1910–1942) was a '
+                                   'United States Navy sailor killed in action '
+                                   'during World War II for whom a destroyer '
+                                   'escort was named during the war.',
+                 'title': 'John Francis Sheehan'},
+                {'idx': 12,
+                 'is_supporting': False,
+                 'paragraph_text': 'Holmes Summit is a peak rising to , the '
+                                   'highest elevation in the Read Mountains of '
+                                   'the Shackleton Range in Antarctica. It was '
+                                   'photographed from the air by the U.S. Navy '
+                                   'in 1967 and was surveyed by the British '
+                                   'Antarctic Survey in the period 1968–71. In '
+                                   'association with the names of geologists '
+                                   'grouped in this area, it was named by the '
+                                   'UK Antarctic Place-Names Committee in 1971 '
+                                   'after Professor Arthur Holmes, after whom '
+                                   'the Holmes Hills in Palmer Land were also '
+                                   'named.',
+                 'title': 'Holmes Summit'},
+                {'idx': 13,
+                 'is_supporting': False,
+                 'paragraph_text': ', better known by her pen name is a '
+                                   'Japanese manga artist. She is married to '
+                                   'fellow manga artist Tatsuneko, from whom '
+                                   'he took the name of . She is a graduate of '
+                                   'Mita Senior High School, Tokyo. She '
+                                   'currently lives in Setagaya, Tokyo with '
+                                   'her husband and daughter.',
+                 'title': 'Yun Kōga'},
+                {'idx': 14,
+                 'is_supporting': False,
+                 'paragraph_text': 'The Book of Proper Names () is a Belgian '
+                                   'novel by Amélie Nothomb. It was first '
+                                   'published in 2002. It is a romanticized '
+                                   'account of the life of the singer RoBERT, '
+                                   'whom Nothomb became acquainted with as an '
+                                   'avid admirer of her songs.',
+                 'title': 'The Book of Proper Names'},
+                {'idx': 15,
+                 'is_supporting': False,
+                 'paragraph_text': '653 Berenike is a main-belt asteroid '
+                                   'discovered on November 27, 1907, by Joel '
+                                   'Hastings Metcalf at Taunton, '
+                                   'Massachusetts. It is named after Berenice '
+                                   'II of Egypt, after whom the constellation '
+                                   'Coma Berenices is also named.',
+                 'title': '653 Berenike'},
+                {'idx': 16,
+                 'is_supporting': False,
+                 'paragraph_text': 'orbiting the Sun. It was discovered on 21 '
+                                   'February 1906 by August Kopff from '
+                                   'Heidelberg. Kopff named the asteroid after '
+                                   'a female English student with whom he was '
+                                   'acquainted.',
+                 'title': '596 Scheila'},
+                {'idx': 17,
+                 'is_supporting': False,
+                 'paragraph_text': 'William M. Hobby (1899–1942), was a United '
+                                   'States Navy officer killed in action '
+                                   'during World War II for whom a U.S. Navy '
+                                   'ship was named.',
+                 'title': 'William M. Hobby'},
+                {'idx': 18,
+                 'is_supporting': False,
+                 'paragraph_text': 'The Alma Grace McDonough Health and '
+                                   'Recreation Center is a 2,200 seat '
+                                   'multipurpose arena and recreation facility '
+                                   'on the campus of Wheeling Jesuit '
+                                   'University in Wheeling, West Virginia. The '
+                                   'building was constructed thanks to a gift '
+                                   'from Alma Grace McDonough, whom the '
+                                   'building is named after.',
+                 'title': 'Alma Grace McDonough Health and Recreation Center'},
+                {'idx': 19,
+                 'is_supporting': False,
+                 'paragraph_text': 'Émile Bertrand (1844–1909) was a French '
+                                   'mineralogist, in honour of whom '
+                                   'bertrandite was named by Alexis Damour. He '
+                                   'also gave his name to the "Bertrand lens" '
+                                   'or phase telescope.',
+                 'title': 'Émile Bertrand'}],
+ 'question': 'What is the country where Nissedal is located named after?',
+ 'question_decomposition': [{'answer': 'Norway',
+                             'id': 269805,
+                             'paragraph_support_idx': 10,
+                             'question': 'Nissedal &gt;&gt; country'},
+                            {'answer': 'north',
+                             'id': 135710,
+                             'paragraph_support_idx': 6,
+                             'question': 'The #1 was named for whom?'}]}</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Line Example</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Looking at a snippet of the predictions below, we see that <em>only</em> four factors are necessary, the id - which matches the question id, the answer - which is the answer to the question, the answerable flag - which is a boolean indicating whether the question can be answered, and the supporting facts - which are the paragraphs that support the answer.</p>
+<div style="max-height: 280px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
+<div id="cell-16" class="cell" data-tags="[&quot;prediction_format&quot;]" data-execution_count="79">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Examples of predictions**'</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(musique_dir <span class="op">+</span> <span class="st">'predictions/musique_ans_v1.0_dev_end2end_model_predictions.jsonl'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        display(pprint(<span class="bu">file</span>.read()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Examples of predictions</strong></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__460946_294723',
+ 'predicted_answer': 'Jennifer Garner',
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [0, 10]}
+{'id': '2hop__252311_366220',
+ 'predicted_answer': 'Steven Spielberg',
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [10, 18]}
+{'id': '2hop__701895_752697',
+ 'predicted_answer': 'Cypriot part was merged into the Bank of Cyprus '
+                     '(including insured deposits under 100,000 Euro) and the '
+                     "'bad' part or legacy entity holds all the overseas "
+                     'operations as well as uninsured deposits above 100,000 '
+                     'Euro, old shares and bonds. The uninsured depositors '
+                     'were subject to a bail-in and became the new '
+                     'shareholders of the legacy entity. As at May 2017, the '
+                     'legacy entity is one of the largest shareholders of Bank '
+                     'of Cyprus with 4.8% but does not hold a board seat. All '
+                     'the overseas operations, of the now defunct Cyprus '
+                     'Popular Bank, are also held by the legacy entity, until '
+                     'they are sold by the Special Administrator, at first Ms '
+                     'Andri Antoniadou, who ran the legacy entity for two '
+                     'years, from March 2013 until 3 March 2015. She tendered '
+                     'her resignation due to disagreements, with the Governor '
+                     'of the Central Bank of Cyprus and the Central Bank Board '
+                     'members, who amended the lawyers of the legacy entity, '
+                     'without consulting her. Veteran banker Chris [[PP]] The '
+                     'Ciudad Deportiva ("Sports City") is a sports complex in '
+                     'Nuevo Laredo, Mexico. It is home to the Tecolotes de '
+                     'Nuevo Laredo Mexican Baseball League team and the Toros '
+                     'de Nuevo Laredo Mexican professional basketball team '
+                     'from the Liga Nacional de Baloncesto Profesional. The '
+                     "Ciudad Deportiva's Estadio Nuevo Laredo (baseball park) "
+                     'can seat up to 12,000 fans at a baseball game and the '
+                     'Nuevo Laredo Multidisciplinary Gymnasium can seat 4,000 '
+                     'fans at a basketball game. [[PP]] Juan Carlos Espinoza '
+                     'Mercado (born 23 July 1987 in Machala) is an Ecuadorian '
+                     'professional football player who has played for '
+                     'Ecuadorian club Liga Deportiva Universitaria de Loja and '
+                     'in 2010 he joined Peruvian club Juan Aurich. [[PP]] '
+                     'Estadio Unión Tarma is a multi-use stadium in Tarma, '
+                     'Peru. It is currently used mostly for football matches '
+                     'and is the home stadium of Asociación Deportiva Tarma of '
+                     'the Copa Perú. The stadium holds 9,000 spectators. '
+                     '[[PP]] A Nigerian State is a federated political entity, '
+                     'which shares sovereignty with the Federal Government of '
+                     'Nigeria, There are 36 States in Nigeria, which are bound '
+                     'together by a federal agreement. There is also a '
+                     'territory called the Federal Capital Territory (FCT), '
+                     'which is not a state, but a territory, under the direct '
+                     'control of the Federal Government. The States are '
+                     'further divided into a total of 774 Local Government '
+                     'Areas. Under the Nigerian Constitution, states have the '
+                     'power to ratify constitutional amendments. [[PP]] Ofu '
+                     'Airport is a public airport located one mile (2 km) '
+                     'southeast of the village of Ofu on the island of Ofu in '
+                     'American Samoa, an unincorporated territory of the '
+                     'United States. This airport is publicly owned by '
+                     'Government of American Samoa. [[PP]] The Díaz '
+                     'administration made political decisions and took legal '
+                     'measures that allowed the elite throughout Mexico',
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [11, 16, 18]}
+{'id': '2hop__259228_793698',
+ 'predicted_answer': 'Fairfield, Connecticut. Its main offices are located at '
+                     '30 Rockefeller Plaza at Rockefeller Center in New York '
+                     'City, known now as the Comcast Building. It was formerly '
+                     'known as the GE Building for the prominent GE logo on '
+                     "the roof; NBC's headquarters and main studios are also "
+                     'located in the building. Through its RCA subsidiary, it '
+                     'has been associated with the center since its '
+                     'construction in the 1930s. GE moved its corporate '
+                     'headquarters from the GE Building on Lexington Avenue to '
+                     'Fairfield in 1974. [[PP]] The lander is named after the '
+                     'Philae obelisk, which bears a bilingual inscription and '
+                     'was used along with the Rosetta Stone to decipher '
+                     'Egyptian hieroglyphs. "Philae" was monitored and '
+                     "operated from DLR's Lander Control Center in Cologne",
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [2, 10, 14]}
+{'id': '2hop__481349_302087',
+ 'predicted_answer': 'Bombardier Inc. the former CRJ100 and CRJ200 series are '
+                     'no longer in production but still in active airline '
+                     'service, while the more recent CRJ700, CRJ900 and '
+                     'CRJ1000 series are in production and in service. [[PP]] '
+                     'Products offered through the Great Value brand are often '
+                     'claimed to be as good as national brand offerings, but '
+                     'are typically sold at a lower price because of lower '
+                     'marketing and advertising expense. As a house or store '
+                     'brand, the Great Value line does not consist of goods '
+                     'produced by Walmart, but is a labeling system for items '
+                     'manufactured and packaged by a number of agricultural '
+                     'and food corporations, such as ConAgra, Sara Lee which, '
+                     'in addition to releasing products under its own brands '
+                     'and exclusively for Walmart, also manufactures and '
+                     'brands foods for a variety of other chain stores. Often, '
+                     'this labeling system, to the dismay of consumers, does '
+                     'not list location of manufacture of the product. Wal - '
+                     'Mart contends that all Great Value products are produced '
+                     'in the United States. Otherwise, the country of origin '
+                     'would be listed. [[PP]] On June 11, 2006, the British '
+                     'tabloid The Mail on Sunday reported that iPods are '
+                     'mainly manufactured by workers who earn no more than '
+                     'US$50 per month and work 15-hour shifts. Apple '
+                     'investigated the case with independent auditors and '
+                     "found that, while some of the plant's labour practices "
+                     "met Apple's Code of Conduct, others did not: employees "
+                     'worked over 60 hours a week for 35% of the time, and '
+                     'worked more than six consecutive days for 25% of the '
+                     'time. [[PP]] The EMD E6 was a , A1A-A1A, passenger train '
+                     'locomotive manufactured by Electro-Motive Corporation, '
+                     'and its corporate successor, General Motors',
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [5, 10]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="inputs-and-outputs" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="inputs-and-outputs"><span class="header-section-number">1.2</span> Inputs and Outputs</h2>
+<p>In essence, our pipeline primarily needs to take the question and the paragraphs and spit out:</p>
+<ol type="1">
+<li><p>Whether the question is answerable.</p></li>
+<li><p>Which paragraphs contribute to the question’s answer.</p></li>
+<li><p>The answer.</p></li>
+</ol>
+<p>Now we’re beginning to see why this is a difficult task. Nevertheless – onwards.</p>
+</section>
+</section>
+<section id="tokens-and-tokens-and-more-tokens" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Tokens and Tokens and <em>More</em> Tokens</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+These are the values as of this writing. They may change in the future.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>There has been a lot of hype regarding enormous <em>input</em> context windows, which has led to articles such as <a href="https://qdrant.tech/articles/rag-is-dead/">RAG is dead, long live RAG</a>. When we refer to these huge context windows, we’re primarily referring to the input and not the output. <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#gemini-models">Google Gemini 1.5</a> has a 1 million context window, however, the allowed output is only 8192 tokens. Similarly, <a href="https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4">OpenAI’s GPT-4</a> models have a 128k context window and only a 4096 token output.</p>
+<div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
+</figcaption>
+</figure>
+</div>
+<p>Initially, large context windows were untenable as they ate resources like fat kids eat cake – they were also unreliable, where the model would only remember the beginning and end of the input, while generally ‘forgetting’ the middle. This has improved over time, to the point of near perfect performance with these enormous context windows. From the <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf">Gemini 1.5 whitepaper</a>, we see their <strong>needle-in-a-haystack(NiaH)</strong> performance to be stellar. It is able to locate key phrases and words within huge contexts. They use a 10 million token context window for their stress testing.</p>
+<div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
+</figcaption>
+</figure>
+</div>
+<p>While very impressive, many argue that NiaH is purely a vanity metric and that it in order to test the context window, you need real-world evaluations and the ability to test reasoning across this mass of data.</p>
+<p>For shits and giggles, we’ll see how many tokens we’re working with here.</p>
+<p>But first…</p>
+<section id="tokens" class="level3 page-columns page-full" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="tokens"><span class="header-section-number">2.0.1</span> Tokens?</h3>
+<p>What the heck is a token anyways? Please skip this section if you’re a token master – or don’t if you fancy my prose, up to you.</p>
+<p>I’m not going to describe <strong>byte-pair encodings(BPE)</strong> at length, but I will try to prime your intuition a bit. All current performant foundational models use BPE for their model inputs, so this should be relevant for maybe another, y’know, three hours(I jest). OpenAI offers a fun little <a href="https://platform.openai.com/tokenizer">token visualizer tool</a>.</p>
+<div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: OpenAI Tokenization Example
+</figcaption>
+</figure>
+</div>
+<p>Essentially, the tokens are determined by feeding a large corpus of data into an algorithm that is meant to extract a set amount of unique tokens by taking the most common sequences of words and iterating over them until the uniqueness constraint is satisfied. If we look at <a href="#fig-tokenization-example" class="quarto-xref">Fig.&nbsp;3</a>, we see that <code>*****</code> is a single token, while <code>[</code> is also a single token with its own unique numerical designation within the LLM. Some sequences of characters are commonly used, and so it makes sense to treat them as one token. Also, notice that the preceding spaces around the words are treated as part of the word token. Smiley faces are common enough that they also have earned their own token(at least that’s my interpretation of it). You can also see that token strings can be part of larger token strings as we see between <code>**</code> and <code>*****</code>. Both are completely unique tokens to the model.</p>
+<p>When you’re feeding strings into the model, they are split off into numbered segments, which are then matched to their bit-encoding(e.g.&nbsp;<code>1010101111000</code>), which goes into the model.</p>
+</section>
+<section id="token-measurement" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="token-measurement"><span class="header-section-number">2.0.2</span> Token Measurement</h3>
+<p>Different models use different tokenization strategies(but the same technique) with varying datasets, so we’ll focus on the publicly available algorithms. <a href="https://github.com/openai/tiktoken">tiktoken</a> is an OpenAI tool you can use to determine the token-representation existing within any string of text.</p>
+<div style="max-height: 280px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
+<div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="82">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Token models**'</span>), tiktoken.model.MODEL_TO_ENCODING)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> tiktoken.encoding_for_model(<span class="st">'gpt-3.5-turbo'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokenizer we are using**'</span>), tokenizer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Token models</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>{'gpt-4': 'cl100k_base',
+ 'gpt-3.5-turbo': 'cl100k_base',
+ 'gpt-3.5': 'cl100k_base',
+ 'gpt-35-turbo': 'cl100k_base',
+ 'davinci-002': 'cl100k_base',
+ 'babbage-002': 'cl100k_base',
+ 'text-embedding-ada-002': 'cl100k_base',
+ 'text-embedding-3-small': 'cl100k_base',
+ 'text-embedding-3-large': 'cl100k_base',
+ 'text-davinci-003': 'p50k_base',
+ 'text-davinci-002': 'p50k_base',
+ 'text-davinci-001': 'r50k_base',
+ 'text-curie-001': 'r50k_base',
+ 'text-babbage-001': 'r50k_base',
+ 'text-ada-001': 'r50k_base',
+ 'davinci': 'r50k_base',
+ 'curie': 'r50k_base',
+ 'babbage': 'r50k_base',
+ 'ada': 'r50k_base',
+ 'code-davinci-002': 'p50k_base',
+ 'code-davinci-001': 'p50k_base',
+ 'code-cushman-002': 'p50k_base',
+ 'code-cushman-001': 'p50k_base',
+ 'davinci-codex': 'p50k_base',
+ 'cushman-codex': 'p50k_base',
+ 'text-davinci-edit-001': 'p50k_edit',
+ 'code-davinci-edit-001': 'p50k_edit',
+ 'text-similarity-davinci-001': 'r50k_base',
+ 'text-similarity-curie-001': 'r50k_base',
+ 'text-similarity-babbage-001': 'r50k_base',
+ 'text-similarity-ada-001': 'r50k_base',
+ 'text-search-davinci-doc-001': 'r50k_base',
+ 'text-search-curie-doc-001': 'r50k_base',
+ 'text-search-babbage-doc-001': 'r50k_base',
+ 'text-search-ada-doc-001': 'r50k_base',
+ 'code-search-babbage-code-001': 'r50k_base',
+ 'code-search-ada-code-001': 'r50k_base',
+ 'gpt2': 'gpt2',
+ 'gpt-2': 'gpt2'}</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Tokenizer we are using</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Encoding 'cl100k_base'&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>We observe that the latest models are using the <code>cl100k_base</code> tokenization model, which we can assume uses ~100,000 unique tokens. Prior to this, a 50,000 unique token model was used. Also, we instantiate our tokenizer for the next step. Choosing the <code>gpt-4</code> or <code>gpt-3.5-turbo</code> tokenizer makes no material difference, as they use the same exact tokenization model.</p>
+<p>The tokenizer can be used on one of the paragraphs we have to illustrate its token composition.</p>
+<div style="max-height: 280px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
+<div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="83">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_line <span class="op">=</span> lines[<span class="dv">1</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test_paragraphs <span class="op">=</span> test_line[<span class="st">'paragraphs'</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Paragraph Example**'</span>), test_paragraphs[<span class="dv">0</span>])</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>test_tokens <span class="op">=</span> tokenizer.encode(test_paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>])</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokens**'</span>), test_tokens)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Number of Tokens**'</span>), <span class="bu">len</span>(test_tokens))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Paragraph Example</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>{'idx': 0,
+ 'title': 'Milton F. Pavlic',
+ 'paragraph_text': 'Milton F. Pavlic (1909–1942) was a United States Navy officer killed in action during World War II for whom a U.S. Navy high-speed transport was named.',
+ 'is_supporting': False}</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Tokens</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>[44,
+ 16695,
+ 435,
+ 13,
+ 43856,
+ 416,
+ 320,
+ 7028,
+ 24,
+ 4235,
+ 6393,
+ 17,
+ 8,
+ 574,
+ 264,
+ 3723,
+ 4273,
+ 19574,
+ 9640,
+ 7577,
+ 304,
+ 1957,
+ 2391,
+ 4435,
+ 5111,
+ 8105,
+ 369,
+ 8884,
+ 264,
+ 549,
+ 815,
+ 13,
+ 19574,
+ 1579,
+ 30699,
+ 7710,
+ 574,
+ 7086,
+ 13]</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Number of Tokens</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>39</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Only 39 tokens – nice.</p>
+<p>Is this something we can expect from the provided paragraphs in our dataset?</p>
+<div style="max-height: 280px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
+<div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> test_paragraphs:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    paragraph_text <span class="op">=</span> paragraph[<span class="st">'paragraph_text'</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    paragraph_tokens <span class="op">=</span> tokenizer.encode(paragraph_text)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Number of tokens in paragraph: </span><span class="sc">{</span><span class="bu">len</span>(paragraph_tokens)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of tokens in paragraph: 39
+Number of tokens in paragraph: 68
+Number of tokens in paragraph: 45
+Number of tokens in paragraph: 64
+Number of tokens in paragraph: 59
+Number of tokens in paragraph: 131
+Number of tokens in paragraph: 176
+Number of tokens in paragraph: 59
+Number of tokens in paragraph: 71
+Number of tokens in paragraph: 86
+Number of tokens in paragraph: 42
+Number of tokens in paragraph: 36
+Number of tokens in paragraph: 102
+Number of tokens in paragraph: 61
+Number of tokens in paragraph: 58
+Number of tokens in paragraph: 57
+Number of tokens in paragraph: 39
+Number of tokens in paragraph: 35
+Number of tokens in paragraph: 59
+Number of tokens in paragraph: 48</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Not exactly, but the max length is roughly 176 tokens, so it’s still a fairly small token amount.</p>
+</section>
+</section>
+<section id="motivation-for-rag-over-large-context-windows" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Motivation for RAG over Large Context Windows</h1>
+<p>If you’re thinking what I’m thinking, you’ve probably done the head-math and figured that ~2000 tokens can easily fit into a 1.5M token context window with ease, with the only remaining task being some clever prompt engineering.</p>
+<p>While this is true, we have to think of cost and scale, as well as veracity. RAG systems tend to be substantially cheaper than context stuffing. <a href="https://ai88.substack.com/p/rag-vs-context-window-in-gpt4-accuracy-cost">This entry</a> by Atai Barkai, illustrates the cost of RAG compared to context stuffing when it comes to a simple benchmark like the previously mentioned NiaH. Context stuffing ends up being 2500% more expensive. According to my calculations, which you can totally trust, that’s a lot of 🥑avocado toast.</p>
+<p>On top of the cost-benefit, when we include knowledge graphs, we also gain the power of symbolic representational knowledge as a memory, which neither context stuffing nor vanilla RAG does.</p>
+</section>
+<section id="choosing-a-model" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Choosing a Model</h1>
+<p>When selecting a model, we are often in the shoes of Goldilocks, we don’t want it to be too expensive, but we also don’t want it to lack in critical performance where it matters – we usually want that golden middle ground. To obtain that middle ground, combinations of models are usually used. For instance, a GPT-4 level model would be used for the abstract and high-level thinking, while the lower GPT 3.5 level models would be used for simpler processes that don’t require very high levels of abstraction.</p>
+<section id="jean-claude-van-damme-tell-me-a-haiku" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="jean-claude-van-damme-tell-me-a-haiku"><span class="header-section-number">4.1</span> Jean-<em>Claude</em> Van Damme, tell me a <em>Haiku</em></h2>
+<p>What. Just kidding. We’ll be talking about <a href="https://www.anthropic.com/news/claude-3-family">Anthropic’s Claude 3 models</a>. The following chart is from the <a href="https://chat.lmsys.org">LMSYS Chatbot Arena</a> where models go head to head in answering questions which are then chosen by users.</p>
+<div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Comparison of performance and cost among top models
+</figcaption>
+</figure>
+</div>
+<p>On the far right, we have GPT-4 and Claude 3 Opus neck to neck as the highest performing models. As of this writing, the latest GPT-4 Turbo model actually overtook Claude 3 Opus. At the very top, we see Claude Haiku, which performs slightly below one of the GPT-4 models, but at an incredibly low cost. All of the Claude 3 models have a 200,000 token window and a 4096 token output – this is comparable to the 128,000 GPT-4 token window with a 8196 token output. Claude 3 Haiku will be model we’ll be using. If there are any hurdles with that particular model, it will not be too difficult to pivot by simply changing the endpoint to GPT 3.5 or GPT 4.</p>
+<p>Here is Claude 3 Haiku writing a haiku about itself:</p>
+<pre><code>Artificial mind,
+Seeking to understand, learn,
+Serve with empathy.</code></pre>
+<p>Are you impressed yet? <sup><sub>Maybe a <em>little</em> scared?</sub></sup></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Although Claude had the very large context window months before GPT-4, the jury is out on whether it has been useful and robust enough for production.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="claude-tokenization" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="claude-tokenization"><span class="header-section-number">4.1.1</span> Claude Tokenization</h3>
+<p>Unfortunately, Anthropic has not released a tokenizer that we can use, however, it is generally safe(famous last words lol) to assume that it is quite similar to the OpenAI one. <a href="https://github.com/javirandor/anthropic-tokenizer">Here</a>, someone has attempted to reverse engineer it by counting the token amounts of the generations streamed to you.</p>
+<p><a href="images/claude_tokenizer.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/claude_tokenizer.jpg" class="img-fluid" width="569"></a></p>
+<p>But we’re not going to do that.</p>
+</section>
+</section>
+</section>
+<section id="creating-a-knowledge-graph" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Creating a Knowledge Graph</h1>
+<p>From the <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag-knowledge-graphs">previous post</a>, you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we’ll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.</p>
+<section id="strategy" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="strategy"><span class="header-section-number">5.1</span> Strategy</h2>
+<section id="sliding-windows" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="sliding-windows"><span class="header-section-number">5.1.1</span> Sliding Windows</h3>
+<p>To answer the questions asked in the MuSiQue benchmark, we will create a unique knowledge graph for every individual question, consisting out of the twenty provided paragraphs. Each paragraph can be arbitrarily divided into multiple chunks of text which the LLM can take as input into its context.</p>
+<div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
+</figcaption>
+</figure>
+</div>
+<p>We can use a sliding window to process the chunks of text that the paragraphs are composed of. There are numerous ways to insert variable amounts of text into the context of an LLM, but I’ll introduce the two basic approaches. You can do so with a sliding window that takes in one chunk of text after the other, or you can use a sliding window with some overlap. We’ll use the latter strategy, as it may help with continuity of the model’s understanding of the text. As the window slides across the text, we want to generate the <strong>nodes</strong> and <strong>edges</strong> of the knowledge graph.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+When I say ‘nodes and edges’, I also mean any attributes thereof
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="images/sliding-window.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="knowledge-stuffing" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="knowledge-stuffing"><span class="header-section-number">5.1.2</span> Knowledge-Stuffing</h3>
+<p>Connections are the bread and butter of knowledge graphs. If our LLM is producing nodes and edges only from our limited context window, it appears that we’re missing out on the connectivity benefit of knowledge graphs. To increase the connectivity of our knowledge graph, we can inform our LLM of previous nodes and edges it has created by passing them into the context of the LLM. Conveniently, this gives me the opportunity to introduce our composition of the context we’ll be using.</p>
+<div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/context.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
+</figcaption>
+</figure>
+</div>
+<p>Inside of the prompt we have our:</p>
+<ul>
+<li><p>System prompt: Contains the necessary instructions for priming the model(e.g.&nbsp;“you are a brave and beautiful graph creator”), as well as formatting in the case where we want JSON returned to us that represents the nodes and edges, and anything else we’ll need.</p></li>
+<li><p>Previously generated nodes and edges: By knowing the previously generated nodes and edges, we can use them to update or create new nodes and edges that may or may not be related.</p></li>
+<li><p>Text chunks: The text from the paragraphs which the LLM will be converting to nodes and edges.</p></li>
+</ul>
+<p>Unless we’ll be including all of the nodes and edges into the prompt, it still feels a bit limited. Technically, we can just shove all of those connections into the prompt, as there’s ample space with our huge 200,000 token limit, but we want this method to generalize and scale to tasks outside of this particular dataset.</p>
+</section>
+<section id="letting-the-llm-loose" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="letting-the-llm-loose"><span class="header-section-number">5.1.3</span> Letting the LLM Loose</h3>
+<p>Consider the knowledge graph obtained after we process the 20 paragraphs pertaining to one question using the previously discussed method. We’d get something like:</p>
+<div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Sparsely Connected Knowledge Graph
+</figcaption>
+</figure>
+</div>
+<p>The facts we obtain from the text chunks will likely be connected in fairly atomic clusters as there wouldn’t be great continuity, even with passing some of the previously computed nodes and edges into our context window. One way to fix this would be to feed random sets of nodes(and/or edges) to the LLM and let it generate new connections between the nodes.</p>
+<div id="fig-new-connections" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="images/connection-building.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Building New Connections
+</figcaption>
+</figure>
+</div>
+<p>This can be done in one of two ways(more, actually):</p>
+<ol type="1">
+<li>Push the nodes and edges(and attributes) into the context window and tell the model to blindly make associations based on that information alone.</li>
+<li>Along with the nodes and edges, push the segments of text that contributed to the creation of the nodes and edges alongside them. This gives the LLM more grounding and reduces hallucinations.</li>
+</ol>
+<p>We’ll focus on the latter, as it pairs well with the vector store approach we will be discussing later.</p>
+</section>
+</section>
+</section>
+<section id="wrapping-up" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Wrapping up</h1>
+<p>To be perfectly honest, I was intending to get into coding the knowledge graph creation pipeline in this post, I even had to change the title and abstract before publishing. Fortunately, there’s plenty here to mull over.</p>
+<p>That’ll be happening in the next one – pinky promise. I’m hoping that this was a good amount of background and theory behind what we’ll be doing next.</p>
+<p>You can reach out to me if you have any questions via X or email.</p>
+
+
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes</span>
+<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)</span>
+<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;3: OpenAI Tokenization Example</span>
+<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;4: Comparison of performance and cost among top models</span>
+<span class="glightbox-desc lightbox-desc-6">Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.</span>
+<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs</span>
+<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges</span>
+<span class="glightbox-desc lightbox-desc-9">Figure&nbsp;8: Sparsely Connected Knowledge Graph</span>
+<span class="glightbox-desc lightbox-desc-10">Figure&nbsp;9: Building New Connections</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © 2024 - Dmitriy Leybel
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/dmitriyleybel">
+      <i class="bi bi-twitter-x" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dmlbl/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
+
+
+
+
+</body></html>
