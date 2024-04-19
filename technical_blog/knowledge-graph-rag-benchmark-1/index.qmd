@@ -1,0 +1,221 @@
+---
+title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs -- *Part One*"
+date: 2024-04-12
+description: Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models
+abstract: This post introduces you to the dataset and prediction format we will be using, the tokenization of the questions, the process of choosing a model, and the high-level tasks necessary to build a knowledge graph from text.
+aliases:
+    - knowledge-graph-benchmark-1
+number-sections: true
+code-fold: true
+categories:
+    - knowledge-graphs
+    - rag
+    - benchmarking
+---
+
+**On the last episode of**: [Don't RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks -- *Part Zero*](../knowledge-graph-rag-benchmark-0/index.qmd):
+
+-   [RAG](../knowledge-graph-rag-benchmark-0/index.qmd#rag) is used to ground LLMs when there are strict sourcing requirements
+
+-   [Knowledge graphs](../knowledge-graph-rag-benchmark-0/index.qmd#knowledge-graphs) have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.
+
+-   The [MuSiQue benchmark](../knowledge-graph-rag-benchmark-0/index.qmd#musique) combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.
+
+------------------------------------------------------------------------
+
+# What are we predicting?
+
+First and foremost, if we want to build a knowledge graph to assist us with a certain task, we want to ascertain exactly what the output at the end of this pipeline should look like.
+
+## Data and Prediction Datasets
+
+::: callout-note
+## By 'predictions', we mean 'the answers' and any other expected outputs. It's a vestige of machine learning vernacular.
+:::
+
+Fortunately for us, the fine folks who've created the MuSiQue benchmark have made it simple. They've ran several models on the dataset and used them for evaluations. We can find the generated predictions in their [github repo](https://github.com/StonyBrookNLP/musique); this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed notebooks/kg_build.ipynb#line_example echo=true >}}
+:::
+
+Looking at a snippet of the predictions below, we see that *only* four factors are necessary, the id - which matches the question id, the answer - which is the answer to the question, the answerable flag - which is a boolean indicating whether the question can be answered, and the supporting facts - which are the paragraphs that support the answer.
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed notebooks/kg_build.ipynb#prediction_format echo=true >}}
+:::
+
+## Inputs and Outputs
+
+In essence, our pipeline primarily needs to take the question and the paragraphs and spit out:
+
+1.  Whether the question is answerable.
+
+2.  Which paragraphs contribute to the question's answer.
+
+3.  The answer.
+
+Now we're beginning to see why this is a difficult task. Nevertheless – onwards.
+
+# Tokens and Tokens and *More* Tokens
+
+::: callout-note
+## These are the values as of this writing. They may change in the future.
+:::
+
+There has been a lot of hype regarding enormous *input* context windows, which has led to articles such as [RAG is dead, long live RAG](https://qdrant.tech/articles/rag-is-dead/). When we refer to these huge context windows, we're primarily referring to the input and not the output. [Google Gemini 1.5](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#gemini-models) has a 1 million context window, however, the allowed output is only 8192 tokens. Similarly, [OpenAI's GPT-4](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4) models have a 128k context window and only a 4096 token output.
+
+![Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes](images/gemini-gpt4-tokens.png){#fig-gpt4-gemini-tokens width="805"}
+
+Initially, large context windows were untenable as they ate resources like fat kids eat cake -- they were also unreliable, where the model would only remember the beginning and end of the input, while generally 'forgetting' the middle. This has improved over time, to the point of near perfect performance with these enormous context windows. From the [Gemini 1.5 whitepaper](https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf), we see their **needle-in-a-haystack(NiaH)** performance to be stellar. It is able to locate key phrases and words within huge contexts. They use a 10 million token context window for their stress testing.
+
+![Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)](images/gemini-needle.png){#fig-gemini-needle width="642"}
+
+While very impressive, many argue that NiaH is purely a vanity metric and that it in order to test the context window, you need real-world evaluations and the ability to test reasoning across this mass of data.
+
+For shits and giggles, we'll see how many tokens we're working with here.
+
+But first...
+
+### Tokens?
+
+What the heck is a token anyways? Please skip this section if you're a token master – or don't if you fancy my prose, up to you.
+
+I'm not going to describe **byte-pair encodings(BPE)** at length, but I will try to prime your intuition a bit. All current performant foundational models use BPE for their model inputs, so this should be relevant for maybe another, y'know, three hours(I jest). OpenAI offers a fun little [token visualizer tool](https://platform.openai.com/tokenizer).
+
+![OpenAI Tokenization Example](images/openai-tokenization.png){#fig-tokenization-example .column-page}
+
+Essentially, the tokens are determined by feeding a large corpus of data into an algorithm that is meant to extract a set amount of unique tokens by taking the most common sequences of words and iterating over them until the uniqueness constraint is satisfied. If we look at [Fig. @fig-tokenization-example], we see that `*****` is a single token, while `[` is also a single token with its own unique numerical designation within the LLM. Some sequences of characters are commonly used, and so it makes sense to treat them as one token. Also, notice that the preceding spaces around the words are treated as part of the word token. Smiley faces are common enough that they also have earned their own token(at least that's my interpretation of it). You can also see that token strings can be part of larger token strings as we see between `**` and `*****`. Both are completely unique tokens to the model.
+
+When you're feeding strings into the model, they are split off into numbered segments, which are then matched to their bit-encoding(e.g. `1010101111000`), which goes into the model.
+
+### Token Measurement
+
+Different models use different tokenization strategies(but the same technique) with varying datasets, so we'll focus on the publicly available algorithms. [tiktoken](https://github.com/openai/tiktoken) is an OpenAI tool you can use to determine the token-representation existing within any string of text.
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed notebooks/kg_build.ipynb#tokenizer echo=true >}}
+:::
+
+We observe that the latest models are using the `cl100k_base` tokenization model, which we can assume uses \~100,000 unique tokens. Prior to this, a 50,000 unique token model was used. Also, we instantiate our tokenizer for the next step. Choosing the `gpt-4` or `gpt-3.5-turbo` tokenizer makes no material difference, as they use the same exact tokenization model.
+
+The tokenizer can be used on one of the paragraphs we have to illustrate its token composition.
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed notebooks/kg_build.ipynb#paragraph_tokens echo=true >}}
+:::
+
+Only 39 tokens -- nice.
+
+Is this something we can expect from the provided paragraphs in our dataset?
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed notebooks/kg_build.ipynb#paragraphs_tokens echo=true >}}
+:::
+
+Not exactly, but the max length is roughly 176 tokens, so it's still a fairly small token amount.
+
+# Motivation for RAG over Large Context Windows
+
+If you're thinking what I'm thinking, you've probably done the head-math and figured that \~2000 tokens can easily fit into a 1.5M token context window with ease, with the only remaining task being some clever prompt engineering.
+
+While this is true, we have to think of cost and scale, as well as veracity. RAG systems tend to be substantially cheaper than context stuffing. [This entry](https://ai88.substack.com/p/rag-vs-context-window-in-gpt4-accuracy-cost) by Atai Barkai, illustrates the cost of RAG compared to context stuffing when it comes to a simple benchmark like the previously mentioned NiaH. Context stuffing ends up being 2500% more expensive. According to my calculations, which you can totally trust, that's a lot of 🥑avocado toast.
+
+On top of the cost-benefit, when we include knowledge graphs, we also gain the power of symbolic representational knowledge as a memory, which neither context stuffing nor vanilla RAG does.
+
+# Choosing a Model
+
+When selecting a model, we are often in the shoes of Goldilocks, we don't want it to be too expensive, but we also don't want it to lack in critical performance where it matters – we usually want that golden middle ground. To obtain that middle ground, combinations of models are usually used. For instance, a GPT-4 level model would be used for the abstract and high-level thinking, while the lower GPT 3.5 level models would be used for simpler processes that don't require very high levels of abstraction.
+
+## Jean-*Claude* Van Damme, tell me a *Haiku*
+
+What. Just kidding. We'll be talking about [Anthropic's Claude 3 models](https://www.anthropic.com/news/claude-3-family). The following chart is from the [LMSYS Chatbot Arena](https://chat.lmsys.org) where models go head to head in answering questions which are then chosen by users.
+
+![Comparison of performance and cost among top models](images/lmsys-compare.jpg){#fig-lmsys}
+
+On the far right, we have GPT-4 and Claude 3 Opus neck to neck as the highest performing models. As of this writing, the latest GPT-4 Turbo model actually overtook Claude 3 Opus. At the very top, we see Claude Haiku, which performs slightly below one of the GPT-4 models, but at an incredibly low cost. All of the Claude 3 models have a 200,000 token window and a 4096 token output – this is comparable to the 128,000 GPT-4 token window with a 8196 token output. Claude 3 Haiku will be model we'll be using. If there are any hurdles with that particular model, it will not be too difficult to pivot by simply changing the endpoint to GPT 3.5 or GPT 4.
+
+Here is Claude 3 Haiku writing a haiku about itself:
+
+```         
+Artificial mind,
+Seeking to understand, learn,
+Serve with empathy.
+```
+
+Are you impressed yet? <sup><sub>Maybe a *little* scared?</sub></sup>
+
+::: callout-note
+## Although Claude had the very large context window months before GPT-4, the jury is out on whether it has been useful and robust enough for production.
+:::
+
+### Claude Tokenization
+
+Unfortunately, Anthropic has not released a tokenizer that we can use, however, it is generally safe(famous last words lol) to assume that it is quite similar to the OpenAI one. [Here](https://github.com/javirandor/anthropic-tokenizer), someone has attempted to reverse engineer it by counting the token amounts of the generations streamed to you.
+
+![](images/claude_tokenizer.jpg){width="569"}
+
+But we're not going to do that.
+
+# Creating a Knowledge Graph
+
+From the [previous post](../knowledge-graph-rag-benchmark-0/index.qmd#rag-knowledge-graphs), you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we'll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.
+
+## Strategy
+
+### Sliding Windows
+
+To answer the questions asked in the MuSiQue benchmark, we will create a unique knowledge graph for every individual question, consisting out of the twenty provided paragraphs. Each paragraph can be arbitrarily divided into multiple chunks of text which the LLM can take as input into its context.
+
+![Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.](images/paragraph-chunks.png){#fig-text-chunks width="652"}
+
+We can use a sliding window to process the chunks of text that the paragraphs are composed of. There are numerous ways to insert variable amounts of text into the context of an LLM, but I'll introduce the two basic approaches. You can do so with a sliding window that takes in one chunk of text after the other, or you can use a sliding window with some overlap. We'll use the latter strategy, as it may help with continuity of the model's understanding of the text. As the window slides across the text, we want to generate the **nodes** and **edges** of the knowledge graph.
+
+::: callout-note
+## When I say 'nodes and edges', I also mean any attributes thereof 
+:::
+
+![Sliding window with overlap tends to be the standard approach when inserting text into LLMs](images/sliding-window.png){#fig-sliding-window}
+
+### Knowledge-Stuffing
+
+Connections are the bread and butter of knowledge graphs. If our LLM is producing nodes and edges only from our limited context window, it appears that we're missing out on the connectivity benefit of knowledge graphs. To increase the connectivity of our knowledge graph, we can inform our LLM of previous nodes and edges it has created by passing them into the context of the LLM. Conveniently, this gives me the opportunity to introduce our composition of the context we'll be using.
+
+![We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges](images/context.png){#fig-llm-context}
+
+Inside of the prompt we have our:
+
+-   System prompt: Contains the necessary instructions for priming the model(e.g. "you are a brave and beautiful graph creator"), as well as formatting in the case where we want JSON returned to us that represents the nodes and edges, and anything else we'll need.
+
+-   Previously generated nodes and edges: By knowing the previously generated nodes and edges, we can use them to update or create new nodes and edges that may or may not be related.
+
+-   Text chunks: The text from the paragraphs which the LLM will be converting to nodes and edges.
+
+Unless we'll be including all of the nodes and edges into the prompt, it still feels a bit limited. Technically, we can just shove all of those connections into the prompt, as there's ample space with our huge 200,000 token limit, but we want this method to generalize and scale to tasks outside of this particular dataset.
+
+### Letting the LLM Loose
+
+Consider the knowledge graph obtained after we process the 20 paragraphs pertaining to one question using the previously discussed method. We'd get something like:
+
+![Sparsely Connected Knowledge Graph](images/sparse_connectivity.png){#fig-sparse}
+
+The facts we obtain from the text chunks will likely be connected in fairly atomic clusters as there wouldn't be great continuity, even with passing some of the previously computed nodes and edges into our context window. One way to fix this would be to feed random sets of nodes(and/or edges) to the LLM and let it generate new connections between the nodes.
+
+![Building New Connections](images/connection-building.png){#fig-new-connections .preview-image}
+
+This can be done in one of two ways(more, actually):
+
+1.  Push the nodes and edges(and attributes) into the context window and tell the model to blindly make associations based on that information alone.
+2.  Along with the nodes and edges, push the segments of text that contributed to the creation of the nodes and edges alongside them. This gives the LLM more grounding and reduces hallucinations.
+
+We'll focus on the latter, as it pairs well with the vector store approach we will be discussing later.
+
+# Wrapping up
+
+To be perfectly honest, I was intending to get into coding the knowledge graph creation pipeline in this post, I even had to change the title and abstract before publishing. Fortunately, there's plenty here to mull over.
+
+That'll be happening in the next one – pinky promise. I'm hoping that this was a good amount of background and theory behind what we'll be doing next.
+
+You can reach out to me if you have any questions via X or email.
+
+[**Part Deux \>\>**](../knowledge-graph-rag-benchmark-2/index.qmd)

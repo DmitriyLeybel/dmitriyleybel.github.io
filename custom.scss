@@ -7,6 +7,11 @@ $font-weight-base: 100;
 
 /*-- scss:rules --*/
 
+.callout-title-container {
+    font-weight: 200;
+    font-size: .85em;
+}
+
 p code:not(.sourceCode) {
     background-color: #2c3f4e;
     font-size: 1.2em;

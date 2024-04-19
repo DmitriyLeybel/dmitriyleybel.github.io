@@ -2,7 +2,7 @@
 title: Technical Blog
 listing:
     id: my-listings
-    contents: technical_blog
+    contents: technical_blog/*/index.qmd
     categories: true
 ---
 

@@ -1,0 +1,146 @@
+---
+title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph -- *Part Two*"
+date: 2024-04-18
+description: Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)
+abstract: This post introduces you to building a knowledge graph in Python using an LLM. This involves orchestrating the working components of LangChain in order to call the LLM, compose the prompts, and create our pipeline with its expression language.
+aliases:
+    - knowledge-graph-benchmark-2
+number-sections: true
+code-fold: true
+categories:
+    - knowledge-graphs
+    - rag
+    - benchmarking
+---
+
+**On the last episode of**: [Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs -- *Part One*](../knowledge-graph-rag-benchmark-1/index.qmd):
+
+-   [Claude 3 Haiku](../knowledge-graph-rag-benchmark-1/#jean-claude-van-damme-tell-me-a-haiku) is our model of choice due to it being in the Goldilocks zone of performance and cost.
+
+-   [Relying on large context windows isn't enough](../knowledge-graph-rag-benchmark-1/index.qmd#motivation-for-rag-over-large-context-windows), we need to impart a structure on the data for efficient reuse and robust grounding.
+
+-   When creating a knowledge graph, we need to not only be clever about [controlling our context window](../knowledge-graph-rag-benchmark-1/index.qmd##knowledge-stuffing), but also having a process through which the connections in the [graph can grow](../knowledge-graph-rag-benchmark-1/index.qmd#letting-the-llm-loose).
+
+------------------------------------------------------------------------
+
+**Finally**, we're getting to the fun part. Like many, I thought this day would never come, but here we are.
+
+I'm going to introduce the numerous components we'll be using, and then combine them into our knowledge graph creation pipeline.
+
+# Lets Split Some Text
+
+In order to feed text of reasonable length into our LLM, we need to be able to split it. The splitting criteria will be the token length of the passage. To implement this criterion, we need to create a length function that will be passed into our splitter, and then test it on one of the paragraphs we have available from the MuSiQue dataset.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#token_len echo=true >}}
+
+As noted in the [last post](../knowledge-graph-rag-benchmark-1#claude-tokenization), we're going to do a little assuming about the Claude 3 Haiku tokenization and say that it's comparable to the latest OpenAI models -- which is why we're going to get away with using OpenAI's tokenizer, tiktoken.
+
+::: callout-note
+## As of this writing, Llama 3 was just released and is using OpenAI's tiktoken
+:::
+
+We'll be using LangChain's `RecursiveCharacterTextSplitter` to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we'll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we're using our length function as the determinant of splits.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#split_examples echo=true >}}
+
+# Prompting
+
+Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#model_load echo=true >}}
+
+::: column-margin
+`dotenv` allows us to load environmental variables from a `.env` file
+
+![](images/dotenv_ex.jpg){width="132"}
+:::
+
+It's *so over* for stand up comedians.
+
+While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we'll be using.
+
+![Prompt Template Composition](images/prompt_structure.png){#fig-prompts}
+
+As witnessed in the above, we're creating a template out of multiple templates. A `System Message` is a message sent to an LLM that tells it how to respond, in the style, tone, or format of your choosing; it primes it with an 'identity'. The `Human Message` is the message you send to the LLM after you prime it with a system message. Do you actually need to differentiate between them? **Meh**. In my experience it makes no difference and I haven't seen any testing to suggest otherwise, but in the case that future models start to take the distinction more seriously, we should continue using it. LLMs which function as chat models tend to be able to take a series of messages through their APIs, which LangChain is helping us facilitate.
+
+Lets decompose the components of `gen_template`, the main template we'll be using in our pipeline.
+
+::: callout-note
+## The difference between a prompt and a template is the fact that a template can contain {*placeholder variables*} which can be replaced in our pipeline, as you will see.
+:::
+
+## graph_analyst_template
+
+This is the main system prompt template. It's going to inform the LLM of its purpose, the format we expect it to return to us, the format of what we send to it, and any history we want it to take into account when generating its response.
+
+### Instructions (Pydantic and JSON Schema Magic)
+
+To programatically build a knowledge graph, the output of the LLM will have to be very specific and in a format we can easily process. Foundational models like Claude 3 excel at processing code and various formatted specifications. The specification that's of interest to us is the [JSON Schema](https://json-schema.org), which is designed to describe the structure of JSON data. [Here](https://json-schema.org/learn/json-schema-examples) are some examples of this specification. It describes the fields, their types, and any particular data structures you need in your JSON.
+
+I trust you've perused the examples and are not too stoked to write all of that out yourself. Well, you won't have to because we can express the same thing in a cleaner pythonic format using the [Pydantic library](https://docs.pydantic.dev/latest/) -- it makes structured outputs a breeze. In fact, there are entire libraries, like [Instructor](https://github.com/jxnl/instructor) that are centered on using Pydantic to generate structured output from LLMs that help you validate the output against the schema specification.
+
+The nodes and edges we need to construct for the knowledge graph aren't overly complex, but they do have their nuances and enough moving parts to warrant a systemic approach to their production.
+
+![The node-edge structure we construct from the outputs.](images/node_edge.png){#fig-node-edge width="665"}
+
+Each individual node has an identifier, a category, a variable number of attributes, the source text it was created from, and an identifier of the paragraph it was created from taken from the dataset itself. The LLM won't have to generate all of the properties, as the paragraph ID is simply taken from the paragraph that creates it; in fact, it can probably be a list of IDs where that particular node is referenced. The edges are a degree simpler, as they just need a category, some attributes, and the nodes which they connect.
+
+::: callout-tip
+## Pydantic, along with a similar sort of workflow can be generalized for structured extraction of any sort with LLMs. You define the JSON structure, feed the LLM a passage, and it extracts the fields you specified. This is a complete game-changer for machine learning and feature generation(much more exciting than chatbots, IMO).
+:::
+
+Below, you'll see each class represent a distinct JSON object, with the fields and instructions that the model will receive. By using the `BaseModel` superclass😎, we can create Pydantic classes with the following syntax:
+
+::: {style="max-height: 800px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#pydantic echo=true >}}
+:::
+
+The Graph class is the ultimate class we're using to generate the JSON schema. It combines the Node and Edge classes into lists, as we want the final output to be a collection of nodes and the edges that connect them. `model_json_schema()` outputs the JSON schema of the format we want the LLM to return.
+
+It may be worthwhile to read through the fields and their descriptions carefully, and mind the `semantic_id` in the `Node` class; its purpose is to allow the LLM to use that identifier in the `from_node` and `to_node` fields of the edges.
+
+::: callout-note
+## You can *probably* use Pydantic classes to describe the JSON output we need without even generating the JSON schema. Such is the magic of LLMs.
+:::
+
+In addition to our fancy JSON schema generated with Pydantic, which already includes some descriptions of the fields, we need to pass in some instructions.
+
+::: {style="max-height: 500px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#json_instructions echo=true >}}
+:::
+
+This prompt states that if a history of nodes and edges is provided, then the LLM is at liberty to reuse those semantic ids in order to modify their respective nodes and edges. Doing this allows for the knowledge graph to grow more dynamically as it processes more information.
+
+For example, if we have two separate chunks of text that the LLM is exposed to at different times, considering that there is some adjacency between the processing of the passages, since we won't keep the entire history of nodes and edges in the context window.
+
+> Fido ran over the bridge
+
+and
+
+> Fido was hungry and stole a donut.
+
+The `semantic_id` that identifies Fido would persist, so that the particular entity wouldn't be duplicated.
+
+![The semantic id allows for continuity of the entity 'Fido'](images/fido.png){#fig-fido width="526"}
+
+### Content
+
+In addition to the JSON formatting instructions, we give the model some high-level guidance. The placeholders are included as `{instructions}` where the previously constructed JSON instructions will go, and `history` where past nodes and edges will be inserted – the format isn't critical, but we'll stick to the JSON schema we're using for the output.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#graph_creator echo=true >}}
+
+## pass_passage_template
+
+The human message portion of this template consists of something as simple as:
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#pass_passage echo=true >}}
+
+where `{passage]` is our placeholder for the chunk(s) of text we grab from our paragraphs.
+
+## Combining the Prompt Templates
+
+To create our Langchain pipeline, we wrap the templates we created in `SystemMessagePromptTemplate` and `HumanMessagePromptTemplate` classes, and then combine them into `gen_template`.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#template_agg echo=true >}}
+
+# History Management

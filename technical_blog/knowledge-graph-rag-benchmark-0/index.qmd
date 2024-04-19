@@ -1,5 +1,5 @@
 ---
-title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: RAG, Knowledge Graphs, and Benchmarks -- *Part Zero*"
+title: "Don't RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks -- *Part Zero*"
 date: 2024-04-05
 description: Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
 abstract: Out of the many retrieval algorithms, building knowledge graphs in conjuction with vector stores is a promising path forward as tracing and veracity of LLMs becomes more and more critical in the successful adoption and application in this newfound frontier of AI. It is my goal to convince you that the combination of symbolic representational knowledge and semantic embeddings is a powerful venue to explore in this space. 
@@ -17,7 +17,7 @@ It's finally happening. *It*, being me writing a blog entry. (I'm editing this a
 
 <br>
 
-The motivation behind this series of posts is twofold, to run a basic knowledge graph *Retrieval Augmented Generation*(RAG) benchmark I can build off of and iteratively improve, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. You are free to use the table of contents to skip around to what interests you most, or embark on a marathon read from top to bottom.
+The motivation behind this series of posts is twofold, to run a basic knowledge graph *Retrieval Augmented Generation*(RAG) benchmark I can build off of and iteratively improve, and secondarily, to give the reader a ride-along of the process, from choosing a benchmark, creating a knowledge graph, connecting the knowledge graph to a vector store, and so forth. I am going to break down the components of not only a RAG system, but also introduce the necessary parts of any LLM workflow - so there will certainly be something for everyone. You are free to use the table of contents to skip around to what interests you most, or embark on an end-to-end marathon read.
 
 I fully believe in **democratizing** the ability to build and test your own LLM tools, as they are a critical frontier of artificial intelligence. That is the path towards progress and away from the centralization of these fantastic technologies.
 
@@ -41,7 +41,7 @@ For reference, here([Fig @fig-simple-rag]) is a diagram of one of the simplest v
 
 ![Basic RAG Example](images/simple%20rag.drawio.png){#fig-simple-rag .column-page}
 
-## Knowledge Graphs
+## Knowledge Graphs {#knowledge-graphs}
 
 It's much easier to illustrate than explicate what a knowledge graph is([Fig @fig-basic-knowledege-graph-example]). Below, we have a knowledge graph that represents places, people, and things along with their relationships to one another. This is a directed graph, in the sense that the connections flow in one direction - this generally makes it easier to specify the relationships between entities. There are many names for the entities within a knowledge graph as well as the connections between them; one of the most common naming conventions for them are **nodes** for the entities such as "Bob" or "The Louvre" and **edges** for the connections between the nodes such as "was created by" or "is located in". Additionally, these nodes and edges can both have properties or **attributes** - for instance, the 'Museum' node can have attributes that enrich it such as "capacity: 2,000" and the edge 'visited' can be assigned a date attribute "date: March 28th, 2005". You'll often hear the word **triple** in reference to two nodes connected by an edge(`Node A`, `Edge`, `Node B`)
 
@@ -134,7 +134,7 @@ This is a perfect starting point because now we have a smorgasbord of references
 
 Single-hop benchmarking appears to be most popular according to the RAG survey, however, we have more faith in knowledge graphs than a measly single-hop reasoning task. A single-hop requires the information from a single document to answer a question, however a multi-hop task requires you to hop between documents in order to answer the question. HotPotQA appears to be the most popular multi-hop dataset. Mentioned immediately on the [HotPotQA website](https://hotpotqa.github.io) is another dataset which they shout out as newer, with a more diverse set of hops required, while including the HotPotQA dataset within it - [BeerQA](https://beerqa.github.io)(is anyone else thirsty...). It combines QA data from three datasets, being HotPotQA, SQuAD, and its own formulated questions from Wikipedia for even **more** hops. Upon further inspection, BeerQA specifies that it primarily focuses on a *fullwiki* evaluation, that is to say, you must use the entirety of wikipedia in the task. Due to time and resource constraints, we do not currently want to build a knowledge graph from a 24GB dataset from the get-go. We do, however, want to be able to iterate in a quick and agile manner. HotPotQA doesn't have the same compute-heavy requirement, and neither does another amusingly named dataset.
 
-## MuSiQue to my ears
+## MuSiQue to my ears {#musique}
 
 According to the [HotpotQA paper](https://arxiv.org/pdf/1809.09600.pdf), it also has the option for using the full wiki in the evaluation criterion, however, it also has a *distractor* option where you're given 2 'gold' paragraphs containing the connecting information coupled with 8 irrelevant 'distractors' that serve as noise. Another dataset was created as an improvement over HotpotQA as well as its successor, 2WikiMultihopQA – [**MuSiQue**](https://arxiv.org/pdf/2108.00573.pdf)(Multihop Questions via Single-hop QUestion Composition) improves over its predecessors and includes questions with upwards of 18 distractors and numerous *gold* paragraphs in order to create questions of up to 4 hops. In addition, it handles some cases that would've allowed cheating within HotPotQA(such as inferring the information that is present in the hops). In addition, MuSiQue adds **answerability** to the mix – roughly half of the questions are unanswerable given the data, with the breadcrumbs provided by the provided distractors being misleading.
 
@@ -163,3 +163,6 @@ And furthermore, here are examples of a couple of gold paragraphs from another q
 # Finale(more of a cliffhanger)
 
 That's it for this initial explanatory and exploratory chapter. In the next post, we'll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.
+
+[**Onwards to part one >>**](../knowledge-graph-rag-benchmark-1/index.qmd)
+
