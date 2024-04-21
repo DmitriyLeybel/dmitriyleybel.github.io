@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dmitriy Leybel">
+<meta name="dcterms.date" content="2024-04-20">
+<meta name="description" content="Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)">
+
+<title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SB4HQ6BZVQ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../technical_blog.css">
+<meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two">
+<meta property="og:description" content="Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/node_edge.png">
+<meta property="og:image:height" content="352">
+<meta property="og:image:width" content="769">
+<meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two">
+<meta name="twitter:description" content="Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/node_edge.png">
+<meta name="twitter:image-height" content="352">
+<meta name="twitter:image-width" content="769">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../technical_blog.html"> 
+<span class="menu-text">Technical Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../personal_blog.html"> 
+<span class="menu-text">Personal Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools tools-wide">
+    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
+    <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="mailto:dmleybel@.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></h1>
+                  <div>
+        <div class="description">
+          Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">knowledge-graphs</div>
+                <div class="quarto-category">rag</div>
+                <div class="quarto-category">benchmarking</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Dmitriy Leybel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 20, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="block-title">Abstract</div>
+      This post introduces you to building a knowledge graph in Python using an LLM. This involves orchestrating the working components of LangChain in order to call the LLM, compose the prompts, and create our pipeline with its expression language. We then visualize the graph with rustworkx.
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents:</h2>
+   
+  <ul>
+  <li><a href="#lets-split-some-text" id="toc-lets-split-some-text" class="nav-link active" data-scroll-target="#lets-split-some-text"><span class="header-section-number">1</span> Lets Split Some Text</a></li>
+  <li><a href="#prompting" id="toc-prompting" class="nav-link" data-scroll-target="#prompting"><span class="header-section-number">2</span> Prompting</a>
+  <ul class="collapse">
+  <li><a href="#graph_analyst_template" id="toc-graph_analyst_template" class="nav-link" data-scroll-target="#graph_analyst_template"><span class="header-section-number">2.1</span> graph_analyst_template</a>
+  <ul class="collapse">
+  <li><a href="#instructions-pydantic-and-json-schema-magic" id="toc-instructions-pydantic-and-json-schema-magic" class="nav-link" data-scroll-target="#instructions-pydantic-and-json-schema-magic"><span class="header-section-number">2.1.1</span> Instructions (Pydantic and JSON Schema Magic)</a></li>
+  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content"><span class="header-section-number">2.1.2</span> Content</a></li>
+  </ul></li>
+  <li><a href="#pass_passage_template" id="toc-pass_passage_template" class="nav-link" data-scroll-target="#pass_passage_template"><span class="header-section-number">2.2</span> pass_passage_template</a></li>
+  <li><a href="#combining-the-prompt-templates" id="toc-combining-the-prompt-templates" class="nav-link" data-scroll-target="#combining-the-prompt-templates"><span class="header-section-number">2.3</span> Combining the Prompt Templates</a></li>
+  </ul></li>
+  <li><a href="#knowledge-graph-generation-without-history" id="toc-knowledge-graph-generation-without-history" class="nav-link" data-scroll-target="#knowledge-graph-generation-without-history"><span class="header-section-number">3</span> Knowledge Graph Generation (Without History)</a>
+  <ul class="collapse">
+  <li><a href="#visualization-with-rustworkx" id="toc-visualization-with-rustworkx" class="nav-link" data-scroll-target="#visualization-with-rustworkx"><span class="header-section-number">3.1</span> Visualization with rustworkx</a></li>
+  </ul></li>
+  <li><a href="#knowledge-graph-generation-with-history" id="toc-knowledge-graph-generation-with-history" class="nav-link" data-scroll-target="#knowledge-graph-generation-with-history"><span class="header-section-number">4</span> Knowledge Graph Generation (With History)</a>
+  <ul class="collapse">
+  <li><a href="#history-management" id="toc-history-management" class="nav-link" data-scroll-target="#history-management"><span class="header-section-number">4.1</span> History Management</a></li>
+  </ul></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">5</span> Putting it All Together</a>
+  <ul class="collapse">
+  <li><a href="#show-me-the-money" id="toc-show-me-the-money" class="nav-link" data-scroll-target="#show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</a></li>
+  </ul></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up"><span class="header-section-number">6</span> Wrapping Up</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>:</p>
+<ul>
+<li><p><a href="../knowledge-graph-rag-benchmark-1/#jean-claude-van-damme-tell-me-a-haiku">Claude 3 Haiku</a> is our model of choice due to it being in the Goldilocks zone of performance and cost.</p></li>
+<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#motivation-for-rag-over-large-context-windows">Relying on large context windows isn’t enough</a>, we need to impart a structure on the data for efficient reuse and robust grounding.</p></li>
+<li><p>When creating a knowledge graph, we need to not only be clever about <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html##knowledge-stuffing">controlling our context window</a>, but also having a process through which the connections in the <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#letting-the-llm-loose">graph can grow</a>.</p></li>
+</ul>
+<hr>
+<p><strong>Finally</strong>, we’re getting to the fun part. Like many, I thought this day would never come, but here we are.</p>
+<p>I’m going to introduce the numerous components we’ll be using, and then combine them into our knowledge graph creation pipeline.</p>
+<section id="lets-split-some-text" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Lets Split Some Text</h1>
+<p>In order to feed text of reasonable length into our LLM, we need to be able to split it. The splitting criteria will be the token length of the passage. To implement this criterion, we need to create a length function that will be passed into our splitter, and then test it on one of the paragraphs we have available from the MuSiQue dataset.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
+<div id="cell-20" class="cell" data-tags="[&quot;token_len&quot;]" data-execution_count="62">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> token_len(text: <span class="bu">str</span>, model: <span class="bu">str</span> <span class="op">=</span> <span class="st">"gpt-4"</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    encoder <span class="op">=</span> tiktoken.encoding_for_model(model)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(encoder.encode(text))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pprint(paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Token length: '</span>, token_len(paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>('The Commonwealth of the Philippines (; ) was the administrative body that '
+ 'governed the Philippines from 1935 to 1946, aside from a period of exile in '
+ 'the Second World War from 1942 to 1945 when Japan occupied the country. It '
+ 'replaced the Insular Government, a United States territorial government, and '
+ 'was established by the Tydings–McDuffie Act. The Commonwealth was designed '
+ "as a transitional administration in preparation for the country's full "
+ 'achievement of independence.')
+Token length:  95</code></pre>
+</div>
+</div>
+</div>
+<p>As noted in the <a href="../knowledge-graph-rag-benchmark-1#claude-tokenization">last post</a>, we’re going to do a little assuming about the Claude 3 Haiku tokenization and say that it’s comparable to the latest OpenAI models – which is why we’re going to get away with using OpenAI’s tokenizer, tiktoken.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+As of this writing, Meta’s Llama 3 was just released and is using OpenAI’s tiktoken (<em>and it’s incredible)</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>We’ll be using LangChain’s <code>RecursiveCharacterTextSplitter</code> to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we’ll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we’re using our length function as the determinant of splits.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
+<div id="cell-21" class="cell" data-tags="[&quot;split_examples&quot;]" data-execution_count="70">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">20</span>, chunk_overlap<span class="op">=</span><span class="dv">5</span>, length_function<span class="op">=</span>token_len)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>splits0 <span class="op">=</span> text_splitter.split_text(paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>splits0_tups <span class="op">=</span> [(<span class="st">'Token length: '</span> <span class="op">+</span> <span class="bu">str</span>(token_len(s)), s) <span class="cf">for</span> s <span class="kw">in</span> splits0]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>splits1 <span class="op">=</span> text_splitter.split_text(paragraphs[<span class="dv">1</span>][<span class="st">'paragraph_text'</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>splits1_tups <span class="op">=</span> [(<span class="st">'Token length: '</span> <span class="op">+</span> <span class="bu">str</span>(token_len(s)), s) <span class="cf">for</span> s <span class="kw">in</span> splits1]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Paragraph 1**'</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>pprint(splits0_tups)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Paragraph 2**'</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>display(splits1_tups)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Paragraph 1</strong></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[('Token length: 20',
+  'The Commonwealth of the Philippines (; ) was the administrative body that '
+  'governed the Philippines from 1935 to'),
+ ('Token length: 20',
+  'from 1935 to 1946, aside from a period of exile in the Second World War'),
+ ('Token length: 20',
+  'in the Second World War from 1942 to 1945 when Japan occupied the country. '
+  'It'),
+ ('Token length: 20',
+  'occupied the country. It replaced the Insular Government, a United States '
+  'territorial government, and was established'),
+ ('Token length: 20',
+  'government, and was established by the Tydings–McDuffie Act. The '
+  'Commonwealth was designed'),
+ ('Token length: 19',
+  'The Commonwealth was designed as a transitional administration in '
+  "preparation for the country's full achievement of independence.")]</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Paragraph 2</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>[('Token length: 18',
+  'Lake Oesa is a body of water located at an elevation of 2,267m'),
+ ('Token length: 19',
+  '2,267m (7438 ft) in the mountains of Yoho National Park, near'),
+ ('Token length: 11', 'National Park, near Field, British Columbia, Canada.')]</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="prompting" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Prompting</h1>
+<p>Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain. We can pass in any text string we want to the model as long as it observes the token limits.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-26">
+<div id="cell-26" class="cell" data-tags="[&quot;model_load&quot;]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_anthropic <span class="im">import</span> ChatAnthropic</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>chat_model <span class="op">=</span> ChatAnthropic(model_name<span class="op">=</span><span class="st">'claude-3-haiku-20240307'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>joke <span class="op">=</span> chat_model.invoke(<span class="st">"Tell me a mid joke about airplanes and horses"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>display(joke)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>joke.pretty_print()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>AIMessage(content="Here's a mildly silly joke about airplanes and horses:\n\nWhy did the horse refuse to get on the airplane? Because it already had a stable flight plan!", response_metadata={'id': 'msg_01K9jCUru7b4TiBBC6eaWRxf', 'model': 'claude-3-haiku-20240307', 'stop_reason': 'end_turn', 'stop_sequence': None, 'usage': {'input_tokens': 18, 'output_tokens': 39}}, id='run-2cb963b0-3180-432e-95a7-368169c5bef0-0')</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>================================== Ai Message ==================================
+
+Here's a mildly silly joke about airplanes and horses:
+
+Why did the horse refuse to get on the airplane? Because it already had a stable flight plan!</code></pre>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><code>dotenv</code> allows us to load environmental variables from a <code>.env</code> file</p>
+<p><a href="images/dotenv_ex.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/dotenv_ex.jpg" class="img-fluid" width="132"></a></p>
+</div></div><p>It’s <em>so over</em> for stand up comedians.</p>
+<p>While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we’ll be using.</p>
+<div id="fig-prompts" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Prompt Template Composition
+</figcaption>
+</figure>
+</div>
+<p>As witnessed in the above, we’re creating a template out of multiple templates. A <code>System Message</code> is a message sent to an LLM that tells it how to respond, in the style, tone, or format of your choosing; it primes it with an ‘identity’. The <code>Human Message</code> is the message you send to the LLM after you prime it with a system message. Do you actually need to differentiate between them? <strong>Meh</strong>. In my experience it makes no difference and I haven’t seen any testing to suggest otherwise, but in the case that future models start to take the distinction more seriously, we should continue using it. LLMs which function as chat models tend to be able to take a series of messages through their APIs, which LangChain is helping us facilitate.</p>
+<p>Lets decompose the components of <code>gen_template</code>, the main template we’ll be using in our pipeline.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The difference between a prompt and a template is the fact that a template can contain {<em>placeholder variables</em>} which can be replaced in our pipeline, as you will see.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="graph_analyst_template" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="graph_analyst_template"><span class="header-section-number">2.1</span> graph_analyst_template</h2>
+<p>This is the main system prompt template. It’s going to inform the LLM of its purpose, the format we expect it to return to us, the format of what we send to it, and any history we want it to take into account when generating its response.</p>
+<section id="instructions-pydantic-and-json-schema-magic" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="instructions-pydantic-and-json-schema-magic"><span class="header-section-number">2.1.1</span> Instructions (Pydantic and JSON Schema Magic)</h3>
+<p>To programatically build a knowledge graph, the output of the LLM will have to be very specific and in a format we can easily process. Foundational models like Claude 3 excel at processing code and various formatted specifications. The specification that’s of interest to us is the <a href="https://json-schema.org">JSON Schema</a>, which is designed to describe the structure of JSON data. <a href="https://json-schema.org/learn/json-schema-examples">Here</a> are some examples of this specification. It describes the fields, their types, and any particular data structures you need in your JSON.</p>
+<p>I trust you’ve perused the examples and are not too stoked to write all of that out yourself. Well, you won’t have to because we can express the same thing in a cleaner pythonic format using the <a href="https://docs.pydantic.dev/latest/">Pydantic library</a> – it makes structured outputs a breeze. In fact, there are entire libraries, like <a href="https://github.com/jxnl/instructor">Instructor</a> that are centered on using Pydantic to generate structured output from LLMs that help you validate the output against the schema specification.</p>
+<p>The nodes and edges we need to construct for the knowledge graph aren’t overly complex, but they do have their nuances and enough moving parts to warrant a systemic approach to their production.</p>
+<div id="fig-node-edge" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The node-edge structure we construct from the outputs.
+</figcaption>
+</figure>
+</div>
+<p>Each individual node has an identifier, a category, a variable number of attributes, the source text it was created from, and an identifier of the paragraph it was created from taken from the dataset itself. The LLM won’t have to generate all of the properties, as the paragraph ID is simply taken from the paragraph that creates it; in fact, it can probably be a list of IDs where that particular node is referenced. The edges are a degree simpler, as they just need a category, some attributes, and the nodes which they connect.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pydantic, along with a similar sort of workflow can be generalized for structured extraction of any sort with LLMs. You define the JSON structure, feed the LLM a passage, and it extracts the fields you specified. This is a complete game-changer for machine learning and feature generation(much more exciting than chatbots, IMO).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>Below, you’ll see each class represent a distinct JSON object, with the fields and instructions that the model will receive. By using the <code>BaseModel</code> superclass😎, we can create Pydantic classes with the following syntax:</p>
+<div style="max-height: 800px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
+<div id="cell-27" class="cell" data-tags="[&quot;pydantic&quot;]" data-execution_count="191">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Dict, List, Union, Tuple, Optional</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Node(BaseModel):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    semantic_id: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The unique identifier of the node that is </span><span class="ch">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">                             a reference to create edges between different nodes."</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    category: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The category of the node"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    attributes: Optional[Dict[<span class="bu">str</span>, Union[<span class="bu">str</span>, <span class="bu">int</span>, <span class="bu">bool</span>]]] <span class="op">=</span> Field(<span class="va">None</span>, description<span class="op">=</span><span class="st">"Additional properties of the node"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Edge(BaseModel):</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    from_node: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The id of the node from which the edge originates. Only previously generated semantic_ids belong here, nothing else."</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    to_node: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The id of the node to which the edge connects. Only previously generated semantic_ids belong here, nothing else."</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    category: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The type of the relationship"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    attributes: Optional[Dict[<span class="bu">str</span>, Union[<span class="bu">str</span>, <span class="bu">int</span>, <span class="bu">bool</span>]]] <span class="op">=</span> Field(<span class="va">None</span>, description<span class="op">=</span><span class="st">"Additional properties of the edge"</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Graph(BaseModel):</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    nodes: List[Node] <span class="op">=</span> Field(...,description<span class="op">=</span><span class="st">"A list of nodes in the graph"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    edges: List[Edge] <span class="op">=</span> Field(...,description<span class="op">=</span><span class="st">"A list of edges in the graph"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>Graph.model_json_schema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="191">
+<pre><code>{'$defs': {'Edge': {'properties': {'from_node': {'description': 'The id of the node from which the edge originates. Only previously generated semantic_ids belong here, nothing else.',
+     'title': 'From Node',
+     'type': 'string'},
+    'to_node': {'description': 'The id of the node to which the edge connects. Only previously generated semantic_ids belong here, nothing else.',
+     'title': 'To Node',
+     'type': 'string'},
+    'category': {'description': 'The type of the relationship',
+     'title': 'Category',
+     'type': 'string'},
+    'attributes': {'anyOf': [{'additionalProperties': {'anyOf': [{'type': 'string'},
+         {'type': 'integer'},
+         {'type': 'boolean'}]},
+       'type': 'object'},
+      {'type': 'null'}],
+     'default': None,
+     'description': 'Additional properties of the edge',
+     'title': 'Attributes'}},
+   'required': ['from_node', 'to_node', 'category'],
+   'title': 'Edge',
+   'type': 'object'},
+  'Node': {'properties': {'semantic_id': {'description': 'The unique identifier of the node that is                              a reference to create edges between different nodes.',
+     'title': 'Semantic Id',
+     'type': 'string'},
+    'category': {'description': 'The category of the node',
+     'title': 'Category',
+     'type': 'string'},
+    'attributes': {'anyOf': [{'additionalProperties': {'anyOf': [{'type': 'string'},
+         {'type': 'integer'},
+         {'type': 'boolean'}]},
+       'type': 'object'},
+      {'type': 'null'}],
+     'default': None,
+     'description': 'Additional properties of the node',
+     'title': 'Attributes'}},
+   'required': ['semantic_id', 'category'],
+   'title': 'Node',
+   'type': 'object'}},
+ 'properties': {'nodes': {'description': 'A list of nodes in the graph',
+   'items': {'$ref': '#/$defs/Node'},
+   'title': 'Nodes',
+   'type': 'array'},
+  'edges': {'description': 'A list of edges in the graph',
+   'items': {'$ref': '#/$defs/Edge'},
+   'title': 'Edges',
+   'type': 'array'}},
+ 'required': ['nodes', 'edges'],
+ 'title': 'Graph',
+ 'type': 'object'}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>The Graph class is the ultimate class we’re using to generate the JSON schema. It combines the Node and Edge classes into lists, as we want the final output to be a collection of nodes and the edges that connect them. <code>model_json_schema()</code> outputs the JSON schema of the format we want the LLM to return.</p>
+<p>It may be worthwhile to read through the fields and their descriptions carefully, and mind the <code>semantic_id</code> in the <code>Node</code> class; its purpose is to allow the LLM to use that identifier in the <code>from_node</code> and <code>to_node</code> fields of the edges.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+You can <em>probably</em> use Pydantic classes to describe the JSON output we need without even generating the JSON schema. Such is the magic of LLMs.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>In addition to our fancy JSON schema generated with Pydantic, which already includes some descriptions of the fields, we need to pass in some instructions.</p>
+<div style="max-height: 500px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
+<div id="cell-30" class="cell" data-tags="[&quot;json_instructions&quot;]" data-execution_count="194">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>json_rules <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""We need to create a JSON object that contains a list of nodes and edges that connect the nodes.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">Both, nodes and edges, have optional attributes.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">Your goal is to extract as much pertinent information from the passage as possible and create nodes and edges with the extracted information.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">If history is provided, it will be in the JSON schema you are given. You may create new connections between the nodes and edges in the history and the new nodes you are producing.</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">If you wish to change/update any of the node attributes in the provided history based on newly gathered information, simply reuse the semantic_ids of the nodes you wish to change.</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="st">If you wish to modify/update the edge attributes in the history, reuse the semantic_ids of the 'from' and 'to' nodes of any edge you wish to change.</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="st">Use the following schema and make sure to read the descriptions:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>json_prompt_instructions <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    json_rules <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    json.dumps(Graph.model_json_schema()) <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">-----</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>pprint(json_prompt_instructions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>('We need to create a JSON object that contains a list of nodes and edges that '
+ 'connect the nodes.\n'
+ 'Both, nodes and edges, have optional attributes.\n'
+ 'Your goal is to extract as much pertinent information from the passage as '
+ 'possible and create nodes and edges with the extracted information.\n'
+ 'If history is provided, it will be in the JSON schema you are given. You may '
+ 'create new connections between the nodes and edges in the history and the '
+ 'new nodes you are producing.\n'
+ 'If you wish to change/update any of the node attributes in the provided '
+ 'history based on newly gathered information, simply reuse the semantic_ids '
+ 'of the nodes you wish to change.\n'
+ 'If you wish to modify/update the edge attributes in the history, reuse the '
+ "semantic_ids of the 'from' and 'to' nodes of any edge you wish to change.\n"
+ 'Use the following schema and make sure to read the descriptions:\n'
+ '{"$defs": {"Edge": {"properties": {"from_node": {"description": "The id of '
+ 'the node from which the edge originates. Only previously generated '
+ 'semantic_ids belong here, nothing else.", "title": "From Node", "type": '
+ '"string"}, "to_node": {"description": "The id of the node to which the edge '
+ 'connects. Only previously generated semantic_ids belong here, nothing '
+ 'else.", "title": "To Node", "type": "string"}, "category": {"description": '
+ '"The type of the relationship", "title": "Category", "type": "string"}, '
+ '"attributes": {"anyOf": [{"additionalProperties": {"anyOf": [{"type": '
+ '"string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": "object"}, '
+ '{"type": "null"}], "default": null, "description": "Additional properties of '
+ 'the edge", "title": "Attributes"}}, "required": ["from_node", "to_node", '
+ '"category"], "title": "Edge", "type": "object"}, "Node": {"properties": '
+ '{"semantic_id": {"description": "The unique identifier of the node that '
+ 'is                              a reference to create edges between '
+ 'different nodes.", "title": "Semantic Id", "type": "string"}, "category": '
+ '{"description": "The category of the node", "title": "Category", "type": '
+ '"string"}, "attributes": {"anyOf": [{"additionalProperties": {"anyOf": '
+ '[{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": '
+ '"object"}, {"type": "null"}], "default": null, "description": "Additional '
+ 'properties of the node", "title": "Attributes"}}, "required": '
+ '["semantic_id", "category"], "title": "Node", "type": "object"}}, '
+ '"properties": {"nodes": {"description": "A list of nodes in the graph", '
+ '"items": {"$ref": "#/$defs/Node"}, "title": "Nodes", "type": "array"}, '
+ '"edges": {"description": "A list of edges in the graph", "items": {"$ref": '
+ '"#/$defs/Edge"}, "title": "Edges", "type": "array"}}, "required": ["nodes", '
+ '"edges"], "title": "Graph", "type": "object"}\n'
+ '-----\n')</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>This prompt states that if a history of nodes and edges is provided, then the LLM is at liberty to reuse those semantic ids in order to modify their respective nodes and edges. Doing this allows for the knowledge graph to grow more dynamically as it processes more information.</p>
+<p>For example, if we have two separate chunks of text that the LLM is exposed to at different times, considering that there is some adjacency between the processing of the passages, since we won’t keep the entire history of nodes and edges in the context window.</p>
+<blockquote class="blockquote">
+<p>Fido ran over the bridge</p>
+</blockquote>
+<p>and</p>
+<blockquote class="blockquote">
+<p>Fido was hungry and stole a donut.</p>
+</blockquote>
+<p>The <code>semantic_id</code> that identifies Fido would persist, so that the particular entity wouldn’t be duplicated.</p>
+<div id="fig-fido" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/fido.png" class="img-fluid figure-img" width="526"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="content" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="content"><span class="header-section-number">2.1.2</span> Content</h3>
+<p>In addition to the JSON formatting instructions, we give the model some high-level guidance. The placeholders are included as <code>{instructions}</code> where the previously constructed JSON instructions will go, and <code>history</code> where past nodes and edges will be inserted – the format isn’t critical, but we’ll stick to the JSON schema we’re using for the output.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
+<div id="cell-31" class="cell" data-tags="[&quot;graph_creator&quot;]" data-execution_count="195">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>graph_creator_content <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""You are a brilliant and efficient creator of JSON objects that capture the essence of passages and who follows instructions unbelievably well.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">You will be first given instructions and a json schema, then you will be provided a passage to extract the information from.</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">You will only respond with valid JSON, nothing else.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">Your instructions are:</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="sc">{instructions}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">History:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="sc">{history}</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="pass_passage_template" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="pass_passage_template"><span class="header-section-number">2.2</span> pass_passage_template</h2>
+<p>The human message portion of this template consists of something as simple as:</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
+<div id="cell-32" class="cell" data-tags="[&quot;pass_passage&quot;]" data-execution_count="196">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pass_passage_content <span class="op">=</span> <span class="st">"Below is the passage to extract the values from.</span><span class="ch">\n</span><span class="st">*****</span><span class="ch">\n</span><span class="st">Passage:</span><span class="ch">\n</span><span class="sc">{passage}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>where <code>{passage]</code> is our placeholder for the chunk(s) of text we grab from our paragraphs.</p>
+</section>
+<section id="combining-the-prompt-templates" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="combining-the-prompt-templates"><span class="header-section-number">2.3</span> Combining the Prompt Templates</h2>
+<p>To create our Langchain pipeline, we wrap the templates we created in <code>SystemMessagePromptTemplate</code> and <code>HumanMessagePromptTemplate</code> classes, and then combine them into <code>gen_template</code>.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-33">
+<div id="cell-33" class="cell" data-tags="[&quot;template_agg&quot;]" data-execution_count="197">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> (</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    HumanMessagePromptTemplate,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    SystemMessagePromptTemplate,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>graph_analyst_template <span class="op">=</span> SystemMessagePromptTemplate.from_template(template<span class="op">=</span>graph_creator_content,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                                                                   input_variables<span class="op">=</span>[<span class="st">'history'</span>, <span class="st">'instructions'</span>])</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>pass_passage_template <span class="op">=</span> HumanMessagePromptTemplate.from_template(pass_passage_content, input_variables<span class="op">=</span>[<span class="st">'passage'</span>])</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>gen_template <span class="op">=</span> graph_analyst_template <span class="op">+</span> pass_passage_template</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>gen_template.invoke({<span class="st">'passage'</span>: paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>],</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'history'</span>: <span class="st">''</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'instructions'</span>: json_prompt_instructions})</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="197">
+<pre><code>ChatPromptValue(messages=[SystemMessage(content='You are a brilliant and efficient creator of JSON objects that capture the essence of passages and who follows instructions unbelievably well.\nYou will be first given instructions and a json schema, then you will be provided a passage to extract the information from.\nYou will only respond with valid JSON, nothing else.\nYour instructions are:\nWe need to create a JSON object that contains a list of nodes and edges that connect the nodes.\nBoth, nodes and edges, have optional attributes.\nYour goal is to extract as much pertinent information from the passage as possible and create nodes and edges with the extracted information.\nIf history is provided, it will be in the JSON schema you are given. You may create new connections between the nodes and edges in the history and the new nodes you are producing.\nIf you wish to change/update any of the node attributes in the provided history based on newly gathered information, simply reuse the semantic_ids of the nodes you wish to change.\nIf you wish to modify/update the edge attributes in the history, reuse the semantic_ids of the \'from\' and \'to\' nodes of any edge you wish to change.\nUse the following schema and make sure to read the descriptions:\n{"$defs": {"Edge": {"properties": {"from_node": {"description": "The id of the node from which the edge originates. Only previously generated semantic_ids belong here, nothing else.", "title": "From Node", "type": "string"}, "to_node": {"description": "The id of the node to which the edge connects. Only previously generated semantic_ids belong here, nothing else.", "title": "To Node", "type": "string"}, "category": {"description": "The type of the relationship", "title": "Category", "type": "string"}, "attributes": {"anyOf": [{"additionalProperties": {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": "object"}, {"type": "null"}], "default": null, "description": "Additional properties of the edge", "title": "Attributes"}}, "required": ["from_node", "to_node", "category"], "title": "Edge", "type": "object"}, "Node": {"properties": {"semantic_id": {"description": "The unique identifier of the node that is                              a reference to create edges between different nodes.", "title": "Semantic Id", "type": "string"}, "category": {"description": "The category of the node", "title": "Category", "type": "string"}, "attributes": {"anyOf": [{"additionalProperties": {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": "object"}, {"type": "null"}], "default": null, "description": "Additional properties of the node", "title": "Attributes"}}, "required": ["semantic_id", "category"], "title": "Node", "type": "object"}}, "properties": {"nodes": {"description": "A list of nodes in the graph", "items": {"$ref": "#/$defs/Node"}, "title": "Nodes", "type": "array"}, "edges": {"description": "A list of edges in the graph", "items": {"$ref": "#/$defs/Edge"}, "title": "Edges", "type": "array"}}, "required": ["nodes", "edges"], "title": "Graph", "type": "object"}\n-----\n\nHistory:\n\n'), HumanMessage(content="Below is the passage to extract the values from.\n*****\nPassage:\nThe Commonwealth of the Philippines (; ) was the administrative body that governed the Philippines from 1935 to 1946, aside from a period of exile in the Second World War from 1942 to 1945 when Japan occupied the country. It replaced the Insular Government, a United States territorial government, and was established by the Tydings–McDuffie Act. The Commonwealth was designed as a transitional administration in preparation for the country's full achievement of independence.")])</code></pre>
+</div>
+</div>
+</div>
+<p><code>invoke</code> is a generic command in Langchain’s expression language(LCEL) which can be applied to many of the Langchain elements in order to ‘trigger’ them. This makes the interface quite simple when building chains of elements and extending the types of elements that are available to your custom chains by implementing your own classes that contain the <code>invoke</code> method(and others).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Generally, we can use <a href="https://python.langchain.com/docs/modules/model_io/prompts/partial/">partial_variables</a> within the prompt templates in order to not have to pass in the json_prompt_instructions on each invocation – but a recent Langchain update(langchain == 0.1.16) did us wrong and broke that for quite a few templates.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</section>
+</section>
+<section id="knowledge-graph-generation-without-history" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Knowledge Graph Generation (Without History)</h1>
+<p>We now, more or less, have the components necessary to give knowledge graph generation a first go. Development is generally iterative so we’ll leave out the history aspect of it for the time being.</p>
+<p>We now will take a gander at the LCEL in action:</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
+<div id="cell-35" class="cell" data-tags="[&quot;test1&quot;]" data-execution_count="198">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>chat_model <span class="op">=</span> ChatAnthropic(model_name<span class="op">=</span><span class="st">'claude-3-haiku-20240307'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># json_output_parser = JsonOutputParser()</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>That’s all there is to it. We pipe(<code>|</code>) the output from invoking the <code>gen_template</code> straight to the <code>chat_model</code> which also gets invoked.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
+<div id="cell-36" class="cell" data-tags="[&quot;test2&quot;]" data-execution_count="199">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> llm_pipe.invoke({<span class="st">'passage'</span>: paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>],</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'history'</span>: <span class="st">''</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'instructions'</span>: json_prompt_instructions})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p><code>llm_pipe</code> is passed the same arguments that <code>gen_template</code> would’ve been.</p>
+<div style="max-height: 400px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
+<div id="cell-37" class="cell" data-tags="[&quot;response_contents&quot;]" data-execution_count="201">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pprint(response.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>('{\n'
+ '  "nodes": [\n'
+ '    {\n'
+ '      "semantic_id": "commonwealth_of_the_philippines",\n'
+ '      "category": "political_entity",\n'
+ '      "attributes": {\n'
+ '        "name": "Commonwealth of the Philippines",\n'
+ '        "period": "1935 to 1946",\n'
+ '        "description": "The administrative body that governed the '
+ 'Philippines from 1935 to 1946, aside from a period of exile in the Second '
+ 'World War from 1942 to 1945 when Japan occupied the country."\n'
+ '      }\n'
+ '    },\n'
+ '    {\n'
+ '      "semantic_id": "insular_government",\n'
+ '      "category": "political_entity",\n'
+ '      "attributes": {\n'
+ '        "name": "Insular Government",\n'
+ '        "description": "The United States territorial government that was '
+ 'replaced by the Commonwealth of the Philippines."\n'
+ '      }\n'
+ '    },\n'
+ '    {\n'
+ '      "semantic_id": "tydings_mcduffie_act",\n'
+ '      "category": "legislation",\n'
+ '      "attributes": {\n'
+ '        "name": "Tydings–McDuffie Act",\n'
+ '        "description": "The act that established the Commonwealth of the '
+ 'Philippines."\n'
+ '      }\n'
+ '    },\n'
+ '    {\n'
+ '      "semantic_id": "japan",\n'
+ '      "category": "country",\n'
+ '      "attributes": {\n'
+ '        "name": "Japan",\n'
+ '        "description": "Occupied the Philippines during the Second World War '
+ 'from 1942 to 1945."\n'
+ '      }\n'
+ '    }\n'
+ '  ],\n'
+ '  "edges": [\n'
+ '    {\n'
+ '      "from_node": "insular_government",\n'
+ '      "to_node": "commonwealth_of_the_philippines",\n'
+ '      "category": "replacement"\n'
+ '    },\n'
+ '    {\n'
+ '      "from_node": "tydings_mcduffie_act",\n'
+ '      "to_node": "commonwealth_of_the_philippines",\n'
+ '      "category": "establishment"\n'
+ '    },\n'
+ '    {\n'
+ '      "from_node": "japan",\n'
+ '      "to_node": "commonwealth_of_the_philippines",\n'
+ '      "category": "occupation",\n'
+ '      "attributes": {\n'
+ '        "period": "1942 to 1945"\n'
+ '      }\n'
+ '    }\n'
+ '  ]\n'
+ '}')</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Would you look at that, it did what we told it to, and it cost less than a penny. However, it’s still a string, so we need to convert it into a more amiable format.</p>
+<div id="parsed_output_example" style="max-height: 400px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-38">
+<div id="cell-38" class="cell" data-tags="[&quot;json_parsed&quot;]" data-execution_count="233">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.output_parsers <span class="im">import</span> JsonOutputParser</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>json_output_parser <span class="op">=</span> JsonOutputParser()</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>json_output_parser.invoke(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="233">
+<pre><code>{'nodes': [{'semantic_id': 'commonwealth_of_the_philippines',
+   'category': 'political_entity',
+   'attributes': {'name': 'Commonwealth of the Philippines',
+    'period': '1935 to 1946',
+    'description': 'The administrative body that governed the Philippines from 1935 to 1946, aside from a period of exile in the Second World War from 1942 to 1945 when Japan occupied the country.'}},
+  {'semantic_id': 'insular_government',
+   'category': 'political_entity',
+   'attributes': {'name': 'Insular Government',
+    'description': 'The United States territorial government that was replaced by the Commonwealth of the Philippines.'}},
+  {'semantic_id': 'tydings_mcduffie_act',
+   'category': 'legislation',
+   'attributes': {'name': 'Tydings–McDuffie Act',
+    'description': 'The act that established the Commonwealth of the Philippines.'}},
+  {'semantic_id': 'japan',
+   'category': 'country',
+   'attributes': {'name': 'Japan',
+    'description': 'Occupied the Philippines during the Second World War from 1942 to 1945.'}}],
+ 'edges': [{'from_node': 'insular_government',
+   'to_node': 'commonwealth_of_the_philippines',
+   'category': 'replacement'},
+  {'from_node': 'tydings_mcduffie_act',
+   'to_node': 'commonwealth_of_the_philippines',
+   'category': 'establishment'},
+  {'from_node': 'japan',
+   'to_node': 'commonwealth_of_the_philippines',
+   'category': 'occupation',
+   'attributes': {'period': '1942 to 1945'}}]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Using Langchain’s <code>JsonOutputParser</code> allows us to easily convert the JSON string into a Python dictionary object. We’re once again calling <code>invoke</code> which means it could easily be inserted into our pipeline:</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-40">
+<div id="cell-40" class="cell" data-tags="[&quot;whole_pipe&quot;]">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model <span class="op">|</span> json_output_parser</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Before assuming that the output would be correctly structured JSON string, we needed to see it for ourselves. If the output from <code>gen_template | chat_model</code> ended up anything else other than a JSON string that our parser can handle, we would’ve received an unfortunate error.</p>
+<p>Generally speaking, if you have a prompt that plays ball with an LLM of your choosing, you’re fairly safe when it comes to receiving the structured output in the subsequent calls. However, it is a best practice to involve a failsafe that can retry the process in the even of failure. The failsafe method can involve something as simple as sending the faulty output along with a string that describes your desired output back into the LLM for re-evaluation. For instance:</p>
+<pre><code>You didn't output the proper JSON format. Please try again.
+This was your output:
+{output}</code></pre>
+<p>We can skip that for now, and see how robust our pipeline really is. Risk it for the biscuit. <sub><sup>🙏</sup></sub></p>
+<section id="visualization-with-rustworkx" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="visualization-with-rustworkx"><span class="header-section-number">3.1</span> Visualization with rustworkx</h2>
+<p>The easiest way to visualize our newly-formed knowledge graph is by using a network graph library; in our case, I’ve chosen <a href="https://www.rustworkx.org/index.html">rustworkx</a>. It’s a Python library that allows for the creation, manipulation, and rendering of directed graphs. If you’re familiar with networkx, then the syntax will be very similar, however the performance is a magnitude faster given that all of the internal goodies are written in Rust.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-43">
+<div id="cell-43" class="cell" data-tags="[&quot;base_graph_viz&quot;]" data-execution_count="246">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directed graph</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes to the graph</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node <span class="kw">in</span> nodes_edges_json[<span class="st">"nodes"</span>]:</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> digraph.add_node(node)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    node_indices[node[<span class="st">"semantic_id"</span>]] <span class="op">=</span> idx</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges to the graph</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> edge <span class="kw">in</span> nodes_edges_json[<span class="st">"edges"</span>]:</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    from_idx <span class="op">=</span> node_indices[edge[<span class="st">"from_node"</span>]]</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    to_idx <span class="op">=</span> node_indices[edge[<span class="st">"to_node"</span>]]</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    digraph.add_edge(from_idx, to_idx, edge)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>edge<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-36-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-36-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>It ain’t pretty, but it’s honest work.</p>
+<p>To create the graph, we use a dictionary to map the node <code>semantic_id</code> to the generated node index which is output when we create a new node. Then to create edges, that mapping is used to convert the <code>semantic_id</code> to the index.</p>
+</section>
+</section>
+<section id="knowledge-graph-generation-with-history" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Knowledge Graph Generation (With History)</h1>
+<section id="history-management" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="history-management"><span class="header-section-number">4.1</span> History Management</h2>
+<p>When it comes to managing the history of nodes and edges, there is a tiny bit of overhead involved. We need to:</p>
+<ul>
+<li><p>Keep track of the generated nodes and edges and thusly provide them with unique identifiers</p></li>
+<li><p>Add new edges and nodes to the history</p></li>
+<li><p>Update edges and nodes if the LLM makes changes to them</p></li>
+<li><p>Return a string representation of the nodes and edges to our pipeline using a specified token limit dependent on the context size</p></li>
+</ul>
+<p>To do this, we will create a magnificent <code>GraphHistory</code> class that manages this storage and retrieval.</p>
+<p>(Unfolding the code not for the faint of heart)</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-45">
+<div id="cell-45" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="323">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging.config</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> param</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> OrderedDict</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> uuid <span class="im">import</span> uuid4</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../logs/logging_config.json'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span> json.load(f)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>logging.config.dictConfig(config)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> logging.getLogger(<span class="st">'root'</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GraphHistory(param.Parameterized):</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    nodes_alias <span class="op">=</span> param.String(<span class="st">'nodes'</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    edges_alias <span class="op">=</span> param.String(<span class="st">'edges'</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict())</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    latest_history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Generated when get_history_str is run; contains {uuid: {nodes|edges: </span><span class="sc">{object}</span><span class="st">} mapping. </span><span class="ch">\</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="st">            Meant to be used for managing the current history window and modifications"</span>)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    latest_history_mapping <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Maps semantic_id to uuid for the latest history items as well as the node pairs to an edge uuid"</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    token_max <span class="op">=</span> param.Integer(default<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_history(<span class="va">self</span>, new_items: Union[List, Dict], return_with_uuid: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>):</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Nodes are added directly to the history with their UUIDs. </span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="co">        Edges are added only after their 'from_node' and 'to_node' fields are set to the corresponding</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">        node UUIDs. This ensures that edges reference the correct nodes in the graph.</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>        new_items <span class="op">=</span> deepcopy(new_items)</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(new_items, <span class="bu">dict</span>):</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>            new_items <span class="op">=</span> [new_items]  <span class="co"># Ensure new_items is always a list for consistency</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        history_list <span class="op">=</span> []</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> new_items:</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Makes it easier to work with the inner dict of {nodes|edges: {*inner_dict*}}</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:  <span class="co"># Handling nodes</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If node exists in latest_history, we want to modify it and move it to the bottom in history</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>                <span class="co"># No need to add to latest_history, since it won't be used since item exists in it already, and will be reset on next get_history_str call</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_dict[<span class="st">'semantic_id'</span>] <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]]</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Node exists in latest_history, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid_gen</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:  <span class="co"># Handling edges</span></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>                from_semantic_id <span class="op">=</span> item_dict[<span class="st">'from_node'</span>]</span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>                to_semantic_id <span class="op">=</span> item_dict[<span class="st">'to_node'</span>]</span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Ensure 'from_node' and 'to_node' reference the correct UUIDs from the recently added nodes</span></span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>                <span class="co"># </span><span class="al">TODO</span><span class="co"> Add exception handling for when the LLM thinks that a node exists when it doesn't. Try, except</span></span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_semantic_id]</span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[to_semantic_id]</span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(<span class="ss">f"KeyError: </span><span class="sc">{</span>from_semantic_id<span class="sc">}</span><span class="ss"> or </span><span class="sc">{</span>to_semantic_id<span class="sc">}</span><span class="ss"> not found in latest_history_mapping"</span>)</span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If the edge is in the latest history according to its from and to nodes, then we update it</span></span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (from_to_tuple<span class="op">:=</span>(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])) <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_to_tuple]</span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Edge exists in latest_history_mapping, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(history_list[<span class="dv">0</span>]) <span class="cf">if</span> <span class="bu">len</span>(history_list) <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> deepcopy(history_list)</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_window(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token_max <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>            token_max <span class="op">=</span> <span class="va">self</span>.token_max  <span class="co"># Use default token_max if not specified</span></span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history.clear()  <span class="co"># Clear the latest history for a fresh start</span></span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history_mapping.clear()  <span class="co"># Also clear the latest history mapping</span></span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>        logger.debug(<span class="ss">f"Cleared latest_history_mapping and latest_history"</span>)</span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>        token_tracking <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> <span class="bu">reversed</span>(<span class="va">self</span>.history.items()):</span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>            token_tracking <span class="op">+=</span> token_len(<span class="va">self</span>._item_to_json_str(deepcopy(item)))</span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> token_tracking <span class="op">&lt;</span> token_max:</span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.latest_history[uuid] <span class="op">=</span> item  <span class="co"># Update latest_history with the current item</span></span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:</span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid  <span class="co"># Update latest_history_mapping</span></span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to latest_history_mapping: </span><span class="sc">{</span>item_dict[<span class="st">'semantic_id'</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])] <span class="op">=</span> uuid</span>
+<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to latest_history_mapping: (</span><span class="sc">{</span>item_dict[<span class="st">'from_node'</span>]<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>item_dict[<span class="st">'to_node'</span>]<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># Stop adding items if token_max is reached</span></span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(<span class="va">self</span>.latest_history)  <span class="co"># Return the history as a string</span></span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _item_to_json_str(<span class="va">self</span>, item):</span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>        item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>        item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'from_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'to_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.dumps(item_dict)</span>
+<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_str(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns a history string based on the token length specification and updates the latest_history</span></span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>        latest_history <span class="op">=</span> <span class="va">self</span>.get_history_window(token_max)</span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>        json_list <span class="op">=</span> []</span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> latest_history.items():</span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>            json_list.append(<span class="va">self</span>._item_to_json_str(item))</span>
+<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> json_list:</span>
+<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a>            json_str <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(json_list)</span>
+<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a>            logger.debug(<span class="ss">f"JSON History string created: </span><span class="sc">{</span>json_str<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> json_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>The code above addresses the bullets representing our requirements, however, there are some messy workarounds where we skip creating edges when it imagines node names. The ideal handling of this would involve rerunning the generation and feeding it the error, but we’re going to wing it and skip this for better or worse. The mistaken identity shouldn’t be very common, but it <em>can</em> occur.</p>
+</section>
+</section>
+<section id="putting-it-all-together" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Putting it All Together</h1>
+<p>Now that we have an ability to store and inject history into our pipeline, we’re ready to go.</p>
+<p>We’re iterating over all of the paragraphs, and then splitting each paragraph with the <code>RecursiveCharacterTextSplitter</code>.</p>
+<p>Some things to note about our new pipeline before you dive in:</p>
+<ol type="1">
+<li>The JSON parser is now wrapped with a special <code>OutputFixingParser</code> class from Langchain that in the event of an error like a <code>JSONDecodeError</code>, it sends that error back to the LLM and tries to generate the correct format. Experimenting with Claude 3 Haiku has led me to add that, as it had generated faulty JSON(unlike GPT 3.5). This gives more credence to the user stories claiming that Claude 3 is more buddy-buddy with XML over JSON.</li>
+<li>A way to handle the <code>RateLimitError</code> exception was added, in the event that the <a href="https://docs.anthropic.com/claude/reference/rate-limits">API complains</a> when we generate too many nodes and edges back to back. All it takes is waiting a minute before retrying.</li>
+<li>The <code>paragraph_idx</code> is added to the nodes to indicate which paragraph it was generated from.</li>
+<li>The nodes and edges we generate are stored in <code>graph_components</code>, which is a list of objects similar to what we generated <a href="#parsed_output_example">here</a>, where we have a list of nodes and a list of edges for each paragraph processed.</li>
+</ol>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-47">
+<div id="cell-47" class="cell" data-tags="[&quot;history_pipe&quot;]">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> json <span class="im">import</span> JSONDecodeError</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> anthropic <span class="im">import</span> RateLimitError</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.output_parsers <span class="im">import</span> OutputFixingParser</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">70</span>, chunk_overlap<span class="op">=</span><span class="dv">20</span>, length_function<span class="op">=</span>token_len)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>json_fixing_parser <span class="op">=</span> OutputFixingParser.from_llm(parser<span class="op">=</span>json_output_parser, llm<span class="op">=</span>chat_model)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model <span class="op">|</span> json_fixing_parser</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>graph_history <span class="op">=</span> GraphHistory()</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>graph_components <span class="op">=</span> []</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> paragraphs:</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    splits <span class="op">=</span> splitter.split_text(paragraph[<span class="st">'paragraph_text'</span>])</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> split <span class="kw">in</span> splits:</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>        local_history <span class="op">=</span> graph_history.get_history_str(token_max<span class="op">=</span><span class="dv">600</span>)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>            response <span class="op">=</span> llm_pipe.invoke(</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'passage'</span>: split,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">'history'</span>: local_history,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">'instructions'</span>: json_prompt_instructions})</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> RateLimitError <span class="im">as</span> e:</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(e)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>            time.sleep(<span class="dv">60</span>)  <span class="co"># Wait for a minute</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>            response <span class="op">=</span> llm_pipe.invoke(</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'passage'</span>: split,</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">'history'</span>: local_history,</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">'instructions'</span>: json_prompt_instructions})</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> node <span class="kw">in</span> response[<span class="st">'nodes'</span>]:</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>            graph_history.add_history({<span class="st">'nodes'</span>: node}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> response:</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> edge <span class="kw">in</span> response[<span class="st">'edges'</span>]:</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>                graph_history.add_history({<span class="st">'edges'</span>: edge}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> node <span class="kw">in</span> response[<span class="st">'nodes'</span>]:</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            node[<span class="st">'paragraph_idx'</span>] <span class="op">=</span> paragraph[<span class="st">'idx'</span>]</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>        graph_components.append(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div style="max-height: 400px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-55">
+<div id="cell-55" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="404">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>graph_components</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="404">
+<pre><code>[{'nodes': [{'semantic_id': 'commonwealth_of_the_philippines',
+    'category': 'political_entity',
+    'attributes': {'name': 'Commonwealth of the Philippines',
+     'years_active': '1935 to 1946',
+     'description': 'The administrative body that governed the Philippines during this period, except for a period of exile from 1942 to 1945 when Japan occupied the country.'},
+    'paragraph_idx': 0},
+   {'semantic_id': 'insular_government',
+    'category': 'political_entity',
+    'attributes': {'name': 'Insular Government',
+     'description': 'A United States territorial government that was replaced by the Commonwealth of the Philippines.'},
+    'paragraph_idx': 0}],
+  'edges': [{'from_node': 'insular_government',
+    'to_node': 'commonwealth_of_the_philippines',
+    'category': 'replaced'}]},
+ {'nodes': [{'semantic_id': 'insular_government',
+    'category': 'political_entity',
+    'attributes': {'name': 'Insular Government',
+     'description': 'A United States territorial government that was replaced by the Commonwealth of the Philippines.'},
+    'paragraph_idx': 0},
+   {'semantic_id': 'commonwealth_of_the_philippines',
+    'category': 'political_entity',
+    'attributes': {'name': 'Commonwealth of the Philippines',
+     'years_active': '1935 to 1946',
+     'description': 'The administrative body that governed the Philippines during this period, except for a period of exile from 1942 to 1945 when Japan occupied the country.'},
+    'paragraph_idx': 0},
+   {'semantic_id': 'tydings_mcduffie_act',
+    'category': 'legal_document',
+    'attributes': {'name': 'Tydings–McDuffie Act',
+     'description': "The act that established the Commonwealth of the Philippines as a transitional administration in preparation for the country's full achievement of independence."},
+    'paragraph_idx': 0}],
+  'edges': [{'from_node': 'insular_government',
+    'to_node': 'commonwealth_of_the_philippines',
+    'category': 'replaced'},
+   {'from_node': 'tydings_mcduffie_act',
+    'to_node': 'commonwealth_of_the_philippines',
+    'category': 'established'}]},
+ {'nodes': [{'semantic_id': 'lake_oesa',
+    'category': 'natural_feature',
+    'attributes': {'name': 'Lake Oesa',
+     'elevation': 2267,
+     'elevation_unit': 'm',
+     'location': {'park': 'Yoho National Park',
+      'city': 'Field',
+      'province': 'British Columbia',
+      'country': 'Canada'}},
+    'paragraph_idx': 1}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'arafura_swamp',
+    'category': 'natural_feature',
+    'attributes': {'name': 'Arafura Swamp',
+     'type': 'inland freshwater wetland',
+     'location': {'region': 'Arnhem Land',
+      'territory': 'Northern Territory',
+      'country': 'Australia'},
+     'size': {'area': {'value': None, 'unit': 'km2'},
+      'expansion_during_wet_season': True},
+     'description': 'a near pristine floodplain, possibly the largest wooded swamp in the Northern Territory and Australia'},
+    'paragraph_idx': 2}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'arafura_swamp',
+    'category': 'natural_feature',
+    'attributes': {'name': 'Arafura Swamp',
+     'type': 'inland freshwater wetland',
+     'location': {'region': 'Arnhem Land',
+      'territory': 'Northern Territory',
+      'country': 'Australia'},
+     'size': {'area': {'value': None, 'unit': 'km2'},
+      'expansion_during_wet_season': True},
+     'description': 'a near pristine floodplain, possibly the largest wooded swamp in the Northern Territory and Australia',
+     'cultural_significance': 'of great cultural significance to the Yolngu people, in particular the Ramingining community',
+     'filming_location': 'Ten Canoes'},
+    'paragraph_idx': 2}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'wapizagonke_lake',
+    'category': 'natural_feature',
+    'attributes': {'name': 'Wapizagonke Lake',
+     'type': 'body of water',
+     'location': {'sector': 'Lac-Wapizagonke',
+      'city': 'Shawinigan',
+      'park': 'La Mauricie National Park',
+      'region': 'Mauricie',
+      'province': 'Quebec',
+      'country': 'Canada'}},
+    'paragraph_idx': 3}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'khabarovsky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Khabarovsky District',
+     'country': 'Russia',
+     'region': 'Khabarovsk Krai',
+     'area': None,
+     'area_unit': None,
+     'administrative_center': None},
+    'paragraph_idx': 4},
+   {'semantic_id': 'amursky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Amursky District',
+     'country': 'Russia',
+     'region': 'Khabarovsk Krai'},
+    'paragraph_idx': 4}],
+  'edges': [{'from_node': 'khabarovsky_district',
+    'to_node': 'amursky_district',
+    'category': 'separated_by'}]},
+ {'nodes': [{'semantic_id': 'khabarovsky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Khabarovsky District',
+     'country': 'Russia',
+     'region': 'Khabarovsk Krai',
+     'area': None,
+     'area_unit': None,
+     'administrative_center': 'Khabarovsk'},
+    'paragraph_idx': 4}],
+  'edges': [{'from_node': 'khabarovsky_district',
+    'to_node': 'amursky_district',
+    'category': 'separated_by'}]},
+ {'nodes': [{'semantic_id': 'silver_lake',
+    'category': 'natural_feature',
+    'attributes': {'name': 'Silver Lake',
+     'type': 'body of water',
+     'location': {'county': 'Cheshire County',
+      'state': 'New Hampshire',
+      'country': 'United States',
+      'towns': ['Harrisville', 'Nelson']},
+     'outflows': ['Minnewawa Brook', 'The Branch'],
+     'ultimate_recipient': 'Connecticut River'},
+    'paragraph_idx': 5}],
+  'edges': [{'from_node': 'silver_lake',
+    'to_node': 'minnewawa_brook',
+    'category': 'flows_via'},
+   {'from_node': 'silver_lake',
+    'to_node': 'the_branch',
+    'category': 'flows_via'},
+   {'from_node': 'minnewawa_brook',
+    'to_node': 'ashuelot_river',
+    'category': 'flows_to'},
+   {'from_node': 'the_branch',
+    'to_node': 'ashuelot_river',
+    'category': 'flows_to'},
+   {'from_node': 'ashuelot_river',
+    'to_node': 'connecticut_river',
+    'category': 'tributary_of'}]},
+ {'nodes': [{'semantic_id': 'hyderabad_police_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Hyderabad Police area',
+     'jurisdiction_size': 'smallest'},
+    'paragraph_idx': 6},
+   {'semantic_id': 'hyderabad_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Hyderabad district',
+     'jurisdiction_size': 'second_smallest'},
+    'paragraph_idx': 6},
+   {'semantic_id': 'ghmc_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'GHMC area',
+     'jurisdiction_size': 'second_largest',
+     'alternate_name': 'Hyderabad city'},
+    'paragraph_idx': 6},
+   {'semantic_id': 'hmda_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Hyderabad Metropolitan Development Authority (HMDA) area',
+     'jurisdiction_size': 'largest',
+     'type': 'urban_planning_agency',
+     'apolitical': True,
+     'covers': ['ghmc_area', 'suburbs_of_ghmc_area']},
+    'paragraph_idx': 6}],
+  'edges': [{'from_node': 'hyderabad_police_area',
+    'to_node': 'hyderabad_district',
+    'category': 'jurisdiction_size_hierarchy'},
+   {'from_node': 'hyderabad_district',
+    'to_node': 'ghmc_area',
+    'category': 'jurisdiction_size_hierarchy'},
+   {'from_node': 'ghmc_area',
+    'to_node': 'hmda_area',
+    'category': 'jurisdiction_size_hierarchy'}]},
+ {'nodes': [{'semantic_id': 'hmda_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Hyderabad Metropolitan Development Authority (HMDA) area',
+     'jurisdiction_size': 'largest',
+     'type': 'urban_planning_agency',
+     'apolitical': True,
+     'covers': ['ghmc_area', 'suburbs_of_ghmc_area']},
+    'paragraph_idx': 6},
+   {'semantic_id': 'ghmc_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'GHMC area',
+     'jurisdiction_size': 'second_largest',
+     'alternate_name': 'Hyderabad city'},
+    'paragraph_idx': 6},
+   {'semantic_id': 'suburbs_of_ghmc_area',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Suburbs of GHMC area',
+     'jurisdiction_size': 'medium',
+     'type': 'residential'},
+    'paragraph_idx': 6},
+   {'semantic_id': 'hmwssb',
+    'category': 'administrative_body',
+    'attributes': {'name': 'Hyderabad Metropolitan Water Supply and Sewerage Board',
+     'type': 'water_management'},
+    'paragraph_idx': 6}],
+  'edges': [{'from_node': 'hmda_area',
+    'to_node': 'ghmc_area',
+    'category': 'jurisdiction_size_hierarchy'},
+   {'from_node': 'hmda_area',
+    'to_node': 'suburbs_of_ghmc_area',
+    'category': 'jurisdiction_size_hierarchy'},
+   {'from_node': 'hmda_area', 'to_node': 'hmwssb', 'category': 'manages'}]},
+ {'nodes': [{'semantic_id': 'san_juan',
+    'category': 'city',
+    'attributes': {'name': 'San Juan',
+     'location': {'country': 'Puerto Rico', 'region': 'north-eastern coast'},
+     'borders': {'north': 'Atlantic Ocean',
+      'south': ['Caguas', 'Trujillo Alto'],
+      'east': ['Carolina'],
+      'west': ['Guaynabo']},
+     'area': {'value': 76.93, 'unit': 'square miles'}},
+    'paragraph_idx': 7}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'san_juan',
+    'category': 'city',
+    'attributes': {'name': 'San Juan',
+     'location': {'country': 'Puerto Rico', 'region': 'north-eastern coast'},
+     'borders': {'north': 'Atlantic Ocean',
+      'south': ['Caguas', 'Trujillo Alto'],
+      'east': ['Carolina'],
+      'west': ['Guaynabo']},
+     'area': {'value': 76.93, 'unit': 'square miles'},
+     'water_bodies': ['San Juan Bay', 'Condado Lagoon', 'San José Lagoon'],
+     'water_area': {'value': 29.11,
+      'unit': 'square miles',
+      'percentage': 37.83}},
+    'paragraph_idx': 7}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'landkreise_amalgamation',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Local associations of a special kind',
+     'type': 'amalgamation_of_districts',
+     'purpose': 'simplification_of_administration'},
+    'paragraph_idx': 8},
+   {'semantic_id': 'kreisfreie_stadte',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Kreisfreie Städte',
+     'type': 'district-free_city_or_town'},
+    'paragraph_idx': 8},
+   {'semantic_id': 'urban_hinterland',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Urban hinterland', 'type': 'urban_area'},
+    'paragraph_idx': 8}],
+  'edges': [{'from_node': 'landkreise_amalgamation',
+    'to_node': 'kreisfreie_stadte',
+    'category': 'comprises'},
+   {'from_node': 'landkreise_amalgamation',
+    'to_node': 'urban_hinterland',
+    'category': 'comprises'},
+   {'from_node': 'kreisfreie_stadte',
+    'to_node': 'urban_hinterland',
+    'category': 'grouping'}]},
+ {'nodes': [{'semantic_id': 'urban_hinterland',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Urban hinterland', 'type': 'urban_area'},
+    'paragraph_idx': 8},
+   {'semantic_id': 'kreisfreie_stadte',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Kreisfreie Städte',
+     'type': 'district-free_city_or_town'},
+    'paragraph_idx': 8},
+   {'semantic_id': 'landkreise_amalgamation',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Local associations of a special kind',
+     'type': 'amalgamation_of_districts',
+     'purpose': 'simplification_of_administration'},
+    'paragraph_idx': 8}],
+  'edges': [{'from_node': 'kreisfreie_stadte',
+    'to_node': 'urban_hinterland',
+    'category': 'grouping'},
+   {'from_node': 'landkreise_amalgamation',
+    'to_node': 'urban_hinterland',
+    'category': 'comprises'},
+   {'from_node': 'landkreise_amalgamation',
+    'to_node': 'kreisfreie_stadte',
+    'category': 'comprises'}]},
+ {'nodes': [{'semantic_id': 'norfolk_island',
+    'category': 'island',
+    'attributes': {'name': 'Norfolk Island',
+     'location': {'ocean': 'South Pacific Ocean',
+      'relative_location': 'east of Australian mainland'},
+     'coordinates': {'latitude': -29.033, 'longitude': 167.95}},
+    'paragraph_idx': 9}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'norfolk_island',
+    'category': 'island',
+    'attributes': {'name': 'Norfolk Island',
+     'location': {'ocean': 'South Pacific Ocean',
+      'relative_location': 'east of Australian mainland'},
+     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
+     'area': {'value': 34.6, 'unit': 'square kilometres'},
+     'coastline': {'length': 32, 'unit': 'km'},
+     'highest_point': 'Mount Bates'},
+    'paragraph_idx': 9}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'norfolk_island',
+    'category': 'island',
+    'attributes': {'name': 'Norfolk Island',
+     'location': {'ocean': 'South Pacific Ocean',
+      'relative_location': 'east of Australian mainland'},
+     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
+     'area': {'value': 34.6, 'unit': 'square kilometres'},
+     'coastline': {'length': 32, 'unit': 'km'},
+     'highest_point': 'Mount Bates'},
+    'paragraph_idx': 9},
+   {'semantic_id': 'phillip_island',
+    'category': 'island',
+    'attributes': {'name': 'Phillip Island',
+     'location': {'relation': 'second largest island of the territory'}},
+    'paragraph_idx': 9}],
+  'edges': [{'from_node': 'norfolk_island',
+    'to_node': 'phillip_island',
+    'category': 'part_of'}]},
+ {'nodes': [{'semantic_id': 'phillip_island',
+    'category': 'island',
+    'attributes': {'name': 'Phillip Island',
+     'location': {'relation': 'second largest island of the territory',
+      'coordinates': {'latitude': -29.117, 'longitude': 167.95},
+      'distance_from_main_island': {'value': 7, 'unit': 'kilometres'}}},
+    'paragraph_idx': 9},
+   {'semantic_id': 'norfolk_island',
+    'category': 'island',
+    'attributes': {'name': 'Norfolk Island',
+     'location': {'ocean': 'South Pacific Ocean',
+      'relative_location': 'east of Australian mainland'},
+     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
+     'area': {'value': 34.6, 'unit': 'square kilometres'},
+     'coastline': {'length': 32, 'unit': 'km'},
+     'highest_point': 'Mount Bates'},
+    'paragraph_idx': 9}],
+  'edges': [{'from_node': 'norfolk_island',
+    'to_node': 'phillip_island',
+    'category': 'part_of'}]},
+ {'nodes': [{'semantic_id': 'phillip_island',
+    'category': 'island',
+    'attributes': {'name': 'Phillip Island',
+     'location': {'relation': 'second largest island of the territory',
+      'coordinates': {'latitude': -29.117, 'longitude': 167.95},
+      'distance_from_main_island': {'value': 7, 'unit': 'kilometres'}}},
+    'paragraph_idx': 9}],
+  'edges': [{'from_node': 'phillip_island',
+    'to_node': 'norfolk_island',
+    'category': 'part_of'}]},
+ {'nodes': [{'semantic_id': 'perm',
+    'category': 'city',
+    'attributes': {'name': 'Perm',
+     'location': {'river': 'Kama River',
+      'region': 'Perm Krai',
+      'country': 'Russia',
+      'geography': 'European part of Russia near the Ural Mountains'},
+     'administrative_status': 'administrative centre'},
+    'paragraph_idx': 10}],
+  'edges': [{'from_node': 'perm',
+    'to_node': 'perm_krai',
+    'category': 'administrative_centre_of'},
+   {'from_node': 'perm', 'to_node': 'kama_river', 'category': 'located_on'},
+   {'from_node': 'perm', 'to_node': 'ural_mountains', 'category': 'near'},
+   {'from_node': 'perm', 'to_node': 'russia', 'category': 'located_in'},
+   {'from_node': 'perm', 'to_node': 'europe', 'category': 'located_in'}]},
+ {'nodes': [{'semantic_id': 'star_stadium',
+    'category': 'stadium',
+    'attributes': {'name': 'Star (Zvezda) Stadium',
+     'former_name': 'Lenin Komsomol Stadium',
+     'location': {'city': 'Perm', 'country': 'Russia'},
+     'usage': 'football matches',
+     'home_team': 'FC Amkar Perm',
+     'capacity': 17000,
+     'opened': '1969-06-05'},
+    'paragraph_idx': 11},
+   {'semantic_id': 'perm',
+    'category': 'city',
+    'attributes': {'name': 'Perm',
+     'location': {'river': 'Kama River',
+      'region': 'Perm Krai',
+      'country': 'Russia',
+      'geography': 'European part of Russia near the Ural Mountains'},
+     'administrative_status': 'administrative centre'},
+    'paragraph_idx': 11}],
+  'edges': [{'from_node': 'star_stadium',
+    'to_node': 'perm',
+    'category': 'located_in'}]},
+ {'nodes': [{'semantic_id': 'paea',
+    'category': 'municipality',
+    'attributes': {'name': 'Paea',
+     'location': {'island': 'Tahiti',
+      'subdivision': 'Windward Islands',
+      'region': 'Society Islands',
+      'country': 'French Polynesia',
+      'territory': 'France'},
+     'population': 16282},
+    'paragraph_idx': 12}],
+  'edges': [{'from_node': 'paea',
+    'to_node': 'papeete',
+    'category': 'located_in'},
+   {'from_node': 'paea', 'to_node': 'tahiti', 'category': 'located_on'},
+   {'from_node': 'paea', 'to_node': 'windward_islands', 'category': 'part_of'},
+   {'from_node': 'paea', 'to_node': 'society_islands', 'category': 'part_of'},
+   {'from_node': 'paea',
+    'to_node': 'french_polynesia',
+    'category': 'located_in'},
+   {'from_node': 'paea', 'to_node': 'france', 'category': 'administered_by'}]},
+ {'nodes': [{'semantic_id': 'paea',
+    'category': 'municipality',
+    'attributes': {'name': 'Paea',
+     'location': {'island': 'Tahiti',
+      'subdivision': 'Windward Islands',
+      'region': 'Society Islands',
+      'country': 'French Polynesia',
+      'territory': 'France'},
+     'population': 13021},
+    'paragraph_idx': 12}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'potamogeton_amplifolius',
+    'category': 'plant',
+    'attributes': {'common_names': ['largeleaf pondweed',
+      'broad-leaved pondweed'],
+     'habitat': ['lakes', 'ponds', 'rivers'],
+     'water_depth': 'often in deep water',
+     'distribution': 'North America'},
+    'paragraph_idx': 13}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'biysky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Biysky District',
+     'location': {'region': 'Altai Krai',
+      'country': 'Russia',
+      'geography': 'east of the krai'},
+     'administrative_status': 'administrative and municipal district (raion)',
+     'bordering_districts': ['Zonalny',
+      'Tselinny',
+      'Soltonsky',
+      'Krasnogorsky',
+      'Sovetsky',
+      'Smolensky']},
+    'paragraph_idx': 14}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'soltonsky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Soltonsky District',
+     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
+    'paragraph_idx': 14},
+   {'semantic_id': 'krasnogorsky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Krasnogorsky District',
+     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
+    'paragraph_idx': 14},
+   {'semantic_id': 'sovetsky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Sovetsky District',
+     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
+    'paragraph_idx': 14},
+   {'semantic_id': 'smolensky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Smolensky District',
+     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
+    'paragraph_idx': 14},
+   {'semantic_id': 'biysky_district',
+    'category': 'administrative_district',
+    'attributes': {'name': 'Biysky District',
+     'location': {'region': 'Altai Krai',
+      'country': 'Russia',
+      'geography': 'east of the krai'},
+     'administrative_status': 'administrative and municipal district (raion)',
+     'bordering_districts': ['Soltonsky_district',
+      'Krasnogorsky_district',
+      'Sovetsky_district',
+      'Smolensky_district',
+      'City_of_Biysk']},
+    'paragraph_idx': 14},
+   {'semantic_id': 'city_of_biysk',
+    'category': 'city',
+    'attributes': {'name': 'Biysk',
+     'location': {'region': 'Altai Krai', 'country': 'Russia'},
+     'administrative_status': 'administrative center'},
+    'paragraph_idx': 14}],
+  'edges': [{'from_node': 'biysky_district',
+    'to_node': 'soltonsky_district',
+    'category': 'bordering'},
+   {'from_node': 'biysky_district',
+    'to_node': 'krasnogorsky_district',
+    'category': 'bordering'},
+   {'from_node': 'biysky_district',
+    'to_node': 'sovetsky_district',
+    'category': 'bordering'},
+   {'from_node': 'biysky_district',
+    'to_node': 'smolensky_district',
+    'category': 'bordering'},
+   {'from_node': 'biysky_district',
+    'to_node': 'city_of_biysk',
+    'category': 'bordering'}]},
+ {'nodes': [{'semantic_id': 'contoocook_lake',
+    'category': 'lake',
+    'attributes': {'name': 'Contoocook Lake',
+     'location': {'county': 'Cheshire County',
+      'state': 'New Hampshire',
+      'country': 'United States',
+      'towns': ['Jaffrey', 'Rindge']},
+     'connection': {'to': 'pool_pond', 'type': 'forms_headwaters_of'},
+     'outflow': {'to': 'contoocook_river', 'direction': 'north'},
+     'outflow_destination': 'merrimack_river'},
+    'paragraph_idx': 15},
+   {'semantic_id': 'pool_pond',
+    'category': 'lake',
+    'attributes': {'name': 'Pool Pond',
+     'connection': {'to': 'contoocook_lake', 'type': 'forms_headwaters_of'}},
+    'paragraph_idx': 15},
+   {'semantic_id': 'contoocook_river',
+    'category': 'river',
+    'attributes': {'name': 'Contoocook River',
+     'flow_direction': 'north',
+     'outflow_destination': 'merrimack_river'},
+    'paragraph_idx': 15},
+   {'semantic_id': 'merrimack_river',
+    'category': 'river',
+    'attributes': {'name': 'Merrimack River',
+     'location': {'city': 'Penacook',
+      'state': 'New Hampshire',
+      'country': 'United States'}},
+    'paragraph_idx': 15}],
+  'edges': [{'from_node': 'contoocook_lake',
+    'to_node': 'pool_pond',
+    'category': 'forms_headwaters_of'},
+   {'from_node': 'contoocook_lake',
+    'to_node': 'contoocook_river',
+    'category': 'outflows_to'},
+   {'from_node': 'contoocook_river',
+    'to_node': 'merrimack_river',
+    'category': 'flows_into'}]},
+ {'nodes': [{'semantic_id': 'contoocook_river',
+    'category': 'river',
+    'attributes': {'name': 'Contoocook River',
+     'flow_direction': 'north',
+     'outflow_destination': 'merrimack_river'},
+    'paragraph_idx': 15},
+   {'semantic_id': 'merrimack_river',
+    'category': 'river',
+    'attributes': {'name': 'Merrimack River',
+     'location': {'city': 'Penacook',
+      'state': 'New Hampshire',
+      'country': 'United States'}},
+    'paragraph_idx': 15}],
+  'edges': [{'from_node': 'contoocook_river',
+    'to_node': 'merrimack_river',
+    'category': 'flows_into'}]},
+ {'nodes': [{'semantic_id': 'bogota',
+    'category': 'city',
+    'attributes': {'name': 'Bogotá',
+     'pronunciation': {'english': ['/ˈboʊɡətɑː/', '/ˌbɒɡəˈtɑː/', '/ˌboʊ-/'],
+      'spanish': 'boɣoˈta'},
+     'official_name': 'Bogotá'},
+    'paragraph_idx': 16}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'bogota',
+    'category': 'city',
+    'attributes': {'name': 'Bogotá',
+     'pronunciation': {'english': ['/ˈboʊɡəˌtɑː/', '/ˌboʊɡəˈtɑː/', '/ˌboɪ-/'],
+      'spanish': 'boɣoˈta'},
+     'official_name': 'Bogotá',
+     'administration': 'Capital District'},
+    'paragraph_idx': 16}],
+  'edges': []},
+ {'nodes': [{'semantic_id': 'bogota',
+    'category': 'city',
+    'attributes': {'name': 'Bogotá',
+     'pronunciation': {'english': ['/ˈboʊɡəˌtɑː/', '/ˌboʊ-/', '/ˈbɔɪ-/'],
+      'spanish': 'boˈɣota'},
+     'official_name': 'Bogotá',
+     'administration': 'Capital District'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'colombia',
+    'category': 'country',
+    'attributes': {'name': 'Colombia',
+     'capital': 'Bogotá',
+     'status': 'capital and largest city'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'cundinamarca',
+    'category': 'region',
+    'attributes': {'name': 'Cundinamarca',
+     'relation_to_bogota': 'often thought of as part of'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'political_center',
+    'category': 'function',
+    'attributes': {'name': 'political center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'economic_center',
+    'category': 'function',
+    'attributes': {'name': 'economic center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'administrative_center',
+    'category': 'function',
+    'attributes': {'name': 'administrative center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'industrial_center',
+    'category': 'function',
+    'attributes': {'name': 'industrial center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'artistic_center',
+    'category': 'function',
+    'attributes': {'name': 'artistic center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'cultural_center',
+    'category': 'function',
+    'attributes': {'name': 'cultural center', 'location': 'Bogotá'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'sports_center',
+    'category': 'function',
+    'attributes': {'name': 'sports center', 'location': 'Bogotá'},
+    'paragraph_idx': 16}],
+  'edges': [{'from_node': 'bogota',
+    'to_node': 'colombia',
+    'category': 'capital_of'},
+   {'from_node': 'bogota', 'to_node': 'cundinamarca', 'category': 'part_of'},
+   {'from_node': 'bogota',
+    'to_node': 'political_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'economic_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'administrative_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'industrial_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'artistic_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'cultural_center',
+    'category': 'functions_as'},
+   {'from_node': 'bogota',
+    'to_node': 'sports_center',
+    'category': 'functions_as'}]},
+ {'nodes': [{'semantic_id': 'bogota',
+    'category': 'city',
+    'attributes': {'name': 'Bogotá',
+     'functions': ['political center',
+      'economic center',
+      'administrative center',
+      'industrial center',
+      'artistic center',
+      'cultural center',
+      'sports center']},
+    'paragraph_idx': 16},
+   {'semantic_id': 'colombia',
+    'category': 'country',
+    'attributes': {'name': 'Colombia',
+     'capital': 'Bogotá',
+     'status': 'capital and largest city'},
+    'paragraph_idx': 16},
+   {'semantic_id': 'cundinamarca',
+    'category': 'region',
+    'attributes': {'name': 'Cundinamarca',
+     'relation_to_bogota': 'often thought of as part of'},
+    'paragraph_idx': 16}],
+  'edges': [{'from_node': 'bogota',
+    'to_node': 'colombia',
+    'category': 'capital_of'},
+   {'from_node': 'bogota', 'to_node': 'cundinamarca', 'category': 'part_of'}]},
+ {'nodes': [{'semantic_id': 'intracellular_fluid',
+    'category': 'fluid',
+    'attributes': {'name': 'intracellular fluid',
+     'volume': '2/3 of body water',
+     'amount_in_72_kg_body': '25 litres',
+     'percentage_of_total_body_fluid': 62.5},
+    'paragraph_idx': 17},
+   {'semantic_id': 'body_fluid',
+    'category': 'fluid',
+    'attributes': {'name': 'body fluid',
+     'total_volume_in_72_kg_body': '40 litres'},
+    'paragraph_idx': 17}],
+  'edges': [{'from_node': 'intracellular_fluid',
+    'to_node': 'body_fluid',
+    'category': 'part_of'}]},
+ {'nodes': [{'semantic_id': 'territorial_waters',
+    'category': 'geographic_area',
+    'attributes': {'name': 'territorial waters',
+     'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
+     'source': '1982 United Nations Convention on the Law of the Sea'},
+    'paragraph_idx': 18},
+   {'semantic_id': 'baseline',
+    'category': 'geographic_feature',
+    'attributes': {'name': 'baseline',
+     'definition': 'usually the mean low-water mark of a coastal state'},
+    'paragraph_idx': 18},
+   {'semantic_id': 'coastal_state',
+    'category': 'legal_entity',
+    'attributes': {'name': 'coastal state'},
+    'paragraph_idx': 18}],
+  'edges': [{'from_node': 'territorial_waters',
+    'to_node': 'baseline',
+    'category': 'extends_from'},
+   {'from_node': 'territorial_waters',
+    'to_node': 'coastal_state',
+    'category': 'belongs_to'}]},
+ {'nodes': [{'semantic_id': 'territorial_sea',
+    'category': 'geographic_area',
+    'attributes': {'name': 'territorial sea',
+     'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
+     'sovereign_territory': True,
+     'foreign_ship_passage': 'innocent passage through it or transit passage for straits',
+     'jurisdiction': 'extends to airspace over and seabed below'},
+    'paragraph_idx': 18},
+   {'semantic_id': 'baseline',
+    'category': 'geographic_feature',
+    'attributes': {'name': 'baseline',
+     'definition': 'usually the mean low-water mark of a coastal state'},
+    'paragraph_idx': 18},
+   {'semantic_id': 'coastal_state',
+    'category': 'legal_entity',
+    'attributes': {'name': 'coastal state'},
+    'paragraph_idx': 18}],
+  'edges': [{'from_node': 'territorial_sea',
+    'to_node': 'coastal_state',
+    'category': 'belongs_to'},
+   {'from_node': 'territorial_sea',
+    'to_node': 'baseline',
+    'category': 'extends_from'}]},
+ {'nodes': [{'semantic_id': 'strait',
+    'category': 'geographic_feature',
+    'attributes': {'name': 'strait',
+     'sovereign_territory': True,
+     'jurisdiction': {'airspace': True, 'seabed': True}},
+    'paragraph_idx': 18},
+   {'semantic_id': 'maritime_delimitation',
+    'category': 'legal_concept',
+    'attributes': {'name': 'maritime delimitation',
+     'definition': "Adjustment of the boundaries of a coastal state's territorial sea, exclusive economic zone, or continental shelf"},
+    'paragraph_idx': 18}],
+  'edges': [{'from_node': 'strait',
+    'to_node': 'coastal_state',
+    'category': 'belongs_to'},
+   {'from_node': 'strait', 'to_node': 'airspace', 'category': 'extends_to'},
+   {'from_node': 'strait', 'to_node': 'seabed', 'category': 'extends_to'},
+   {'from_node': 'maritime_delimitation',
+    'to_node': 'coastal_state',
+    'category': 'involves'}]},
+ {'nodes': [{'semantic_id': 'cyprus_popular_bank',
+    'category': 'organization',
+    'attributes': {'name': 'Cyprus Popular Bank',
+     'previous_name': 'Marfin Popular Bank',
+     'status': 'shuttered in 2013',
+     'size': 'second largest banking group in Cyprus',
+     'parent': 'Bank of Cyprus'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'bank_of_cyprus',
+    'category': 'organization',
+    'attributes': {'name': 'Bank of Cyprus',
+     'size': 'largest banking group in Cyprus',
+     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'cyprus_popular_bank',
+    'to_node': 'bank_of_cyprus',
+    'category': 'merged_with'}]},
+ {'nodes': [{'semantic_id': 'cyprus_popular_bank',
+    'category': 'organization',
+    'attributes': {'name': 'Cyprus Popular Bank',
+     'previous_name': 'Marfin Popular Bank',
+     'status': 'shuttered in 2013',
+     'size': 'second largest banking group in Cyprus',
+     'parent': 'Bank of Cyprus'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'bank_of_cyprus',
+    'category': 'organization',
+    'attributes': {'name': 'Bank of Cyprus',
+     'size': 'largest banking group in Cyprus',
+     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
+    'paragraph_idx': 19},
+   {'semantic_id': 'uninsured_depositor',
+    'category': 'stakeholder',
+    'attributes': {'deposit_amount': '&gt;100,000 Euro',
+     'treatment': 'subject to a bail-in'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'legacy_entity',
+    'category': 'organization',
+    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds"},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'cyprus_popular_bank',
+    'to_node': 'bank_of_cyprus',
+    'category': 'merged_with'},
+   {'from_node': 'uninsured_depositor',
+    'to_node': 'legacy_entity',
+    'category': 'holds_deposits'}]},
+ {'nodes': [{'semantic_id': 'uninsured_depositor',
+    'category': 'stakeholder',
+    'attributes': {'deposit_amount': '&gt;100,000 Euro',
+     'treatment': 'subject to a bail-in',
+     'new_role': 'new shareholders of the legacy entity'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'legacy_entity',
+    'category': 'organization',
+    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
+     'ownership_stake': '4.8% of Bank of Cyprus',
+     'board_representation': 'does not hold a board seat'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'bank_of_cyprus',
+    'category': 'organization',
+    'attributes': {'name': 'Bank of Cyprus',
+     'size': 'largest banking group in Cyprus',
+     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
+    'paragraph_idx': 19},
+   {'semantic_id': 'cyprus_popular_bank',
+    'category': 'organization',
+    'attributes': {'name': 'Cyprus Popular Bank',
+     'previous_name': 'Marfin Popular Bank',
+     'status': 'shuttered in 2013',
+     'size': 'second largest banking group in Cyprus',
+     'parent': 'Bank of Cyprus'},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'uninsured_depositor',
+    'to_node': 'legacy_entity',
+    'category': 'holds_deposits'},
+   {'from_node': 'cyprus_popular_bank',
+    'to_node': 'bank_of_cyprus',
+    'category': 'merged_with'}]},
+ {'nodes': [{'semantic_id': 'legacy_entity',
+    'category': 'organization',
+    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
+     'ownership_stake': '4.8% of Bank of Cyprus',
+     'board_representation': 'does not hold a board seat',
+     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'special_administrator',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Andri Antoniadou',
+     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'legacy_entity',
+    'to_node': 'special_administrator',
+    'category': 'managed_by'}]},
+ {'nodes': [{'semantic_id': 'legacy_entity',
+    'category': 'organization',
+    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
+     'ownership_stake': '4.8% of Bank of Cyprus',
+     'board_representation': 'does not hold a board seat',
+     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'special_administrator',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Andri Antoniadou',
+     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'veteran_banker',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Chris Pavlou', 'expertise': 'Treasury'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'central_bank_of_cyprus',
+    'category': 'organization',
+    'attributes': {'name': 'Central Bank of Cyprus',
+     'role': 'Governor and Board members amended the lawyers of the legacy entity without consulting the special administrator'},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'legacy_entity',
+    'to_node': 'special_administrator',
+    'category': 'managed_by'},
+   {'from_node': 'central_bank_of_cyprus',
+    'to_node': 'legacy_entity',
+    'category': 'amended_lawyers_without_consulting'}]},
+ {'nodes': [{'semantic_id': 'central_bank_of_cyprus',
+    'category': 'organization',
+    'attributes': {'name': 'Central Bank of Cyprus',
+     'role': 'Governor and Board members amended the lawyers of the legacy entity without consulting the special administrator'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'veteran_banker',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Chris Pavlou', 'expertise': 'Treasury'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'special_administrator',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Andri Antoniadou',
+     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'legacy_entity',
+    'category': 'organization',
+    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
+     'ownership_stake': '4.8% of Bank of Cyprus',
+     'board_representation': 'does not hold a board seat',
+     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
+    'paragraph_idx': 19},
+   {'semantic_id': 'marfin_investment_group',
+    'category': 'stakeholder',
+    'attributes': {'name': 'Marfin Investment Group',
+     'role': 'former major shareholder of the legacy entity'},
+    'paragraph_idx': 19}],
+  'edges': [{'from_node': 'central_bank_of_cyprus',
+    'to_node': 'legacy_entity',
+    'category': 'amended_lawyers_without_consulting'},
+   {'from_node': 'legacy_entity',
+    'to_node': 'special_administrator',
+    'category': 'managed_by'},
+   {'from_node': 'veteran_banker',
+    'to_node': 'legacy_entity',
+    'category': 'took_over_as_special_administrator'},
+   {'from_node': 'legacy_entity',
+    'to_node': 'marfin_investment_group',
+    'category': 'pursuing_legal_action_against'}]}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>It took ~2 minutes to create <code>graph_components</code> and 43 calls to the LLM.</p>
+<p>A speed boost can definitely be had in multiple ways:</p>
+<ul>
+<li><p>Use a different model. The latest Llama 3 model running on <a href="https://wow.groq.com">Groq</a> infrastructure can yield a 10x speed up in some cases if you use the 8B model. The great thing about using a framework like Langchain is the ease with which you can plug n play different models in your pipelines.</p></li>
+<li><p>Increase the chunk size. If the entire paragraph is passed to the LLM, this will cut down on the 43 multiple calls by roughly half in our case.</p></li>
+<li><p>In addition to increasing the chunk size, we can pass multiple paragraphs to process at the same time – although this would involve prompting the model to extract some paragraph identification which we currently get for free simply by attaching the <code>idx</code> of each paragraph to the nodes it creates.</p></li>
+</ul>
+<section id="show-me-the-money" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
+<p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible.</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-57">
+<div id="cell-57" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="402">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nodes_edges <span class="kw">in</span> graph_components:</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes to the graph</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    node_indices <span class="op">=</span> {}</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node <span class="kw">in</span> nodes_edges[<span class="st">"nodes"</span>]:</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> digraph.add_node(node)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        node_indices[node[<span class="st">"semantic_id"</span>]] <span class="op">=</span> idx</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add edges to the graph</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> edge <span class="kw">in</span> nodes_edges[<span class="st">"edges"</span>]:</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        from_idx <span class="op">=</span> node_indices.get(edge[<span class="st">"from_node"</span>])</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        to_idx <span class="op">=</span> node_indices.get(edge[<span class="st">"to_node"</span>])</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> from_idx <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> to_idx <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>            digraph.add_edge(from_idx, to_idx, edge)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op">=</span><span class="dv">30</span>, num_iter<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>, pos<span class="op">=</span>layout,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>, node_size<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-49-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-49-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Messy, but you get the idea.</p>
+<p>We can do a little graph analytics to find the most connected nodes(nodes with the most connections). <code>incident_edges(n)</code> identifies the edges of a node with index <code>n</code>, so all we have to do is get the length of the edge list returned and then sort it.</p>
+<div style="max-height: 400px; overflow: auto">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-60">
+<div id="cell-60" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="412">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>len_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="412">
+<pre><code>[9,
+ 5,
+ 4,
+ 3,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 2,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>The most connections a single node has is 9, while most nodes merely have a single connection, while a minority of nodes have no connections. Here is said node:</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
+<div id="cell-64" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="386">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directed graph</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes to the graph</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node <span class="kw">in</span> graph_components[<span class="dv">31</span>][<span class="st">"nodes"</span>]:</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> digraph.add_node(node)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    node_indices[node[<span class="st">"semantic_id"</span>]] <span class="op">=</span> idx</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges to the graph</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> edge <span class="kw">in</span> graph_components[<span class="dv">31</span>][<span class="st">"edges"</span>]:</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    from_idx <span class="op">=</span> node_indices[edge[<span class="st">"from_node"</span>]]</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    to_idx <span class="op">=</span> node_indices[edge[<span class="st">"to_node"</span>]]</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    digraph.add_edge(from_idx, to_idx, edge)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>edge<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Do recall, our token window is fairly small, with all of 70 tokens, however, we’re using 600 tokens to store the history of generated nodes and edges which are fed back to the model. Perhaps this a good amount of connectivity given these parameters and the fact that only a few paragraphs should have a connection between them, or perhaps not. The lack of quantifiable best practices in a bleeding edge field is 😢sad but expected.</p>
+<p>To jog your memory a bit, here is what 70 tokens looks like:</p>
+<div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: An example text consisting of 70 tokens
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="wrapping-up" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Wrapping Up</h1>
+<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/thats_all.gif" class="img-fluid"></a></p>
+<p>Well…<strong>almost!</strong></p>
+<p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
+<p>Thanks for reading, I hope you managed to stay awake.</p>
+
+
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;1: Prompt Template Composition</span>
+<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;2: The node-edge structure we construct from the outputs.</span>
+<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’</span>
+<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;4: An example text consisting of 70 tokens</span>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ © 2024 - Dmitriy Leybel
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/dmitriyleybel">
+      <i class="bi bi-twitter-x" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dmlbl/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
+
+
+
+
+</body></html>

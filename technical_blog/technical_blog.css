@@ -9,3 +9,6 @@
   font-size: .85em;
 }
 
+#quarto-document-content li {
+  font-size: 1em;
+}

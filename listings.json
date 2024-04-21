@@ -2,6 +2,7 @@
   {
     "listing": "/technical_blog.html",
     "items": [
+      "/technical_blog/knowledge-graph-rag-benchmark-2/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark-1/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark-0/index.html"
     ]
