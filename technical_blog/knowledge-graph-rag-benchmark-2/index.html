@@ -2013,6 +2013,7 @@ This was your output:
 <li><p>Use a different model. The latest Llama 3 model running on <a href="https://wow.groq.com">Groq</a> infrastructure can yield a 10x speed up in some cases if you use the 8B model. The great thing about using a framework like Langchain is the ease with which you can plug n play different models in your pipelines.</p></li>
 <li><p>Increase the chunk size. If the entire paragraph is passed to the LLM, this will cut down on the 43 multiple calls by roughly half in our case.</p></li>
 <li><p>In addition to increasing the chunk size, we can pass multiple paragraphs to process at the same time – although this would involve prompting the model to extract some paragraph identification which we currently get for free simply by attaching the <code>idx</code> of each paragraph to the nodes it creates.</p></li>
+<li><p><strong>PARALLELIZE IT</strong>(though we may lose some of the history tracking)</p></li>
 </ul>
 <section id="show-me-the-money" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
@@ -2167,7 +2168,7 @@ This was your output:
 </div>
 </div>
 </div>
-<p>The most connections a single node has is 9, while most nodes merely have a single connection, while a minority of nodes have no connections. Here is said node:</p>
+<p>The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
 <div id="cell-64" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="386">
 <details class="code-fold">
@@ -2675,7 +2676,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
