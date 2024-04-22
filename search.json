@@ -172,6 +172,6 @@
     "href": "technical_blog/knowledge-graph-rag-benchmark-3/index.html",
     "title": "Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three",
     "section": "",
-    "text": "On the last episode of: Don’t RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph – Part Two:\n\nRAG is used to ground LLMs when there are strict sourcing requirements\nKnowledge graphs have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.\nThe MuSiQue benchmark combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset."
+    "text": "On the last episode of: Don’t RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph – Part Two:"
   }
 ]
