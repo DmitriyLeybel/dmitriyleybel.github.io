@@ -909,7 +909,7 @@ This was your output:
 <p>To do this, we will create a magnificent <code>GraphHistory</code> class that manages this storage and retrieval.</p>
 <p>(Unfolding the code not for the faint of heart)</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-45">
-<div id="cell-45" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="323">
+<div id="cell-45" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="36">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
@@ -918,125 +918,127 @@ This was your output:
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> OrderedDict</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> uuid <span class="im">import</span> uuid4</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../logs/logging_config.json'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span> json.load(f)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>logging.config.dictConfig(config)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> logging.getLogger(<span class="st">'root'</span>)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GraphHistory(param.Parameterized):</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    nodes_alias <span class="op">=</span> param.String(<span class="st">'nodes'</span>)</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    edges_alias <span class="op">=</span> param.String(<span class="st">'edges'</span>)</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict())</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    latest_history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Generated when get_history_str is run; contains {uuid: {nodes|edges: </span><span class="sc">{object}</span><span class="st">} mapping. </span><span class="ch">\</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="st">            Meant to be used for managing the current history window and modifications"</span>)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    latest_history_mapping <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Maps semantic_id to uuid for the latest history items as well as the node pairs to an edge uuid"</span>)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    token_max <span class="op">=</span> param.Integer(default<span class="op">=</span><span class="dv">400</span>)</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_history(<span class="va">self</span>, new_items: Union[List, Dict], return_with_uuid: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>):</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Nodes are added directly to the history with their UUIDs. </span></span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="co">        Edges are added only after their 'from_node' and 'to_node' fields are set to the corresponding</span></span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">        node UUIDs. This ensures that edges reference the correct nodes in the graph.</span></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>        new_items <span class="op">=</span> deepcopy(new_items)</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(new_items, <span class="bu">dict</span>):</span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>            new_items <span class="op">=</span> [new_items]  <span class="co"># Ensure new_items is always a list for consistency</span></span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        history_list <span class="op">=</span> []</span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> new_items:</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Makes it easier to work with the inner dict of {nodes|edges: {*inner_dict*}}</span></span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:  <span class="co"># Handling nodes</span></span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If node exists in latest_history, we want to modify it and move it to the bottom in history</span></span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>                <span class="co"># No need to add to latest_history, since it won't be used since item exists in it already, and will be reset on next get_history_str call</span></span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_dict[<span class="st">'semantic_id'</span>] <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]]</span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
-<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
-<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Node exists in latest_history, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
-<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
-<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history[uuid_gen] <span class="op">=</span> item</span>
-<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid_gen</span>
-<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
-<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
-<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
-<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:  <span class="co"># Handling edges</span></span>
-<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>                from_semantic_id <span class="op">=</span> item_dict[<span class="st">'from_node'</span>]</span>
-<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>                to_semantic_id <span class="op">=</span> item_dict[<span class="st">'to_node'</span>]</span>
-<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Ensure 'from_node' and 'to_node' reference the correct UUIDs from the recently added nodes</span></span>
-<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>                <span class="co"># </span><span class="al">TODO</span><span class="co"> Add exception handling for when the LLM thinks that a node exists when it doesn't. Try, except</span></span>
-<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
-<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_semantic_id]</span>
-<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[to_semantic_id]</span>
-<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(<span class="ss">f"KeyError: </span><span class="sc">{</span>from_semantic_id<span class="sc">}</span><span class="ss"> or </span><span class="sc">{</span>to_semantic_id<span class="sc">}</span><span class="ss"> not found in latest_history_mapping"</span>)</span>
-<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
-<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If the edge is in the latest history according to its from and to nodes, then we update it</span></span>
-<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (from_to_tuple<span class="op">:=</span>(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])) <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
-<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_to_tuple]</span>
-<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
-<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
-<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Edge exists in latest_history_mapping, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
-<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
-<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
-<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
-<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
-<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(history_list[<span class="dv">0</span>]) <span class="cf">if</span> <span class="bu">len</span>(history_list) <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> deepcopy(history_list)</span>
-<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_window(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
-<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token_max <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>            token_max <span class="op">=</span> <span class="va">self</span>.token_max  <span class="co"># Use default token_max if not specified</span></span>
-<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history.clear()  <span class="co"># Clear the latest history for a fresh start</span></span>
-<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history_mapping.clear()  <span class="co"># Also clear the latest history mapping</span></span>
-<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>        logger.debug(<span class="ss">f"Cleared latest_history_mapping and latest_history"</span>)</span>
-<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>        token_tracking <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> <span class="bu">reversed</span>(<span class="va">self</span>.history.items()):</span>
-<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
-<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
-<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>            token_tracking <span class="op">+=</span> token_len(<span class="va">self</span>._item_to_json_str(deepcopy(item)))</span>
-<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> token_tracking <span class="op">&lt;</span> token_max:</span>
-<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.latest_history[uuid] <span class="op">=</span> item  <span class="co"># Update latest_history with the current item</span></span>
-<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:</span>
-<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid  <span class="co"># Update latest_history_mapping</span></span>
-<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to latest_history_mapping: </span><span class="sc">{</span>item_dict[<span class="st">'semantic_id'</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
-<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])] <span class="op">=</span> uuid</span>
-<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to latest_history_mapping: (</span><span class="sc">{</span>item_dict[<span class="st">'from_node'</span>]<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>item_dict[<span class="st">'to_node'</span>]<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># Stop adding items if token_max is reached</span></span>
-<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(<span class="va">self</span>.latest_history)  <span class="co"># Return the history as a string</span></span>
-<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _item_to_json_str(<span class="va">self</span>, item):</span>
-<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>        item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
-<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>        item_dict <span class="op">=</span> item[item_type]</span>
-<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
-<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'from_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
-<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'to_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
-<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.dumps(item_dict)</span>
-<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_str(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
-<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns a history string based on the token length specification and updates the latest_history</span></span>
-<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>        latest_history <span class="op">=</span> <span class="va">self</span>.get_history_window(token_max)</span>
-<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>        json_list <span class="op">=</span> []</span>
-<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> latest_history.items():</span>
-<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>            json_list.append(<span class="va">self</span>._item_to_json_str(item))</span>
-<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> json_list:</span>
-<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a>            json_str <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(json_list)</span>
-<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a>            logger.debug(<span class="ss">f"JSON History string created: </span><span class="sc">{</span>json_str<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> json_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Union, List, Dict</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../logs/logging_config.json'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span> json.load(f)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>logging.config.dictConfig(config)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> logging.getLogger(<span class="st">'root'</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GraphHistory(param.Parameterized):</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    nodes_alias <span class="op">=</span> param.String(<span class="st">'nodes'</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    edges_alias <span class="op">=</span> param.String(<span class="st">'edges'</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict())</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    latest_history <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Generated when get_history_str is run; contains {uuid: {nodes|edges: </span><span class="sc">{object}</span><span class="st">} mapping. </span><span class="ch">\</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="st">            Meant to be used for managing the current history window and modifications"</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    latest_history_mapping <span class="op">=</span> param.Dict(default<span class="op">=</span>OrderedDict(),</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Maps semantic_id to uuid for the latest history items as well as the node pairs to an edge uuid"</span>)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    token_max <span class="op">=</span> param.Integer(default<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_history(<span class="va">self</span>, new_items: Union[List, Dict], return_with_uuid: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>):</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">        Nodes are added directly to the history with their UUIDs. </span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Edges are added only after their 'from_node' and 'to_node' fields are set to the corresponding</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="co">        node UUIDs. This ensures that edges reference the correct nodes in the graph.</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>        new_items <span class="op">=</span> deepcopy(new_items)</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(new_items, <span class="bu">dict</span>):</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>            new_items <span class="op">=</span> [new_items]  <span class="co"># Ensure new_items is always a list for consistency</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>        history_list <span class="op">=</span> []</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> new_items:</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Makes it easier to work with the inner dict of {nodes|edges: {*inner_dict*}}</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:  <span class="co"># Handling nodes</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If node exists in latest_history, we want to modify it and move it to the bottom in history</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>                <span class="co"># No need to add to latest_history, since it won't be used since item exists in it already, and will be reset on next get_history_str call</span></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_dict[<span class="st">'semantic_id'</span>] <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]]</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Node exists in latest_history, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid_gen</span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:  <span class="co"># Handling edges</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>                from_semantic_id <span class="op">=</span> item_dict[<span class="st">'from_node'</span>]</span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>                to_semantic_id <span class="op">=</span> item_dict[<span class="st">'to_node'</span>]</span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Ensure 'from_node' and 'to_node' reference the correct UUIDs from the recently added nodes</span></span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>                <span class="co"># </span><span class="al">TODO</span><span class="co"> Add exception handling for when the LLM thinks that a node exists when it doesn't. Try, except</span></span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_semantic_id]</span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>                    item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[to_semantic_id]</span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(<span class="ss">f"KeyError: </span><span class="sc">{</span>from_semantic_id<span class="sc">}</span><span class="ss"> or </span><span class="sc">{</span>to_semantic_id<span class="sc">}</span><span class="ss"> not found in latest_history_mapping"</span>)</span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If the edge is in the latest history according to its from and to nodes, then we update it</span></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (from_to_tuple<span class="op">:=</span>(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])) <span class="kw">in</span> <span class="va">self</span>.latest_history_mapping:</span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> <span class="va">self</span>.latest_history_mapping[from_to_tuple]</span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history.move_to_end(uuid_gen)</span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Edge exists in latest_history_mapping, moving to end of history: </span><span class="sc">{</span>uuid_gen<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>                    uuid_gen <span class="op">=</span> uuid4()</span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.history[uuid_gen] <span class="op">=</span> item</span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to history: </span><span class="sc">{</span><span class="bu">str</span>(uuid_gen)<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> return_with_uuid:</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>                    history_list.append((<span class="bu">str</span>(uuid_gen), item))</span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>                    history_list.append(item)</span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(history_list[<span class="dv">0</span>]) <span class="cf">if</span> <span class="bu">len</span>(history_list) <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> deepcopy(history_list)</span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_window(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token_max <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>            token_max <span class="op">=</span> <span class="va">self</span>.token_max  <span class="co"># Use default token_max if not specified</span></span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history.clear()  <span class="co"># Clear the latest history for a fresh start</span></span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.latest_history_mapping.clear()  <span class="co"># Also clear the latest history mapping</span></span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>        logger.debug(<span class="ss">f"Cleared latest_history_mapping and latest_history"</span>)</span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>        token_tracking <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> <span class="bu">reversed</span>(<span class="va">self</span>.history.items()):</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>            item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>            item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>            token_tracking <span class="op">+=</span> token_len(<span class="va">self</span>._item_to_json_str(deepcopy(item)))</span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> token_tracking <span class="op">&lt;</span> token_max:</span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.latest_history[uuid] <span class="op">=</span> item  <span class="co"># Update latest_history with the current item</span></span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.nodes_alias:</span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[item_dict[<span class="st">'semantic_id'</span>]] <span class="op">=</span> uuid  <span class="co"># Update latest_history_mapping</span></span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added node to latest_history_mapping: </span><span class="sc">{</span>item_dict[<span class="st">'semantic_id'</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.latest_history_mapping[(item_dict[<span class="st">'from_node'</span>], item_dict[<span class="st">'to_node'</span>])] <span class="op">=</span> uuid</span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>                    logger.debug(<span class="ss">f"Added edge to latest_history_mapping: (</span><span class="sc">{</span>item_dict[<span class="st">'from_node'</span>]<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>item_dict[<span class="st">'to_node'</span>]<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>uuid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># Stop adding items if token_max is reached</span></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> deepcopy(<span class="va">self</span>.latest_history)  <span class="co"># Return the history as a string</span></span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _item_to_json_str(<span class="va">self</span>, item):</span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a>        item_type <span class="op">=</span> <span class="va">self</span>.nodes_alias <span class="cf">if</span> <span class="va">self</span>.nodes_alias <span class="kw">in</span> item <span class="cf">else</span> <span class="va">self</span>.edges_alias</span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>        item_dict <span class="op">=</span> item[item_type]</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> item_type <span class="op">==</span> <span class="va">self</span>.edges_alias:</span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'from_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'from_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
+<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>            item_dict[<span class="st">'to_node'</span>] <span class="op">=</span> <span class="va">self</span>.history[item_dict[<span class="st">'to_node'</span>]][<span class="va">self</span>.nodes_alias][<span class="st">'semantic_id'</span>]</span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> json.dumps(item_dict)</span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_history_str(<span class="va">self</span>, token_max: <span class="bu">int</span> <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns a history string based on the token length specification and updates the latest_history</span></span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a>        latest_history <span class="op">=</span> <span class="va">self</span>.get_history_window(token_max)</span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>        json_list <span class="op">=</span> []</span>
+<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> uuid, item <span class="kw">in</span> latest_history.items():</span>
+<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a>            json_list.append(<span class="va">self</span>._item_to_json_str(item))</span>
+<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> json_list:</span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>            json_str <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(json_list)</span>
+<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a>            logger.debug(<span class="ss">f"JSON History string created: </span><span class="sc">{</span>json_str<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> json_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -1052,10 +1054,10 @@ This was your output:
 <li>The JSON parser is now wrapped with a special <code>OutputFixingParser</code> class from Langchain that in the event of an error like a <code>JSONDecodeError</code>, it sends that error back to the LLM and tries to generate the correct format. Experimenting with Claude 3 Haiku has led me to add that, as it had generated faulty JSON(unlike GPT 3.5). This gives more credence to the user stories claiming that Claude 3 is more buddy-buddy with XML over JSON.</li>
 <li>A way to handle the <code>RateLimitError</code> exception was added, in the event that the <a href="https://docs.anthropic.com/claude/reference/rate-limits">API complains</a> when we generate too many nodes and edges back to back. All it takes is waiting a minute before retrying.</li>
 <li>The <code>paragraph_idx</code> is added to the nodes to indicate which paragraph it was generated from.</li>
-<li>The nodes and edges we generate are stored in <code>graph_components</code>, which is a list of objects similar to what we generated <a href="#parsed_output_example">here</a>, where we have a list of nodes and a list of edges for each paragraph processed.</li>
+<li>The nodes and edges we generate are stored in <code>graph_history</code>, which is a list of objects similar to what we generated <a href="#parsed_output_example">here</a>, but with UUIDs for unique identification(the <code>semantic_id</code> generated may, by chance alone, be the same)</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-47">
-<div id="cell-47" class="cell" data-tags="[&quot;history_pipe&quot;]">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
+<div id="cell-46" class="cell" data-tags="[&quot;history_pipe&quot;]">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> json <span class="im">import</span> JSONDecodeError</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1100,914 +1102,632 @@ This was your output:
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-55">
-<div id="cell-55" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="404">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>graph_components</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="404">
-<pre><code>[{'nodes': [{'semantic_id': 'commonwealth_of_the_philippines',
-    'category': 'political_entity',
-    'attributes': {'name': 'Commonwealth of the Philippines',
-     'years_active': '1935 to 1946',
-     'description': 'The administrative body that governed the Philippines during this period, except for a period of exile from 1942 to 1945 when Japan occupied the country.'},
-    'paragraph_idx': 0},
-   {'semantic_id': 'insular_government',
-    'category': 'political_entity',
-    'attributes': {'name': 'Insular Government',
-     'description': 'A United States territorial government that was replaced by the Commonwealth of the Philippines.'},
-    'paragraph_idx': 0}],
-  'edges': [{'from_node': 'insular_government',
-    'to_node': 'commonwealth_of_the_philippines',
-    'category': 'replaced'}]},
- {'nodes': [{'semantic_id': 'insular_government',
-    'category': 'political_entity',
-    'attributes': {'name': 'Insular Government',
-     'description': 'A United States territorial government that was replaced by the Commonwealth of the Philippines.'},
-    'paragraph_idx': 0},
-   {'semantic_id': 'commonwealth_of_the_philippines',
-    'category': 'political_entity',
-    'attributes': {'name': 'Commonwealth of the Philippines',
-     'years_active': '1935 to 1946',
-     'description': 'The administrative body that governed the Philippines during this period, except for a period of exile from 1942 to 1945 when Japan occupied the country.'},
-    'paragraph_idx': 0},
-   {'semantic_id': 'tydings_mcduffie_act',
-    'category': 'legal_document',
-    'attributes': {'name': 'Tydings–McDuffie Act',
-     'description': "The act that established the Commonwealth of the Philippines as a transitional administration in preparation for the country's full achievement of independence."},
-    'paragraph_idx': 0}],
-  'edges': [{'from_node': 'insular_government',
-    'to_node': 'commonwealth_of_the_philippines',
-    'category': 'replaced'},
-   {'from_node': 'tydings_mcduffie_act',
-    'to_node': 'commonwealth_of_the_philippines',
-    'category': 'established'}]},
- {'nodes': [{'semantic_id': 'lake_oesa',
-    'category': 'natural_feature',
-    'attributes': {'name': 'Lake Oesa',
-     'elevation': 2267,
-     'elevation_unit': 'm',
-     'location': {'park': 'Yoho National Park',
-      'city': 'Field',
-      'province': 'British Columbia',
-      'country': 'Canada'}},
-    'paragraph_idx': 1}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'arafura_swamp',
-    'category': 'natural_feature',
-    'attributes': {'name': 'Arafura Swamp',
-     'type': 'inland freshwater wetland',
-     'location': {'region': 'Arnhem Land',
-      'territory': 'Northern Territory',
-      'country': 'Australia'},
-     'size': {'area': {'value': None, 'unit': 'km2'},
-      'expansion_during_wet_season': True},
-     'description': 'a near pristine floodplain, possibly the largest wooded swamp in the Northern Territory and Australia'},
-    'paragraph_idx': 2}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'arafura_swamp',
-    'category': 'natural_feature',
-    'attributes': {'name': 'Arafura Swamp',
-     'type': 'inland freshwater wetland',
-     'location': {'region': 'Arnhem Land',
-      'territory': 'Northern Territory',
-      'country': 'Australia'},
-     'size': {'area': {'value': None, 'unit': 'km2'},
-      'expansion_during_wet_season': True},
-     'description': 'a near pristine floodplain, possibly the largest wooded swamp in the Northern Territory and Australia',
-     'cultural_significance': 'of great cultural significance to the Yolngu people, in particular the Ramingining community',
-     'filming_location': 'Ten Canoes'},
-    'paragraph_idx': 2}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'wapizagonke_lake',
-    'category': 'natural_feature',
-    'attributes': {'name': 'Wapizagonke Lake',
-     'type': 'body of water',
-     'location': {'sector': 'Lac-Wapizagonke',
-      'city': 'Shawinigan',
-      'park': 'La Mauricie National Park',
-      'region': 'Mauricie',
-      'province': 'Quebec',
-      'country': 'Canada'}},
-    'paragraph_idx': 3}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'khabarovsky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Khabarovsky District',
-     'country': 'Russia',
-     'region': 'Khabarovsk Krai',
-     'area': None,
-     'area_unit': None,
-     'administrative_center': None},
-    'paragraph_idx': 4},
-   {'semantic_id': 'amursky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Amursky District',
-     'country': 'Russia',
-     'region': 'Khabarovsk Krai'},
-    'paragraph_idx': 4}],
-  'edges': [{'from_node': 'khabarovsky_district',
-    'to_node': 'amursky_district',
-    'category': 'separated_by'}]},
- {'nodes': [{'semantic_id': 'khabarovsky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Khabarovsky District',
-     'country': 'Russia',
-     'region': 'Khabarovsk Krai',
-     'area': None,
-     'area_unit': None,
-     'administrative_center': 'Khabarovsk'},
-    'paragraph_idx': 4}],
-  'edges': [{'from_node': 'khabarovsky_district',
-    'to_node': 'amursky_district',
-    'category': 'separated_by'}]},
- {'nodes': [{'semantic_id': 'silver_lake',
-    'category': 'natural_feature',
-    'attributes': {'name': 'Silver Lake',
-     'type': 'body of water',
-     'location': {'county': 'Cheshire County',
-      'state': 'New Hampshire',
-      'country': 'United States',
-      'towns': ['Harrisville', 'Nelson']},
-     'outflows': ['Minnewawa Brook', 'The Branch'],
-     'ultimate_recipient': 'Connecticut River'},
-    'paragraph_idx': 5}],
-  'edges': [{'from_node': 'silver_lake',
-    'to_node': 'minnewawa_brook',
-    'category': 'flows_via'},
-   {'from_node': 'silver_lake',
-    'to_node': 'the_branch',
-    'category': 'flows_via'},
-   {'from_node': 'minnewawa_brook',
-    'to_node': 'ashuelot_river',
-    'category': 'flows_to'},
-   {'from_node': 'the_branch',
-    'to_node': 'ashuelot_river',
-    'category': 'flows_to'},
-   {'from_node': 'ashuelot_river',
-    'to_node': 'connecticut_river',
-    'category': 'tributary_of'}]},
- {'nodes': [{'semantic_id': 'hyderabad_police_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Hyderabad Police area',
-     'jurisdiction_size': 'smallest'},
-    'paragraph_idx': 6},
-   {'semantic_id': 'hyderabad_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Hyderabad district',
-     'jurisdiction_size': 'second_smallest'},
-    'paragraph_idx': 6},
-   {'semantic_id': 'ghmc_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'GHMC area',
-     'jurisdiction_size': 'second_largest',
-     'alternate_name': 'Hyderabad city'},
-    'paragraph_idx': 6},
-   {'semantic_id': 'hmda_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Hyderabad Metropolitan Development Authority (HMDA) area',
-     'jurisdiction_size': 'largest',
-     'type': 'urban_planning_agency',
-     'apolitical': True,
-     'covers': ['ghmc_area', 'suburbs_of_ghmc_area']},
-    'paragraph_idx': 6}],
-  'edges': [{'from_node': 'hyderabad_police_area',
-    'to_node': 'hyderabad_district',
-    'category': 'jurisdiction_size_hierarchy'},
-   {'from_node': 'hyderabad_district',
-    'to_node': 'ghmc_area',
-    'category': 'jurisdiction_size_hierarchy'},
-   {'from_node': 'ghmc_area',
-    'to_node': 'hmda_area',
-    'category': 'jurisdiction_size_hierarchy'}]},
- {'nodes': [{'semantic_id': 'hmda_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Hyderabad Metropolitan Development Authority (HMDA) area',
-     'jurisdiction_size': 'largest',
-     'type': 'urban_planning_agency',
-     'apolitical': True,
-     'covers': ['ghmc_area', 'suburbs_of_ghmc_area']},
-    'paragraph_idx': 6},
-   {'semantic_id': 'ghmc_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'GHMC area',
-     'jurisdiction_size': 'second_largest',
-     'alternate_name': 'Hyderabad city'},
-    'paragraph_idx': 6},
-   {'semantic_id': 'suburbs_of_ghmc_area',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Suburbs of GHMC area',
-     'jurisdiction_size': 'medium',
-     'type': 'residential'},
-    'paragraph_idx': 6},
-   {'semantic_id': 'hmwssb',
-    'category': 'administrative_body',
-    'attributes': {'name': 'Hyderabad Metropolitan Water Supply and Sewerage Board',
-     'type': 'water_management'},
-    'paragraph_idx': 6}],
-  'edges': [{'from_node': 'hmda_area',
-    'to_node': 'ghmc_area',
-    'category': 'jurisdiction_size_hierarchy'},
-   {'from_node': 'hmda_area',
-    'to_node': 'suburbs_of_ghmc_area',
-    'category': 'jurisdiction_size_hierarchy'},
-   {'from_node': 'hmda_area', 'to_node': 'hmwssb', 'category': 'manages'}]},
- {'nodes': [{'semantic_id': 'san_juan',
-    'category': 'city',
-    'attributes': {'name': 'San Juan',
-     'location': {'country': 'Puerto Rico', 'region': 'north-eastern coast'},
-     'borders': {'north': 'Atlantic Ocean',
-      'south': ['Caguas', 'Trujillo Alto'],
-      'east': ['Carolina'],
-      'west': ['Guaynabo']},
-     'area': {'value': 76.93, 'unit': 'square miles'}},
-    'paragraph_idx': 7}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'san_juan',
-    'category': 'city',
-    'attributes': {'name': 'San Juan',
-     'location': {'country': 'Puerto Rico', 'region': 'north-eastern coast'},
-     'borders': {'north': 'Atlantic Ocean',
-      'south': ['Caguas', 'Trujillo Alto'],
-      'east': ['Carolina'],
-      'west': ['Guaynabo']},
-     'area': {'value': 76.93, 'unit': 'square miles'},
-     'water_bodies': ['San Juan Bay', 'Condado Lagoon', 'San José Lagoon'],
-     'water_area': {'value': 29.11,
-      'unit': 'square miles',
-      'percentage': 37.83}},
-    'paragraph_idx': 7}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'landkreise_amalgamation',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Local associations of a special kind',
-     'type': 'amalgamation_of_districts',
-     'purpose': 'simplification_of_administration'},
-    'paragraph_idx': 8},
-   {'semantic_id': 'kreisfreie_stadte',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Kreisfreie Städte',
-     'type': 'district-free_city_or_town'},
-    'paragraph_idx': 8},
-   {'semantic_id': 'urban_hinterland',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Urban hinterland', 'type': 'urban_area'},
-    'paragraph_idx': 8}],
-  'edges': [{'from_node': 'landkreise_amalgamation',
-    'to_node': 'kreisfreie_stadte',
-    'category': 'comprises'},
-   {'from_node': 'landkreise_amalgamation',
-    'to_node': 'urban_hinterland',
-    'category': 'comprises'},
-   {'from_node': 'kreisfreie_stadte',
-    'to_node': 'urban_hinterland',
-    'category': 'grouping'}]},
- {'nodes': [{'semantic_id': 'urban_hinterland',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Urban hinterland', 'type': 'urban_area'},
-    'paragraph_idx': 8},
-   {'semantic_id': 'kreisfreie_stadte',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Kreisfreie Städte',
-     'type': 'district-free_city_or_town'},
-    'paragraph_idx': 8},
-   {'semantic_id': 'landkreise_amalgamation',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Local associations of a special kind',
-     'type': 'amalgamation_of_districts',
-     'purpose': 'simplification_of_administration'},
-    'paragraph_idx': 8}],
-  'edges': [{'from_node': 'kreisfreie_stadte',
-    'to_node': 'urban_hinterland',
-    'category': 'grouping'},
-   {'from_node': 'landkreise_amalgamation',
-    'to_node': 'urban_hinterland',
-    'category': 'comprises'},
-   {'from_node': 'landkreise_amalgamation',
-    'to_node': 'kreisfreie_stadte',
-    'category': 'comprises'}]},
- {'nodes': [{'semantic_id': 'norfolk_island',
-    'category': 'island',
-    'attributes': {'name': 'Norfolk Island',
-     'location': {'ocean': 'South Pacific Ocean',
-      'relative_location': 'east of Australian mainland'},
-     'coordinates': {'latitude': -29.033, 'longitude': 167.95}},
-    'paragraph_idx': 9}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'norfolk_island',
-    'category': 'island',
-    'attributes': {'name': 'Norfolk Island',
-     'location': {'ocean': 'South Pacific Ocean',
-      'relative_location': 'east of Australian mainland'},
-     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
-     'area': {'value': 34.6, 'unit': 'square kilometres'},
-     'coastline': {'length': 32, 'unit': 'km'},
-     'highest_point': 'Mount Bates'},
-    'paragraph_idx': 9}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'norfolk_island',
-    'category': 'island',
-    'attributes': {'name': 'Norfolk Island',
-     'location': {'ocean': 'South Pacific Ocean',
-      'relative_location': 'east of Australian mainland'},
-     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
-     'area': {'value': 34.6, 'unit': 'square kilometres'},
-     'coastline': {'length': 32, 'unit': 'km'},
-     'highest_point': 'Mount Bates'},
-    'paragraph_idx': 9},
-   {'semantic_id': 'phillip_island',
-    'category': 'island',
-    'attributes': {'name': 'Phillip Island',
-     'location': {'relation': 'second largest island of the territory'}},
-    'paragraph_idx': 9}],
-  'edges': [{'from_node': 'norfolk_island',
-    'to_node': 'phillip_island',
-    'category': 'part_of'}]},
- {'nodes': [{'semantic_id': 'phillip_island',
-    'category': 'island',
-    'attributes': {'name': 'Phillip Island',
-     'location': {'relation': 'second largest island of the territory',
-      'coordinates': {'latitude': -29.117, 'longitude': 167.95},
-      'distance_from_main_island': {'value': 7, 'unit': 'kilometres'}}},
-    'paragraph_idx': 9},
-   {'semantic_id': 'norfolk_island',
-    'category': 'island',
-    'attributes': {'name': 'Norfolk Island',
-     'location': {'ocean': 'South Pacific Ocean',
-      'relative_location': 'east of Australian mainland'},
-     'coordinates': {'latitude': -29.033, 'longitude': 167.95},
-     'area': {'value': 34.6, 'unit': 'square kilometres'},
-     'coastline': {'length': 32, 'unit': 'km'},
-     'highest_point': 'Mount Bates'},
-    'paragraph_idx': 9}],
-  'edges': [{'from_node': 'norfolk_island',
-    'to_node': 'phillip_island',
-    'category': 'part_of'}]},
- {'nodes': [{'semantic_id': 'phillip_island',
-    'category': 'island',
-    'attributes': {'name': 'Phillip Island',
-     'location': {'relation': 'second largest island of the territory',
-      'coordinates': {'latitude': -29.117, 'longitude': 167.95},
-      'distance_from_main_island': {'value': 7, 'unit': 'kilometres'}}},
-    'paragraph_idx': 9}],
-  'edges': [{'from_node': 'phillip_island',
-    'to_node': 'norfolk_island',
-    'category': 'part_of'}]},
- {'nodes': [{'semantic_id': 'perm',
-    'category': 'city',
-    'attributes': {'name': 'Perm',
-     'location': {'river': 'Kama River',
-      'region': 'Perm Krai',
-      'country': 'Russia',
-      'geography': 'European part of Russia near the Ural Mountains'},
-     'administrative_status': 'administrative centre'},
-    'paragraph_idx': 10}],
-  'edges': [{'from_node': 'perm',
-    'to_node': 'perm_krai',
-    'category': 'administrative_centre_of'},
-   {'from_node': 'perm', 'to_node': 'kama_river', 'category': 'located_on'},
-   {'from_node': 'perm', 'to_node': 'ural_mountains', 'category': 'near'},
-   {'from_node': 'perm', 'to_node': 'russia', 'category': 'located_in'},
-   {'from_node': 'perm', 'to_node': 'europe', 'category': 'located_in'}]},
- {'nodes': [{'semantic_id': 'star_stadium',
-    'category': 'stadium',
-    'attributes': {'name': 'Star (Zvezda) Stadium',
-     'former_name': 'Lenin Komsomol Stadium',
-     'location': {'city': 'Perm', 'country': 'Russia'},
-     'usage': 'football matches',
-     'home_team': 'FC Amkar Perm',
-     'capacity': 17000,
-     'opened': '1969-06-05'},
-    'paragraph_idx': 11},
-   {'semantic_id': 'perm',
-    'category': 'city',
-    'attributes': {'name': 'Perm',
-     'location': {'river': 'Kama River',
-      'region': 'Perm Krai',
-      'country': 'Russia',
-      'geography': 'European part of Russia near the Ural Mountains'},
-     'administrative_status': 'administrative centre'},
-    'paragraph_idx': 11}],
-  'edges': [{'from_node': 'star_stadium',
-    'to_node': 'perm',
-    'category': 'located_in'}]},
- {'nodes': [{'semantic_id': 'paea',
-    'category': 'municipality',
-    'attributes': {'name': 'Paea',
-     'location': {'island': 'Tahiti',
-      'subdivision': 'Windward Islands',
-      'region': 'Society Islands',
-      'country': 'French Polynesia',
-      'territory': 'France'},
-     'population': 16282},
-    'paragraph_idx': 12}],
-  'edges': [{'from_node': 'paea',
-    'to_node': 'papeete',
-    'category': 'located_in'},
-   {'from_node': 'paea', 'to_node': 'tahiti', 'category': 'located_on'},
-   {'from_node': 'paea', 'to_node': 'windward_islands', 'category': 'part_of'},
-   {'from_node': 'paea', 'to_node': 'society_islands', 'category': 'part_of'},
-   {'from_node': 'paea',
-    'to_node': 'french_polynesia',
-    'category': 'located_in'},
-   {'from_node': 'paea', 'to_node': 'france', 'category': 'administered_by'}]},
- {'nodes': [{'semantic_id': 'paea',
-    'category': 'municipality',
-    'attributes': {'name': 'Paea',
-     'location': {'island': 'Tahiti',
-      'subdivision': 'Windward Islands',
-      'region': 'Society Islands',
-      'country': 'French Polynesia',
-      'territory': 'France'},
-     'population': 13021},
-    'paragraph_idx': 12}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'potamogeton_amplifolius',
-    'category': 'plant',
-    'attributes': {'common_names': ['largeleaf pondweed',
-      'broad-leaved pondweed'],
-     'habitat': ['lakes', 'ponds', 'rivers'],
-     'water_depth': 'often in deep water',
-     'distribution': 'North America'},
-    'paragraph_idx': 13}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'biysky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Biysky District',
-     'location': {'region': 'Altai Krai',
-      'country': 'Russia',
-      'geography': 'east of the krai'},
-     'administrative_status': 'administrative and municipal district (raion)',
-     'bordering_districts': ['Zonalny',
-      'Tselinny',
-      'Soltonsky',
-      'Krasnogorsky',
-      'Sovetsky',
-      'Smolensky']},
-    'paragraph_idx': 14}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'soltonsky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Soltonsky District',
-     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
-    'paragraph_idx': 14},
-   {'semantic_id': 'krasnogorsky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Krasnogorsky District',
-     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
-    'paragraph_idx': 14},
-   {'semantic_id': 'sovetsky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Sovetsky District',
-     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
-    'paragraph_idx': 14},
-   {'semantic_id': 'smolensky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Smolensky District',
-     'location': {'region': 'Altai Krai', 'country': 'Russia'}},
-    'paragraph_idx': 14},
-   {'semantic_id': 'biysky_district',
-    'category': 'administrative_district',
-    'attributes': {'name': 'Biysky District',
-     'location': {'region': 'Altai Krai',
-      'country': 'Russia',
-      'geography': 'east of the krai'},
-     'administrative_status': 'administrative and municipal district (raion)',
-     'bordering_districts': ['Soltonsky_district',
-      'Krasnogorsky_district',
-      'Sovetsky_district',
-      'Smolensky_district',
-      'City_of_Biysk']},
-    'paragraph_idx': 14},
-   {'semantic_id': 'city_of_biysk',
-    'category': 'city',
-    'attributes': {'name': 'Biysk',
-     'location': {'region': 'Altai Krai', 'country': 'Russia'},
-     'administrative_status': 'administrative center'},
-    'paragraph_idx': 14}],
-  'edges': [{'from_node': 'biysky_district',
-    'to_node': 'soltonsky_district',
-    'category': 'bordering'},
-   {'from_node': 'biysky_district',
-    'to_node': 'krasnogorsky_district',
-    'category': 'bordering'},
-   {'from_node': 'biysky_district',
-    'to_node': 'sovetsky_district',
-    'category': 'bordering'},
-   {'from_node': 'biysky_district',
-    'to_node': 'smolensky_district',
-    'category': 'bordering'},
-   {'from_node': 'biysky_district',
-    'to_node': 'city_of_biysk',
-    'category': 'bordering'}]},
- {'nodes': [{'semantic_id': 'contoocook_lake',
-    'category': 'lake',
-    'attributes': {'name': 'Contoocook Lake',
-     'location': {'county': 'Cheshire County',
-      'state': 'New Hampshire',
-      'country': 'United States',
-      'towns': ['Jaffrey', 'Rindge']},
-     'connection': {'to': 'pool_pond', 'type': 'forms_headwaters_of'},
-     'outflow': {'to': 'contoocook_river', 'direction': 'north'},
-     'outflow_destination': 'merrimack_river'},
-    'paragraph_idx': 15},
-   {'semantic_id': 'pool_pond',
-    'category': 'lake',
-    'attributes': {'name': 'Pool Pond',
-     'connection': {'to': 'contoocook_lake', 'type': 'forms_headwaters_of'}},
-    'paragraph_idx': 15},
-   {'semantic_id': 'contoocook_river',
-    'category': 'river',
-    'attributes': {'name': 'Contoocook River',
-     'flow_direction': 'north',
-     'outflow_destination': 'merrimack_river'},
-    'paragraph_idx': 15},
-   {'semantic_id': 'merrimack_river',
-    'category': 'river',
-    'attributes': {'name': 'Merrimack River',
-     'location': {'city': 'Penacook',
-      'state': 'New Hampshire',
-      'country': 'United States'}},
-    'paragraph_idx': 15}],
-  'edges': [{'from_node': 'contoocook_lake',
-    'to_node': 'pool_pond',
-    'category': 'forms_headwaters_of'},
-   {'from_node': 'contoocook_lake',
-    'to_node': 'contoocook_river',
-    'category': 'outflows_to'},
-   {'from_node': 'contoocook_river',
-    'to_node': 'merrimack_river',
-    'category': 'flows_into'}]},
- {'nodes': [{'semantic_id': 'contoocook_river',
-    'category': 'river',
-    'attributes': {'name': 'Contoocook River',
-     'flow_direction': 'north',
-     'outflow_destination': 'merrimack_river'},
-    'paragraph_idx': 15},
-   {'semantic_id': 'merrimack_river',
-    'category': 'river',
-    'attributes': {'name': 'Merrimack River',
-     'location': {'city': 'Penacook',
-      'state': 'New Hampshire',
-      'country': 'United States'}},
-    'paragraph_idx': 15}],
-  'edges': [{'from_node': 'contoocook_river',
-    'to_node': 'merrimack_river',
-    'category': 'flows_into'}]},
- {'nodes': [{'semantic_id': 'bogota',
-    'category': 'city',
-    'attributes': {'name': 'Bogotá',
-     'pronunciation': {'english': ['/ˈboʊɡətɑː/', '/ˌbɒɡəˈtɑː/', '/ˌboʊ-/'],
-      'spanish': 'boɣoˈta'},
-     'official_name': 'Bogotá'},
-    'paragraph_idx': 16}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'bogota',
-    'category': 'city',
-    'attributes': {'name': 'Bogotá',
-     'pronunciation': {'english': ['/ˈboʊɡəˌtɑː/', '/ˌboʊɡəˈtɑː/', '/ˌboɪ-/'],
-      'spanish': 'boɣoˈta'},
-     'official_name': 'Bogotá',
-     'administration': 'Capital District'},
-    'paragraph_idx': 16}],
-  'edges': []},
- {'nodes': [{'semantic_id': 'bogota',
-    'category': 'city',
-    'attributes': {'name': 'Bogotá',
-     'pronunciation': {'english': ['/ˈboʊɡəˌtɑː/', '/ˌboʊ-/', '/ˈbɔɪ-/'],
-      'spanish': 'boˈɣota'},
-     'official_name': 'Bogotá',
-     'administration': 'Capital District'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'colombia',
-    'category': 'country',
-    'attributes': {'name': 'Colombia',
-     'capital': 'Bogotá',
-     'status': 'capital and largest city'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'cundinamarca',
-    'category': 'region',
-    'attributes': {'name': 'Cundinamarca',
-     'relation_to_bogota': 'often thought of as part of'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'political_center',
-    'category': 'function',
-    'attributes': {'name': 'political center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'economic_center',
-    'category': 'function',
-    'attributes': {'name': 'economic center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'administrative_center',
-    'category': 'function',
-    'attributes': {'name': 'administrative center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'industrial_center',
-    'category': 'function',
-    'attributes': {'name': 'industrial center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'artistic_center',
-    'category': 'function',
-    'attributes': {'name': 'artistic center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'cultural_center',
-    'category': 'function',
-    'attributes': {'name': 'cultural center', 'location': 'Bogotá'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'sports_center',
-    'category': 'function',
-    'attributes': {'name': 'sports center', 'location': 'Bogotá'},
-    'paragraph_idx': 16}],
-  'edges': [{'from_node': 'bogota',
-    'to_node': 'colombia',
-    'category': 'capital_of'},
-   {'from_node': 'bogota', 'to_node': 'cundinamarca', 'category': 'part_of'},
-   {'from_node': 'bogota',
-    'to_node': 'political_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'economic_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'administrative_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'industrial_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'artistic_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'cultural_center',
-    'category': 'functions_as'},
-   {'from_node': 'bogota',
-    'to_node': 'sports_center',
-    'category': 'functions_as'}]},
- {'nodes': [{'semantic_id': 'bogota',
-    'category': 'city',
-    'attributes': {'name': 'Bogotá',
-     'functions': ['political center',
-      'economic center',
-      'administrative center',
-      'industrial center',
-      'artistic center',
-      'cultural center',
-      'sports center']},
-    'paragraph_idx': 16},
-   {'semantic_id': 'colombia',
-    'category': 'country',
-    'attributes': {'name': 'Colombia',
-     'capital': 'Bogotá',
-     'status': 'capital and largest city'},
-    'paragraph_idx': 16},
-   {'semantic_id': 'cundinamarca',
-    'category': 'region',
-    'attributes': {'name': 'Cundinamarca',
-     'relation_to_bogota': 'often thought of as part of'},
-    'paragraph_idx': 16}],
-  'edges': [{'from_node': 'bogota',
-    'to_node': 'colombia',
-    'category': 'capital_of'},
-   {'from_node': 'bogota', 'to_node': 'cundinamarca', 'category': 'part_of'}]},
- {'nodes': [{'semantic_id': 'intracellular_fluid',
-    'category': 'fluid',
-    'attributes': {'name': 'intracellular fluid',
-     'volume': '2/3 of body water',
-     'amount_in_72_kg_body': '25 litres',
-     'percentage_of_total_body_fluid': 62.5},
-    'paragraph_idx': 17},
-   {'semantic_id': 'body_fluid',
-    'category': 'fluid',
-    'attributes': {'name': 'body fluid',
-     'total_volume_in_72_kg_body': '40 litres'},
-    'paragraph_idx': 17}],
-  'edges': [{'from_node': 'intracellular_fluid',
-    'to_node': 'body_fluid',
-    'category': 'part_of'}]},
- {'nodes': [{'semantic_id': 'territorial_waters',
-    'category': 'geographic_area',
-    'attributes': {'name': 'territorial waters',
-     'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
-     'source': '1982 United Nations Convention on the Law of the Sea'},
-    'paragraph_idx': 18},
-   {'semantic_id': 'baseline',
-    'category': 'geographic_feature',
-    'attributes': {'name': 'baseline',
-     'definition': 'usually the mean low-water mark of a coastal state'},
-    'paragraph_idx': 18},
-   {'semantic_id': 'coastal_state',
-    'category': 'legal_entity',
-    'attributes': {'name': 'coastal state'},
-    'paragraph_idx': 18}],
-  'edges': [{'from_node': 'territorial_waters',
-    'to_node': 'baseline',
-    'category': 'extends_from'},
-   {'from_node': 'territorial_waters',
-    'to_node': 'coastal_state',
-    'category': 'belongs_to'}]},
- {'nodes': [{'semantic_id': 'territorial_sea',
-    'category': 'geographic_area',
-    'attributes': {'name': 'territorial sea',
-     'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
-     'sovereign_territory': True,
-     'foreign_ship_passage': 'innocent passage through it or transit passage for straits',
-     'jurisdiction': 'extends to airspace over and seabed below'},
-    'paragraph_idx': 18},
-   {'semantic_id': 'baseline',
-    'category': 'geographic_feature',
-    'attributes': {'name': 'baseline',
-     'definition': 'usually the mean low-water mark of a coastal state'},
-    'paragraph_idx': 18},
-   {'semantic_id': 'coastal_state',
-    'category': 'legal_entity',
-    'attributes': {'name': 'coastal state'},
-    'paragraph_idx': 18}],
-  'edges': [{'from_node': 'territorial_sea',
-    'to_node': 'coastal_state',
-    'category': 'belongs_to'},
-   {'from_node': 'territorial_sea',
-    'to_node': 'baseline',
-    'category': 'extends_from'}]},
- {'nodes': [{'semantic_id': 'strait',
-    'category': 'geographic_feature',
-    'attributes': {'name': 'strait',
-     'sovereign_territory': True,
-     'jurisdiction': {'airspace': True, 'seabed': True}},
-    'paragraph_idx': 18},
-   {'semantic_id': 'maritime_delimitation',
-    'category': 'legal_concept',
-    'attributes': {'name': 'maritime delimitation',
-     'definition': "Adjustment of the boundaries of a coastal state's territorial sea, exclusive economic zone, or continental shelf"},
-    'paragraph_idx': 18}],
-  'edges': [{'from_node': 'strait',
-    'to_node': 'coastal_state',
-    'category': 'belongs_to'},
-   {'from_node': 'strait', 'to_node': 'airspace', 'category': 'extends_to'},
-   {'from_node': 'strait', 'to_node': 'seabed', 'category': 'extends_to'},
-   {'from_node': 'maritime_delimitation',
-    'to_node': 'coastal_state',
-    'category': 'involves'}]},
- {'nodes': [{'semantic_id': 'cyprus_popular_bank',
-    'category': 'organization',
-    'attributes': {'name': 'Cyprus Popular Bank',
-     'previous_name': 'Marfin Popular Bank',
-     'status': 'shuttered in 2013',
-     'size': 'second largest banking group in Cyprus',
-     'parent': 'Bank of Cyprus'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'bank_of_cyprus',
-    'category': 'organization',
-    'attributes': {'name': 'Bank of Cyprus',
-     'size': 'largest banking group in Cyprus',
-     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'cyprus_popular_bank',
-    'to_node': 'bank_of_cyprus',
-    'category': 'merged_with'}]},
- {'nodes': [{'semantic_id': 'cyprus_popular_bank',
-    'category': 'organization',
-    'attributes': {'name': 'Cyprus Popular Bank',
-     'previous_name': 'Marfin Popular Bank',
-     'status': 'shuttered in 2013',
-     'size': 'second largest banking group in Cyprus',
-     'parent': 'Bank of Cyprus'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'bank_of_cyprus',
-    'category': 'organization',
-    'attributes': {'name': 'Bank of Cyprus',
-     'size': 'largest banking group in Cyprus',
-     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
-    'paragraph_idx': 19},
-   {'semantic_id': 'uninsured_depositor',
-    'category': 'stakeholder',
-    'attributes': {'deposit_amount': '&gt;100,000 Euro',
-     'treatment': 'subject to a bail-in'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'legacy_entity',
-    'category': 'organization',
-    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds"},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'cyprus_popular_bank',
-    'to_node': 'bank_of_cyprus',
-    'category': 'merged_with'},
-   {'from_node': 'uninsured_depositor',
-    'to_node': 'legacy_entity',
-    'category': 'holds_deposits'}]},
- {'nodes': [{'semantic_id': 'uninsured_depositor',
-    'category': 'stakeholder',
-    'attributes': {'deposit_amount': '&gt;100,000 Euro',
-     'treatment': 'subject to a bail-in',
-     'new_role': 'new shareholders of the legacy entity'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'legacy_entity',
-    'category': 'organization',
-    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
-     'ownership_stake': '4.8% of Bank of Cyprus',
-     'board_representation': 'does not hold a board seat'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'bank_of_cyprus',
-    'category': 'organization',
-    'attributes': {'name': 'Bank of Cyprus',
-     'size': 'largest banking group in Cyprus',
-     'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"},
-    'paragraph_idx': 19},
-   {'semantic_id': 'cyprus_popular_bank',
-    'category': 'organization',
-    'attributes': {'name': 'Cyprus Popular Bank',
-     'previous_name': 'Marfin Popular Bank',
-     'status': 'shuttered in 2013',
-     'size': 'second largest banking group in Cyprus',
-     'parent': 'Bank of Cyprus'},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'uninsured_depositor',
-    'to_node': 'legacy_entity',
-    'category': 'holds_deposits'},
-   {'from_node': 'cyprus_popular_bank',
-    'to_node': 'bank_of_cyprus',
-    'category': 'merged_with'}]},
- {'nodes': [{'semantic_id': 'legacy_entity',
-    'category': 'organization',
-    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
-     'ownership_stake': '4.8% of Bank of Cyprus',
-     'board_representation': 'does not hold a board seat',
-     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'special_administrator',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Andri Antoniadou',
-     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'legacy_entity',
-    'to_node': 'special_administrator',
-    'category': 'managed_by'}]},
- {'nodes': [{'semantic_id': 'legacy_entity',
-    'category': 'organization',
-    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
-     'ownership_stake': '4.8% of Bank of Cyprus',
-     'board_representation': 'does not hold a board seat',
-     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'special_administrator',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Andri Antoniadou',
-     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'veteran_banker',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Chris Pavlou', 'expertise': 'Treasury'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'central_bank_of_cyprus',
-    'category': 'organization',
-    'attributes': {'name': 'Central Bank of Cyprus',
-     'role': 'Governor and Board members amended the lawyers of the legacy entity without consulting the special administrator'},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'legacy_entity',
-    'to_node': 'special_administrator',
-    'category': 'managed_by'},
-   {'from_node': 'central_bank_of_cyprus',
-    'to_node': 'legacy_entity',
-    'category': 'amended_lawyers_without_consulting'}]},
- {'nodes': [{'semantic_id': 'central_bank_of_cyprus',
-    'category': 'organization',
-    'attributes': {'name': 'Central Bank of Cyprus',
-     'role': 'Governor and Board members amended the lawyers of the legacy entity without consulting the special administrator'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'veteran_banker',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Chris Pavlou', 'expertise': 'Treasury'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'special_administrator',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Andri Antoniadou',
-     'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'legacy_entity',
-    'category': 'organization',
-    'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
-     'ownership_stake': '4.8% of Bank of Cyprus',
-     'board_representation': 'does not hold a board seat',
-     'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'},
-    'paragraph_idx': 19},
-   {'semantic_id': 'marfin_investment_group',
-    'category': 'stakeholder',
-    'attributes': {'name': 'Marfin Investment Group',
-     'role': 'former major shareholder of the legacy entity'},
-    'paragraph_idx': 19}],
-  'edges': [{'from_node': 'central_bank_of_cyprus',
-    'to_node': 'legacy_entity',
-    'category': 'amended_lawyers_without_consulting'},
-   {'from_node': 'legacy_entity',
-    'to_node': 'special_administrator',
-    'category': 'managed_by'},
-   {'from_node': 'veteran_banker',
-    'to_node': 'legacy_entity',
-    'category': 'took_over_as_special_administrator'},
-   {'from_node': 'legacy_entity',
-    'to_node': 'marfin_investment_group',
-    'category': 'pursuing_legal_action_against'}]}]</code></pre>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
+<div id="cell-54" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>OrderedDict([(UUID('acc73dc0-d5ae-499e-8cc4-63f70f2d935f'),
+              {'nodes': {'semantic_id': 'insular_government',
+                'category': 'political_entity',
+                'attributes': {'name': 'Insular Government',
+                 'description': 'A United States territorial government that was replaced by the Commonwealth of the Philippines.'}}}),
+             (UUID('38d26bc0-e096-4524-945a-77b9e4ae0f49'),
+              {'nodes': {'semantic_id': 'commonwealth_of_the_philippines',
+                'category': 'political_entity',
+                'attributes': {'name': 'Commonwealth of the Philippines',
+                 'years_active': '1935 to 1946',
+                 'description': 'The administrative body that governed the Philippines during this period, except for a period of exile from 1942 to 1945 when Japan occupied the country.'}}}),
+             (UUID('9555e806-1679-4bc0-99d7-55717f21bdef'),
+              {'nodes': {'semantic_id': 'tydings_mcduffie_act',
+                'category': 'legal_document',
+                'attributes': {'name': 'Tydings–McDuffie Act',
+                 'description': "The act that established the Commonwealth of the Philippines as a transitional administration in preparation for the country's full achievement of independence."}}}),
+             (UUID('90d9b404-119e-4b31-a0cf-ad102105687f'),
+              {'edges': {'from_node': UUID('acc73dc0-d5ae-499e-8cc4-63f70f2d935f'),
+                'to_node': UUID('38d26bc0-e096-4524-945a-77b9e4ae0f49'),
+                'category': 'replaced'}}),
+             (UUID('2cdca930-c9f5-4d65-8da0-4fcc351ac2d0'),
+              {'edges': {'from_node': UUID('9555e806-1679-4bc0-99d7-55717f21bdef'),
+                'to_node': UUID('38d26bc0-e096-4524-945a-77b9e4ae0f49'),
+                'category': 'established'}}),
+             (UUID('c7120f30-4152-4e88-bec1-698bfdd2d5e1'),
+              {'nodes': {'semantic_id': 'lake_oesa',
+                'category': 'natural_feature',
+                'attributes': {'name': 'Lake Oesa',
+                 'elevation': 2267,
+                 'elevation_unit': 'm',
+                 'location': {'park': 'Yoho National Park',
+                  'city': 'Field',
+                  'province': 'British Columbia',
+                  'country': 'Canada'}}}}),
+             (UUID('7c83cf46-05fc-491d-9667-20acf68fe70f'),
+              {'nodes': {'semantic_id': 'arafura_swamp',
+                'category': 'natural_feature',
+                'attributes': {'name': 'Arafura Swamp',
+                 'type': 'inland freshwater wetland',
+                 'location': {'region': 'Arnhem Land',
+                  'territory': 'Northern Territory',
+                  'country': 'Australia'},
+                 'size': {'area': {'value': None, 'unit': 'km2'},
+                  'expansion_during_wet_season': True},
+                 'description': 'a near pristine floodplain, possibly the largest wooded swamp in the Northern Territory and Australia',
+                 'cultural_significance': 'of great cultural significance to the Yolngu people, in particular the Ramingining community',
+                 'filming_location': 'Ten Canoes'}}}),
+             (UUID('f39070c7-1d59-4d1b-a4a4-c8a18c222f85'),
+              {'nodes': {'semantic_id': 'wapizagonke_lake',
+                'category': 'natural_feature',
+                'attributes': {'name': 'Wapizagonke Lake',
+                 'type': 'body of water',
+                 'location': {'sector': 'Lac-Wapizagonke',
+                  'city': 'Shawinigan',
+                  'park': 'La Mauricie National Park',
+                  'region': 'Mauricie',
+                  'province': 'Quebec',
+                  'country': 'Canada'}}}}),
+             (UUID('9a8a31e6-d311-4085-845d-48ae33707b51'),
+              {'nodes': {'semantic_id': 'amursky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Amursky District',
+                 'country': 'Russia',
+                 'region': 'Khabarovsk Krai'}}}),
+             (UUID('f85fb9ae-7e0f-46b2-b039-63ee01e6ce5d'),
+              {'nodes': {'semantic_id': 'khabarovsky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Khabarovsky District',
+                 'country': 'Russia',
+                 'region': 'Khabarovsk Krai',
+                 'area': None,
+                 'area_unit': None,
+                 'administrative_center': 'Khabarovsk'}}}),
+             (UUID('21425234-233f-4f40-b6b3-98e818755151'),
+              {'edges': {'from_node': UUID('f85fb9ae-7e0f-46b2-b039-63ee01e6ce5d'),
+                'to_node': UUID('9a8a31e6-d311-4085-845d-48ae33707b51'),
+                'category': 'separated_by'}}),
+             (UUID('43464202-f216-469b-94d2-8ca7ad3d92f1'),
+              {'nodes': {'semantic_id': 'silver_lake',
+                'category': 'natural_feature',
+                'attributes': {'name': 'Silver Lake',
+                 'type': 'body of water',
+                 'location': {'county': 'Cheshire County',
+                  'state': 'New Hampshire',
+                  'country': 'United States',
+                  'towns': ['Harrisville', 'Nelson']},
+                 'outflows': ['Minnewawa Brook', 'The Branch'],
+                 'ultimate_recipient': 'Connecticut River'}}}),
+             (UUID('f938374c-ec1e-49b0-b049-91257d6ae64d'),
+              {'nodes': {'semantic_id': 'hyderabad_police_area',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Hyderabad Police area',
+                 'jurisdiction_size': 'smallest'}}}),
+             (UUID('595a2f04-abae-4845-b45c-6df6a8ed9ab5'),
+              {'nodes': {'semantic_id': 'hyderabad_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Hyderabad district',
+                 'jurisdiction_size': 'second_smallest'}}}),
+             (UUID('b3beb831-6954-4ca9-87f3-052767e60856'),
+              {'edges': {'from_node': UUID('f938374c-ec1e-49b0-b049-91257d6ae64d'),
+                'to_node': UUID('595a2f04-abae-4845-b45c-6df6a8ed9ab5'),
+                'category': 'jurisdiction_size_hierarchy'}}),
+             (UUID('252323ba-7590-4b55-ae43-e6b9da12ff9e'),
+              {'edges': {'from_node': UUID('595a2f04-abae-4845-b45c-6df6a8ed9ab5'),
+                'to_node': UUID('631d3937-3f47-4598-8f45-bdb90d5eb91f'),
+                'category': 'jurisdiction_size_hierarchy'}}),
+             (UUID('723c0ccc-8f09-43ad-bbcf-97b08d5c1bd8'),
+              {'edges': {'from_node': UUID('631d3937-3f47-4598-8f45-bdb90d5eb91f'),
+                'to_node': UUID('4c681f75-6f72-4771-831a-4aa16149195a'),
+                'category': 'jurisdiction_size_hierarchy'}}),
+             (UUID('4c681f75-6f72-4771-831a-4aa16149195a'),
+              {'nodes': {'semantic_id': 'hmda_area',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Hyderabad Metropolitan Development Authority (HMDA) area',
+                 'jurisdiction_size': 'largest',
+                 'type': 'urban_planning_agency',
+                 'apolitical': True,
+                 'covers': ['ghmc_area', 'suburbs_of_ghmc_area']}}}),
+             (UUID('631d3937-3f47-4598-8f45-bdb90d5eb91f'),
+              {'nodes': {'semantic_id': 'ghmc_area',
+                'category': 'administrative_district',
+                'attributes': {'name': 'GHMC area',
+                 'jurisdiction_size': 'second_largest',
+                 'alternate_name': 'Hyderabad city'}}}),
+             (UUID('90c5ce53-79aa-4aaf-a27d-7400e6ac1c08'),
+              {'nodes': {'semantic_id': 'suburbs_of_ghmc_area',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Suburbs of GHMC area',
+                 'jurisdiction_size': 'medium',
+                 'type': 'residential'}}}),
+             (UUID('9a4b69f8-749a-4b7c-a3e3-e2db4f3823d1'),
+              {'nodes': {'semantic_id': 'hmwssb',
+                'category': 'administrative_body',
+                'attributes': {'name': 'Hyderabad Metropolitan Water Supply and Sewerage Board',
+                 'type': 'water_management'}}}),
+             (UUID('c48817dd-b382-4db9-ad18-d3e2190cdcf5'),
+              {'edges': {'from_node': UUID('4c681f75-6f72-4771-831a-4aa16149195a'),
+                'to_node': UUID('631d3937-3f47-4598-8f45-bdb90d5eb91f'),
+                'category': 'jurisdiction_size_hierarchy'}}),
+             (UUID('4b64fe19-941d-44ce-8cd0-8f94f503dea5'),
+              {'edges': {'from_node': UUID('4c681f75-6f72-4771-831a-4aa16149195a'),
+                'to_node': UUID('90c5ce53-79aa-4aaf-a27d-7400e6ac1c08'),
+                'category': 'jurisdiction_size_hierarchy'}}),
+             (UUID('268f7e8f-a2c7-4a83-94b9-24baeca1be73'),
+              {'edges': {'from_node': UUID('4c681f75-6f72-4771-831a-4aa16149195a'),
+                'to_node': UUID('9a4b69f8-749a-4b7c-a3e3-e2db4f3823d1'),
+                'category': 'manages'}}),
+             (UUID('7956f84b-20a8-4836-ae7a-c7311d716cd1'),
+              {'nodes': {'semantic_id': 'san_juan',
+                'category': 'city',
+                'attributes': {'name': 'San Juan',
+                 'location': {'country': 'Puerto Rico',
+                  'region': 'north-eastern coast'},
+                 'borders': {'north': 'Atlantic Ocean',
+                  'south': ['Caguas', 'Trujillo Alto'],
+                  'east': ['Carolina'],
+                  'west': ['Guaynabo']},
+                 'area': {'value': 76.93, 'unit': 'square miles'},
+                 'water_bodies': ['San Juan Bay',
+                  'Condado Lagoon',
+                  'San José Lagoon'],
+                 'water_area': {'value': 29.11,
+                  'unit': 'square miles',
+                  'percentage': 37.83}}}}),
+             (UUID('75abfc38-a7ea-4db7-9c2b-5dddaf51c493'),
+              {'nodes': {'semantic_id': 'urban_hinterland',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Urban hinterland',
+                 'type': 'urban_area'}}}),
+             (UUID('6f12633f-2502-4467-a29c-ebe5b0699810'),
+              {'nodes': {'semantic_id': 'kreisfreie_stadte',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Kreisfreie Städte',
+                 'type': 'district-free_city_or_town'}}}),
+             (UUID('e7748608-55fe-4ad2-b17a-83af70f4fc73'),
+              {'nodes': {'semantic_id': 'landkreise_amalgamation',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Local associations of a special kind',
+                 'type': 'amalgamation_of_districts',
+                 'purpose': 'simplification_of_administration'}}}),
+             (UUID('0114478c-292d-43e4-940c-349f0b8d8060'),
+              {'edges': {'from_node': UUID('6f12633f-2502-4467-a29c-ebe5b0699810'),
+                'to_node': UUID('75abfc38-a7ea-4db7-9c2b-5dddaf51c493'),
+                'category': 'grouping'}}),
+             (UUID('9c504b5a-98b9-4620-9d56-0c18fe35005f'),
+              {'edges': {'from_node': UUID('e7748608-55fe-4ad2-b17a-83af70f4fc73'),
+                'to_node': UUID('75abfc38-a7ea-4db7-9c2b-5dddaf51c493'),
+                'category': 'comprises'}}),
+             (UUID('6b27c2fc-9694-4f6e-b61c-425360f1c8f7'),
+              {'edges': {'from_node': UUID('e7748608-55fe-4ad2-b17a-83af70f4fc73'),
+                'to_node': UUID('6f12633f-2502-4467-a29c-ebe5b0699810'),
+                'category': 'comprises'}}),
+             (UUID('7715b916-5807-45f4-8408-2770897a7581'),
+              {'nodes': {'semantic_id': 'norfolk_island',
+                'category': 'island',
+                'attributes': {'name': 'Norfolk Island',
+                 'location': {'ocean': 'South Pacific Ocean',
+                  'relative_location': 'east of Australian mainland'},
+                 'coordinates': {'latitude': -29.033, 'longitude': 167.95},
+                 'area': {'value': 34.6, 'unit': 'square kilometres'},
+                 'coastline': {'length': 32, 'unit': 'km'},
+                 'highest_point': 'Mount Bates'}}}),
+             (UUID('0db9008a-ae7e-4e32-a7b3-ae5c7d8f93d2'),
+              {'edges': {'from_node': UUID('7715b916-5807-45f4-8408-2770897a7581'),
+                'to_node': UUID('48a3d3e7-34c1-4a64-93ba-72a6108b3e57'),
+                'category': 'part_of'}}),
+             (UUID('48a3d3e7-34c1-4a64-93ba-72a6108b3e57'),
+              {'nodes': {'semantic_id': 'phillip_island',
+                'category': 'island',
+                'attributes': {'name': 'Phillip Island',
+                 'location': {'relation': 'second largest island of the territory',
+                  'coordinates': {'latitude': -29.117, 'longitude': 167.95},
+                  'distance_from_main_island': {'value': 7,
+                   'unit': 'kilometres'}}}}}),
+             (UUID('52ec31ee-9fc6-42a1-9e6c-daf0ea0a9390'),
+              {'edges': {'from_node': UUID('48a3d3e7-34c1-4a64-93ba-72a6108b3e57'),
+                'to_node': UUID('7715b916-5807-45f4-8408-2770897a7581'),
+                'category': 'part_of'}}),
+             (UUID('08f207c1-6915-4237-ac4e-902815d9cfae'),
+              {'nodes': {'semantic_id': 'star_stadium',
+                'category': 'stadium',
+                'attributes': {'name': 'Star (Zvezda) Stadium',
+                 'former_name': 'Lenin Komsomol Stadium',
+                 'location': {'city': 'Perm', 'country': 'Russia'},
+                 'usage': 'football matches',
+                 'home_team': 'FC Amkar Perm',
+                 'capacity': 17000,
+                 'opened': '1969-06-05'}}}),
+             (UUID('5be79bf7-cd2a-487f-8833-36ae11257df8'),
+              {'nodes': {'semantic_id': 'perm',
+                'category': 'city',
+                'attributes': {'name': 'Perm',
+                 'location': {'river': 'Kama River',
+                  'region': 'Perm Krai',
+                  'country': 'Russia',
+                  'geography': 'European part of Russia near the Ural Mountains'},
+                 'administrative_status': 'administrative centre'}}}),
+             (UUID('e9a848ba-35b3-42e4-b9e6-aa0ea8651d92'),
+              {'edges': {'from_node': UUID('08f207c1-6915-4237-ac4e-902815d9cfae'),
+                'to_node': UUID('5be79bf7-cd2a-487f-8833-36ae11257df8'),
+                'category': 'located_in'}}),
+             (UUID('57c8adca-9dcc-4257-be85-bfb48eacd310'),
+              {'nodes': {'semantic_id': 'paea',
+                'category': 'municipality',
+                'attributes': {'name': 'Paea',
+                 'location': {'island': 'Tahiti',
+                  'subdivision': 'Windward Islands',
+                  'region': 'Society Islands',
+                  'country': 'French Polynesia',
+                  'territory': 'France'},
+                 'population': 13021}}}),
+             (UUID('62866902-6285-4c38-98b0-7496dbe73fd3'),
+              {'nodes': {'semantic_id': 'potamogeton_amplifolius',
+                'category': 'plant',
+                'attributes': {'common_names': ['largeleaf pondweed',
+                  'broad-leaved pondweed'],
+                 'habitat': ['lakes', 'ponds', 'rivers'],
+                 'water_depth': 'often in deep water',
+                 'distribution': 'North America'}}}),
+             (UUID('0da6e66c-64c6-4155-bb6f-88e1b0c9a349'),
+              {'nodes': {'semantic_id': 'soltonsky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Soltonsky District',
+                 'location': {'region': 'Altai Krai', 'country': 'Russia'}}}}),
+             (UUID('2bdd9668-a653-4815-bcde-f43dcf5ff4a5'),
+              {'nodes': {'semantic_id': 'krasnogorsky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Krasnogorsky District',
+                 'location': {'region': 'Altai Krai', 'country': 'Russia'}}}}),
+             (UUID('e9620276-009f-4f5a-99b6-b41d93fbe791'),
+              {'nodes': {'semantic_id': 'sovetsky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Sovetsky District',
+                 'location': {'region': 'Altai Krai', 'country': 'Russia'}}}}),
+             (UUID('4bdbb329-0688-4621-9c67-e1af0e8d57fe'),
+              {'nodes': {'semantic_id': 'smolensky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Smolensky District',
+                 'location': {'region': 'Altai Krai', 'country': 'Russia'}}}}),
+             (UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+              {'nodes': {'semantic_id': 'biysky_district',
+                'category': 'administrative_district',
+                'attributes': {'name': 'Biysky District',
+                 'location': {'region': 'Altai Krai',
+                  'country': 'Russia',
+                  'geography': 'east of the krai'},
+                 'administrative_status': 'administrative and municipal district (raion)',
+                 'bordering_districts': ['Soltonsky_district',
+                  'Krasnogorsky_district',
+                  'Sovetsky_district',
+                  'Smolensky_district',
+                  'City_of_Biysk']}}}),
+             (UUID('a375ae9a-9282-4916-9e6b-02da8a824e3f'),
+              {'nodes': {'semantic_id': 'city_of_biysk',
+                'category': 'city',
+                'attributes': {'name': 'Biysk',
+                 'location': {'region': 'Altai Krai', 'country': 'Russia'},
+                 'administrative_status': 'administrative center'}}}),
+             (UUID('6674891e-b1e6-4c85-9821-54b4a7fd923a'),
+              {'edges': {'from_node': UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+                'to_node': UUID('0da6e66c-64c6-4155-bb6f-88e1b0c9a349'),
+                'category': 'bordering'}}),
+             (UUID('5f81b958-60c6-40a5-8bea-9fdacae9f671'),
+              {'edges': {'from_node': UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+                'to_node': UUID('2bdd9668-a653-4815-bcde-f43dcf5ff4a5'),
+                'category': 'bordering'}}),
+             (UUID('8077d42e-5e70-44dd-aade-c764087f139f'),
+              {'edges': {'from_node': UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+                'to_node': UUID('e9620276-009f-4f5a-99b6-b41d93fbe791'),
+                'category': 'bordering'}}),
+             (UUID('abe4eb3e-0a01-48f2-b97d-67a30519a4d3'),
+              {'edges': {'from_node': UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+                'to_node': UUID('4bdbb329-0688-4621-9c67-e1af0e8d57fe'),
+                'category': 'bordering'}}),
+             (UUID('a27a6ceb-536d-4dbe-9798-e5d86e9755c6'),
+              {'edges': {'from_node': UUID('d3fca76e-6cb9-47b7-8fdf-282cd0de4bee'),
+                'to_node': UUID('a375ae9a-9282-4916-9e6b-02da8a824e3f'),
+                'category': 'bordering'}}),
+             (UUID('3d2af122-d4b9-47f1-a034-c9f23e262e14'),
+              {'nodes': {'semantic_id': 'contoocook_lake',
+                'category': 'lake',
+                'attributes': {'name': 'Contoocook Lake',
+                 'location': {'county': 'Cheshire County',
+                  'state': 'New Hampshire',
+                  'country': 'United States',
+                  'towns': ['Jaffrey', 'Rindge']},
+                 'connection': {'to': 'pool_pond',
+                  'type': 'forms_headwaters_of'},
+                 'outflow': {'to': 'contoocook_river', 'direction': 'north'},
+                 'outflow_destination': 'merrimack_river'}}}),
+             (UUID('1eafa7a8-a830-4472-8b32-c071159c8140'),
+              {'nodes': {'semantic_id': 'pool_pond',
+                'category': 'lake',
+                'attributes': {'name': 'Pool Pond',
+                 'connection': {'to': 'contoocook_lake',
+                  'type': 'forms_headwaters_of'}}}}),
+             (UUID('f841df5f-a4ff-4a6b-8656-1458252aca37'),
+              {'edges': {'from_node': UUID('3d2af122-d4b9-47f1-a034-c9f23e262e14'),
+                'to_node': UUID('1eafa7a8-a830-4472-8b32-c071159c8140'),
+                'category': 'forms_headwaters_of'}}),
+             (UUID('d50d66d9-c89d-4c0a-9c61-fa4e856ab2c2'),
+              {'edges': {'from_node': UUID('3d2af122-d4b9-47f1-a034-c9f23e262e14'),
+                'to_node': UUID('56ae1a37-74f4-486b-b517-34b99027ba36'),
+                'category': 'outflows_to'}}),
+             (UUID('56ae1a37-74f4-486b-b517-34b99027ba36'),
+              {'nodes': {'semantic_id': 'contoocook_river',
+                'category': 'river',
+                'attributes': {'name': 'Contoocook River',
+                 'flow_direction': 'north',
+                 'outflow_destination': 'merrimack_river'}}}),
+             (UUID('0c92123d-fbc3-47e7-b752-65df1d6680c0'),
+              {'nodes': {'semantic_id': 'merrimack_river',
+                'category': 'river',
+                'attributes': {'name': 'Merrimack River',
+                 'location': {'city': 'Penacook',
+                  'state': 'New Hampshire',
+                  'country': 'United States'}}}}),
+             (UUID('6e9b6a2d-926e-4b20-97ab-d8bb217a5029'),
+              {'edges': {'from_node': UUID('56ae1a37-74f4-486b-b517-34b99027ba36'),
+                'to_node': UUID('0c92123d-fbc3-47e7-b752-65df1d6680c0'),
+                'category': 'flows_into'}}),
+             (UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+              {'nodes': {'semantic_id': 'bogota',
+                'category': 'city',
+                'attributes': {'name': 'Bogotá',
+                 'pronunciation': {'english': ['/ˈboʊɡəˌtɑː/',
+                   '/ˌboʊ-/',
+                   '/ˈbɔɪ-/'],
+                  'spanish': 'boˈɣota'},
+                 'official_name': 'Bogotá',
+                 'administration': 'Capital District'}}}),
+             (UUID('adc293cf-401b-49b6-928d-ada04da0e4bf'),
+              {'nodes': {'semantic_id': 'political_center',
+                'category': 'function',
+                'attributes': {'name': 'political center',
+                 'location': 'Bogotá'}}}),
+             (UUID('108added-3b0f-4b67-9e28-fce89a168e46'),
+              {'nodes': {'semantic_id': 'economic_center',
+                'category': 'function',
+                'attributes': {'name': 'economic center',
+                 'location': 'Bogotá'}}}),
+             (UUID('7fad3f22-d955-4f54-a1e2-5683bf4639e8'),
+              {'nodes': {'semantic_id': 'administrative_center',
+                'category': 'function',
+                'attributes': {'name': 'administrative center',
+                 'location': 'Bogotá'}}}),
+             (UUID('404e8a42-e9e9-4081-9890-669ba48d1b36'),
+              {'nodes': {'semantic_id': 'industrial_center',
+                'category': 'function',
+                'attributes': {'name': 'industrial center',
+                 'location': 'Bogotá'}}}),
+             (UUID('8b80ba4f-77b2-4ee6-8548-a66108963fb7'),
+              {'nodes': {'semantic_id': 'artistic_center',
+                'category': 'function',
+                'attributes': {'name': 'artistic center',
+                 'location': 'Bogotá'}}}),
+             (UUID('056f1544-f292-4506-ba8d-18d6e294d433'),
+              {'nodes': {'semantic_id': 'cultural_center',
+                'category': 'function',
+                'attributes': {'name': 'cultural center',
+                 'location': 'Bogotá'}}}),
+             (UUID('d747fcf6-5b60-4595-a127-f3e247cbb8a3'),
+              {'nodes': {'semantic_id': 'sports_center',
+                'category': 'function',
+                'attributes': {'name': 'sports center',
+                 'location': 'Bogotá'}}}),
+             (UUID('59719cce-5c68-47cf-8111-481c74e73c3b'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('8ad7ae8e-ed3a-415f-8d0e-a8984bd7717e'),
+                'category': 'capital_of'}}),
+             (UUID('0bc7053b-2183-41df-995a-faecd919ad45'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('5576789f-9306-4a82-8736-882db81abdf2'),
+                'category': 'part_of'}}),
+             (UUID('73230839-050b-4ace-9dd1-7927b1bd1034'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('adc293cf-401b-49b6-928d-ada04da0e4bf'),
+                'category': 'functions_as'}}),
+             (UUID('04b8ded0-c2c1-441f-b7f7-069b05f80338'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('108added-3b0f-4b67-9e28-fce89a168e46'),
+                'category': 'functions_as'}}),
+             (UUID('0a86d51a-bd57-4a63-b494-08075a2bcb4a'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('7fad3f22-d955-4f54-a1e2-5683bf4639e8'),
+                'category': 'functions_as'}}),
+             (UUID('58c0a891-5c05-48e5-ba2a-1c230b588997'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('404e8a42-e9e9-4081-9890-669ba48d1b36'),
+                'category': 'functions_as'}}),
+             (UUID('5bad3267-dceb-4067-8d02-bc8c748d50d3'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('8b80ba4f-77b2-4ee6-8548-a66108963fb7'),
+                'category': 'functions_as'}}),
+             (UUID('d80bed21-cd68-454d-a142-223fb30d5db6'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('056f1544-f292-4506-ba8d-18d6e294d433'),
+                'category': 'functions_as'}}),
+             (UUID('6c12a6ad-244d-4d7e-8c25-f3a6288967fb'),
+              {'edges': {'from_node': UUID('2de55d21-12b4-493e-954a-acf0b7bf4ac2'),
+                'to_node': UUID('d747fcf6-5b60-4595-a127-f3e247cbb8a3'),
+                'category': 'functions_as'}}),
+             (UUID('87517804-e5a2-44d9-82bd-23b4e33c2a40'),
+              {'nodes': {'semantic_id': 'bogota',
+                'category': 'city',
+                'attributes': {'name': 'Bogotá',
+                 'functions': ['political center',
+                  'economic center',
+                  'administrative center',
+                  'industrial center',
+                  'artistic center',
+                  'cultural center',
+                  'sports center']}}}),
+             (UUID('8ad7ae8e-ed3a-415f-8d0e-a8984bd7717e'),
+              {'nodes': {'semantic_id': 'colombia',
+                'category': 'country',
+                'attributes': {'name': 'Colombia',
+                 'capital': 'Bogotá',
+                 'status': 'capital and largest city'}}}),
+             (UUID('5576789f-9306-4a82-8736-882db81abdf2'),
+              {'nodes': {'semantic_id': 'cundinamarca',
+                'category': 'region',
+                'attributes': {'name': 'Cundinamarca',
+                 'relation_to_bogota': 'often thought of as part of'}}}),
+             (UUID('af6b4ebf-7c7c-4dd0-a58e-ab8c292eaf7c'),
+              {'edges': {'from_node': UUID('87517804-e5a2-44d9-82bd-23b4e33c2a40'),
+                'to_node': UUID('8ad7ae8e-ed3a-415f-8d0e-a8984bd7717e'),
+                'category': 'capital_of'}}),
+             (UUID('3265632a-4065-46c4-82cf-527b3d4abc13'),
+              {'edges': {'from_node': UUID('87517804-e5a2-44d9-82bd-23b4e33c2a40'),
+                'to_node': UUID('5576789f-9306-4a82-8736-882db81abdf2'),
+                'category': 'part_of'}}),
+             (UUID('d97d057d-2564-427d-9703-e77a61ff58c7'),
+              {'nodes': {'semantic_id': 'intracellular_fluid',
+                'category': 'fluid',
+                'attributes': {'name': 'intracellular fluid',
+                 'volume': '2/3 of body water',
+                 'amount_in_72_kg_body': '25 litres',
+                 'percentage_of_total_body_fluid': 62.5}}}),
+             (UUID('380f506f-c2cf-453e-879f-fb58b3f3d1db'),
+              {'nodes': {'semantic_id': 'body_fluid',
+                'category': 'fluid',
+                'attributes': {'name': 'body fluid',
+                 'total_volume_in_72_kg_body': '40 litres'}}}),
+             (UUID('1b0bebc1-49a1-419f-bfb2-d50cffeed740'),
+              {'edges': {'from_node': UUID('d97d057d-2564-427d-9703-e77a61ff58c7'),
+                'to_node': UUID('380f506f-c2cf-453e-879f-fb58b3f3d1db'),
+                'category': 'part_of'}}),
+             (UUID('6e5f08dc-fe95-4b74-884d-dcce8470290a'),
+              {'nodes': {'semantic_id': 'territorial_waters',
+                'category': 'geographic_area',
+                'attributes': {'name': 'territorial waters',
+                 'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
+                 'source': '1982 United Nations Convention on the Law of the Sea'}}}),
+             (UUID('443e77c0-cff1-43e4-89f2-ba748d4421a1'),
+              {'edges': {'from_node': UUID('6e5f08dc-fe95-4b74-884d-dcce8470290a'),
+                'to_node': UUID('d5019515-a9d9-4d23-89cf-dac81f7d96ea'),
+                'category': 'extends_from'}}),
+             (UUID('58b64eae-e6c2-47f1-8916-eaf1dcc87e6b'),
+              {'edges': {'from_node': UUID('6e5f08dc-fe95-4b74-884d-dcce8470290a'),
+                'to_node': UUID('11903999-15a7-4776-8bae-f1803429147f'),
+                'category': 'belongs_to'}}),
+             (UUID('7b534168-d2e7-498e-9115-5e21d6c638f3'),
+              {'nodes': {'semantic_id': 'territorial_sea',
+                'category': 'geographic_area',
+                'attributes': {'name': 'territorial sea',
+                 'definition': 'a belt of coastal waters extending at most 12 nautical miles (22.2 km; 13.8 mi) from the baseline (usually the mean low-water mark) of a coastal state',
+                 'sovereign_territory': True,
+                 'foreign_ship_passage': 'innocent passage through it or transit passage for straits',
+                 'jurisdiction': 'extends to airspace over and seabed below'}}}),
+             (UUID('d5019515-a9d9-4d23-89cf-dac81f7d96ea'),
+              {'nodes': {'semantic_id': 'baseline',
+                'category': 'geographic_feature',
+                'attributes': {'name': 'baseline',
+                 'definition': 'usually the mean low-water mark of a coastal state'}}}),
+             (UUID('11903999-15a7-4776-8bae-f1803429147f'),
+              {'nodes': {'semantic_id': 'coastal_state',
+                'category': 'legal_entity',
+                'attributes': {'name': 'coastal state'}}}),
+             (UUID('7a93cd6e-7f97-43fa-9054-22d3e4478ecf'),
+              {'edges': {'from_node': UUID('7b534168-d2e7-498e-9115-5e21d6c638f3'),
+                'to_node': UUID('11903999-15a7-4776-8bae-f1803429147f'),
+                'category': 'belongs_to'}}),
+             (UUID('4dec6036-1299-4093-ae68-3b6cecc73053'),
+              {'edges': {'from_node': UUID('7b534168-d2e7-498e-9115-5e21d6c638f3'),
+                'to_node': UUID('d5019515-a9d9-4d23-89cf-dac81f7d96ea'),
+                'category': 'extends_from'}}),
+             (UUID('d86a7f75-df06-47f1-a30d-67a921d822bf'),
+              {'nodes': {'semantic_id': 'strait',
+                'category': 'geographic_feature',
+                'attributes': {'name': 'strait',
+                 'sovereign_territory': True,
+                 'jurisdiction': {'airspace': True, 'seabed': True}}}}),
+             (UUID('1baf2bf2-6083-481f-8980-d2f9793f58e6'),
+              {'nodes': {'semantic_id': 'maritime_delimitation',
+                'category': 'legal_concept',
+                'attributes': {'name': 'maritime delimitation',
+                 'definition': "Adjustment of the boundaries of a coastal state's territorial sea, exclusive economic zone, or continental shelf"}}}),
+             (UUID('396cc35f-de5f-4717-9cb5-2cf511456fb2'),
+              {'edges': {'from_node': UUID('d86a7f75-df06-47f1-a30d-67a921d822bf'),
+                'to_node': UUID('11903999-15a7-4776-8bae-f1803429147f'),
+                'category': 'belongs_to'}}),
+             (UUID('88b88486-07be-4ae4-8d51-c2d88ca9f125'),
+              {'edges': {'from_node': UUID('1baf2bf2-6083-481f-8980-d2f9793f58e6'),
+                'to_node': UUID('11903999-15a7-4776-8bae-f1803429147f'),
+                'category': 'involves'}}),
+             (UUID('d8b37bae-dbdb-49c8-9e35-6c87c902f3f9'),
+              {'nodes': {'semantic_id': 'uninsured_depositor',
+                'category': 'stakeholder',
+                'attributes': {'deposit_amount': '&gt;100,000 Euro',
+                 'treatment': 'subject to a bail-in',
+                 'new_role': 'new shareholders of the legacy entity'}}}),
+             (UUID('7862ab2f-0f92-48af-ba10-12cdac45a10f'),
+              {'nodes': {'semantic_id': 'bank_of_cyprus',
+                'category': 'organization',
+                'attributes': {'name': 'Bank of Cyprus',
+                 'size': 'largest banking group in Cyprus',
+                 'relation_to_cyprus_popular_bank': "absorbed the 'good' Cypriot part of Cyprus Popular Bank after it was shuttered"}}}),
+             (UUID('1c509f8b-300e-47ac-ad62-4dcf675ca11d'),
+              {'nodes': {'semantic_id': 'cyprus_popular_bank',
+                'category': 'organization',
+                'attributes': {'name': 'Cyprus Popular Bank',
+                 'previous_name': 'Marfin Popular Bank',
+                 'status': 'shuttered in 2013',
+                 'size': 'second largest banking group in Cyprus',
+                 'parent': 'Bank of Cyprus'}}}),
+             (UUID('82b3a659-7692-4909-a812-fc247f97ed6c'),
+              {'edges': {'from_node': UUID('d8b37bae-dbdb-49c8-9e35-6c87c902f3f9'),
+                'to_node': UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+                'category': 'holds_deposits'}}),
+             (UUID('a80831eb-a3c9-4ad6-a6ba-9db107876050'),
+              {'edges': {'from_node': UUID('1c509f8b-300e-47ac-ad62-4dcf675ca11d'),
+                'to_node': UUID('7862ab2f-0f92-48af-ba10-12cdac45a10f'),
+                'category': 'merged_with'}}),
+             (UUID('2d393fc3-fe9b-46dd-90f7-2fadb227fccd'),
+              {'nodes': {'semantic_id': 'central_bank_of_cyprus',
+                'category': 'organization',
+                'attributes': {'name': 'Central Bank of Cyprus',
+                 'role': 'Governor and Board members amended the lawyers of the legacy entity without consulting the special administrator'}}}),
+             (UUID('87a173a3-a32b-4a36-a1b2-6248a92eb14c'),
+              {'nodes': {'semantic_id': 'veteran_banker',
+                'category': 'stakeholder',
+                'attributes': {'name': 'Chris Pavlou',
+                 'expertise': 'Treasury'}}}),
+             (UUID('7af74b0b-30ab-44c4-8adf-8e19ecf04a14'),
+              {'nodes': {'semantic_id': 'special_administrator',
+                'category': 'stakeholder',
+                'attributes': {'name': 'Andri Antoniadou',
+                 'role': 'ran the legacy entity for two years, from March 2013 until 3 March 2015'}}}),
+             (UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+              {'nodes': {'semantic_id': 'legacy_entity',
+                'category': 'organization',
+                'attributes': {'description': "the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds",
+                 'ownership_stake': '4.8% of Bank of Cyprus',
+                 'board_representation': 'does not hold a board seat',
+                 'previous_operations': 'overseas operations of the now defunct Cyprus Popular Bank'}}}),
+             (UUID('bfe012be-e584-401f-bd34-f6d147e7831c'),
+              {'nodes': {'semantic_id': 'marfin_investment_group',
+                'category': 'stakeholder',
+                'attributes': {'name': 'Marfin Investment Group',
+                 'role': 'former major shareholder of the legacy entity'}}}),
+             (UUID('14585bad-087d-4ce7-bbc2-1d89e4cd7548'),
+              {'edges': {'from_node': UUID('2d393fc3-fe9b-46dd-90f7-2fadb227fccd'),
+                'to_node': UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+                'category': 'amended_lawyers_without_consulting'}}),
+             (UUID('14eb57de-1b12-42b5-8b91-945cdfd08442'),
+              {'edges': {'from_node': UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+                'to_node': UUID('7af74b0b-30ab-44c4-8adf-8e19ecf04a14'),
+                'category': 'managed_by'}}),
+             (UUID('e367aa2a-74bb-426e-b17c-f4ecf2032e6f'),
+              {'edges': {'from_node': UUID('87a173a3-a32b-4a36-a1b2-6248a92eb14c'),
+                'to_node': UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+                'category': 'took_over_as_special_administrator'}}),
+             (UUID('1c9504d1-c7e5-4b0b-ad7a-24a03cc9c498'),
+              {'edges': {'from_node': UUID('4845f0f8-9a9e-4bf2-b9e6-49ba7ee13b44'),
+                'to_node': UUID('bfe012be-e584-401f-bd34-f6d147e7831c'),
+                'category': 'pursuing_legal_action_against'}})])</code></pre>
 </div>
 </div>
 </div>
 </div>
-<p>It took ~2 minutes to create <code>graph_components</code> and 43 calls to the LLM.</p>
+<p>It took ~2 minutes to create generate the <code>graph_history</code>and 43 calls to the LLM.</p>
 <p>A speed boost can definitely be had in multiple ways:</p>
 <ul>
 <li><p>Use a different model. The latest Llama 3 model running on <a href="https://wow.groq.com">Groq</a> infrastructure can yield a 10x speed up in some cases if you use the 8B model. The great thing about using a framework like Langchain is the ease with which you can plug n play different models in your pipelines.</p></li>
@@ -2017,54 +1737,21 @@ This was your output:
 </ul>
 <section id="show-me-the-money" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
-<p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-57">
-<div id="cell-57" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="402">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nodes_edges <span class="kw">in</span> graph_components:</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes to the graph</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    node_indices <span class="op">=</span> {}</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node <span class="kw">in</span> nodes_edges[<span class="st">"nodes"</span>]:</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> digraph.add_node(node)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        node_indices[node[<span class="st">"semantic_id"</span>]] <span class="op">=</span> idx</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add edges to the graph</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> edge <span class="kw">in</span> nodes_edges[<span class="st">"edges"</span>]:</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        from_idx <span class="op">=</span> node_indices.get(edge[<span class="st">"from_node"</span>])</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        to_idx <span class="op">=</span> node_indices.get(edge[<span class="st">"to_node"</span>])</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> from_idx <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> to_idx <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>            digraph.add_edge(from_idx, to_idx, edge)</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op">=</span><span class="dv">30</span>, num_iter<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>, pos<span class="op">=</span>layout,</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>, node_size<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-49-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-49-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
+<p>.{{&lt; embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#paragraphs_viz true &gt;}}</p>
 <p>Messy, but you get the idea.</p>
 <p>We can do a little graph analytics to find the most connected nodes(nodes with the most connections). <code>incident_edges(n)</code> identifies the edges of a node with index <code>n</code>, so all we have to do is get the length of the edge list returned and then sort it.</p>
 <div style="max-height: 400px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-60">
-<div id="cell-60" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="412">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>len_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="412">
+<div id="cell-60" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>len_list[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="81">
 <pre><code>[9,
  5,
+ 5,
+ 4,
  4,
  3,
  2,
@@ -2116,47 +1803,6 @@ This was your output:
  1,
  1,
  1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
  0,
  0,
  0,
@@ -2170,37 +1816,36 @@ This was your output:
 </div>
 <p>The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
-<div id="cell-64" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="386">
+<div id="cell-64" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directed graph</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add nodes to the graph</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node <span class="kw">in</span> graph_components[<span class="dv">31</span>][<span class="st">"nodes"</span>]:</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> digraph.add_node(node)</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    node_indices[node[<span class="st">"semantic_id"</span>]] <span class="op">=</span> idx</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges to the graph</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> edge <span class="kw">in</span> graph_components[<span class="dv">31</span>][<span class="st">"edges"</span>]:</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    from_idx <span class="op">=</span> node_indices[edge[<span class="st">"from_node"</span>]]</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    to_idx <span class="op">=</span> node_indices[edge[<span class="st">"to_node"</span>]]</span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    digraph.add_edge(from_idx, to_idx, edge)</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>edge<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'graph' is your existing PyDiGraph object</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>node_index <span class="op">=</span> <span class="dv">35</span>  <span class="co"># Example node index</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predecessors and successors</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>predecessors <span class="op">=</span> <span class="bu">list</span>(digraph.predecessor_indices(node_index))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>successors <span class="op">=</span> <span class="bu">list</span>(digraph.successor_indices(node_index))</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Include the original node and ensure uniqueness of nodes</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>subgraph_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>([node_index] <span class="op">+</span> predecessors <span class="op">+</span> successors))</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the subgraph</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>subgraph <span class="op">=</span> digraph.subgraph(subgraph_nodes)</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>mpl_draw(subgraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -2211,7 +1856,7 @@ This was your output:
 <div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
@@ -2222,7 +1867,7 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 </section>
 <section id="wrapping-up" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Wrapping Up</h1>
-<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/thats_all.gif" class="img-fluid"></a></p>
+<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/thats_all.gif" class="img-fluid"></a></p>
 <p>Well…<strong>almost!</strong></p>
 <p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
 <p>Thanks for reading, I hope you managed to stay awake.</p>
@@ -2232,7 +1877,7 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 <span class="glightbox-desc lightbox-desc-2">Figure&nbsp;1: Prompt Template Composition</span>
 <span class="glightbox-desc lightbox-desc-3">Figure&nbsp;2: The node-edge structure we construct from the outputs.</span>
 <span class="glightbox-desc lightbox-desc-4">Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’</span>
-<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;4: An example text consisting of 70 tokens</span>
+<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;4: An example text consisting of 70 tokens</span>
 </div>
 </section>
 
@@ -2676,7 +2321,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

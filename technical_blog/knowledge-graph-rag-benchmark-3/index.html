@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dmitriy Leybel">
+<meta name="dcterms.date" content="2024-04-25">
+<meta name="description" content="Hybridizing our Knowledge Graphs With Vector Databases">
 
-<title>Technical Blog</title>
+<title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,35 +70,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-my-listings .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-my-listings'] = new List('listing-my-listings', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SB4HQ6BZVQ"></script>
 
 <script type="text/javascript">
@@ -108,50 +80,24 @@ gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<meta property="og:title" content="Technical Blog">
-<meta name="twitter:title" content="Technical Blog">
+<link rel="stylesheet" href="../technical_blog.css">
+<meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three">
+<meta property="og:description" content="Hybridizing our Knowledge Graphs With Vector Databases">
+<meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three">
+<meta name="twitter:description" content="Hybridizing our Knowledge Graphs With Vector Databases">
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -161,21 +107,21 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./technical_blog.html" aria-current="page"> 
+    <a class="nav-link" href="../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./personal_blog.html"> 
+    <a class="nav-link" href="../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools tools-wide">
-    <a href="./resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -184,199 +130,73 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Technical Blog</h1>
-                      </div>
+      <h1 class="title">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></h1>
+                  <div>
+        <div class="description">
+          Hybridizing our Knowledge Graphs With Vector Databases
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">knowledge-graphs</div>
+                <div class="quarto-category">rag</div>
+                <div class="quarto-category">benchmarking</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Dmitriy Leybel </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 25, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
+  <div>
+    <div class="abstract">
+      <div class="block-title">Abstract</div>
+      vectors vectors vectors - knowledge-graph-benchmark-3
+    </div>
+  </div>
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="benchmarking">benchmarking <span class="quarto-category-count">(4)</span></div><div class="category" data-category="knowledge-graphs">knowledge-graphs <span class="quarto-category-count">(4)</span></div><div class="category" data-category="rag">rag <span class="quarto-category-count">(4)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<div id="listing-my-listings" class="column-page quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1714028400000" data-listing-file-modified-sort="1713744405151" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="78">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Hybridizing our Knowledge Graphs With Vector Databases</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<div class="listing-date">
-Apr 25, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1713596400000" data-listing-file-modified-sort="1713829708817" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2926">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-2\images\node_edge.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<div class="listing-date">
-Apr 20, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712905200000" data-listing-file-modified-sort="1713379222586" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2367">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-1\images\connection-building.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<div class="listing-date">
-Apr 12, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1713120886401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2603">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-0\images\nearest embedding strategy.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<div class="listing-date">
-Apr 5, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-
+<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html">Don’t RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph – <em>Part Two</em></a>:</p>
+<ul>
+<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
+<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
+<li><p>The <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
+</ul>
+<hr>
 
 
 
