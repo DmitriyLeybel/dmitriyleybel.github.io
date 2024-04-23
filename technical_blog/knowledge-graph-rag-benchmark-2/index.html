@@ -279,7 +279,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <h1 data-number="1"><span class="header-section-number">1</span> Lets Split Some Text</h1>
 <p>In order to feed text of reasonable length into our LLM, we need to be able to split it. The splitting criteria will be the token length of the passage. To implement this criterion, we need to create a length function that will be passed into our splitter, and then test it on one of the paragraphs we have available from the MuSiQue dataset.</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
-<div id="cell-20" class="cell" data-tags="[&quot;token_len&quot;]" data-execution_count="62">
+<div id="cell-20" class="cell" data-tags="[&quot;token_len&quot;]" data-execution_count="105">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
@@ -319,7 +319,7 @@ As of this writing, Meta’s Llama 3 was just released and is using OpenAI’s t
 </div>
 <p>We’ll be using LangChain’s <code>RecursiveCharacterTextSplitter</code> to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we’ll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we’re using our length function as the determinant of splits.</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
-<div id="cell-21" class="cell" data-tags="[&quot;split_examples&quot;]" data-execution_count="70">
+<div id="cell-21" class="cell" data-tags="[&quot;split_examples&quot;]" data-execution_count="106">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
@@ -462,7 +462,7 @@ Pydantic, along with a similar sort of workflow can be generalized for structure
 <p>Below, you’ll see each class represent a distinct JSON object, with the fields and instructions that the model will receive. By using the <code>BaseModel</code> superclass😎, we can create Pydantic classes with the following syntax:</p>
 <div style="max-height: 800px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
-<div id="cell-27" class="cell" data-tags="[&quot;pydantic&quot;]" data-execution_count="191">
+<div id="cell-27" class="cell" data-tags="[&quot;pydantic&quot;]" data-execution_count="108">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Dict, List, Union, Tuple, Optional</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -484,7 +484,7 @@ Pydantic, along with a similar sort of workflow can be generalized for structure
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    edges: List[Edge] <span class="op">=</span> Field(...,description<span class="op">=</span><span class="st">"A list of edges in the graph"</span>)</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>Graph.model_json_schema()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="191">
+<div class="cell-output cell-output-display" data-execution_count="108">
 <pre><code>{'$defs': {'Edge': {'properties': {'from_node': {'description': 'The id of the node from which the edge originates. Only previously generated semantic_ids belong here, nothing else.',
      'title': 'From Node',
      'type': 'string'},
@@ -554,8 +554,8 @@ You can <em>probably</em> use Pydantic classes to describe the JSON output we ne
 </div>
 <p>In addition to our fancy JSON schema generated with Pydantic, which already includes some descriptions of the fields, we need to pass in some instructions.</p>
 <div style="max-height: 500px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
-<div id="cell-30" class="cell" data-tags="[&quot;json_instructions&quot;]" data-execution_count="194">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-28">
+<div id="cell-28" class="cell" data-tags="[&quot;json_instructions&quot;]" data-execution_count="109">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>json_rules <span class="op">=</span> <span class="op">\</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""We need to create a JSON object that contains a list of nodes and edges that connect the nodes.</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">Both, nodes and edges, have optional attributes.</span></span>
@@ -642,8 +642,8 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="content" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="content"><span class="header-section-number">2.1.2</span> Content</h3>
 <p>In addition to the JSON formatting instructions, we give the model some high-level guidance. The placeholders are included as <code>{instructions}</code> where the previously constructed JSON instructions will go, and <code>history</code> where past nodes and edges will be inserted – the format isn’t critical, but we’ll stick to the JSON schema we’re using for the output.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
-<div id="cell-31" class="cell" data-tags="[&quot;graph_creator&quot;]" data-execution_count="195">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-29">
+<div id="cell-29" class="cell" data-tags="[&quot;graph_creator&quot;]" data-execution_count="112">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>graph_creator_content <span class="op">=</span> <span class="op">\</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""You are a brilliant and efficient creator of JSON objects that capture the essence of passages and who follows instructions unbelievably well.</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">You will be first given instructions and a json schema, then you will be provided a passage to extract the information from.</span></span>
@@ -660,8 +660,8 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="pass_passage_template" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="pass_passage_template"><span class="header-section-number">2.2</span> pass_passage_template</h2>
 <p>The human message portion of this template consists of something as simple as:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
-<div id="cell-32" class="cell" data-tags="[&quot;pass_passage&quot;]" data-execution_count="196">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
+<div id="cell-30" class="cell" data-tags="[&quot;pass_passage&quot;]" data-execution_count="110">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pass_passage_content <span class="op">=</span> <span class="st">"Below is the passage to extract the values from.</span><span class="ch">\n</span><span class="st">*****</span><span class="ch">\n</span><span class="st">Passage:</span><span class="ch">\n</span><span class="sc">{passage}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -670,8 +670,8 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="combining-the-prompt-templates" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="combining-the-prompt-templates"><span class="header-section-number">2.3</span> Combining the Prompt Templates</h2>
 <p>To create our Langchain pipeline, we wrap the templates we created in <code>SystemMessagePromptTemplate</code> and <code>HumanMessagePromptTemplate</code> classes, and then combine them into <code>gen_template</code>.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-33">
-<div id="cell-33" class="cell" data-tags="[&quot;template_agg&quot;]" data-execution_count="197">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
+<div id="cell-31" class="cell" data-tags="[&quot;template_agg&quot;]" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> (</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    HumanMessagePromptTemplate,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    SystemMessagePromptTemplate,</span>
@@ -687,7 +687,7 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'history'</span>: <span class="st">''</span>,</span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'instructions'</span>: json_prompt_instructions})</span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="197">
+<div class="cell-output cell-output-display" data-execution_count="113">
 <pre><code>ChatPromptValue(messages=[SystemMessage(content='You are a brilliant and efficient creator of JSON objects that capture the essence of passages and who follows instructions unbelievably well.\nYou will be first given instructions and a json schema, then you will be provided a passage to extract the information from.\nYou will only respond with valid JSON, nothing else.\nYour instructions are:\nWe need to create a JSON object that contains a list of nodes and edges that connect the nodes.\nBoth, nodes and edges, have optional attributes.\nYour goal is to extract as much pertinent information from the passage as possible and create nodes and edges with the extracted information.\nIf history is provided, it will be in the JSON schema you are given. You may create new connections between the nodes and edges in the history and the new nodes you are producing.\nIf you wish to change/update any of the node attributes in the provided history based on newly gathered information, simply reuse the semantic_ids of the nodes you wish to change.\nIf you wish to modify/update the edge attributes in the history, reuse the semantic_ids of the \'from\' and \'to\' nodes of any edge you wish to change.\nUse the following schema and make sure to read the descriptions:\n{"$defs": {"Edge": {"properties": {"from_node": {"description": "The id of the node from which the edge originates. Only previously generated semantic_ids belong here, nothing else.", "title": "From Node", "type": "string"}, "to_node": {"description": "The id of the node to which the edge connects. Only previously generated semantic_ids belong here, nothing else.", "title": "To Node", "type": "string"}, "category": {"description": "The type of the relationship", "title": "Category", "type": "string"}, "attributes": {"anyOf": [{"additionalProperties": {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": "object"}, {"type": "null"}], "default": null, "description": "Additional properties of the edge", "title": "Attributes"}}, "required": ["from_node", "to_node", "category"], "title": "Edge", "type": "object"}, "Node": {"properties": {"semantic_id": {"description": "The unique identifier of the node that is                              a reference to create edges between different nodes.", "title": "Semantic Id", "type": "string"}, "category": {"description": "The category of the node", "title": "Category", "type": "string"}, "attributes": {"anyOf": [{"additionalProperties": {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}, "type": "object"}, {"type": "null"}], "default": null, "description": "Additional properties of the node", "title": "Attributes"}}, "required": ["semantic_id", "category"], "title": "Node", "type": "object"}}, "properties": {"nodes": {"description": "A list of nodes in the graph", "items": {"$ref": "#/$defs/Node"}, "title": "Nodes", "type": "array"}, "edges": {"description": "A list of edges in the graph", "items": {"$ref": "#/$defs/Edge"}, "title": "Edges", "type": "array"}}, "required": ["nodes", "edges"], "title": "Graph", "type": "object"}\n-----\n\nHistory:\n\n'), HumanMessage(content="Below is the passage to extract the values from.\n*****\nPassage:\nThe Commonwealth of the Philippines (; ) was the administrative body that governed the Philippines from 1935 to 1946, aside from a period of exile in the Second World War from 1942 to 1945 when Japan occupied the country. It replaced the Insular Government, a United States territorial government, and was established by the Tydings–McDuffie Act. The Commonwealth was designed as a transitional administration in preparation for the country's full achievement of independence.")])</code></pre>
 </div>
 </div>
@@ -712,8 +712,8 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 <h1 data-number="3"><span class="header-section-number">3</span> Knowledge Graph Generation (Without History)</h1>
 <p>We now, more or less, have the components necessary to give knowledge graph generation a first go. Development is generally iterative so we’ll leave out the history aspect of it for the time being.</p>
 <p>We now will take a gander at the LCEL in action:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
-<div id="cell-35" class="cell" data-tags="[&quot;test1&quot;]" data-execution_count="198">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-33">
+<div id="cell-33" class="cell" data-tags="[&quot;test1&quot;]" data-execution_count="117">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>chat_model <span class="op">=</span> ChatAnthropic(model_name<span class="op">=</span><span class="st">'claude-3-haiku-20240307'</span>)</span>
@@ -723,8 +723,8 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 </div>
 <p>That’s all there is to it. We pipe(<code>|</code>) the output from invoking the <code>gen_template</code> straight to the <code>chat_model</code> which also gets invoked.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
-<div id="cell-36" class="cell" data-tags="[&quot;test2&quot;]" data-execution_count="199">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-34">
+<div id="cell-34" class="cell" data-tags="[&quot;test2&quot;]" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> llm_pipe.invoke({<span class="st">'passage'</span>: paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>],</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'history'</span>: <span class="st">''</span>,</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'instructions'</span>: json_prompt_instructions})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -732,39 +732,28 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 <p><code>llm_pipe</code> is passed the same arguments that <code>gen_template</code> would’ve been.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
-<div id="cell-37" class="cell" data-tags="[&quot;response_contents&quot;]" data-execution_count="201">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
+<div id="cell-35" class="cell" data-tags="[&quot;response_contents&quot;]" data-execution_count="119">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pprint(response.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('{\n'
  '  "nodes": [\n'
  '    {\n'
  '      "semantic_id": "commonwealth_of_the_philippines",\n'
- '      "category": "political_entity",\n'
+ '      "category": "administrative_body",\n'
  '      "attributes": {\n'
  '        "name": "Commonwealth of the Philippines",\n'
- '        "period": "1935 to 1946",\n'
- '        "description": "The administrative body that governed the '
- 'Philippines from 1935 to 1946, aside from a period of exile in the Second '
- 'World War from 1942 to 1945 when Japan occupied the country."\n'
+ '        "government_period": "1935 to 1946",\n'
+ '        "purpose": "transitional administration in preparation for '
+ 'independence"\n'
  '      }\n'
  '    },\n'
  '    {\n'
  '      "semantic_id": "insular_government",\n'
- '      "category": "political_entity",\n'
+ '      "category": "territorial_government",\n'
  '      "attributes": {\n'
  '        "name": "Insular Government",\n'
- '        "description": "The United States territorial government that was '
- 'replaced by the Commonwealth of the Philippines."\n'
- '      }\n'
- '    },\n'
- '    {\n'
- '      "semantic_id": "tydings_mcduffie_act",\n'
- '      "category": "legislation",\n'
- '      "attributes": {\n'
- '        "name": "Tydings–McDuffie Act",\n'
- '        "description": "The act that established the Commonwealth of the '
- 'Philippines."\n'
+ '        "governed_by": "United States"\n'
  '      }\n'
  '    },\n'
  '    {\n'
@@ -772,8 +761,15 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
  '      "category": "country",\n'
  '      "attributes": {\n'
  '        "name": "Japan",\n'
- '        "description": "Occupied the Philippines during the Second World War '
- 'from 1942 to 1945."\n'
+ '        "occupied_the_philippines": "1942 to 1945"\n'
+ '      }\n'
+ '    },\n'
+ '    {\n'
+ '      "semantic_id": "tydings_mcduffie_act",\n'
+ '      "category": "legislation",\n'
+ '      "attributes": {\n'
+ '        "name": "Tydings–McDuffie Act",\n'
+ '        "established": "Commonwealth of the Philippines"\n'
  '      }\n'
  '    }\n'
  '  ],\n'
@@ -781,20 +777,20 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
  '    {\n'
  '      "from_node": "insular_government",\n'
  '      "to_node": "commonwealth_of_the_philippines",\n'
- '      "category": "replacement"\n'
+ '      "category": "replaced"\n'
+ '    },\n'
+ '    {\n'
+ '      "from_node": "commonwealth_of_the_philippines",\n'
+ '      "to_node": "japan",\n'
+ '      "category": "occupied_by",\n'
+ '      "attributes": {\n'
+ '        "period": "1942 to 1945"\n'
+ '      }\n'
  '    },\n'
  '    {\n'
  '      "from_node": "tydings_mcduffie_act",\n'
  '      "to_node": "commonwealth_of_the_philippines",\n'
- '      "category": "establishment"\n'
- '    },\n'
- '    {\n'
- '      "from_node": "japan",\n'
- '      "to_node": "commonwealth_of_the_philippines",\n'
- '      "category": "occupation",\n'
- '      "attributes": {\n'
- '        "period": "1942 to 1945"\n'
- '      }\n'
+ '      "category": "established"\n'
  '    }\n'
  '  ]\n'
  '}')</code></pre>
@@ -804,47 +800,47 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 <p>Would you look at that, it did what we told it to, and it cost less than a penny. However, it’s still a string, so we need to convert it into a more amiable format.</p>
 <div id="parsed_output_example" style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-38">
-<div id="cell-38" class="cell" data-tags="[&quot;json_parsed&quot;]" data-execution_count="233">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
+<div id="cell-36" class="cell" data-tags="[&quot;json_parsed&quot;]" data-execution_count="120">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.output_parsers <span class="im">import</span> JsonOutputParser</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>json_output_parser <span class="op">=</span> JsonOutputParser()</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>json_output_parser.invoke(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="233">
+<div class="cell-output cell-output-display" data-execution_count="120">
 <pre><code>{'nodes': [{'semantic_id': 'commonwealth_of_the_philippines',
-   'category': 'political_entity',
+   'category': 'administrative_body',
    'attributes': {'name': 'Commonwealth of the Philippines',
-    'period': '1935 to 1946',
-    'description': 'The administrative body that governed the Philippines from 1935 to 1946, aside from a period of exile in the Second World War from 1942 to 1945 when Japan occupied the country.'}},
+    'government_period': '1935 to 1946',
+    'purpose': 'transitional administration in preparation for independence'}},
   {'semantic_id': 'insular_government',
-   'category': 'political_entity',
+   'category': 'territorial_government',
    'attributes': {'name': 'Insular Government',
-    'description': 'The United States territorial government that was replaced by the Commonwealth of the Philippines.'}},
-  {'semantic_id': 'tydings_mcduffie_act',
-   'category': 'legislation',
-   'attributes': {'name': 'Tydings–McDuffie Act',
-    'description': 'The act that established the Commonwealth of the Philippines.'}},
+    'governed_by': 'United States'}},
   {'semantic_id': 'japan',
    'category': 'country',
    'attributes': {'name': 'Japan',
-    'description': 'Occupied the Philippines during the Second World War from 1942 to 1945.'}}],
+    'occupied_the_philippines': '1942 to 1945'}},
+  {'semantic_id': 'tydings_mcduffie_act',
+   'category': 'legislation',
+   'attributes': {'name': 'Tydings–McDuffie Act',
+    'established': 'Commonwealth of the Philippines'}}],
  'edges': [{'from_node': 'insular_government',
    'to_node': 'commonwealth_of_the_philippines',
-   'category': 'replacement'},
+   'category': 'replaced'},
+  {'from_node': 'commonwealth_of_the_philippines',
+   'to_node': 'japan',
+   'category': 'occupied_by',
+   'attributes': {'period': '1942 to 1945'}},
   {'from_node': 'tydings_mcduffie_act',
    'to_node': 'commonwealth_of_the_philippines',
-   'category': 'establishment'},
-  {'from_node': 'japan',
-   'to_node': 'commonwealth_of_the_philippines',
-   'category': 'occupation',
-   'attributes': {'period': '1942 to 1945'}}]}</code></pre>
+   'category': 'established'}]}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <p>Using Langchain’s <code>JsonOutputParser</code> allows us to easily convert the JSON string into a Python dictionary object. We’re once again calling <code>invoke</code> which means it could easily be inserted into our pipeline:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-40">
-<div id="cell-40" class="cell" data-tags="[&quot;whole_pipe&quot;]">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-38">
+<div id="cell-38" class="cell" data-tags="[&quot;whole_pipe&quot;]" data-execution_count="122">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model <span class="op">|</span> json_output_parser</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -857,8 +853,8 @@ This was your output:
 <section id="visualization-with-rustworkx" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="visualization-with-rustworkx"><span class="header-section-number">3.1</span> Visualization with rustworkx</h2>
 <p>The easiest way to visualize our newly-formed knowledge graph is by using a network graph library; in our case, I’ve chosen <a href="https://www.rustworkx.org/index.html">rustworkx</a>. It’s a Python library that allows for the creation, manipulation, and rendering of directed graphs. If you’re familiar with networkx, then the syntax will be very similar, however the performance is a magnitude faster given that all of the internal goodies are written in Rust.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-43">
-<div id="cell-43" class="cell" data-tags="[&quot;base_graph_viz&quot;]" data-execution_count="246">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-41">
+<div id="cell-41" class="cell" data-tags="[&quot;base_graph_viz&quot;]" data-execution_count="246">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -885,7 +881,7 @@ This was your output:
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-36-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-36-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-34-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-34-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -908,8 +904,8 @@ This was your output:
 </ul>
 <p>To do this, we will create a magnificent <code>GraphHistory</code> class that manages this storage and retrieval.</p>
 <p>(Unfolding the code not for the faint of heart)</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-45">
-<div id="cell-45" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="36">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-43">
+<div id="cell-43" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="114">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
@@ -1056,8 +1052,8 @@ This was your output:
 <li>The <code>paragraph_idx</code> is added to the nodes to indicate which paragraph it was generated from.</li>
 <li>The nodes and edges we generate are stored in <code>graph_history</code>, which is a list of objects similar to what we generated <a href="#parsed_output_example">here</a>, but with UUIDs for unique identification(the <code>semantic_id</code> generated may, by chance alone, be the same)</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
-<div id="cell-46" class="cell" data-tags="[&quot;history_pipe&quot;]">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-44">
+<div id="cell-44" class="cell" data-tags="[&quot;history_pipe&quot;]" data-execution_count="128">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> json <span class="im">import</span> JSONDecodeError</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1066,7 +1062,7 @@ This was your output:
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">70</span>, chunk_overlap<span class="op">=</span><span class="dv">20</span>, length_function<span class="op">=</span>token_len)</span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>json_fixing_parser <span class="op">=</span> OutputFixingParser.from_llm(parser<span class="op">=</span>json_output_parser, llm<span class="op">=</span>chat_model)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>json_fixing_parser <span class="op">=</span> OutputFixingParser.from_llm(parser<span class="op">=</span>json_output_parser, llm<span class="op">=</span>chat_model, max_retries<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model <span class="op">|</span> json_fixing_parser</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>graph_history <span class="op">=</span> GraphHistory()</span>
@@ -1089,22 +1085,30 @@ This was your output:
 <span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">'history'</span>: local_history,</span>
 <span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">'instructions'</span>: json_prompt_instructions})</span>
 <span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> node <span class="kw">in</span> response[<span class="st">'nodes'</span>]:</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>            graph_history.add_history({<span class="st">'nodes'</span>: node}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> response:</span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> edge <span class="kw">in</span> response[<span class="st">'edges'</span>]:</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>                graph_history.add_history({<span class="st">'edges'</span>: edge}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> node <span class="kw">in</span> response[<span class="st">'nodes'</span>]:</span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            node[<span class="st">'paragraph_idx'</span>] <span class="op">=</span> paragraph[<span class="st">'idx'</span>]</span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>        graph_components.append(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'nodes'</span> <span class="kw">in</span> response:</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> node <span class="kw">in</span> response[<span class="st">'nodes'</span>]:</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="st">'semantic_id'</span> <span class="kw">not</span> <span class="kw">in</span> node:</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>                node[<span class="st">'paragraph_idx'</span>] <span class="op">=</span> paragraph[<span class="st">'idx'</span>]</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>                graph_history.add_history({<span class="st">'nodes'</span>: node}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> response:</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> edge <span class="kw">in</span> response[<span class="st">'edges'</span>]:</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>                graph_history.add_history({<span class="st">'edges'</span>: edge}, return_with_uuid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>        graph_components.append(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>KeyError: silver-lake or minnewawa-brook not found in latest_history_mapping
+KeyError: minnewawa-brook or the-branch not found in latest_history_mapping
+KeyError: the-branch or ashuelot-river not found in latest_history_mapping
+KeyError: ashuelot-river or connecticut-river not found in latest_history_mapping
+KeyError: veteran-banker or treasury not found in latest_history_mapping</code></pre>
+</div>
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
-<div id="cell-54" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
+<div id="cell-46" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>OrderedDict([(UUID('acc73dc0-d5ae-499e-8cc4-63f70f2d935f'),
               {'nodes': {'semantic_id': 'insular_government',
@@ -1738,15 +1742,53 @@ This was your output:
 <section id="show-me-the-money" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
 <p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
-<p>.{{&lt; embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#paragraphs_viz true &gt;}}</p>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-47">
+<div id="cell-47" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through the history to add nodes and edges</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'nodes'</span> <span class="kw">in</span> data:</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add node to the graph and store the index with its UUID</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        node_index <span class="op">=</span> digraph.add_node(data[<span class="st">'nodes'</span>])</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>        node_indices[uuid] <span class="op">=</span> node_index</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> data:</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Retrieve indices of the from and to nodes using their UUIDs</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        from_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'from_node'</span>])</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        to_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'to_node'</span>])</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> from_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> to_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add edge to the graph</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>            digraph.add_edge(from_index, to_index, data[<span class="st">'edges'</span>])</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op">=</span><span class="dv">50</span>, num_iter<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>, pos<span class="op">=</span>layout,</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>, node_size<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-39-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-39-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 <p>Messy, but you get the idea.</p>
 <p>We can do a little graph analytics to find the most connected nodes(nodes with the most connections). <code>incident_edges(n)</code> identifies the edges of a node with index <code>n</code>, so all we have to do is get the length of the edge list returned and then sort it.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-60">
-<div id="cell-60" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>len_list[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
+<div id="cell-48" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>len_list[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="81">
 <pre><code>[9,
  5,
@@ -1815,37 +1857,37 @@ This was your output:
 </div>
 </div>
 <p>The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
-<div id="cell-64" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-52">
+<div id="cell-52" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'graph' is your existing PyDiGraph object</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>node_index <span class="op">=</span> <span class="dv">35</span>  <span class="co"># Example node index</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predecessors and successors</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>predecessors <span class="op">=</span> <span class="bu">list</span>(digraph.predecessor_indices(node_index))</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>successors <span class="op">=</span> <span class="bu">list</span>(digraph.successor_indices(node_index))</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Include the original node and ensure uniqueness of nodes</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>subgraph_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>([node_index] <span class="op">+</span> predecessors <span class="op">+</span> successors))</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the subgraph</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>subgraph <span class="op">=</span> digraph.subgraph(subgraph_nodes)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>mpl_draw(subgraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'graph' is your existing PyDiGraph object</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>node_index <span class="op">=</span> <span class="dv">35</span>  <span class="co"># Example node index</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predecessors and successors</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>predecessors <span class="op">=</span> <span class="bu">list</span>(digraph.predecessor_indices(node_index))</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>successors <span class="op">=</span> <span class="bu">list</span>(digraph.successor_indices(node_index))</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Include the original node and ensure uniqueness of nodes</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>subgraph_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>([node_index] <span class="op">+</span> predecessors <span class="op">+</span> successors))</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the subgraph</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>subgraph <span class="op">=</span> digraph.subgraph(subgraph_nodes)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>mpl_draw(subgraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-56-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-44-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-44-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1856,7 +1898,7 @@ This was your output:
 <div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
@@ -1867,17 +1909,18 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 </section>
 <section id="wrapping-up" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Wrapping Up</h1>
-<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/thats_all.gif" class="img-fluid"></a></p>
+<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/thats_all.gif" class="img-fluid"></a></p>
 <p>Well…<strong>almost!</strong></p>
 <p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
 <p>Thanks for reading, I hope you managed to stay awake.</p>
+<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
 
 
 <div class="hidden" aria-hidden="true">
 <span class="glightbox-desc lightbox-desc-2">Figure&nbsp;1: Prompt Template Composition</span>
 <span class="glightbox-desc lightbox-desc-3">Figure&nbsp;2: The node-edge structure we construct from the outputs.</span>
 <span class="glightbox-desc lightbox-desc-4">Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’</span>
-<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;4: An example text consisting of 70 tokens</span>
+<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;4: An example text consisting of 70 tokens</span>
 </div>
 </section>
 
@@ -2321,7 +2364,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

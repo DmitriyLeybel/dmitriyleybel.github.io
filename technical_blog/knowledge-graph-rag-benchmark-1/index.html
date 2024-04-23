@@ -298,7 +298,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <p>Fortunately for us, the fine folks who’ve created the MuSiQue benchmark have made it simple. They’ve ran several models on the dataset and used them for evaluations. We can find the generated predictions in their <a href="https://github.com/StonyBrookNLP/musique">github repo</a>; this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
-<div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="39">
+<div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="95">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(musique_dir <span class="op">+</span> <span class="st">'/data/musique_full_v1.0_train.jsonl'</span>) <span class="im">as</span> reader:</span>
@@ -547,7 +547,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <p>Looking at a snippet of the predictions below, we see that <em>only</em> four factors are necessary, the id - which matches the question id, the answer - which is the answer to the question, the answerable flag - which is a boolean indicating whether the question can be answered, and the supporting facts - which are the paragraphs that support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
-<div id="cell-16" class="cell" data-tags="[&quot;prediction_format&quot;]" data-execution_count="46">
+<div id="cell-16" class="cell" data-tags="[&quot;prediction_format&quot;]" data-execution_count="102">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Examples of predictions**'</span>))</span>
@@ -766,7 +766,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <p>Different models use different tokenization strategies(but the same technique) with varying datasets, so we’ll focus on the publicly available algorithms. <a href="https://github.com/openai/tiktoken">tiktoken</a> is an OpenAI tool you can use to determine the token-representation existing within any string of text.</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
-<div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="42">
+<div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="98">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
@@ -832,7 +832,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <p>The tokenizer can be used on one of the paragraphs we have to illustrate its token composition.</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
-<div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="43">
+<div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="99">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_line <span class="op">=</span> lines[<span class="dv">1</span>]</span>
@@ -910,7 +910,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <p>Is this something we can expect from the provided paragraphs in our dataset?</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
-<div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="44">
+<div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="100">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> test_paragraphs:</span>
@@ -1553,7 +1553,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
