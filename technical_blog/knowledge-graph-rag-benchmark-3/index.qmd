@@ -1,0 +1,126 @@
+---
+title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database -- *Part Three*"
+date: 2024-04-23
+description: Hybridizing our Knowledge Graphs With Vector Databases
+abstract: In this post, which is short and sweet, we will be adding a layer of semantic vector storage(using Chroma) to our knowledge graph. I will go over the process of generating embeddings for the nodes in our knowledge graph and linking them with the vector database.
+aliases:
+    - knowledge-graph-benchmark-3
+number-sections: true
+code-fold: true
+categories:
+    - knowledge-graphs
+    - rag
+    - benchmarking
+---
+
+**On the last episode of**: [Don't RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph -- *Part Two*](../knowledge-graph-rag-benchmark-2/index.qmd):
+
+-   [Text splitting](../knowledge-graph-rag-benchmark-2/index.qmd#lets-split-some-text) is necessary to cut down the paragraphs into manageable chunks of text.
+
+-   Langchain makes [prompt composition](../knowledge-graph-rag-benchmark-2/index.qmd#prompting) easy, especially when managing nested and layered prompts with placeholders.
+
+-   [Pydantic](../knowledge-graph-rag-benchmark-2/index.qmd##instructions-pydantic-and-json-schema-magic) helps us create the format we desire for structured output from the LLM.
+
+-   A [history handler](../knowledge-graph-rag-benchmark-2/index.qmd#knowledge-graph-generation-with-history) allows us to keep track of generated nodes and edges to feed to new calls to the LLM.
+
+------------------------------------------------------------------------
+
+# Review
+
+First, a quick review of the workflow between knowledge graphs and vector databases [mentioned eons ago](../knowledge-graph-rag-benchmark-0/index.qmd#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency). This is more or less the implementation we'll strive towards, and will motivate this post. We've already constructed the knowledge graph, so now we have a vector database to build and link to it.
+
+![Strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt](/technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency%20strategy.png){#fig-adjacency-strategy .column-page}
+
+# Vector Database, Simple as
+
+There are many vector database providers out there. New startups are blooming like a warm spring morning. Lets keep things simple. All we need is:
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#import_chroma echo=true >}}
+
+Well, we also need to pip install it and grab some build tools in case your system complains(I'm using `build-essential` for Linux). [Chroma](https://www.trychroma.com) is fully-featured and lightweight vector database that can be deployed in numerous ways and fortunately offers us a quick and easy setup at the blink of an eye.
+
+## Embeddings
+
+An embedding, in our current context, is a vector representation of some text. Texts that are semantically similar will have a similar embedding vector. "Fido jumped into the river" is similar to "The lake looks peaceful." due to the semantic similarity of lake and river; both are bodies of water . More on that later.
+
+Chroma integrates a few embedding models, from which we'll choose the default, which is based on [Sentence Transformers](https://www.sbert.net)(`all-MiniLM-L6-v2`).
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#embedding_model_load echo=true >}}
+
+Now that we've instantiated the embedding function, lets give it a whirl.
+
+::: callout-note
+## If you're running the embedding function for the first time, it'll download the small model for you(only about 80MB)
+:::
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#embed_test echo=true >}}
+:::
+
+Cool, looks like we've generated a vector representation for 'sup', right? Wrong.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#strings_are_iterables echo=true >}}
+
+Sup with that? Chroma tends to expect iterables(lists, tuples, etc) within its functions and methods, so when we pass a three character string, it treats it as an iterable and returns 3 embeddings – one for each letter, as seen above. So, as a word of caution, if you wish to pass in a single item, pass it in as a list of one.
+
+## Distance Between Embeddings
+
+![](images/cos_similarity.jpg){.column-margin width="197"}
+
+When you wish to find the similarity between two separate embeddings, such as the generated embedding of your query and a stored embedding in the vector database(see [Fig. @fig-adjacency-strategy] Step 3), we need to use a distance function. In our case, we'll use *cosine distance.* Related is the cosine similarity, which describes the similarity between two vectors. It is -1 if they are not at all related, and 1 if they are pointing in the exact same direction.
+
+`cosine_distance = 1 - cosine_similarity` so 0 represents a perfect relationship while 2 represents no relationship.
+
+Putting this into practice, lets compare nodes generated from the 0th paragraph(we use zero indexing in these here parts, pahtnah) to other nodes generated from the 0th paragraph, and then compare nodes generated from the first paragraph to nodes generated from the 19th paragraph
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#cos_comparison echo=true >}}
+
+Luckily, the values make my point for me. There is more similarity between the nodes generated from within a paragraph than between nodes generated from different paragraphs.
+
+![Nodes originating from a paragraph are likely to be more similar than nodes generated from different paragraphs](images/similarity_comparison.png){#fig-similarity-comparison}
+
+## Setting Up Our DB
+
+Chroma uses `collections` as vector spaces which handle the storage of your vectors, their ids, and metadata.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#db_setup echo=true >}}
+
+We just feed it a `name` – our benchmark, the `embedding_function` and the `hsnw:space` as the metadata, instructing the database which distance metric this collection should be optimized for.
+
+# Connecting Vector DB to Knowledge Graph
+
+Our current goal is to retrieve the adjacent nodes(nodes with connections) of a node whose embedding is semantically similar to our query – seen in [Fig. @fig-adjacency-strategy] Step 5.
+
+[In the previous post](../knowledge-graph-rag-benchmark-2/index.qmd#knowledge-graph-generation-with-history) we created a network graph with rustworkx from a graph_history object we generated with our LLM pipeline while looping over the paragraphs of a single question.
+
+As a brief reminder, here is what the `history` dictionary of that `graph_history` object resembles:
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#graph_hist_reminder echo=true >}}
+:::
+
+It consists of nodes and edges, each with a unique identifier(UUID). To build our vector store collection, we simply loop over it and add the documents and ids associated with the nodes into the collection we created earlier.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#building_collection echo=true >}}
+
+Surely, it has to be harder than that? Nope. The documents, AKA Python dictionaries we converted to strings, we added were converted using the Sentence Transformer used in the `create_collection()` command. Lets take it for a spin and query it with a question.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#top_results echo=true >}}
+
+The top 10 results are returned based on the cosine distance metric specified, once again, in the `create_collection()` command. To illustrate the process up till here, have a flowchart.
+
+![Population and querying of the vector database](images/vec_populate.png){.column-page .preview-image}
+
+Now, going back to the graph we created -- `digraph` -- we are able to use the UUID of the top result to do a dictionary lookup in the `node_indices` mapping we created when building the graph that maps from the UUID to the index of the node within the graph.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#top_result echo=true >}}
+
+Cool, so what? We already have the node dictionary. Because we have the node's location in the graph, we can easily query the graph to get any nodes connected to it: its neighbors.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#top_connections echo=true >}}
+
+# Ze end
+
+See, promised I'd keep it short and sweet.
+
+Next up, we'll focus on using our vector database and knowledge graph to not only answer questions, but also cite the paragraphs with contributing evidence – at least that's the plan.

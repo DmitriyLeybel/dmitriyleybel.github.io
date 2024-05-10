@@ -4,6 +4,7 @@ listing:
     id: my-listings
     contents: technical_blog/*/index.qmd
     categories: true
+    feed: true
 ---
 
 ::: {.column-page #my-listings}

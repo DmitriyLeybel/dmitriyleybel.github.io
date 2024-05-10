@@ -32,6 +32,8 @@ website:
   twitter-card: true
   open-graph: true
   favicon: "images/favicon.ico"
+  site-url: https://www.dmlbl.com
+  description: "Dmitriy Leybel's personal website and technical blog"
 
 format:
   html:

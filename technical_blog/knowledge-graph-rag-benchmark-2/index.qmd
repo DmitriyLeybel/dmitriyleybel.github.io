@@ -1,8 +1,8 @@
 ---
 title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph -- *Part Two*"
-date: 2024-04-18
+date: 2024-04-20
 description: Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)
-abstract: This post introduces you to building a knowledge graph in Python using an LLM. This involves orchestrating the working components of LangChain in order to call the LLM, compose the prompts, and create our pipeline with its expression language.
+abstract: This post introduces you to building a knowledge graph in Python using an LLM. This involves orchestrating the working components of LangChain in order to call the LLM, compose the prompts, and create our pipeline with its expression language. We then visualize the graph with rustworkx.
 aliases:
     - knowledge-graph-benchmark-2
 number-sections: true
@@ -36,7 +36,7 @@ In order to feed text of reasonable length into our LLM, we need to be able to s
 As noted in the [last post](../knowledge-graph-rag-benchmark-1#claude-tokenization), we're going to do a little assuming about the Claude 3 Haiku tokenization and say that it's comparable to the latest OpenAI models -- which is why we're going to get away with using OpenAI's tokenizer, tiktoken.
 
 ::: callout-note
-## As of this writing, Llama 3 was just released and is using OpenAI's tiktoken
+## As of this writing, Meta's Llama 3 was just released and is using OpenAI's tiktoken (*and it's incredible)*
 :::
 
 We'll be using LangChain's `RecursiveCharacterTextSplitter` to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we'll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we're using our length function as the determinant of splits.
@@ -45,7 +45,7 @@ We'll be using LangChain's `RecursiveCharacterTextSplitter` to split the text in
 
 # Prompting
 
-Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain.
+Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain. We can pass in any text string we want to the model as long as it observes the token limits.
 
 {{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#model_load echo=true >}}
 
@@ -59,7 +59,7 @@ It's *so over* for stand up comedians.
 
 While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we'll be using.
 
-![Prompt Template Composition](images/prompt_structure.png){#fig-prompts}
+![Prompt Template Composition](images/prompt_structure.png){#fig-prompts .column-page}
 
 As witnessed in the above, we're creating a template out of multiple templates. A `System Message` is a message sent to an LLM that tells it how to respond, in the style, tone, or format of your choosing; it primes it with an 'identity'. The `Human Message` is the message you send to the LLM after you prime it with a system message. Do you actually need to differentiate between them? **Meh**. In my experience it makes no difference and I haven't seen any testing to suggest otherwise, but in the case that future models start to take the distinction more seriously, we should continue using it. LLMs which function as chat models tend to be able to take a series of messages through their APIs, which LangChain is helping us facilitate.
 
@@ -81,7 +81,7 @@ I trust you've perused the examples and are not too stoked to write all of that 
 
 The nodes and edges we need to construct for the knowledge graph aren't overly complex, but they do have their nuances and enough moving parts to warrant a systemic approach to their production.
 
-![The node-edge structure we construct from the outputs.](images/node_edge.png){#fig-node-edge width="665"}
+![The node-edge structure we construct from the outputs.](images/node_edge.png){#fig-node-edge .preview-image width="665"}
 
 Each individual node has an identifier, a category, a variable number of attributes, the source text it was created from, and an identifier of the paragraph it was created from taken from the dataset itself. The LLM won't have to generate all of the properties, as the paragraph ID is simply taken from the paragraph that creates it; in fact, it can probably be a list of IDs where that particular node is referenced. The edges are a degree simpler, as they just need a category, some attributes, and the nodes which they connect.
 
@@ -143,4 +143,147 @@ To create our Langchain pipeline, we wrap the templates we created in `SystemMes
 
 {{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#template_agg echo=true >}}
 
-# History Management
+`invoke` is a generic command in Langchain's expression language(LCEL) which can be applied to many of the Langchain elements in order to 'trigger' them. This makes the interface quite simple when building chains of elements and extending the types of elements that are available to your custom chains by implementing your own classes that contain the `invoke` method(and others).
+
+::: callout-note
+## Generally, we can use [partial_variables](https://python.langchain.com/docs/modules/model_io/prompts/partial/) within the prompt templates in order to not have to pass in the json_prompt_instructions on each invocation -- but a recent Langchain update(langchain == 0.1.16) did us wrong and broke that for quite a few templates.
+:::
+
+# Knowledge Graph Generation (Without History)
+
+We now, more or less, have the components necessary to give knowledge graph generation a first go. Development is generally iterative so we'll leave out the history aspect of it for the time being.
+
+We now will take a gander at the LCEL in action:
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#test1 echo=true >}}
+
+That's all there is to it. We pipe(`|`) the output from invoking the `gen_template` straight to the `chat_model` which also gets invoked.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#test2 echo=true >}}
+
+`llm_pipe` is passed the same arguments that `gen_template` would've been.
+
+::: {style="max-height: 400px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#response_contents echo=true >}}
+:::
+
+Would you look at that, it did what we told it to, and it cost less than a penny. However, it's still a string, so we need to convert it into a more amiable format.
+
+::: {#parsed_output_example style="max-height: 400px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#json_parsed echo=true >}}
+:::
+
+Using Langchain's `JsonOutputParser` allows us to easily convert the JSON string into a Python dictionary object. We're once again calling `invoke` which means it could easily be inserted into our pipeline:
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#whole_pipe echo=true >}}
+
+Before assuming that the output would be correctly structured JSON string, we needed to see it for ourselves. If the output from `gen_template | chat_model` ended up anything else other than a JSON string that our parser can handle, we would've received an unfortunate error.
+
+Generally speaking, if you have a prompt that plays ball with an LLM of your choosing, you're fairly safe when it comes to receiving the structured output in the subsequent calls. However, it is a best practice to involve a failsafe that can retry the process in the even of failure. The failsafe method can involve something as simple as sending the faulty output along with a string that describes your desired output back into the LLM for re-evaluation. For instance:
+
+```         
+You didn't output the proper JSON format. Please try again.
+This was your output:
+{output}
+```
+
+We can skip that for now, and see how robust our pipeline really is. Risk it for the biscuit. <sub><sup>🙏</sup></sub>
+
+## Visualization with rustworkx {#visualization-with-rustworkx}
+
+The easiest way to visualize our newly-formed knowledge graph is by using a network graph library; in our case, I've chosen [rustworkx](https://www.rustworkx.org/index.html). It's a Python library that allows for the creation, manipulation, and rendering of directed graphs. If you're familiar with networkx, then the syntax will be very similar, however the performance is a magnitude faster given that all of the internal goodies are written in Rust.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#base_graph_viz echo=true >}}
+
+It ain't pretty, but it's honest work.
+
+To create the graph, we use a dictionary to map the node `semantic_id` to the generated node index which is output when we create a new node. Then to create edges, that mapping is used to convert the `semantic_id` to the index.
+
+# Knowledge Graph Generation (With History)
+
+## History Management
+
+When it comes to managing the history of nodes and edges, there is a tiny bit of overhead involved. We need to:
+
+-   Keep track of the generated nodes and edges and thusly provide them with unique identifiers
+
+-   Add new edges and nodes to the history
+
+-   Update edges and nodes if the LLM makes changes to them
+
+-   Return a string representation of the nodes and edges to our pipeline using a specified token limit dependent on the context size
+
+To do this, we will create a magnificent `GraphHistory` class that manages this storage and retrieval.
+
+(Unfolding the code not for the faint of heart)
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#history_class echo=true >}}
+
+The code above addresses the bullets representing our requirements, however, there are some messy workarounds where we skip creating edges when it imagines node names. The ideal handling of this would involve rerunning the generation and feeding it the error, but we're going to wing it and skip this for better or worse. The mistaken identity shouldn't be very common, but it *can* occur.
+
+# Putting it All Together
+
+Now that we have an ability to store and inject history into our pipeline, we're ready to go.
+
+We're iterating over all of the paragraphs, and then splitting each paragraph with the `RecursiveCharacterTextSplitter`.
+
+Some things to note about our new pipeline before you dive in:
+
+1.  The JSON parser is now wrapped with a special `OutputFixingParser` class from Langchain that in the event of an error like a `JSONDecodeError`, it sends that error back to the LLM and tries to generate the correct format. Experimenting with Claude 3 Haiku has led me to add that, as it had generated faulty JSON(unlike GPT 3.5). This gives more credence to the user stories claiming that Claude 3 is more buddy-buddy with XML over JSON.
+2.  A way to handle the `RateLimitError` exception was added, in the event that the [API complains](https://docs.anthropic.com/claude/reference/rate-limits) when we generate too many nodes and edges back to back. All it takes is waiting a minute before retrying.
+3.  The `paragraph_idx` is added to the nodes to indicate which paragraph it was generated from.
+4.  The nodes and edges we generate are stored in `graph_history`, which is a list of objects similar to what we generated [here](#parsed_output_example), but with UUIDs for unique identification(the `semantic_id` generated may, by chance alone, be the same)
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#history_pipe echo=true >}}
+
+::: {style="max-height: 400px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#graph_components echo=true >}}
+:::
+
+It took \~2 minutes to create generate the `graph_history`and 43 calls to the LLM.
+
+A speed boost can definitely be had in multiple ways:
+
+-   Use a different model. The latest Llama 3 model running on [Groq](https://wow.groq.com) infrastructure can yield a 10x speed up in some cases if you use the 8B model. The great thing about using a framework like Langchain is the ease with which you can plug n play different models in your pipelines.
+
+-   Increase the chunk size. If the entire paragraph is passed to the LLM, this will cut down on the 43 multiple calls by roughly half in our case.
+
+-   In addition to increasing the chunk size, we can pass multiple paragraphs to process at the same time – although this would involve prompting the model to extract some paragraph identification which we currently get for free simply by attaching the `idx` of each paragraph to the nodes it creates.
+
+-   **PARALLELIZE IT**(though we may lose some of the history tracking)
+
+## Show Me the Money
+
+Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we [saw earlier](#visualization-with-rustworkx) in order for all of the nodes and edges to not be concealed by the *massive* amounts of text we've generated. I've left the node categories visible. The graph generation code was modified to work with the the history stored within our `graph_history` object.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#paragraphs_viz echo=true >}}
+
+Messy, but you get the idea.
+
+We can do a little graph analytics to find the most connected nodes(nodes with the most connections). `incident_edges(n)` identifies the edges of a node with index `n`, so all we have to do is get the length of the edge list returned and then sort it.
+
+::: {style="max-height: 400px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#node_incident_edges echo=true >}}
+:::
+
+The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#chad_nine echo=true >}}
+
+Do recall, our token window is fairly small, with all of 70 tokens, however, we're using 600 tokens to store the history of generated nodes and edges which are fed back to the model. Perhaps this a good amount of connectivity given these parameters and the fact that only a few paragraphs should have a connection between them, or perhaps not. The lack of quantifiable best practices in a bleeding edge field is 😢sad but expected.
+
+To jog your memory a bit, here is what 70 tokens looks like:
+
+![An example text consisting of 70 tokens](images/70_tokens.jpg){#fig-tokens width="637"}
+
+# Wrapping Up
+
+![](images/thats_all.gif)
+
+Well...**almost!**
+
+Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the **next post**.
+
+Thanks for reading, I hope you managed to stay awake.
+
+[**Part Three \>\>\>**](../knowledge-graph-rag-benchmark-3/index.qmd)
