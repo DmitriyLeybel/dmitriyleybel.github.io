@@ -298,7 +298,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <p>Fortunately for us, the fine folks who’ve created the MuSiQue benchmark have made it simple. They’ve ran several models on the dataset and used them for evaluations. We can find the generated predictions in their <a href="https://github.com/StonyBrookNLP/musique">github repo</a>; this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
-<div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="95">
+<div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> jsonlines.<span class="bu">open</span>(musique_dir <span class="op">+</span> <span class="st">'/data/musique_full_v1.0_train.jsonl'</span>) <span class="im">as</span> reader:</span>
@@ -1553,7 +1553,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

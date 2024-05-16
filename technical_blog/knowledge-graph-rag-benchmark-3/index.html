@@ -276,8 +276,8 @@ Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, an
 <section id="vector-database-simple-as" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Vector Database, Simple as</h1>
 <p>There are many vector database providers out there. New startups are blooming like a warm spring morning. Lets keep things simple. All we need is:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-58">
-<div id="cell-58" class="cell" data-tags="[&quot;import_chroma&quot;]" data-execution_count="7">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-61">
+<div id="cell-61" class="cell" data-tags="[&quot;import_chroma&quot;]" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromadb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -286,8 +286,8 @@ Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, an
 <h2 data-number="2.1" class="anchored" data-anchor-id="embeddings"><span class="header-section-number">2.1</span> Embeddings</h2>
 <p>An embedding, in our current context, is a vector representation of some text. Texts that are semantically similar will have a similar embedding vector. “Fido jumped into the river” is similar to “The lake looks peaceful.” due to the semantic similarity of lake and river; both are bodies of water . More on that later.</p>
 <p>Chroma integrates a few embedding models, from which we’ll choose the default, which is based on <a href="https://www.sbert.net">Sentence Transformers</a>(<code>all-MiniLM-L6-v2</code>).</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-59">
-<div id="cell-59" class="cell" data-tags="[&quot;embedding_model_load&quot;]" data-execution_count="8">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-62">
+<div id="cell-62" class="cell" data-tags="[&quot;embedding_model_load&quot;]" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chromadb.utils <span class="im">import</span> embedding_functions</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ef <span class="op">=</span> embedding_functions.DefaultEmbeddingFunction()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -308,8 +308,8 @@ If you’re running the embedding function for the first time, it’ll download 
 </div>
 </div>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-60">
-<div id="cell-60" class="cell" data-tags="[&quot;embed_test&quot;]" data-execution_count="9">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-63">
+<div id="cell-63" class="cell" data-tags="[&quot;embed_test&quot;]" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ef(<span class="st">'sup'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>[[-0.08815008401870728,
@@ -1469,8 +1469,8 @@ If you’re running the embedding function for the first time, it’ll download 
 </div>
 </div>
 <p>Cool, looks like we’ve generated a vector representation for ‘sup’, right? Wrong.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-61">
-<div id="cell-61" class="cell" data-tags="[&quot;strings_are_iterables&quot;]" data-execution_count="20">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
+<div id="cell-64" class="cell" data-tags="[&quot;strings_are_iterables&quot;]" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(ef(<span class="st">'sup'</span>)), <span class="bu">len</span>(ef([<span class="st">'sup'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>(3, 1)</code></pre>
@@ -1485,8 +1485,8 @@ If you’re running the embedding function for the first time, it’ll download 
 <p>When you wish to find the similarity between two separate embeddings, such as the generated embedding of your query and a stored embedding in the vector database(see <a href="#fig-adjacency-strategy" class="quarto-xref">Fig.&nbsp;1</a> Step 3), we need to use a distance function. In our case, we’ll use <em>cosine distance.</em> Related is the cosine similarity, which describes the similarity between two vectors. It is -1 if they are not at all related, and 1 if they are pointing in the exact same direction.</p>
 <p><code>cosine_distance = 1 - cosine_similarity</code> so 0 represents a perfect relationship while 2 represents no relationship.</p>
 <p>Putting this into practice, lets compare nodes generated from the 0th paragraph(we use zero indexing in these here parts, pahtnah) to other nodes generated from the 0th paragraph, and then compare nodes generated from the first paragraph to nodes generated from the 19th paragraph</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-63">
-<div id="cell-63" class="cell" data-tags="[&quot;cos_comparison&quot;]" data-execution_count="160">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-66">
+<div id="cell-66" class="cell" data-tags="[&quot;cos_comparison&quot;]" data-execution_count="160">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chromadb.utils.distance_functions <span class="im">import</span> cosine</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>p0_list <span class="op">=</span> []</span>
@@ -1521,8 +1521,8 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 <section id="setting-up-our-db" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="setting-up-our-db"><span class="header-section-number">2.3</span> Setting Up Our DB</h2>
 <p>Chroma uses <code>collections</code> as vector spaces which handle the storage of your vectors, their ids, and metadata.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
-<div id="cell-64" class="cell" data-tags="[&quot;db_setup&quot;]" data-execution_count="161">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-67">
+<div id="cell-67" class="cell" data-tags="[&quot;db_setup&quot;]" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>chroma_client <span class="op">=</span> chromadb.Client()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>collection <span class="op">=</span> chroma_client.create_collection(</span>
@@ -1541,8 +1541,8 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 <p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#knowledge-graph-generation-with-history">In the previous post</a> we created a network graph with rustworkx from a graph_history object we generated with our LLM pipeline while looping over the paragraphs of a single question.</p>
 <p>As a brief reminder, here is what the <code>history</code> dictionary of that <code>graph_history</code> object resembles:</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-65">
-<div id="cell-65" class="cell" data-tags="[&quot;graph_hist_reminder&quot;]" data-execution_count="162">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-69">
+<div id="cell-69" class="cell" data-tags="[&quot;graph_hist_reminder&quot;]" data-execution_count="162">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="162">
 <pre><code>OrderedDict([(UUID('bdbf44f6-c5ab-4e93-95f9-913c4472c483'),
@@ -2270,16 +2270,16 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 </div>
 </div>
 <p>It consists of nodes and edges, each with a unique identifier(UUID). To build our vector store collection, we simply loop over it and add the documents and ids associated with the nodes into the collection we created earlier.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-66">
-<div id="cell-66" class="cell" data-tags="[&quot;building_collection&quot;]" data-execution_count="163">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-72">
+<div id="cell-72" class="cell" data-tags="[&quot;building_collection&quot;]" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k,v <span class="kw">in</span> graph_history.history.items():</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'nodes'</span> <span class="kw">in</span> v:</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        collection.add(documents<span class="op">=</span>[<span class="bu">str</span>(v[<span class="st">'nodes'</span>])], ids<span class="op">=</span>[<span class="bu">str</span>(k)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Surely, it has to be harder than that? Nope. The documents, AKA Python dictionaries we converted to strings, we added were converted using the Sentence Transformer used in the <code>create_collection()</code> command. Lets take it for a spin and query it with a question.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-67">
-<div id="cell-67" class="cell" data-tags="[&quot;top_results&quot;]" data-execution_count="178">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-74">
+<div id="cell-74" class="cell" data-tags="[&quot;top_results&quot;]" data-execution_count="178">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_results <span class="op">=</span> collection.query(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    query_texts<span class="op">=</span>[<span class="st">"What is the largest island in the pacific?"</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    )</span>
@@ -2316,8 +2316,8 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 </figure>
 </div>
 <p>Now, going back to the graph we created – <code>digraph</code> – we are able to use the UUID of the top result to do a dictionary lookup in the <code>node_indices</code> mapping we created when building the graph that maps from the UUID to the index of the node within the graph.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-68">
-<div id="cell-68" class="cell" data-tags="[&quot;top_result&quot;]" data-execution_count="183">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-77">
+<div id="cell-77" class="cell" data-tags="[&quot;top_result&quot;]" data-execution_count="183">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> uuid</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing a UUID version 4 from a string</span></span>
@@ -2343,8 +2343,8 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 </div>
 </div>
 <p>Cool, so what? We already have the node dictionary. Because we have the node’s location in the graph, we can easily query the graph to get any nodes connected to it: its neighbors.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-69">
-<div id="cell-69" class="cell" data-tags="[&quot;top_connections&quot;]" data-execution_count="186">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-78">
+<div id="cell-78" class="cell" data-tags="[&quot;top_connections&quot;]" data-execution_count="186">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx <span class="kw">in</span> digraph.neighbors(node_indices[top_uuid]):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(digraph[idx])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2359,6 +2359,7 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 <h1 data-number="4"><span class="header-section-number">4</span> Ze end</h1>
 <p>See, promised I’d keep it short and sweet.</p>
 <p>Next up, we’ll focus on using our vector database and knowledge graph to not only answer questions, but also cite the paragraphs with contributing evidence – at least that’s the plan.</p>
+<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-4/index.html"><strong>Part Four &gt;&gt;&gt;</strong></a></p>
 
 
 <div class="hidden" aria-hidden="true">
@@ -2808,7 +2809,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

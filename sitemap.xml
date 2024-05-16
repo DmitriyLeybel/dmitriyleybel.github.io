@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.dmlbl.com/technical_blog.html</loc>
-    <lastmod>2024-04-23T23:52:00.956Z</lastmod>
+    <lastmod>2024-05-16T05:43:49.527Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/index.html</loc>
-    <lastmod>2024-04-23T23:36:26.684Z</lastmod>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/index.html</loc>
+    <lastmod>2024-05-16T04:59:30.159Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/index.html</loc>
-    <lastmod>2024-04-17T18:40:22.586Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/resume.html</loc>
-    <lastmod>2024-04-06T01:17:09.127Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/notebooks/musique_eda.html</loc>
-    <lastmod>2024-04-10T21:19:24.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/index.html</loc>
-    <lastmod>2024-04-11T00:02:48.826Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/about.html</loc>
-    <lastmod>2024-04-06T03:58:02.882Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/notebooks/cross_test.html</loc>
-    <lastmod>2024-03-28T18:33:16.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/personal_blog.html</loc>
-    <lastmod>2024-04-06T17:10:47.854Z</lastmod>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/notebooks/kg_build.html</loc>
+    <lastmod>2024-05-15T18:28:07.000Z</lastmod>
   </url>
   <url>
     <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/index.html</loc>
     <lastmod>2024-04-14T18:54:46.401Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/notebooks/kg_build.html</loc>
-    <lastmod>2024-04-23T22:54:26.000Z</lastmod>
+    <loc>https://www.dmlbl.com/personal_blog.html</loc>
+    <lastmod>2024-04-06T17:10:47.854Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/index.html</loc>
-    <lastmod>2024-04-24T00:15:24.541Z</lastmod>
+    <loc>https://www.dmlbl.com/notebooks/cross_test.html</loc>
+    <lastmod>2024-03-28T18:33:16.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/about.html</loc>
+    <lastmod>2024-04-06T03:58:02.882Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/index.html</loc>
+    <lastmod>2024-04-11T00:02:48.826Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/notebooks/musique_eda.html</loc>
+    <lastmod>2024-04-10T21:19:24.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/resume.html</loc>
+    <lastmod>2024-04-06T01:17:09.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/index.html</loc>
+    <lastmod>2024-05-10T19:22:33.518Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/index.html</loc>
+    <lastmod>2024-05-10T19:21:52.988Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/index.html</loc>
+    <lastmod>2024-05-16T05:46:43.074Z</lastmod>
   </url>
 </urlset>

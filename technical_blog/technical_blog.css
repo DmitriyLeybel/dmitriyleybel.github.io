@@ -10,5 +10,10 @@
 }
 
 #quarto-document-content li {
-  font-size: 1em;
+  font-size: .85em;
+}
+
+
+#quarto-document-content ul li {
+  font-size: 1em; /* Set font size for list items in unordered lists */
 }
