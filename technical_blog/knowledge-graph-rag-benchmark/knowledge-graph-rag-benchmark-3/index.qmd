@@ -124,3 +124,6 @@ Cool, so what? We already have the node dictionary. Because we have the node's l
 See, promised I'd keep it short and sweet.
 
 Next up, we'll focus on using our vector database and knowledge graph to not only answer questions, but also cite the paragraphs with contributing evidence – at least that's the plan.
+
+[**Part Four >>>**](../knowledge-graph-rag-benchmark-4/index.qmd)
+

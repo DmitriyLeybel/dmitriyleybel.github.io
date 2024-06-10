@@ -1,11 +1,33 @@
 ---
-title: Technical Blog
-listing:
-    id: my-listings
-    contents: technical_blog/*/index.qmd
-    categories: true
-    feed: true
----
+title: "Technical Blog"
 
-::: {.column-page #my-listings}
+listing:
+    - id: kg-rag-listing
+      contents: technical_blog/knowledge-graph-rag-benchmark/*/index.qmd
+      categories: true
+      feed:
+        title: "Technical Blog"
+      sort: "date asc"
+    - id: thinking-out-loud
+      contents: technical_blog/thinking-out-loud/*/index.qmd
+      categories: true
+      feed:
+        title: "Technical Blog"
+      filter-ui: false
+      type: "table"
+      sort: "date desc"
+---
+::: {.column-page}
+<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">Thinking Out Loud <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"/></a></span></h1> 
 :::
+
+::: {.column-page #thinking-out-loud}
+:::
+
+::: {.column-page}
+<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">Knowledge Graph RAG Benchmarking Series <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"/></a></span></h1> 
+:::
+
+::: {.column-page #kg-rag-listing}
+:::
+

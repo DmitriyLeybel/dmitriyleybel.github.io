@@ -1,0 +1,239 @@
+---
+title: "Don't RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) -- *Part Four*"
+date: 2024-05-16
+description: Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.
+abstract: This section focuses on constructing a workflow to answer questions found in the [MuSiQue](../knowledge-graph-rag-benchmark-0/#musique) dataset. After a long an arduous road of [constructing a knowledge graph](../knowledge-graph-rag-benchmark-2/index.qmd), [adding vector storage](../knowledge-graph-rag-benchmark-3/index.qmd), and linking the two, we now have a system that can answer questions with a high degree of accuracy and efficiency(or so we hope).
+aliases:
+    - knowledge-graph-benchmark-4
+number-sections: true
+code-fold: true
+categories:
+    - knowledge-graphs
+    - rag
+    - benchmarking
+    - vector-databases
+image: "./images/question-answering-flow.png"
+---
+
+**On the last episode of**: [Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three](../knowledge-graph-rag-benchmark-3/index.qmd):
+
+-   Out of the many available options for vector DBs, we're using [Chroma](../knowledge-graph-rag-benchmark-3/index.qmd##vector-database-simple-as) due to its simplicity and ease of use -- a very powerful plug 'n play option.
+
+-   The nodes in our knowledge graph are linked to [generated embeddings](../knowledge-graph-rag-benchmark-3/index.qmd##vector-database-simple-as#connecting-vector-db-to-knowledge-graph).
+
+-   When we ask a question, we can find the semantically related nodes by generating an embedding for the question and the running a similarity search using a metric like cosine distance.
+
+------------------------------------------------------------------------
+
+# Overview
+
+Below is a flow-charted summary of what this post will be focusing on. The [vector database](../knowledge-graph-rag-benchmark-3/) and [knowledge graph](../knowledge-graph-rag-benchmark-2/index.qmd) are generated in previous posts.
+
+![Illustrated flow from question to structured answer.](images/question-answering-flow_tnspt.png){.column-page}
+
+# Question
+
+*To be or not to be?* 🫣
+
+Our purpose here is to answer a question provided a set of paragraphs, and provide the supporting evidence for it.
+
+As a brief reminder, lets peek into a single entry of the MuSiQue dataset used in our previous exploration:
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#main_line echo=true >}}
+:::
+
+The question being:
+
+`What is the body of water by the city where Zvezda stadium is located?`.
+
+Simple enough.
+
+The format of the answer is also relevant to us:
+
+```         
+{'id': '2hop__252311_366220',
+ 'predicted_answer': 'Steven Spielberg',
+ 'predicted_answerable': True,
+ 'predicted_support_idxs': [10, 18]}
+```
+
+This is taken straight from one of the prediction sets available in [MuSiQue's repo](https://github.com/StonyBrookNLP/musique). Steven Spielberg is in fact not a body of water, but a movie director.
+
+Our pipeline's output needs to include: 1) The answer 2) Whether the question is answerable given the supporting paragraphs. 3) The paragraphs which contain the supporting information to answer the question.
+
+# Prompting
+
+That's right, we're back to prompting, our bread n buttah.
+
+This time, we'll be feeding the question, instructions, and supporting evidence to the LLM. This will be very similar to us coaxing the LLM to create the knowledge graph in one of the [previous posts](../knowledge-graph-rag-benchmark-2/index.qmd#prompting).
+
+## Prompt Template
+
+First, we need a system message that helps guide our model along, delivers and understanding of the input, and gently coerces it to output an aptly formatted answer.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#pred_prompts echo=true >}} {{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#pred_system_message echo=true >}}
+
+The `guidance_str` lays out what I described above. We also provide the 'format_str', which includes a JSON dump of the `Answer` class schema, brought to you by Pydantic, although this time it's a bit less convoluted than the one used to create the nodes and edges of our knowledge graph.
+
+In addition to the System message, we also need to add the Human message template to our pipeline which will allow us to pass in the question and evidence.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#human_message_pred echo=true >}}
+
+# Gathering Evidence
+
+Next up, we need to gather the supporting evidence for our model from our knowledge base(the combination of our knowledge graph and vector store which we created in previous posts).
+
+::: {style="max-height: 280px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#top_results_pred echo=true >}}
+:::
+
+We're interested in the top 3 results. Why? Why not?
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#top_nodes_preview echo=true >}}
+
+We get the top UUIDs to then use in conjuction with our `UUID: graph index` mapping we constructed during the creation of the knowledge graph.
+
+Lets take a gander into the connecting nodes from our top 3 results. Our network graph is **directed**, meaning that the direction is important(and creates a much easier semantic designation for the edge). A predecessor node is a node from which the linkage stems, and a successor node is the node towards which the linkage is directed. Taking their union, we have an exhaustive list of connecting nodes to the ones we retrieved from our vector store.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#suc_pred_nodes echo=true >}}
+
+## Transforming the Evidence
+
+Now that we have the nodes, we need to grab their edges, and then transform both into a format that will be easily digestible for the LLM. We will still feed the nodes and edges as JSON strings, but we'll need to augment it to replace UUIDs with something less complex like a monotonically increasing integer. This way, the LLM can use integers like `0` and `1` instead of `5f092031-cf0d-408c-a4f1-896e7c8607be` and `bc1c5af9-c311-4e9f-975d-349d33d41a15` when interpreting the `from_node` and `to_node` fields of the edges.
+
+::: {style="max-height: 530px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#evidence_processing echo=true >}}
+:::
+
+::: callout-note
+## For the astute reader, you may have noticed that we could've just used the integer values that are the indices of the nodes in the network graph. Intuitively, it makes more sense to me to use smaller integers by creating a new counter for each presentation of evidence. In practice, this may not be the case.
+:::
+
+Lets take a look at what the evidence will look like:
+
+::: {style="max-height: 530px; overflow: auto"}
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#edges_nodes_hist echo=true >}}
+:::
+
+You can now see the nodes have `connecting_ids` 0-4 which are then used in the `from_node` and `to_node` fields of the edges.
+
+# Putting It All Together
+
+We've got the evidence, now we need to finalize our pipeline check the response from the LLM.
+
+First, lets combine our `System` and `Human` templates.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#combined_template echo=true >}}
+
+Next, we need to wrap our Pydantic class `Answer` in a `PydanticOutputParser`, which takes the output from the LLM model and parses the string as a JSON, erroring out if the structure does not match our schema. We then wrap that parser in an `OutputFixingParser`, which will attempt to fix any errors that may occur during the parsing process by passing the error and output back to the LLM for remediation.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#parse_pydantic echo=true >}}
+
+## Moment of truth
+
+We can now instantiate the pipeline, pass in the question and evidence, then run it.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#ans_pipe echo=true >}}
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#wrong_ans echo=true >}}
+
+![It's okay to feel all sorts of things when you don't get your expected result.](images/cman_c.jpg)
+
+1)  What
+
+The supporting evidence makes no mention of `The Hussain Sagar lake`, however I **did** look it up, and found that it is located in Hyderabad, which **is** in our evidence. Here, we see the model looking into its own trained knowledgebase and ignoring the evidence.
+
+## Coping(Deal with it)
+
+I'm not going to lie to you; I was not expecting the correct answer on the first trial run. Once we have an end-to-end pipeline established, it needs to be tuned to the task at hand. In order to tune a model, the best practice is to understand where its deficiencies lie.
+
+According to the dataset, the supporting evidence comes from paragraphs 10 and 11, neither of which made it to our evidence.
+
+**10**:
+
+```         
+   Perm (;) is a city and the administrative centre of Perm Krai, Russia, located on
+   the banks of the Kama River in the European part of Russia near the Ural Mountains.
+```
+
+**11**:
+
+```         
+   Star (Zvezda) Stadium (), until 1991 Lenin Komsomol Stadium (), is a multi-use stadium in
+   Perm, Russia. It is currently used mostly for football matches and is the home ground of FC
+   Amkar Perm. The stadium holds 17,000 people and was opened on June 5, 1969.
+```
+
+Not only was the answer wrong, but the LLM believed that the question was **answerable** given the available evidence.
+
+### Is a more potent model the answer?
+
+Given that the evidence does not contribute to the correct answer, we can say that our model is hallucinating due to it marking it as *answerable* and giving us the wrong answer. Weak models tend to hallucinate often. Could this be the case here? Lets use a more powerful model to test out our hypothesis.
+
+{{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#adv_model echo=true >}} {{< embed ../knowledge-graph-rag-benchmark-1/notebooks/kg_build.ipynb#adv_ans echo=true >}}
+
+This is a more sensible answer, using the evidence correctly; no good evidence, not answerable. As things should be.
+
+It will be useful to outline the problems and their corresponding potential solutions to explore.
+
+**Problem 1**: The LLM believes the question is answerable, when it is not and the model hallucinates information.
+
+**Solution 1a**: Use a more powerful model. This isn't a hard ask, given the exponential improvement and falling costs.
+
+**Solution 1b**: Add a chain-of-thought step. e.g. add a field to the output template that produces the reasoning behind the answer. This may be an acceptable solution when combined with a weak model.
+
+### Graph Woes
+
+The evidence returned by our pipeline is inadequate. We can look through the knowledge graph carefully and see that the nodes and edges present in the knowledge graphs contain information that **IS capable** of answering the question.
+
+The following nodes are present within the knowledge graph:
+
+```         
+{'semantic_id': 'star_stadium',
+                'category': 'stadium',
+                'attributes': {'name': 'Star (Zvezda) Stadium',
+                 'former_name': 'Lenin Komsomol Stadium',
+                 'location': {'city': 'Perm', 'country': 'Russia'},
+                 'usage': 'football matches',
+                 'home_team': 'FC Amkar Perm',
+                 'capacity': 17000,
+                 'opened': '1969-06-05'}}})
+```
+
+```         
+{'semantic_id': 'perm',
+                'category': 'city',
+                'attributes': {'name': 'Perm',
+                 'location': {'river': 'Kama River',
+                  'region': 'Perm Krai',
+                  'country': 'Russia',
+                  'geography': 'European part of Russia near the Ural Mountains'},
+                 'administrative_status': 'administrative centre'}}})
+```
+
+As is the connection between them:
+
+```         
+{'from_node': UUID('08f207c1-6915-4237-ac4e-902815d9cfae'),
+                'to_node': UUID('5be79bf7-cd2a-487f-8833-36ae11257df8'),
+                'category': 'located_in'}})
+```
+
+We've found a limitation of the semantic search. The semantics/vibes of the question matched the incorrect evidence. We can't say exactly why, but it could simply be the amount of water-adjaced terminology found in the question and the answer. Or it could be something else entirely. This sort of latent space analysis is tough, and sometimes impossible to do well.
+
+**Problem 2**: Searching our vector store for the correct nodes is inadequate. We need more than merely capture the gist of the passage based on the encoding.
+
+**Solution 2a**: Use a [HyDE approach](https://arxiv.org/abs/2212.10496) where we can use an LLM to generate hypothetical questions to accompany the node information dump, so that the vector search is more likely to match the embedding of the question to the node.
+
+**Solution 2b**: Hybrid search. By combining a sparse search(word-matching) and a dense search(embedding-based), we can capture the exact terminology of the question better. "Svezda stadium" would be a more likely match in that case. Also, because 'svezda' is a Russian word for 'star', the dense/semantic search would be more likely to capture the node if someone asks about "Star Stadium", even though 'Svezda' isn't part of the question.
+
+# Steps Moving Forward
+
+Closing up, lets speak about the road ahead:
+
+1.  **Composability**: We have our rough outline of steps, which I reluctantly call a pipeline, that are necessary to go from paragraphs and a question to an evidenced answer. Moving forward, this should be a simple workflow which we can use to loop over any number of given items.
+2.  **Error handling**: Some more error handling would be nice. Some of the code that generates the knowledge graph needs to be reworked in order to error out and retry generating the nodes and edges of a particular text chunk when it hallucinates connections. I've seen it make up `semantic_ids` when creating edges, which reduces the quality of our graph because now we can't use those edges, and they've likely taken the place of useful ones. This would function similarly to the `OutputFixingParser` we used to wrap our `PydanticOutputParser` and allow it to self-correct.
+3.  **Graph Connection Generation:** After our knowledge graph is generated, we can allow a few random(or not so random) passes of the LLM as discussed in [part one](../knowledge-graph-rag-benchmark-1/#letting-the-llm-loose) to potentially create connections between disparate nodes. This step is probably not necessary given the relatively small size of the paragraphs, but it would be immensely useful for entity resolution and graph refinement for a larger corpus of text.
+4.  **Chunk augmentation and prompt size expansion:** It may be a good idea to also tune the chunk size we're using to speed things up and increase performance as well as keep a larger track of nodes in our passed in history. I'm hesitant to do this because I want this approach to be as versatile as possible, and easily transferable to rely solely on local machines.
+5.  **(Teaser) DSPy Prompt Tuning**: As a further goal, being able to optimize the prompts we're using would be a great benefit, and remove the arduous task of manually trying to condition an clever prompt. A further benefit of this is that modularizing the workflow this way allows also for being able to generate examples and tune smaller models which are comparably capable. *This requires more effort and time, and something I'd like to get to eventually.*

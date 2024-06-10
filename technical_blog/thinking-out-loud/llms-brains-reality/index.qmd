@@ -1,0 +1,27 @@
+---
+title: "LLMs, Brains, Physical Reality. Can large language models really lead to superintelligence?"
+date: 2024-06-10
+description: If LLMs are bootstrapping themselves with the product of billions of years of evolution, how would their capacity expand beyond that?
+number-sections: true
+code-fold: true
+categories:
+    - LLMs
+    - Brain
+    - AGI
+aliases: 
+  - llms-brains-reality
+---
+
+Despite much anticipation and even more fear, it pains me to say that LLMs will not be summoning the *Machine God* anytime soon.
+
+Language is a human creation. Whether it's English, Latin, Aramaic, or even C++, language is created by humans – either artificially through intentionality, we created the programming language you know and love, or through the waterfall of time and our basic need to communicate with one another, we created the words, structures, and abstractions we utter daily. In any case, they are very sapiens constructs which are necessarily bound to our capacity to understand and manipulate the world around us.
+
+![](images/savanna-brain-writing.png){fig-align="center"}
+
+We are agentic beings tugged by evolution to survive and multiply. An agent that is reacting to its environment and acting upon it must have a model of the reality it inhabits. It doesn't have to be a great model, hell, it doesn't even have to be a good model. It has to be a satisfactory model that weighs an extraordinary number of trade offs. There are no free lunches, especially in an antagonistic universe that is doing everything in its power to feed its entropic addiction and tear you apart, atom by atom. We cannot afford to model the entire universe in our **expensive** brains, which at only 2% of our body mass consume 20% of our energy. Lets take a step back for a second, or roughly half a billion years – brains made it to the scene via centralization and cephalization. Organisms initially had distributed nervous systems called nerve nets, which we see in hydras and jellyfish today. Neurons were simplistic logical gates where an activation would lead to a clear reaction of the organism - reflexive. As chance had it, as the nervous system migrated to the center of the organism over hundreds of millions of years, it became more effective at helping them respond to stimuli and increased the fitness of the organisms. Eventually, a very large cluster of neurons not only centralized but cephalized, it gathered at the anterior end of the body(think flatworms).
+
+![](images/hydra-nematode.png){fig-align="center"}
+
+Neurons in proximity have a world of opportunity to connect to one another in myriads of ways at an extremely low cost. *Look ma, a biological processor.* Evolution accelerated in ways that many people don't appreciate thanks to this one little trick. The integration of signals from the sensory systems of the organism allowed it to model the world around it in a manner that was previously completely decoupled. Much like our nematode friends, we integrate information from numerous modalities and model the world around us for the purpose of acting on it.
+
+Nematodes don't really have a way of expressing their internal model of the world, but we do. Even if they could, it'd be pretty damn boring. "Bright light, bad smell, pressure on tail, move right." Although I'm fairly certain you'd rather be interacting with it than a few people you can think of. Language allows us to express our model of the world to other people for the purposes of cooperation, conflict avoidance, and informational exchange.
