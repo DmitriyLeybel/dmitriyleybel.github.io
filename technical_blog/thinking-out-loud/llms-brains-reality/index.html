@@ -190,7 +190,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
   <li><a href="#llms" id="toc-llms" class="nav-link" data-scroll-target="#llms">LLMs</a></li>
   <li><a href="#stagnation" id="toc-stagnation" class="nav-link" data-scroll-target="#stagnation">Stagnation?</a></li>
   <li><a href="#hype" id="toc-hype" class="nav-link" data-scroll-target="#hype">Hype</a></li>
-  <li><a href="#anti-hype-finale" id="toc-anti-hype-finale" class="nav-link" data-scroll-target="#anti-hype-finale">Anti-Hype FInale</a></li>
+  <li><a href="#anti-hype" id="toc-anti-hype" class="nav-link" data-scroll-target="#anti-hype">Anti-Hype</a></li>
   </ul>
 </nav>
 </nav>
@@ -280,8 +280,8 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <p>Companies like OpenAI and Anthropic throw a bit of preferential ‘function calling’ on their LLMs and like to underscore their agentic ability. In essence, they increase the likelihood of a model responding with a name of a function. It’s equivalent to <code>you have access to func1: given x does y and func2: given y does b, now answer this question, choose one of these functions if necessary to get more information: ...</code> Would you look at that, their valuation just went up by a few billion dollars. The near future likely belongs to Artificial Specialized Intelligence. I’m not necessarily referring to something like AlphaGo, which is able to beat the best human players at Go, although the same concept applies. We can and do create specialized tools with LLMs – humans have to imbue the system with intentionality, agency, and everything that the model inherently lacks due to its nature as a next-word-predictor.</p>
 <p>As more compute and data are thrown at the models, they become more proficient when it comes scoring highly on evaluations. The evaluations themselves are created by humans to perform human-centric tasks such as passing various board exams and being able to program software. We shouldn’t expect out-of-distribution performance from the available model, but we can massage the latent space with our input in a way that leads to 99th percentile in-distribution performance.</p>
 </section>
-<section id="anti-hype-finale" class="level5">
-<h5 class="anchored" data-anchor-id="anti-hype-finale">Anti-Hype FInale</h5>
+<section id="anti-hype" class="level5">
+<h5 class="anchored" data-anchor-id="anti-hype">Anti-Hype</h5>
 <p>To recap the salient points:</p>
 <ol type="1">
 <li><p>Humans, like all other organisms ingest and compress information about the world into a model for the sake of survival. This is an energetically expensive process and is focused on the elements that help the organism survive and reproduce.</p></li>
@@ -739,7 +739,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
