@@ -12,6 +12,7 @@ categories:
 aliases: 
   - llms-brains-reality
 toc: true
+image: "./images/machinegodcard.png"
 ---
 
 Despite much anticipation and even more fear, it pains me to say that LLMs will not be summoning the *Machine God* anytime soon.
@@ -80,7 +81,7 @@ Companies like OpenAI and Anthropic throw a bit of preferential 'function callin
 
 As more compute and data are thrown at the models, they become more proficient when it comes scoring highly on evaluations. The evaluations themselves are created by humans to perform human-centric tasks such as passing various board exams and being able to program software. We shouldn't expect out-of-distribution performance from the available model, but we can massage the latent space with our input in a way that leads to 99th percentile in-distribution performance.
 
-##### Anti-Hype FInale
+##### Anti-Hype
 
 To recap the salient points:
 

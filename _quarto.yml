@@ -28,8 +28,8 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/dmlbl/
   google-analytics: "G-SB4HQ6BZVQ"
-
-  twitter-card: true
+  twitter-card:
+    creator: "@dmitriyleybel"
   open-graph: true
   favicon: "images/favicon.ico"
   site-url: https://www.dmlbl.com
