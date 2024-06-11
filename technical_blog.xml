@@ -10,30 +10,141 @@
 <atom:link href="https://www.dmlbl.com/technical_blog.xml" rel="self" type="application/rss+xml"/>
 <description>Dmitriy Leybel&#39;s personal website and technical blog</description>
 <generator>quarto-1.4.553</generator>
-<lastBuildDate>Thu, 16 May 2024 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 11 Jun 2024 07:00:00 GMT</lastBuildDate>
 <item>
-  <title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – Part Four</title>
+  <title>LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</title>
   <dc:creator>Dmitriy Leybel</dc:creator>
-  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/</link>
+  <link>https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</a>:</p>
+<p>Despite much anticipation and even more fear, it pains me to say that LLMs will not be summoning the <em>Machine God</em> anytime soon.</p>
+<section id="origins" class="level5">
+<h5 class="anchored" data-anchor-id="origins">Origins</h5>
+<p>Language is a human creation. Whether it’s English, Latin, Aramaic, or even C++, language is created by humans – either artificially through intentionality, as in case of the programming language you know and love, or through the waterfall of time and our basic need to communicate with one another, we created the words, structures, and abstractions we utter daily. In any case, they are very sapiens constructs, necessarily bound to our capacity to understand and manipulate the world around us.</p>
+<p>We are agentic beings tugged by evolution to survive and multiply. An agent that is reacting to its environment and acting upon it must have a model of the reality it inhabits. It doesn’t have to be a great model, hell, it doesn’t even have to be a good model. It has to be a satisfactory model that weighs an extraordinary number of trade offs. There is no free lunch, especially in an antagonistic universe that is doing everything in its power to feed its entropic addiction and tear you apart, atom by atom. We cannot afford to model the entire universe in our <strong>expensive</strong> brains, which at only 2% of our body mass consume 20% of our energy. Let’s take a step back for a second, or roughly half a billion years – brains made it to the scene via centralization and cephalization. Organisms initially had distributed nervous systems called nerve nets, which we see in hydras and jellyfish today. Neurons were simplistic logical gates where an activation would lead to a clear reaction of the organism - reflexive. As chance had it, as the nervous system migrated to the center of the organism over hundreds of millions of years, it became more effective at helping them respond to stimuli and thereby increased their fitness. Eventually, a very large cluster of neurons not only centralized but cephalized, it gathered at the anterior end of the body(think flatworms).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/hydra-nematode.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/hydra-nematode.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>Neurons in proximity have a world of opportunity to connect to one another in myriads of ways at an extremely low cost. <em>Look, ma, a biological processor.</em> Evolution accelerated in ways that many people don’t appreciate thanks to this one little trick – the sensation to action pipeline became the perfect experimentation bedrock now that the neurons could assemble in a nearly infinite amount of ways. The integration of signals from the sensory systems of the organism allowed it to model the world around it in a manner that was previously impossible. Much like our nematode friends, we integrate information from numerous modalities and model the world around us for the purpose of acting on it.</p>
+</section>
+<section id="language" class="level5">
+<h5 class="anchored" data-anchor-id="language">Language</h5>
+<p>Nematodes don’t really have a way of expressing their internal model of the world, but we do. Even if they could, it’d be pretty damn boring. “Bright light, bad smell, pressure on tail, move right, profit” Although I’m fairly certain you’d rather be interacting with it than a few people you can think of. Language allows us to express our model of the world to other people for the purposes of cooperation, conflict avoidance, and informational exchange. Through the experimentation with phonation(making sounds) and the growth of our brains necessary to optimize our behavior in an uncertain environment, selective pressures precipitated the development of language. If Grog says “urrghhhhu” and Brog says “grruuuugh”, and they both now have a higher likelihood of finding a juicy antelope meal, the incentive to experiment with language grows in their own lifetimes. If Grog and Brog now have more children because of their linguistic prowess, this also contributes to an evolutionary process which supports linguistic development. Their progeny do not start off with a blank slate of knowledge; they learn from their parents, and improve upon it. This is known as Natural Language. The kids of Grog and Brog can now take the phonemes they learned from their parents and improve upon them for more complex needs – maybe they learn to represent the weather, or perhaps they learn how to represent the difference between hunting and foraging. In any case, this naturally creates a complex structure out of necessity.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/fmri-language.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/fmri-language.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="234"></a></p>
+</figure>
+</div>
+<p>If you look at fMRIs taken of people performing language-related tasks, the screen tends to light up like a Christmas tree. The brain is a very specialized organ with hyperspecialized regions within it, yet the task of language interpretation and generation is highly distributed, and quite calorie-consuming. Language is able to access the complex model we’ve created of our world. It is language that has allowed us to launch spaceships and to pontificate on the existence of dark matter. We are still the descendants of Grog and Brog, who used a form of language to thrive, and our brains aren’t morphologically different; we also still have the same incentives give or take an unremarkable error margin. Keep this in mind.</p>
+<p>The progression of our linguistic prowess involves offloading it from our memory and onto some physical medium. In turn, this influenced its future development.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/savanna-brain-writing.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/savanna-brain-writing.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</section>
+<section id="llms" class="level5">
+<h5 class="anchored" data-anchor-id="llms">LLMs</h5>
+<p>Large Language Models(LLMs) have shocked the very core of humanity. Diffusion models which are responsible for image and video generation have had a similar effect. As it turns out, when we create a clever neural architecture in silico(on computer), throw all of the data we have generated as a human species at it, and the compute/energy equivalent of running a nuclear reactor(1GWh) for 50 hours with the sole purpose of training the model, we create something so novel and uncanny that we begin singing songs of apocalypse and salvation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/machine-god-llm.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/machine-god-llm.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="636"></a></p>
+</figure>
+</div>
+<p>For comparison, a human brain only requires ~0.0088 Gigwatt hours to run for a lifetime.</p>
+<p>LLMs are trained with a highly curated set of nearly all(contentiously) of the data digitally available: approximately 10 trillion words. Like humans, they develop a model of the world, but through a process that helps them predict the next token. A token is typically a group of letters that cooccur - e.g.&nbsp;<code>moth</code> + <code>er</code>, but it can also be something functional like <code>&lt;|endoftext|&gt;</code> which signifies the end of a response. In addition, they are also trained to answer questions in a manner that is favorable to the corporation building the model and to avoid outputting what they believe are naughty words and ideas – this concept is often viewed as alignment.</p>
+<p>At its core, a model is a compressed and accessible form of the data it is trained on, otherwise, it wouldn’t be a very useful model. An input passes through the model to produce an output. We model the vast amounts of inputs we receive from our sensory organs and observations of cause and effect; this model is stored in our big beautiful brains. This creates a compressed latent space of information aligned in way that we can access to act upon the world we inhabit. Another compressive and decompressive process involves our decoding of this information and encoding it into words for the purposes of communicating.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/dogpression.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/dogpression.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>An LLM is trained on this information that we’ve produced communicating with one another in casual and technical conversations in forums, through books, blogs, and so forth. While this is extremely lossy information of a human’s model of the world and thereby an even more lossy model of reality, it is composed of immensely wide and diverse sets of words used to express ideas throughout written history.</p>
+<p>Not surprisingly, it is a transcendental experience to speak to an LLM that contains an acceptable model of our world tuned to respond conversationally. It is a superb summarizer of text, and it holds a magnificent amount of information that it can access given the right prompt. It is a majestic wordsmith, as it operates across syntax and semantics incredibly well. Ask it to write you a song about a specific topic, and it’ll create something unique.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pink-elephant.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/pink-elephant.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="547"></a></p>
+</figure>
+</div>
+<p>What it lacks is pragmatics. Pragmatics involves attaching the relevance of situational context to human speech. An LLM does not act upon its theory of mind, which it does have access to – just ask it what a person may be motivated by when their dog just ate a box of chocolate, all while they’re struggling to pay rent. The information it has consumed over the huge corpus of data does contain descriptions of how we feel, how we act in relation to those feelings, and what situations create those motivations within us. I have not seen a single successful evaluation of it using this knowledge in any meaningful manner. LLMs excel at written exams, they even excel at programming, but they appear to have no capacity for metacognition. This is ultimately a key reason behind LLMs being referred to as <em>stochastic parrots</em>.</p>
+<p>Stochastic parrots are incredible algorithms. They allow us to navigate and extract information in many forms from the entirety of written human knowledge. They do hallucinate, but that is but a technical challenge which is solved by grounding them in a system that can enforce factual consistency. A stochastic parrot serves you, as you imbue it with the pragmatics and purpose it needs. We are the ones who seed them with our own agency. We then refer to them as agents, which may arguably be a misnomer since the agency does not originate from these algorithms. A swarm of these agents directed to any given task is inevitably a multiplier of our productivity.</p>
+</section>
+<section id="stagnation" class="level5">
+<h5 class="anchored" data-anchor-id="stagnation">Stagnation?</h5>
+<p>Human achievement looks and feels asymptotic when you observe the amount of discoveries and innovations throughout the centuries. Even our capability to extend our own lifespan seems to be leveling out and in many cases, decreasing. I’m an optimist and I yearn for a gold rush of exponentiality, however I am also a realist. We have to acknowledge reality if we want to find a single nugget. I am not particularly fond of pessimists, nor do I respect them, as self-fulling prophecy sticks to them like shit to a pig.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/asymptotes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/asymptotes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="309"></a></p>
+</figure>
+</div>
+<p>LLMs are inextricably tied to our own intelligence and our model of reality even if they know more facts than any single human alive. Language is already a product of our collective intelligence, and in many cases acts as a positive feedback loop where we use it enhance our own capacity through a series of stacking abstractions. These are the very abstractions that led us to build and exploit the elegance of LLMs in creative ways. However, the acquisition and use of language has always been heavily constrained and driven by the key aspects that pragmatics is concerned with – the need to solve problems, the need to communicate effectively towards a goal, the need to navigate the complexity of the world.</p>
+</section>
+<section id="hype" class="level5">
+<h5 class="anchored" data-anchor-id="hype">Hype</h5>
+<p>Despite the incredible capabilities of LLMs, the hype surrounding artificial intelligence has led to a premature leap from the reality of these models. In a comedic sequence of events, the marketers of LLMs and the doomsayers have jumped over Artificial General Intelligence(AGI) straight to Artificial Superintelligence(ASI). ASI used to stand for Artificial Specialized Intelligence, but collective amnesia is one heck of a drug.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/agi2b2b.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/agi2b2b.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="296"></a></p>
+</figure>
+</div>
+<p>Companies like OpenAI and Anthropic throw a bit of preferential ‘function calling’ on their LLMs and like to underscore their agentic ability. In essence, they increase the likelihood of a model responding with a name of a function. It’s equivalent to <code>you have access to func1: given x does y and func2: given y does b, now answer this question, choose one of these functions if necessary to get more information: ...</code> Would you look at that, their valuation just went up by a few billion dollars. The near future likely belongs to Artificial Specialized Intelligence. I’m not necessarily referring to something like AlphaGo, which is able to beat the best human players at Go, although the same concept applies. We can and do create specialized tools with LLMs – humans have to imbue the system with intentionality, agency, and everything that the model inherently lacks due to its nature as a next-word-predictor.</p>
+<p>As more compute and data are thrown at the models, they become more proficient when it comes scoring highly on evaluations. The evaluations themselves are created by humans to perform human-centric tasks such as passing various board exams and being able to program software. We shouldn’t expect out-of-distribution performance from the available model, but we can massage the latent space with our input in a way that leads to 99th percentile in-distribution performance.</p>
+</section>
+<section id="anti-hype-finale" class="level5">
+<h5 class="anchored" data-anchor-id="anti-hype-finale">Anti-Hype FInale</h5>
+<p>To recap the salient points:</p>
+<ol type="1">
+<li><p>Humans, like all other organisms ingest and compress information about the world into a model for the sake of survival. This is an energetically expensive process and is focused on the elements that help the organism survive and reproduce.</p></li>
+<li><p>Language is another compressive and expensive process that we use to increase our biological fitness. We compress the model of the world we created for the purposes of communicating certain intents and ideas with others.</p></li>
+<li><p>LLMs are trained to predict the next token over trillions of tokens(and words). Through this, they gain their own compressed model of the world based on the aforementioned compressed models.</p></li>
+<li><p>Language is only a subset of human intelligence and excludes the pragmatics of human communication.</p></li>
+</ol>
+<p>(With LLMs) There will not be a singularity. There will be no Skynet. There will only be hype. Can a swarm of AI agents take your job? Probably. Give them a robot to control and they’ll take many, however, they’ll create even more. These AI ‘agents’ are not agentic in their own right - their agency is wound by humans. On their own, they are little more than Game of Life automata.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/GOL.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/images/GOL.gif" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>LLMs</category>
+  <category>Brain</category>
+  <category>AGI</category>
+  <guid>https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/</guid>
+  <pubDate>Tue, 11 Jun 2024 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – Part Four</title>
+  <dc:creator>Dmitriy Leybel</dc:creator>
+  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</a>:</p>
 <ul>
-<li><p>Out of the many available options for vector DBs, we’re using <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as">Chroma</a> due to its simplicity and ease of use – a very powerful plug ’n play option.</p></li>
-<li><p>The nodes in our knowledge graph are linked to <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as#connecting-vector-db-to-knowledge-graph">generated embeddings</a>.</p></li>
+<li><p>Out of the many available options for vector DBs, we’re using <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as">Chroma</a> due to its simplicity and ease of use – a very powerful plug ’n play option.</p></li>
+<li><p>The nodes in our knowledge graph are linked to <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as#connecting-vector-db-to-knowledge-graph">generated embeddings</a>.</p></li>
 <li><p>When we ask a question, we can find the semantically related nodes by generating an embedding for the question and the running a similarity search using a metric like cosine distance.</p></li>
 </ul>
 <hr>
 <section id="overview" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Overview</h1>
-<p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
+<p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
+<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
 <figcaption>Illustrated flow from question to structured answer.</figcaption>
 </figure>
 </div>
@@ -44,7 +155,7 @@
 <p>Our purpose here is to answer a question provided a set of paragraphs, and provide the supporting evidence for it.</p>
 <p>As a brief reminder, lets peek into a single entry of the MuSiQue dataset used in our previous exploration:</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-81">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-81">
 <div id="cell-81" class="cell" data-tags="[&quot;main_line&quot;]" data-execution_count="403">
 <details class="code-fold">
 <summary>Code</summary>
@@ -166,11 +277,11 @@ font-style: inherit;">2</span>]</span></code></pre></div>
 <section id="prompting" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Prompting</h1>
 <p>That’s right, we’re back to prompting, our bread n buttah.</p>
-<p>This time, we’ll be feeding the question, instructions, and supporting evidence to the LLM. This will be very similar to us coaxing the LLM to create the knowledge graph in one of the <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#prompting">previous posts</a>.</p>
+<p>This time, we’ll be feeding the question, instructions, and supporting evidence to the LLM. This will be very similar to us coaxing the LLM to create the knowledge graph in one of the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#prompting">previous posts</a>.</p>
 <section id="prompt-template" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="prompt-template"><span class="header-section-number">3.1</span> Prompt Template</h2>
 <p>First, we need a system message that helps guide our model along, delivers and understanding of the input, and gently coerces it to output an aptly formatted answer.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-85">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-85">
 <div id="cell-85" class="cell" data-tags="[&quot;pred_prompts&quot;]" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -280,7 +391,7 @@ font-style: inherit;">+</span> format_str)</span></code></pre></div>
 </div>
 <p>The <code>guidance_str</code> lays out what I described above. We also provide the ‘format_str’, which includes a JSON dump of the <code>Answer</code> class schema, brought to you by Pydantic, although this time it’s a bit less convoluted than the one used to create the nodes and edges of our knowledge graph.</p>
 <p>In addition to the System message, we also need to add the Human message template to our pipeline which will allow us to pass in the question and evidence.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-89">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-89">
 <div id="cell-89" class="cell" data-tags="[&quot;human_message_pred&quot;]" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">human_str <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -312,7 +423,7 @@ font-style: inherit;">=</span> HumanMessagePromptTemplate.from_template(human_st
 <h1 data-number="4"><span class="header-section-number">4</span> Gathering Evidence</h1>
 <p>Next up, we need to gather the supporting evidence for our model from our knowledge base(the combination of our knowledge graph and vector store which we created in previous posts).</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-102">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-102">
 <div id="cell-102" class="cell" data-tags="[&quot;top_results_pred&quot;]" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">top_results <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -369,7 +480,7 @@ font-style: inherit;">'question'</span>]]</span>
 </div>
 </div>
 <p>We’re interested in the top 3 results. Why? Why not?</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-106">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-106">
 <div id="cell-106" class="cell" data-tags="[&quot;top_nodes_preview&quot;]" data-execution_count="90">
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">uuid_strs <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -395,7 +506,7 @@ font-style: inherit;">in</span> uuid_strs]</span></code></pre></div>
 </div>
 <p>We get the top UUIDs to then use in conjuction with our <code>UUID: graph index</code> mapping we constructed during the creation of the knowledge graph.</p>
 <p>Lets take a gander into the connecting nodes from our top 3 results. Our network graph is <strong>directed</strong>, meaning that the direction is important(and creates a much easier semantic designation for the edge). A predecessor node is a node from which the linkage stems, and a successor node is the node towards which the linkage is directed. Taking their union, we have an exhaustive list of connecting nodes to the ones we retrieved from our vector store.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-108">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-108">
 <div id="cell-108" class="cell" data-tags="[&quot;suc_pred_nodes&quot;]" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="cf" style="color: #003B4F;
 background-color: null;
@@ -429,7 +540,7 @@ font-style: inherit;">print</span>(digraph[idx])</span></code></pre></div>
 <h2 data-number="4.1" class="anchored" data-anchor-id="transforming-the-evidence"><span class="header-section-number">4.1</span> Transforming the Evidence</h2>
 <p>Now that we have the nodes, we need to grab their edges, and then transform both into a format that will be easily digestible for the LLM. We will still feed the nodes and edges as JSON strings, but we’ll need to augment it to replace UUIDs with something less complex like a monotonically increasing integer. This way, the LLM can use integers like <code>0</code> and <code>1</code> instead of <code>5f092031-cf0d-408c-a4f1-896e7c8607be</code> and <code>bc1c5af9-c311-4e9f-975d-349d33d41a15</code> when interpreting the <code>from_node</code> and <code>to_node</code> fields of the edges.</p>
 <div style="max-height: 530px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-109">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-109">
 <div id="cell-109" class="cell" data-tags="[&quot;evidence_processing&quot;]" data-execution_count="92">
 <div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -653,7 +764,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 </div>
 <p>Lets take a look at what the evidence will look like:</p>
 <div style="max-height: 530px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-112">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-112">
 <div id="cell-112" class="cell" data-tags="[&quot;edges_nodes_hist&quot;]" data-execution_count="94">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">pprint(<span class="bu" style="color: null;
 background-color: null;
@@ -729,7 +840,7 @@ font-style: inherit;">**</span>edge_hist_dict}.values()))</span></code></pre></d
 <h1 data-number="5"><span class="header-section-number">5</span> Putting It All Together</h1>
 <p>We’ve got the evidence, now we need to finalize our pipeline check the response from the LLM.</p>
 <p>First, lets combine our <code>System</code> and <code>Human</code> templates.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-114">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-114">
 <div id="cell-114" class="cell" data-tags="[&quot;combined_template&quot;]" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">combined_template <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -743,7 +854,7 @@ font-style: inherit;">+</span> human_template</span>
 </div>
 </div>
 <p>Next, we need to wrap our Pydantic class <code>Answer</code> in a <code>PydanticOutputParser</code>, which takes the output from the LLM model and parses the string as a JSON, erroring out if the structure does not match our schema. We then wrap that parser in an <code>OutputFixingParser</code>, which will attempt to fix any errors that may occur during the parsing process by passing the error and output back to the LLM for remediation.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-91">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-91">
 <div id="cell-91" class="cell" data-tags="[&quot;parse_pydantic&quot;]" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -772,7 +883,7 @@ font-style: inherit;">3</span>)</span></code></pre></div>
 <section id="moment-of-truth" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="moment-of-truth"><span class="header-section-number">5.1</span> Moment of truth</h2>
 <p>We can now instantiate the pipeline, pass in the question and evidence, then run it.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-115">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-115">
 <div id="cell-115" class="cell" data-tags="[&quot;ans_pipe&quot;]" data-execution_count="95">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">answer_pipe <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -811,7 +922,7 @@ background-color: null;
 font-style: inherit;">'evidence'</span>: evidence})</span></code></pre></div>
 </div>
 </div>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-116">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-116">
 <div id="cell-116" class="cell" data-tags="[&quot;wrong_ans&quot;]" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">question, ans, lines[<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -829,7 +940,7 @@ font-style: inherit;">'answer'</span>]</span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/cman_c.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
+<p><a href="images/cman_c.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
 <figcaption>It’s okay to feel all sorts of things when you don’t get your expected result.</figcaption>
 </figure>
 </div>
@@ -853,7 +964,7 @@ font-style: inherit;">'answer'</span>]</span></code></pre></div>
 <section id="is-a-more-potent-model-the-answer" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="is-a-more-potent-model-the-answer"><span class="header-section-number">5.2.1</span> Is a more potent model the answer?</h3>
 <p>Given that the evidence does not contribute to the correct answer, we can say that our model is hallucinating due to it marking it as <em>answerable</em> and giving us the wrong answer. Weak models tend to hallucinate often. Could this be the case here? Lets use a more powerful model to test out our hypothesis.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-121">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-121">
 <div id="cell-121" class="cell" data-tags="[&quot;adv_model&quot;]" data-execution_count="98">
 <div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1">chat_model_adv <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -957,35 +1068,35 @@ font-style: inherit;">'evidence'</span>: evidence})</span></code></pre></div>
   <category>rag</category>
   <category>benchmarking</category>
   <category>vector-databases</category>
-  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/</guid>
+  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/</guid>
   <pubDate>Thu, 16 May 2024 07:00:00 GMT</pubDate>
-  <media:content url="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png" medium="image" type="image/png" height="152" width="144"/>
+  <media:content url="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png" medium="image" type="image/png" height="152" width="144"/>
 </item>
 <item>
   <title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</title>
   <dc:creator>Dmitriy Leybel</dc:creator>
-  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/</link>
+  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html">Don’t RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph – <em>Part Two</em></a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">Don’t RAG on Knowledge Graphs(Or Do): Finally Building a Knowledge Graph – <em>Part Two</em></a>:</p>
 <ul>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#lets-split-some-text">Text splitting</a> is necessary to cut down the paragraphs into manageable chunks of text.</p></li>
-<li><p>Langchain makes <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#prompting">prompt composition</a> easy, especially when managing nested and layered prompts with placeholders.</p></li>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html##instructions-pydantic-and-json-schema-magic">Pydantic</a> helps us create the format we desire for structured output from the LLM.</p></li>
-<li><p>A <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#knowledge-graph-generation-with-history">history handler</a> allows us to keep track of generated nodes and edges to feed to new calls to the LLM.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#lets-split-some-text">Text splitting</a> is necessary to cut down the paragraphs into manageable chunks of text.</p></li>
+<li><p>Langchain makes <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#prompting">prompt composition</a> easy, especially when managing nested and layered prompts with placeholders.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html##instructions-pydantic-and-json-schema-magic">Pydantic</a> helps us create the format we desire for structured output from the LLM.</p></li>
+<li><p>A <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#knowledge-graph-generation-with-history">history handler</a> allows us to keep track of generated nodes and edges to feed to new calls to the LLM.</p></li>
 </ul>
 <hr>
 <section id="review" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Review</h1>
-<p>First, a quick review of the workflow between knowledge graphs and vector databases <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency">mentioned eons ago</a>. This is more or less the implementation we’ll strive towards, and will motivate this post. We’ve already constructed the knowledge graph, so now we have a vector database to build and link to it.</p>
+<p>First, a quick review of the workflow between knowledge graphs and vector databases <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency">mentioned eons ago</a>. This is more or less the implementation we’ll strive towards, and will motivate this post. We’ve already constructed the knowledge graph, so now we have a vector database to build and link to it.</p>
 <div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="../../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -996,7 +1107,7 @@ Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, an
 <section id="vector-database-simple-as" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Vector Database, Simple as</h1>
 <p>There are many vector database providers out there. New startups are blooming like a warm spring morning. Lets keep things simple. All we need is:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-61">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-61">
 <div id="cell-61" class="cell" data-tags="[&quot;import_chroma&quot;]" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -1008,7 +1119,7 @@ font-style: inherit;">import</span> chromadb</span></code></pre></div>
 <h2 data-number="2.1" class="anchored" data-anchor-id="embeddings"><span class="header-section-number">2.1</span> Embeddings</h2>
 <p>An embedding, in our current context, is a vector representation of some text. Texts that are semantically similar will have a similar embedding vector. “Fido jumped into the river” is similar to “The lake looks peaceful.” due to the semantic similarity of lake and river; both are bodies of water . More on that later.</p>
 <p>Chroma integrates a few embedding models, from which we’ll choose the default, which is based on <a href="https://www.sbert.net">Sentence Transformers</a>(<code>all-MiniLM-L6-v2</code>).</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-62">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-62">
 <div id="cell-62" class="cell" data-tags="[&quot;embedding_model_load&quot;]" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -1036,7 +1147,7 @@ If you’re running the embedding function for the first time, it’ll download 
 </div>
 </div>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-63">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-63">
 <div id="cell-63" class="cell" data-tags="[&quot;embed_test&quot;]" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">ef(<span class="st" style="color: #20794D;
 background-color: null;
@@ -2199,7 +2310,7 @@ font-style: inherit;">'sup'</span>)</span></code></pre></div>
 </div>
 </div>
 <p>Cool, looks like we’ve generated a vector representation for ‘sup’, right? Wrong.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-64">
 <div id="cell-64" class="cell" data-tags="[&quot;strings_are_iterables&quot;]" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="bu" style="color: null;
 background-color: null;
@@ -2219,11 +2330,11 @@ font-style: inherit;">'sup'</span>]))</span></code></pre></div>
 </section>
 <section id="distance-between-embeddings" class="level2 page-columns page-full" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="distance-between-embeddings"><span class="header-section-number">2.2</span> Distance Between Embeddings</h2>
-<p class="page-columns page-full"><a href="images/cos_similarity.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2"></a></p><div class="no-row-height column-margin column-container"><a href="images/cos_similarity.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/images/cos_similarity.jpg" class="img-fluid" width="197"></a></div><p></p>
+<p class="page-columns page-full"><a href="images/cos_similarity.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2"></a></p><div class="no-row-height column-margin column-container"><a href="images/cos_similarity.jpg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/cos_similarity.jpg" class="img-fluid" width="197"></a></div><p></p>
 <p>When you wish to find the similarity between two separate embeddings, such as the generated embedding of your query and a stored embedding in the vector database(see Fig.&nbsp;1 Step 3), we need to use a distance function. In our case, we’ll use <em>cosine distance.</em> Related is the cosine similarity, which describes the similarity between two vectors. It is -1 if they are not at all related, and 1 if they are pointing in the exact same direction.</p>
 <p><code>cosine_distance = 1 - cosine_similarity</code> so 0 represents a perfect relationship while 2 represents no relationship.</p>
 <p>Putting this into practice, lets compare nodes generated from the 0th paragraph(we use zero indexing in these here parts, pahtnah) to other nodes generated from the 0th paragraph, and then compare nodes generated from the first paragraph to nodes generated from the 19th paragraph</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-66">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-66">
 <div id="cell-66" class="cell" data-tags="[&quot;cos_comparison&quot;]" data-execution_count="160">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -2348,7 +2459,7 @@ paragraph 1 - paragraph 19 comparisons:  0.3139882121419234 0.2947411460832846</
 <div id="fig-similarity-comparison" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/similarity_comparison.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
+<a href="images/similarity_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar than nodes generated from different paragraphs
@@ -2359,7 +2470,7 @@ Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar 
 <section id="setting-up-our-db" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="setting-up-our-db"><span class="header-section-number">2.3</span> Setting Up Our DB</h2>
 <p>Chroma uses <code>collections</code> as vector spaces which handle the storage of your vectors, their ids, and metadata.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-67">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-67">
 <div id="cell-67" class="cell" data-tags="[&quot;db_setup&quot;]" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">chroma_client <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2392,10 +2503,10 @@ font-style: inherit;">"cosine"</span>}</span>
 <section id="connecting-vector-db-to-knowledge-graph" class="level1 page-columns page-full" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Connecting Vector DB to Knowledge Graph</h1>
 <p>Our current goal is to retrieve the adjacent nodes(nodes with connections) of a node whose embedding is semantically similar to our query – seen in Fig.&nbsp;1 Step 5.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#knowledge-graph-generation-with-history">In the previous post</a> we created a network graph with rustworkx from a graph_history object we generated with our LLM pipeline while looping over the paragraphs of a single question.</p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#knowledge-graph-generation-with-history">In the previous post</a> we created a network graph with rustworkx from a graph_history object we generated with our LLM pipeline while looping over the paragraphs of a single question.</p>
 <p>As a brief reminder, here is what the <code>history</code> dictionary of that <code>graph_history</code> object resembles:</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-69">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-69">
 <div id="cell-69" class="cell" data-tags="[&quot;graph_hist_reminder&quot;]" data-execution_count="162">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">graph_history.history</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="162">
@@ -3124,7 +3235,7 @@ font-style: inherit;">"cosine"</span>}</span>
 </div>
 </div>
 <p>It consists of nodes and edges, each with a unique identifier(UUID). To build our vector store collection, we simply loop over it and add the documents and ids associated with the nodes into the collection we created earlier.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-72">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-72">
 <div id="cell-72" class="cell" data-tags="[&quot;building_collection&quot;]" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="cf" style="color: #003B4F;
 background-color: null;
@@ -3152,7 +3263,7 @@ font-style: inherit;">str</span>(k)])</span></code></pre></div>
 </div>
 </div>
 <p>Surely, it has to be harder than that? Nope. The documents, AKA Python dictionaries we converted to strings, we added were converted using the Sentence Transformer used in the <code>create_collection()</code> command. Lets take it for a spin and query it with a question.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-74">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-74">
 <div id="cell-74" class="cell" data-tags="[&quot;top_results&quot;]" data-execution_count="178">
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">top_results <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3195,12 +3306,12 @@ font-style: inherit;">'ids'</span>]</span></code></pre></div>
 <p>The top 10 results are returned based on the cosine distance metric specified, once again, in the <code>create_collection()</code> command. To illustrate the process up till here, have a flowchart.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
+<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
 <figcaption>Population and querying of the vector database</figcaption>
 </figure>
 </div>
 <p>Now, going back to the graph we created – <code>digraph</code> – we are able to use the UUID of the top result to do a dictionary lookup in the <code>node_indices</code> mapping we created when building the graph that maps from the UUID to the index of the node within the graph.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-77">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-77">
 <div id="cell-77" class="cell" data-tags="[&quot;top_result&quot;]" data-execution_count="183">
 <div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -3247,7 +3358,7 @@ font-style: inherit;">=</span> digraph[node_indices[top_uuid]]</span>
 </div>
 </div>
 <p>Cool, so what? We already have the node dictionary. Because we have the node’s location in the graph, we can easily query the graph to get any nodes connected to it: its neighbors.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-78">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-78">
 <div id="cell-78" class="cell" data-tags="[&quot;top_connections&quot;]" data-execution_count="186">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="cf" style="color: #003B4F;
 background-color: null;
@@ -3269,7 +3380,7 @@ font-style: inherit;">print</span>(digraph[idx])</span></code></pre></div>
 <h1 data-number="4"><span class="header-section-number">4</span> Ze end</h1>
 <p>See, promised I’d keep it short and sweet.</p>
 <p>Next up, we’ll focus on using our vector database and knowledge graph to not only answer questions, but also cite the paragraphs with contributing evidence – at least that’s the plan.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-4/index.html"><strong>Part Four &gt;&gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html"><strong>Part Four &gt;&gt;&gt;</strong></a></p>
 
 
 
@@ -3279,24 +3390,24 @@ font-style: inherit;">print</span>(digraph[idx])</span></code></pre></div>
   <category>knowledge-graphs</category>
   <category>rag</category>
   <category>benchmarking</category>
-  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-3/</guid>
+  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/</guid>
   <pubDate>Tue, 23 Apr 2024 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two</title>
   <dc:creator>Dmitriy Leybel</dc:creator>
-  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/</link>
+  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>:</p>
 <ul>
 <li><p><a href="../knowledge-graph-rag-benchmark-1/#jean-claude-van-damme-tell-me-a-haiku">Claude 3 Haiku</a> is our model of choice due to it being in the Goldilocks zone of performance and cost.</p></li>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#motivation-for-rag-over-large-context-windows">Relying on large context windows isn’t enough</a>, we need to impart a structure on the data for efficient reuse and robust grounding.</p></li>
-<li><p>When creating a knowledge graph, we need to not only be clever about <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html##knowledge-stuffing">controlling our context window</a>, but also having a process through which the connections in the <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#letting-the-llm-loose">graph can grow</a>.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html#motivation-for-rag-over-large-context-windows">Relying on large context windows isn’t enough</a>, we need to impart a structure on the data for efficient reuse and robust grounding.</p></li>
+<li><p>When creating a knowledge graph, we need to not only be clever about <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html##knowledge-stuffing">controlling our context window</a>, but also having a process through which the connections in the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html#letting-the-llm-loose">graph can grow</a>.</p></li>
 </ul>
 <hr>
 <p><strong>Finally</strong>, we’re getting to the fun part. Like many, I thought this day would never come, but here we are.</p>
@@ -3304,7 +3415,7 @@ font-style: inherit;">print</span>(digraph[idx])</span></code></pre></div>
 <section id="lets-split-some-text" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Lets Split Some Text</h1>
 <p>In order to feed text of reasonable length into our LLM, we need to be able to split it. The splitting criteria will be the token length of the passage. To implement this criterion, we need to create a length function that will be passed into our splitter, and then test it on one of the paragraphs we have available from the MuSiQue dataset.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
 <div id="cell-20" class="cell" data-tags="[&quot;token_len&quot;]" data-execution_count="105">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3378,7 +3489,7 @@ As of this writing, Meta’s Llama 3 was just released and is using OpenAI’s t
 </div>
 </div>
 <p>We’ll be using LangChain’s <code>RecursiveCharacterTextSplitter</code> to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we’ll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we’re using our length function as the determinant of splits.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
 <div id="cell-21" class="cell" data-tags="[&quot;split_examples&quot;]" data-execution_count="106">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3489,7 +3600,7 @@ font-style: inherit;">'**Paragraph 2**'</span>))</span>
 <section id="prompting" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Prompting</h1>
 <p>Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain. We can pass in any text string we want to the model as long as it observes the token limits.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
 <div id="cell-27" class="cell" data-tags="[&quot;model_load&quot;]" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -3533,13 +3644,13 @@ Why did the horse refuse to get on the airplane? Because it already had a stable
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><code>dotenv</code> allows us to load environmental variables from a <code>.env</code> file</p>
-<p><a href="images/dotenv_ex.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/dotenv_ex.jpg" class="img-fluid" width="132"></a></p>
+<p><a href="images/dotenv_ex.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/dotenv_ex.jpg" class="img-fluid" width="132"></a></p>
 </div></div><p>It’s <em>so over</em> for stand up comedians.</p>
 <p>While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we’ll be using.</p>
 <div id="fig-prompts" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
+<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Prompt Template Composition
@@ -3572,7 +3683,7 @@ The difference between a prompt and a template is the fact that a template can c
 <div id="fig-node-edge" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
+<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The node-edge structure we construct from the outputs.
@@ -3595,7 +3706,7 @@ Pydantic, along with a similar sort of workflow can be generalized for structure
 </div>
 <p>Below, you’ll see each class represent a distinct JSON object, with the fields and instructions that the model will receive. By using the <code>BaseModel</code> superclass😎, we can create Pydantic classes with the following syntax:</p>
 <div style="max-height: 800px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-28">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-28">
 <div id="cell-28" class="cell" data-tags="[&quot;pydantic&quot;]" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -3792,7 +3903,7 @@ You can <em>probably</em> use Pydantic classes to describe the JSON output we ne
 </div>
 <p>In addition to our fancy JSON schema generated with Pydantic, which already includes some descriptions of the fields, we need to pass in some instructions.</p>
 <div style="max-height: 500px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-29">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-29">
 <div id="cell-29" class="cell" data-tags="[&quot;json_instructions&quot;]" data-execution_count="109">
 <div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">json_rules <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3911,7 +4022,7 @@ font-style: inherit;">"</span></span>
 <div id="fig-fido" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
+<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
@@ -3922,7 +4033,7 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="content" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="content"><span class="header-section-number">2.1.2</span> Content</h3>
 <p>In addition to the JSON formatting instructions, we give the model some high-level guidance. The placeholders are included as <code>{instructions}</code> where the previously constructed JSON instructions will go, and <code>history</code> where past nodes and edges will be inserted – the format isn’t critical, but we’ll stick to the JSON schema we’re using for the output.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
 <div id="cell-30" class="cell" data-tags="[&quot;graph_creator&quot;]" data-execution_count="112">
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">graph_creator_content <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3960,7 +4071,7 @@ font-style: inherit;">"""</span></span></code></pre></div>
 <section id="pass_passage_template" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="pass_passage_template"><span class="header-section-number">2.2</span> pass_passage_template</h2>
 <p>The human message portion of this template consists of something as simple as:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
 <div id="cell-31" class="cell" data-tags="[&quot;pass_passage&quot;]" data-execution_count="110">
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">pass_passage_content <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3988,7 +4099,7 @@ font-style: inherit;">"</span></span></code></pre></div>
 <section id="combining-the-prompt-templates" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="combining-the-prompt-templates"><span class="header-section-number">2.3</span> Combining the Prompt Templates</h2>
 <p>To create our Langchain pipeline, we wrap the templates we created in <code>SystemMessagePromptTemplate</code> and <code>HumanMessagePromptTemplate</code> classes, and then combine them into <code>gen_template</code>.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
 <div id="cell-32" class="cell" data-tags="[&quot;template_agg&quot;]" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -4066,7 +4177,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 <h1 data-number="3"><span class="header-section-number">3</span> Knowledge Graph Generation (Without History)</h1>
 <p>We now, more or less, have the components necessary to give knowledge graph generation a first go. Development is generally iterative so we’ll leave out the history aspect of it for the time being.</p>
 <p>We now will take a gander at the LCEL in action:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-34">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-34">
 <div id="cell-34" class="cell" data-tags="[&quot;test1&quot;]" data-execution_count="117">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">load_dotenv()</span>
 <span id="cb17-2"></span>
@@ -4089,7 +4200,7 @@ font-style: inherit;">|</span> chat_model</span></code></pre></div>
 </div>
 </div>
 <p>That’s all there is to it. We pipe(<code>|</code>) the output from invoking the <code>gen_template</code> straight to the <code>chat_model</code> which also gets invoked.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
 <div id="cell-35" class="cell" data-tags="[&quot;test2&quot;]" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">response <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4112,7 +4223,7 @@ font-style: inherit;">'instructions'</span>: json_prompt_instructions})</span></
 </div>
 <p><code>llm_pipe</code> is passed the same arguments that <code>gen_template</code> would’ve been.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
 <div id="cell-36" class="cell" data-tags="[&quot;response_contents&quot;]" data-execution_count="119">
 <div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">pprint(response.content)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4180,7 +4291,7 @@ font-style: inherit;">'instructions'</span>: json_prompt_instructions})</span></
 </div>
 <p>Would you look at that, it did what we told it to, and it cost less than a penny. However, it’s still a string, so we need to convert it into a more amiable format.</p>
 <div id="parsed_output_example" style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
 <div id="cell-37" class="cell" data-tags="[&quot;json_parsed&quot;]" data-execution_count="120">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -4225,7 +4336,7 @@ font-style: inherit;">=</span> JsonOutputParser()</span>
 </div>
 </div>
 <p>Using Langchain’s <code>JsonOutputParser</code> allows us to easily convert the JSON string into a Python dictionary object. We’re once again calling <code>invoke</code> which means it could easily be inserted into our pipeline:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-39">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-39">
 <div id="cell-39" class="cell" data-tags="[&quot;whole_pipe&quot;]" data-execution_count="122">
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">llm_pipe <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4245,7 +4356,7 @@ This was your output:
 <section id="visualization-with-rustworkx" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="visualization-with-rustworkx"><span class="header-section-number">3.1</span> Visualization with rustworkx</h2>
 <p>The easiest way to visualize our newly-formed knowledge graph is by using a network graph library; in our case, I’ve chosen <a href="https://www.rustworkx.org/index.html">rustworkx</a>. It’s a Python library that allows for the creation, manipulation, and rendering of directed graphs. If you’re familiar with networkx, then the syntax will be very similar, however the performance is a magnitude faster given that all of the internal goodies are written in Rust.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-42">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-42">
 <div id="cell-42" class="cell" data-tags="[&quot;base_graph_viz&quot;]" data-execution_count="246">
 <div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -4379,7 +4490,7 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-35-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-35-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-35-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-35-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -4402,7 +4513,7 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 </ul>
 <p>To do this, we will create a magnificent <code>GraphHistory</code> class that manages this storage and retrieval.</p>
 <p>(Unfolding the code not for the faint of heart)</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-44">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-44">
 <div id="cell-44" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5168,7 +5279,7 @@ font-style: inherit;">return</span> json_str</span></code></pre></div>
 <li>The <code>paragraph_idx</code> is added to the nodes to indicate which paragraph it was generated from.</li>
 <li>The nodes and edges we generate are stored in <code>graph_history</code>, which is a list of objects similar to what we generated here, but with UUIDs for unique identification(the <code>semantic_id</code> generated may, by chance alone, be the same)</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
 <div id="cell-46" class="cell" data-tags="[&quot;history_pipe&quot;]" data-execution_count="128">
 <div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -5368,7 +5479,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
 <div id="cell-48" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">graph_history.history</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
@@ -6004,7 +6115,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <section id="show-me-the-money" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
 <p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we saw earlier in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
 <div id="cell-49" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="172">
 <div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -6155,7 +6266,7 @@ font-style: inherit;">50</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-41-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-41-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-41-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-41-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -6164,7 +6275,7 @@ font-style: inherit;">50</span>)</span></code></pre></div>
 <p>Messy, but you get the idea.</p>
 <p>We can do a little graph analytics to find the most connected nodes(nodes with the most connections). <code>incident_edges(n)</code> identifies the edges of a node with index <code>n</code>, so all we have to do is get the length of the edge list returned and then sort it.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
 <div id="cell-50" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1">len_list <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6257,7 +6368,7 @@ font-style: inherit;">True</span>)</span>
 </div>
 </div>
 <p>The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
 <div id="cell-54" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
@@ -6379,7 +6490,7 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-46-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-46-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-46-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index_files/figure-html/..-knowledge-graph-rag-benchmark-1-notebooks-kg_build-cell-46-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -6390,7 +6501,7 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 <div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
@@ -6401,11 +6512,11 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 </section>
 <section id="wrapping-up" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Wrapping Up</h1>
-<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/thats_all.gif" class="img-fluid"></a></p>
+<p><a href="images/thats_all.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/thats_all.gif" class="img-fluid"></a></p>
 <p>Well…<strong>almost!</strong></p>
 <p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
 <p>Thanks for reading, I hope you managed to stay awake.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
 
 
 
@@ -6415,24 +6526,24 @@ Figure&nbsp;4: An example text consisting of 70 tokens
   <category>knowledge-graphs</category>
   <category>rag</category>
   <category>benchmarking</category>
-  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/</guid>
+  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/</guid>
   <pubDate>Sat, 20 Apr 2024 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One</title>
   <dc:creator>Dmitriy Leybel</dc:creator>
-  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/</link>
+  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>:</p>
 <ul>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
-<li><p>The <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
+<li><p>The <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
 </ul>
 <hr>
 <section id="what-are-we-predicting" class="level1" data-number="1">
@@ -6455,7 +6566,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 </div>
 <p>Fortunately for us, the fine folks who’ve created the MuSiQue benchmark have made it simple. They’ve ran several models on the dataset and used them for evaluations. We can find the generated predictions in their <a href="https://github.com/StonyBrookNLP/musique">github repo</a>; this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
 <div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
@@ -6728,7 +6839,7 @@ font-style: inherit;">1</span>]))</span></code></pre></div>
 </div>
 <p>Looking at a snippet of the predictions below, we see that <em>only</em> four factors are necessary, the id - which matches the question id, the answer - which is the answer to the question, the answerable flag - which is a boolean indicating whether the question can be answered, and the supporting facts - which are the paragraphs that support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
 <div id="cell-16" class="cell" data-tags="[&quot;prediction_format&quot;]" data-execution_count="102">
 <details class="code-fold">
 <summary>Code</summary>
@@ -6931,7 +7042,7 @@ These are the values as of this writing. They may change in the future.
 <div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
@@ -6942,7 +7053,7 @@ Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
 <div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-needle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
@@ -6959,7 +7070,7 @@ Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal m
 <div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: OpenAI Tokenization Example
@@ -6973,7 +7084,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <h3 data-number="2.0.2" class="anchored" data-anchor-id="token-measurement"><span class="header-section-number">2.0.2</span> Token Measurement</h3>
 <p>Different models use different tokenization strategies(but the same technique) with varying datasets, so we’ll focus on the publicly available algorithms. <a href="https://github.com/openai/tiktoken">tiktoken</a> is an OpenAI tool you can use to determine the token-representation existing within any string of text.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
 <div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="98">
 <details class="code-fold">
 <summary>Code</summary>
@@ -7049,7 +7160,7 @@ font-style: inherit;">'**Tokenizer we are using**'</span>), tokenizer)</span></c
 <p>We observe that the latest models are using the <code>cl100k_base</code> tokenization model, which we can assume uses ~100,000 unique tokens. Prior to this, a 50,000 unique token model was used. Also, we instantiate our tokenizer for the next step. Choosing the <code>gpt-4</code> or <code>gpt-3.5-turbo</code> tokenizer makes no material difference, as they use the same exact tokenization model.</p>
 <p>The tokenizer can be used on one of the paragraphs we have to illustrate its token composition.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
 <div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="99">
 <details class="code-fold">
 <summary>Code</summary>
@@ -7151,7 +7262,7 @@ font-style: inherit;">len</span>(test_tokens))</span>
 <p>Only 39 tokens – nice.</p>
 <p>Is this something we can expect from the provided paragraphs in our dataset?</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
 <div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="100">
 <details class="code-fold">
 <summary>Code</summary>
@@ -7225,7 +7336,7 @@ Number of tokens in paragraph: 48</code></pre>
 <div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lmsys-compare.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Comparison of performance and cost among top models
@@ -7254,14 +7365,14 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <section id="claude-tokenization" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="claude-tokenization"><span class="header-section-number">4.1.1</span> Claude Tokenization</h3>
 <p>Unfortunately, Anthropic has not released a tokenizer that we can use, however, it is generally safe(famous last words lol) to assume that it is quite similar to the OpenAI one. <a href="https://github.com/javirandor/anthropic-tokenizer">Here</a>, someone has attempted to reverse engineer it by counting the token amounts of the generations streamed to you.</p>
-<p><a href="images/claude_tokenizer.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/claude_tokenizer.jpg" class="img-fluid" width="569"></a></p>
+<p><a href="images/claude_tokenizer.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/claude_tokenizer.jpg" class="img-fluid" width="569"></a></p>
 <p>But we’re not going to do that.</p>
 </section>
 </section>
 </section>
 <section id="creating-a-knowledge-graph" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Creating a Knowledge Graph</h1>
-<p>From the <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag-knowledge-graphs">previous post</a>, you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we’ll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.</p>
+<p>From the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#rag-knowledge-graphs">previous post</a>, you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we’ll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.</p>
 <section id="strategy" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="strategy"><span class="header-section-number">5.1</span> Strategy</h2>
 <section id="sliding-windows" class="level3" data-number="5.1.1">
@@ -7270,7 +7381,7 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paragraph-chunks.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
@@ -7294,7 +7405,7 @@ When I say ‘nodes and edges’, I also mean any attributes thereof
 <div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sliding-window.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
+<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
@@ -7308,7 +7419,7 @@ Figure&nbsp;6: Sliding window with overlap tends to be the standard approach whe
 <div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/context.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
+<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
@@ -7329,7 +7440,7 @@ Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previ
 <div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sparse_connectivity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Sparsely Connected Knowledge Graph
@@ -7340,7 +7451,7 @@ Figure&nbsp;8: Sparsely Connected Knowledge Graph
 <div id="fig-new-connections" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/connection-building.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
+<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Building New Connections
@@ -7361,7 +7472,7 @@ Figure&nbsp;9: Building New Connections
 <p>To be perfectly honest, I was intending to get into coding the knowledge graph creation pipeline in this post, I even had to change the title and abstract before publishing. Fortunately, there’s plenty here to mull over.</p>
 <p>That’ll be happening in the next one – pinky promise. I’m hoping that this was a good amount of background and theory behind what we’ll be doing next.</p>
 <p>You can reach out to me if you have any questions via X or email.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
 
 
 
@@ -7371,13 +7482,13 @@ Figure&nbsp;9: Building New Connections
   <category>knowledge-graphs</category>
   <category>rag</category>
   <category>benchmarking</category>
-  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/</guid>
+  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/</guid>
   <pubDate>Fri, 12 Apr 2024 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – Part Zero</title>
   <dc:creator>Dmitriy Leybel</dc:creator>
-  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/</link>
+  <link>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/</link>
   <description><![CDATA[ 
 
 
@@ -7405,7 +7516,7 @@ Figure&nbsp;9: Building New Connections
 <div id="fig-rag_techniques_langchain" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-4.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
+<a href="images/paste-4.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Soiree of RAG techniques<br>
@@ -7417,12 +7528,12 @@ Source: Langchain blog
 </div>
 </div>
 </div>
-<p>An <a href="https://github.com/hymie122/RAG-Survey">ever-growing survey</a> of these techniques exists - and even that is not fully exhaustive. P.S. <a href="https://exa.ai/search?c=all">exa.ai</a> is a fantastic source for research. <img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/exaai.png" class="img-fluid"></p>
+<p>An <a href="https://github.com/hymie122/RAG-Survey">ever-growing survey</a> of these techniques exists - and even that is not fully exhaustive. P.S. <a href="https://exa.ai/search?c=all">exa.ai</a> is a fantastic source for research. <img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/exaai.png" class="img-fluid"></p>
 <p>For reference, here(Fig&nbsp;2) is a diagram of one of the simplest versions of RAG being implemented.</p>
 <div id="fig-simple-rag" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
+<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Basic RAG Example
@@ -7436,7 +7547,7 @@ Figure&nbsp;2: Basic RAG Example
 <div id="fig-basic-knowledege-graph-example" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-1.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
+<a href="images/paste-1.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: An example of a basic knowledge graph.
@@ -7504,7 +7615,7 @@ Note
 <div id="fig-graph-gen" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/graph generation.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
+<a href="images/graph generation.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Knowledge Graph and Embedding Generation
@@ -7518,7 +7629,7 @@ Figure&nbsp;4: Knowledge Graph and Embedding Generation
 <div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -7532,7 +7643,7 @@ Figure&nbsp;5: One strategy of retrieval through first finding a close embedding
 <div id="fig-graph-query-retrieval" class="preview-image quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
+<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.
@@ -7554,7 +7665,7 @@ Figure&nbsp;6: Another strategy for retrieval is to generate queries against the
 <div id="fig-rag-datasets" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-2.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
+<a href="images/paste-2.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: RAG Datasets
@@ -7566,7 +7677,7 @@ Figure&nbsp;7: RAG Datasets
 <div id="fig-rag-metrics" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-3.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
+<a href="images/paste-3.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: RAG Metrics
@@ -7596,7 +7707,7 @@ Figure&nbsp;8: RAG Metrics
 <div id="fig-mus-q" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/mus_hop.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
+<a href="images/mus_hop.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
@@ -7610,7 +7721,7 @@ Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
 <div id="fig-leaderboard" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/musique-leaderboards.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
+<a href="images/musique-leaderboards.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10: MuSiQue Leaderboard Comparison
@@ -7619,7 +7730,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 <p>Before wrapping up, I’d like to at least share some of the dev dataset meant to be used in the development of your data pipeline, published in the <a href="https://github.com/StonyBrookNLP/musique">MuSiQue github repo</a>.</p>
 <div style="max-height: 200px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
 <div id="cell-1" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
@@ -7753,7 +7864,7 @@ font-style: inherit;">0</span>]</span></code></pre></div>
 </div>
 <p>This is but one entry in the <code>jsonl</code> file. Although it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
 <p>And furthermore, here are examples of a couple of gold paragraphs from another question, where <code>is_supporting == True</code>. Here you can witness for yourself the necessary connection between Lloyd Dane and the county of his birthplace. Just one of the paragraphs by itself wouldn’t be enough to make that connection:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
 <div id="cell-8" class="cell" data-tags="[&quot;gold_examples&quot;]" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
@@ -7816,7 +7927,7 @@ font-style: inherit;">False</span>):</span>
 <section id="finalemore-of-a-cliffhanger" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Finale(more of a cliffhanger)</h1>
 <p>That’s it for this initial explanatory and exploratory chapter. In the next post, we’ll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
 
 
 
@@ -7826,7 +7937,7 @@ font-style: inherit;">False</span>):</span>
   <category>knowledge-graphs</category>
   <category>rag</category>
   <category>benchmarking</category>
-  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/</guid>
+  <guid>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/</guid>
   <pubDate>Fri, 05 Apr 2024 07:00:00 GMT</pubDate>
 </item>
 </channel>

@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-my-listings .list');
+    const listingTargetEl = window.document.querySelector('#listing-kg-rag-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
@@ -85,7 +85,35 @@ ul.task-list li input[type="checkbox"] {
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-my-listings'] = new List('listing-my-listings', options);
+    window['quarto-listings']['listing-kg-rag-listing'] = new List('listing-kg-rag-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-thinking-out-loud .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-thinking-out-loud'] = new List('listing-thinking-out-loud', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -205,7 +233,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="benchmarking">benchmarking <span class="quarto-category-count">(5)</span></div><div class="category" data-category="knowledge-graphs">knowledge-graphs <span class="quarto-category-count">(5)</span></div><div class="category" data-category="rag">rag <span class="quarto-category-count">(5)</span></div><div class="category" data-category="vector-databases">vector-databases <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="AGI">AGI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Brain">Brain <span class="quarto-category-count">(1)</span></div><div class="category" data-category="LLMs">LLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="benchmarking">benchmarking <span class="quarto-category-count">(5)</span></div><div class="category" data-category="knowledge-graphs">knowledge-graphs <span class="quarto-category-count">(5)</span></div><div class="category" data-category="rag">rag <span class="quarto-category-count">(5)</span></div><div class="category" data-category="vector-databases">vector-databases <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
@@ -213,23 +241,240 @@ window.Quarto = {
 
 
 
-<div style="text-align:center; margin-bottom: 20px; margin-top: -40px;">
-<a href="./technical_blog.xml"><img src="technical_blog\rss.png" width="50px"></a>
+<div class="column-page">
+<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">
+Thinking Out Loud <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"></a></span>
+</h1>
 </div>
-<div id="listing-my-listings" class="column-page quarto-listing quarto-listing-container-default">
+<div id="listing-thinking-out-loud" class="column-page quarto-listing quarto-listing-container-table">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-thinking-out-loud-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-thinking-out-loud'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-title-sort" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
+</div>
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+<th>
+<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Date</a>
+</th>
+<th>
+<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
+</th>
+<th>
+<a class="sort" data-sort="listing-author" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Author</a>
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-categories="LLMs,Brain,AGI" data-listing-date-sort="1718089200000" data-listing-file-modified-sort="1718078894895" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2261" data-listing-title-sort="LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Jun 11, 2024</span>
+</td>
+<td>
+<a href="./technical_blog/thinking-out-loud/llms-brains-reality/index.html" class="title listing-title">LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</a>
+</td>
+<td>
+<span class="listing-author">Dmitriy Leybel</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+<div class="column-page">
+<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">
+Knowledge Graph RAG Benchmarking Series <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"></a></span>
+</h1>
+</div>
+<div id="listing-kg-rag-listing" class="column-page quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="knowledge-graphs,rag,benchmarking,vector-databases" data-listing-date-sort="1715842800000" data-listing-file-modified-sort="1716669209325" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2301">
+<div class="quarto-post image-right" data-index="0" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1717974763233" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2603">
 <div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
-<p><img src="./technical_blog/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png" class="thumbnail-image"></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p>
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
+<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\images\nearest embedding strategy.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – <em>Part Four</em></a>
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>
 </h3>
 <div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a>
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
+knowledge-graphs
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
+rag
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
+benchmarking
+</div>
+</div>
+<div class="listing-description">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
+<div class="listing-date">
+Apr 5, 2024
+</div>
+<div class="listing-author">
+Dmitriy Leybel
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712905200000" data-listing-file-modified-sort="1715368953518" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2367">
+<div class="thumbnail">
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
+<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\images\connection-building.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
+knowledge-graphs
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
+rag
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
+benchmarking
+</div>
+</div>
+<div class="listing-description">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
+<div class="listing-date">
+Apr 12, 2024
+</div>
+<div class="listing-author">
+Dmitriy Leybel
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1713596400000" data-listing-file-modified-sort="1715368912988" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2928">
+<div class="thumbnail">
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
+<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-2\images\node_edge.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
+knowledge-graphs
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
+rag
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
+benchmarking
+</div>
+</div>
+<div class="listing-description">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
+<div class="listing-date">
+Apr 20, 2024
+</div>
+<div class="listing-author">
+Dmitriy Leybel
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1713855600000" data-listing-file-modified-sort="1715835570159" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1013">
+<div class="thumbnail">
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
+<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-3\images\vec_populate.png" alt="Population and querying of the vector database"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
+knowledge-graphs
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
+rag
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
+benchmarking
+</div>
+</div>
+<div class="listing-description">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Hybridizing our Knowledge Graphs With Vector Databases</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
+<div class="listing-date">
+Apr 23, 2024
+</div>
+<div class="listing-author">
+Dmitriy Leybel
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="knowledge-graphs,rag,benchmarking,vector-databases" data-listing-date-sort="1715842800000" data-listing-file-modified-sort="1717983534188" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2301">
+<div class="thumbnail">
+<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
+<p><img src="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png" class="thumbnail-image"></p>
+</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – <em>Part Four</em></a>
+</h3>
+<div class="listing-subtitle">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
@@ -246,169 +491,13 @@ vector-databases
 </div>
 </div>
 <div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.</a>
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.</a>
 </div>
 </div>
 <div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
+<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
 <div class="listing-date">
 May 16, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1713855600000" data-listing-file-modified-sort="1715835570159" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1013">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-3\images\vec_populate.png" alt="Population and querying of the vector database"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Hybridizing our Knowledge Graphs With Vector Databases</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<div class="listing-date">
-Apr 23, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1713596400000" data-listing-file-modified-sort="1715368912988" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2928">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-2\images\node_edge.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<div class="listing-date">
-Apr 20, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712905200000" data-listing-file-modified-sort="1715368953518" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2367">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-1\images\connection-building.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<div class="listing-date">
-Apr 12, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="knowledge-graphs,rag,benchmarking" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1713120886401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2603">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark-0\images\nearest embedding strategy.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('knowledge-graphs'); return false;">
-knowledge-graphs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('rag'); return false;">
-rag
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('benchmarking'); return false;">
-benchmarking
-</div>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<div class="listing-date">
-Apr 5, 2024
 </div>
 <div class="listing-author">
 Dmitriy Leybel

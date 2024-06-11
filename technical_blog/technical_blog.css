@@ -17,3 +17,7 @@
 #quarto-document-content ul li {
   font-size: 1em; /* Set font size for list items in unordered lists */
 }
+
+#quarto-document-content ol li {
+  font-size: 1em; /* Set font size for list items in unordered lists */
+}

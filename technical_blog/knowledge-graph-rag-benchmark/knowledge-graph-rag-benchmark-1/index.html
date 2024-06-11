@@ -60,26 +60,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,15 +122,15 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="../technical_blog.css">
+<link rel="stylesheet" href="../../technical_blog.css">
 <meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One">
 <meta property="og:description" content="Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models">
-<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/connection-building.png">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png">
 <meta property="og:image:height" content="433">
 <meta property="og:image:width" content="642">
 <meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – Part One">
 <meta name="twitter:description" content="Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models">
-<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-1/images/connection-building.png">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png">
 <meta name="twitter:image-height" content="433">
 <meta name="twitter:image-width" content="642">
 <meta name="twitter:card" content="summary_large_image">
@@ -143,8 +143,8 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -154,21 +154,21 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../technical_blog.html"> 
+    <a class="nav-link" href="../../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../personal_blog.html"> 
+    <a class="nav-link" href="../../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools tools-wide">
-    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -270,11 +270,11 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>:</p>
 <ul>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
-<li><p>The <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#rag">RAG</a> is used to ground LLMs when there are strict sourcing requirements</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#knowledge-graphs">Knowledge graphs</a> have been of great utility in information management across organizations, but not without their problems. They are a very potent tool when coupled with LLMs.</p></li>
+<li><p>The <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#musique">MuSiQue benchmark</a> combines many previous RAG benchmarks, with a variable multi-hop answerable/unanswerable dataset.</p></li>
 </ul>
 <hr>
 <section id="what-are-we-predicting" class="level1" data-number="1">
@@ -297,7 +297,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 </div>
 <p>Fortunately for us, the fine folks who’ve created the MuSiQue benchmark have made it simple. They’ve ran several models on the dataset and used them for evaluations. We can find the generated predictions in their <a href="https://github.com/StonyBrookNLP/musique">github repo</a>; this will give us the starting point we need. Lets first look at an example of the input, provided in the data folder(again, from the repo). Note that there is a question, an answer, an answerable flag and a bunch of paragraphs marked whether they support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-6">
 <div id="cell-6" class="cell" data-tags="[&quot;line_example&quot;]" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
@@ -546,7 +546,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 </div>
 <p>Looking at a snippet of the predictions below, we see that <em>only</em> four factors are necessary, the id - which matches the question id, the answer - which is the answer to the question, the answerable flag - which is a boolean indicating whether the question can be answered, and the supporting facts - which are the paragraphs that support the answer.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-16">
 <div id="cell-16" class="cell" data-tags="[&quot;prediction_format&quot;]" data-execution_count="102">
 <details class="code-fold">
 <summary>Code</summary>
@@ -723,7 +723,7 @@ These are the values as of this writing. They may change in the future.
 <div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
@@ -734,7 +734,7 @@ Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
 <div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-needle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
@@ -751,7 +751,7 @@ Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal m
 <div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: OpenAI Tokenization Example
@@ -765,7 +765,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <h3 data-number="2.0.2" class="anchored" data-anchor-id="token-measurement"><span class="header-section-number">2.0.2</span> Token Measurement</h3>
 <p>Different models use different tokenization strategies(but the same technique) with varying datasets, so we’ll focus on the publicly available algorithms. <a href="https://github.com/openai/tiktoken">tiktoken</a> is an OpenAI tool you can use to determine the token-representation existing within any string of text.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-11">
 <div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="98">
 <details class="code-fold">
 <summary>Code</summary>
@@ -831,7 +831,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <p>We observe that the latest models are using the <code>cl100k_base</code> tokenization model, which we can assume uses ~100,000 unique tokens. Prior to this, a 50,000 unique token model was used. Also, we instantiate our tokenizer for the next step. Choosing the <code>gpt-4</code> or <code>gpt-3.5-turbo</code> tokenizer makes no material difference, as they use the same exact tokenization model.</p>
 <p>The tokenizer can be used on one of the paragraphs we have to illustrate its token composition.</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-12">
 <div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="99">
 <details class="code-fold">
 <summary>Code</summary>
@@ -909,7 +909,7 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <p>Only 39 tokens – nice.</p>
 <p>Is this something we can expect from the provided paragraphs in our dataset?</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-13">
 <div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="100">
 <details class="code-fold">
 <summary>Code</summary>
@@ -961,7 +961,7 @@ Number of tokens in paragraph: 48</code></pre>
 <div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lmsys-compare.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Comparison of performance and cost among top models
@@ -997,7 +997,7 @@ Although Claude had the very large context window months before GPT-4, the jury 
 </section>
 <section id="creating-a-knowledge-graph" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Creating a Knowledge Graph</h1>
-<p>From the <a href="../../technical_blog/knowledge-graph-rag-benchmark-0/index.html#rag-knowledge-graphs">previous post</a>, you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we’ll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.</p>
+<p>From the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#rag-knowledge-graphs">previous post</a>, you may remember that we spoke of combining a vector store along with a knowledge graph in order to take advantage of the specific multiplicity of that combination. Because generating a workflow for knowledge graph creation is an undertaking in its own right, we’ll first want to build a knowledge graph, and then attach the logic for using it along with a vector store. For descriptive purposes, this is much easier and less convoluted than it would be.</p>
 <section id="strategy" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="strategy"><span class="header-section-number">5.1</span> Strategy</h2>
 <section id="sliding-windows" class="level3" data-number="5.1.1">
@@ -1006,7 +1006,7 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paragraph-chunks.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
@@ -1030,7 +1030,7 @@ When I say ‘nodes and edges’, I also mean any attributes thereof
 <div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sliding-window.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="images/sliding-window.png" class="img-fluid figure-img"></a>
+<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="images/sliding-window.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
@@ -1044,7 +1044,7 @@ Figure&nbsp;6: Sliding window with overlap tends to be the standard approach whe
 <div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/context.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="images/context.png" class="img-fluid figure-img"></a>
+<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/context.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
@@ -1065,7 +1065,7 @@ Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previ
 <div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sparse_connectivity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="images/sparse_connectivity.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Sparsely Connected Knowledge Graph
@@ -1076,7 +1076,7 @@ Figure&nbsp;8: Sparsely Connected Knowledge Graph
 <div id="fig-new-connections" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/connection-building.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="images/connection-building.png" class="preview-image img-fluid figure-img"></a>
+<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="images/connection-building.png" class="preview-image img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Building New Connections
@@ -1097,7 +1097,7 @@ Figure&nbsp;9: Building New Connections
 <p>To be perfectly honest, I was intending to get into coding the knowledge graph creation pipeline in this post, I even had to change the title and abstract before publishing. Fortunately, there’s plenty here to mull over.</p>
 <p>That’ll be happening in the next one – pinky promise. I’m hoping that this was a good amount of background and theory behind what we’ll be doing next.</p>
 <p>You can reach out to me if you have any questions via X or email.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
 
 
 <div class="hidden" aria-hidden="true">
@@ -1553,7 +1553,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"openEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

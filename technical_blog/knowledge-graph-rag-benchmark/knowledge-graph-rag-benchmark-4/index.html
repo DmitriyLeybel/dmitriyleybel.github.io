@@ -60,26 +60,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,15 +122,15 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="../technical_blog.css">
+<link rel="stylesheet" href="../../technical_blog.css">
 <meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – Part Four">
 <meta property="og:description" content="Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.">
-<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png">
 <meta property="og:image:height" content="1261">
 <meta property="og:image:width" content="1193">
 <meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – Part Four">
 <meta name="twitter:description" content="Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.">
-<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png">
 <meta name="twitter:image-height" content="1261">
 <meta name="twitter:image-width" content="1193">
 <meta name="twitter:card" content="summary_large_image">
@@ -143,8 +143,8 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -154,21 +154,21 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../technical_blog.html"> 
+    <a class="nav-link" href="../../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../personal_blog.html"> 
+    <a class="nav-link" href="../../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools tools-wide">
-    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -218,7 +218,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
   <div>
     <div class="abstract">
       <div class="block-title">Abstract</div>
-      This section focuses on constructing a workflow to answer questions found in the <a href="../knowledge-graph-rag-benchmark-0/#musique">MuSiQue</a> dataset. After a long an arduous road of <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html">constructing a knowledge graph</a>, <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html">adding vector storage</a>, and linking the two, we now have a system that can answer questions with a high degree of accuracy and efficiency(or so we hope).
+      This section focuses on constructing a workflow to answer questions found in the <a href="../knowledge-graph-rag-benchmark-0/#musique">MuSiQue</a> dataset. After a long an arduous road of <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">constructing a knowledge graph</a>, <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html">adding vector storage</a>, and linking the two, we now have a system that can answer questions with a high degree of accuracy and efficiency(or so we hope).
     </div>
   </div>
   
@@ -263,19 +263,19 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – Part Three</a>:</p>
 <ul>
-<li><p>Out of the many available options for vector DBs, we’re using <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as">Chroma</a> due to its simplicity and ease of use – a very powerful plug ’n play option.</p></li>
-<li><p>The nodes in our knowledge graph are linked to <a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as#connecting-vector-db-to-knowledge-graph">generated embeddings</a>.</p></li>
+<li><p>Out of the many available options for vector DBs, we’re using <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as">Chroma</a> due to its simplicity and ease of use – a very powerful plug ’n play option.</p></li>
+<li><p>The nodes in our knowledge graph are linked to <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html##vector-database-simple-as#connecting-vector-db-to-knowledge-graph">generated embeddings</a>.</p></li>
 <li><p>When we ask a question, we can find the semantically related nodes by generating an embedding for the question and the running a similarity search using a metric like cosine distance.</p></li>
 </ul>
 <hr>
 <section id="overview" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Overview</h1>
-<p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
+<p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="Illustrated flow from question to structured answer."><img src="images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
+<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="Illustrated flow from question to structured answer."><img src="images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
 <figcaption>Illustrated flow from question to structured answer.</figcaption>
 </figure>
 </div>
@@ -286,7 +286,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <p>Our purpose here is to answer a question provided a set of paragraphs, and provide the supporting evidence for it.</p>
 <p>As a brief reminder, lets peek into a single entry of the MuSiQue dataset used in our previous exploration:</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-81">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-81">
 <div id="cell-81" class="cell" data-tags="[&quot;main_line&quot;]" data-execution_count="403">
 <details class="code-fold">
 <summary>Code</summary>
@@ -404,11 +404,11 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <section id="prompting" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Prompting</h1>
 <p>That’s right, we’re back to prompting, our bread n buttah.</p>
-<p>This time, we’ll be feeding the question, instructions, and supporting evidence to the LLM. This will be very similar to us coaxing the LLM to create the knowledge graph in one of the <a href="../../technical_blog/knowledge-graph-rag-benchmark-2/index.html#prompting">previous posts</a>.</p>
+<p>This time, we’ll be feeding the question, instructions, and supporting evidence to the LLM. This will be very similar to us coaxing the LLM to create the knowledge graph in one of the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html#prompting">previous posts</a>.</p>
 <section id="prompt-template" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="prompt-template"><span class="header-section-number">3.1</span> Prompt Template</h2>
 <p>First, we need a system message that helps guide our model along, delivers and understanding of the input, and gently coerces it to output an aptly formatted answer.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-85">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-85">
 <div id="cell-85" class="cell" data-tags="[&quot;pred_prompts&quot;]" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.messages <span class="im">import</span> SystemMessage</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -434,7 +434,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </div>
 <p>The <code>guidance_str</code> lays out what I described above. We also provide the ‘format_str’, which includes a JSON dump of the <code>Answer</code> class schema, brought to you by Pydantic, although this time it’s a bit less convoluted than the one used to create the nodes and edges of our knowledge graph.</p>
 <p>In addition to the System message, we also need to add the Human message template to our pipeline which will allow us to pass in the question and evidence.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-89">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-89">
 <div id="cell-89" class="cell" data-tags="[&quot;human_message_pred&quot;]" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>human_str <span class="op">=</span> <span class="st">"Question: </span><span class="sc">{question}</span><span class="ch">\n\n</span><span class="st"> Supporting Evidence:</span><span class="ch">\n</span><span class="st"> </span><span class="sc">{evidence}</span><span class="st">"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>human_template <span class="op">=</span> HumanMessagePromptTemplate.from_template(human_str)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -446,7 +446,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <h1 data-number="4"><span class="header-section-number">4</span> Gathering Evidence</h1>
 <p>Next up, we need to gather the supporting evidence for our model from our knowledge base(the combination of our knowledge graph and vector store which we created in previous posts).</p>
 <div style="max-height: 280px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-102">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-102">
 <div id="cell-102" class="cell" data-tags="[&quot;top_results_pred&quot;]" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>top_results <span class="op">=</span> collection.query(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    query_texts<span class="op">=</span>[lines[<span class="op">-</span><span class="dv">2</span>][<span class="st">'question'</span>]]</span>
@@ -493,7 +493,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </div>
 </div>
 <p>We’re interested in the top 3 results. Why? Why not?</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-106">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-106">
 <div id="cell-106" class="cell" data-tags="[&quot;top_nodes_preview&quot;]" data-execution_count="90">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>uuid_strs <span class="op">=</span> top_results[<span class="st">'ids'</span>][<span class="dv">0</span>][:<span class="dv">3</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>top_uuids <span class="op">=</span> [uuid.UUID(uuid_str, version<span class="op">=</span><span class="dv">4</span>) <span class="cf">for</span> uuid_str <span class="kw">in</span> uuid_strs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -501,7 +501,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </div>
 <p>We get the top UUIDs to then use in conjuction with our <code>UUID: graph index</code> mapping we constructed during the creation of the knowledge graph.</p>
 <p>Lets take a gander into the connecting nodes from our top 3 results. Our network graph is <strong>directed</strong>, meaning that the direction is important(and creates a much easier semantic designation for the edge). A predecessor node is a node from which the linkage stems, and a successor node is the node towards which the linkage is directed. Taking their union, we have an exhaustive list of connecting nodes to the ones we retrieved from our vector store.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-108">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-108">
 <div id="cell-108" class="cell" data-tags="[&quot;suc_pred_nodes&quot;]" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> top_uuid <span class="kw">in</span> top_uuids:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> <span class="bu">list</span>(digraph.successor_indices(node_indices[top_uuid])) <span class="op">+</span> <span class="bu">list</span>(digraph.predecessor_indices(node_indices[top_uuid])):</span>
@@ -519,7 +519,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <h2 data-number="4.1" class="anchored" data-anchor-id="transforming-the-evidence"><span class="header-section-number">4.1</span> Transforming the Evidence</h2>
 <p>Now that we have the nodes, we need to grab their edges, and then transform both into a format that will be easily digestible for the LLM. We will still feed the nodes and edges as JSON strings, but we’ll need to augment it to replace UUIDs with something less complex like a monotonically increasing integer. This way, the LLM can use integers like <code>0</code> and <code>1</code> instead of <code>5f092031-cf0d-408c-a4f1-896e7c8607be</code> and <code>bc1c5af9-c311-4e9f-975d-349d33d41a15</code> when interpreting the <code>from_node</code> and <code>to_node</code> fields of the edges.</p>
 <div style="max-height: 530px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-109">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-109">
 <div id="cell-109" class="cell" data-tags="[&quot;evidence_processing&quot;]" data-execution_count="92">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -579,7 +579,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 </div>
 <p>Lets take a look at what the evidence will look like:</p>
 <div style="max-height: 530px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-112">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-112">
 <div id="cell-112" class="cell" data-tags="[&quot;edges_nodes_hist&quot;]" data-execution_count="94">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pprint(<span class="bu">list</span>({<span class="op">**</span>node_hist_dict, <span class="op">**</span>edge_hist_dict}.values()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -649,7 +649,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 <h1 data-number="5"><span class="header-section-number">5</span> Putting It All Together</h1>
 <p>We’ve got the evidence, now we need to finalize our pipeline check the response from the LLM.</p>
 <p>First, lets combine our <code>System</code> and <code>Human</code> templates.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-114">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-114">
 <div id="cell-114" class="cell" data-tags="[&quot;combined_template&quot;]" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>combined_template <span class="op">=</span> system_message <span class="op">+</span> human_template</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>combined_template</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -659,7 +659,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 </div>
 </div>
 <p>Next, we need to wrap our Pydantic class <code>Answer</code> in a <code>PydanticOutputParser</code>, which takes the output from the LLM model and parses the string as a JSON, erroring out if the structure does not match our schema. We then wrap that parser in an <code>OutputFixingParser</code>, which will attempt to fix any errors that may occur during the parsing process by passing the error and output back to the LLM for remediation.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-91">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-91">
 <div id="cell-91" class="cell" data-tags="[&quot;parse_pydantic&quot;]" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.output_parsers <span class="im">import</span> PydanticOutputParser, OutputFixingParser</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -670,7 +670,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 <section id="moment-of-truth" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="moment-of-truth"><span class="header-section-number">5.1</span> Moment of truth</h2>
 <p>We can now instantiate the pipeline, pass in the question and evidence, then run it.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-115">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-115">
 <div id="cell-115" class="cell" data-tags="[&quot;ans_pipe&quot;]" data-execution_count="95">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>answer_pipe <span class="op">=</span> combined_template <span class="op">|</span> chat_model <span class="op">|</span> output_parser</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -679,7 +679,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ans <span class="op">=</span> answer_pipe.invoke({<span class="st">'question'</span>: question, <span class="st">'evidence'</span>: evidence})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-116">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-116">
 <div id="cell-116" class="cell" data-tags="[&quot;wrong_ans&quot;]" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>question, ans, lines[<span class="op">-</span><span class="dv">2</span>][<span class="st">'answer'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="96">
@@ -691,7 +691,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/cman_c.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
+<p><a href="images/cman_c.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
 <figcaption>It’s okay to feel all sorts of things when you don’t get your expected result.</figcaption>
 </figure>
 </div>
@@ -715,7 +715,7 @@ For the astute reader, you may have noticed that we could’ve just used the int
 <section id="is-a-more-potent-model-the-answer" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="is-a-more-potent-model-the-answer"><span class="header-section-number">5.2.1</span> Is a more potent model the answer?</h3>
 <p>Given that the evidence does not contribute to the correct answer, we can say that our model is hallucinating due to it marking it as <em>answerable</em> and giving us the wrong answer. Weak models tend to hallucinate often. Could this be the case here? Lets use a more powerful model to test out our hypothesis.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-121">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-121">
 <div id="cell-121" class="cell" data-tags="[&quot;adv_model&quot;]" data-execution_count="98">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>chat_model_adv <span class="op">=</span> ChatAnthropic(model_name<span class="op">=</span><span class="st">"claude-3-opus-20240229"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>answer_pipe <span class="op">=</span> combined_template <span class="op">|</span> chat_model_adv <span class="op">|</span> output_parser</span>
@@ -1221,7 +1221,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom","loop":false,"selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

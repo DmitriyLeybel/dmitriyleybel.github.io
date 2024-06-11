@@ -60,26 +60,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -121,15 +121,15 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<link rel="stylesheet" href="../technical_blog.css">
+<link rel="stylesheet" href="../../technical_blog.css">
 <meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – Part Zero">
 <meta property="og:description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
-<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
 <meta property="og:image:height" content="738">
 <meta property="og:image:width" content="1203">
 <meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – Part Zero">
 <meta name="twitter:description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
-<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
 <meta name="twitter:image-height" content="738">
 <meta name="twitter:image-width" content="1203">
 <meta name="twitter:card" content="summary_large_image">
@@ -142,8 +142,8 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -153,21 +153,21 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../technical_blog.html"> 
+    <a class="nav-link" href="../../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../personal_blog.html"> 
+    <a class="nav-link" href="../../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools tools-wide">
-    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -496,7 +496,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 <p>Before wrapping up, I’d like to at least share some of the dev dataset meant to be used in the development of your data pipeline, published in the <a href="https://github.com/StonyBrookNLP/musique">MuSiQue github repo</a>.</p>
 <div style="max-height: 200px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
 <div id="cell-1" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
@@ -608,7 +608,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 <p>This is but one entry in the <code>jsonl</code> file. Although it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
 <p>And furthermore, here are examples of a couple of gold paragraphs from another question, where <code>is_supporting == True</code>. Here you can witness for yourself the necessary connection between Lloyd Dane and the county of his birthplace. Just one of the paragraphs by itself wouldn’t be enough to make that connection:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
 <div id="cell-8" class="cell" data-tags="[&quot;gold_examples&quot;]" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
@@ -647,7 +647,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 <section id="finalemore-of-a-cliffhanger" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Finale(more of a cliffhanger)</h1>
 <p>That’s it for this initial explanatory and exploratory chapter. In the next post, we’ll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
 
 
 <div class="hidden" aria-hidden="true">
@@ -1106,7 +1106,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

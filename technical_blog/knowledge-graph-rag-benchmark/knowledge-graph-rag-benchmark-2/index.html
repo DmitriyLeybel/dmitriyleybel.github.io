@@ -60,26 +60,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,15 +122,15 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="../technical_blog.css">
+<link rel="stylesheet" href="../../technical_blog.css">
 <meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two">
 <meta property="og:description" content="Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)">
-<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/node_edge.png">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png">
 <meta property="og:image:height" content="352">
 <meta property="og:image:width" content="769">
 <meta name="twitter:title" content="Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – Part Two">
 <meta name="twitter:description" content="Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)">
-<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-2/images/node_edge.png">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png">
 <meta name="twitter:image-height" content="352">
 <meta name="twitter:image-width" content="769">
 <meta name="twitter:card" content="summary_large_image">
@@ -143,8 +143,8 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -154,21 +154,21 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../technical_blog.html"> 
+    <a class="nav-link" href="../../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../personal_blog.html"> 
+    <a class="nav-link" href="../../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools tools-wide">
-    <a href="../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -266,11 +266,11 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 
 
 
-<p><strong>On the last episode of</strong>: <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>:</p>
+<p><strong>On the last episode of</strong>: <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>:</p>
 <ul>
 <li><p><a href="../knowledge-graph-rag-benchmark-1/#jean-claude-van-damme-tell-me-a-haiku">Claude 3 Haiku</a> is our model of choice due to it being in the Goldilocks zone of performance and cost.</p></li>
-<li><p><a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#motivation-for-rag-over-large-context-windows">Relying on large context windows isn’t enough</a>, we need to impart a structure on the data for efficient reuse and robust grounding.</p></li>
-<li><p>When creating a knowledge graph, we need to not only be clever about <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html##knowledge-stuffing">controlling our context window</a>, but also having a process through which the connections in the <a href="../../technical_blog/knowledge-graph-rag-benchmark-1/index.html#letting-the-llm-loose">graph can grow</a>.</p></li>
+<li><p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html#motivation-for-rag-over-large-context-windows">Relying on large context windows isn’t enough</a>, we need to impart a structure on the data for efficient reuse and robust grounding.</p></li>
+<li><p>When creating a knowledge graph, we need to not only be clever about <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html##knowledge-stuffing">controlling our context window</a>, but also having a process through which the connections in the <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html#letting-the-llm-loose">graph can grow</a>.</p></li>
 </ul>
 <hr>
 <p><strong>Finally</strong>, we’re getting to the fun part. Like many, I thought this day would never come, but here we are.</p>
@@ -278,7 +278,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <section id="lets-split-some-text" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Lets Split Some Text</h1>
 <p>In order to feed text of reasonable length into our LLM, we need to be able to split it. The splitting criteria will be the token length of the passage. To implement this criterion, we need to create a length function that will be passed into our splitter, and then test it on one of the paragraphs we have available from the MuSiQue dataset.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-20">
 <div id="cell-20" class="cell" data-tags="[&quot;token_len&quot;]" data-execution_count="105">
 <details class="code-fold">
 <summary>Code</summary>
@@ -318,7 +318,7 @@ As of this writing, Meta’s Llama 3 was just released and is using OpenAI’s t
 </div>
 </div>
 <p>We’ll be using LangChain’s <code>RecursiveCharacterTextSplitter</code> to split the text into chunks. It algorithmically uses punctuation to help split the text in order to preserve some sentence structure, so sometimes, the chunks will be smaller than our specified chunk size. For illustrative purposes, the following example will use a chunk size and a chunk overlap different from what we’ll end up using in the pipeline. Two of the paragraphs are split below with a specified chunk size of 20 and an overlap of 5. If you peek into the code, you can see that we’re using our length function as the determinant of splits.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-21">
 <div id="cell-21" class="cell" data-tags="[&quot;split_examples&quot;]" data-execution_count="106">
 <details class="code-fold">
 <summary>Code</summary>
@@ -373,7 +373,7 @@ As of this writing, Meta’s Llama 3 was just released and is using OpenAI’s t
 <section id="prompting" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Prompting</h1>
 <p>Prompting our model is as simple as loading up the API key as an environmental variable, then instantiating the model with Langchain. We can pass in any text string we want to the model as long as it observes the token limits.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-27">
 <div id="cell-27" class="cell" data-tags="[&quot;model_load&quot;]" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_anthropic <span class="im">import</span> ChatAnthropic</span>
@@ -461,7 +461,7 @@ Pydantic, along with a similar sort of workflow can be generalized for structure
 </div>
 <p>Below, you’ll see each class represent a distinct JSON object, with the fields and instructions that the model will receive. By using the <code>BaseModel</code> superclass😎, we can create Pydantic classes with the following syntax:</p>
 <div style="max-height: 800px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-28">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-28">
 <div id="cell-28" class="cell" data-tags="[&quot;pydantic&quot;]" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Dict, List, Union, Tuple, Optional</span>
@@ -554,7 +554,7 @@ You can <em>probably</em> use Pydantic classes to describe the JSON output we ne
 </div>
 <p>In addition to our fancy JSON schema generated with Pydantic, which already includes some descriptions of the fields, we need to pass in some instructions.</p>
 <div style="max-height: 500px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-29">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-29">
 <div id="cell-29" class="cell" data-tags="[&quot;json_instructions&quot;]" data-execution_count="109">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>json_rules <span class="op">=</span> <span class="op">\</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""We need to create a JSON object that contains a list of nodes and edges that connect the nodes.</span></span>
@@ -642,7 +642,7 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="content" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="content"><span class="header-section-number">2.1.2</span> Content</h3>
 <p>In addition to the JSON formatting instructions, we give the model some high-level guidance. The placeholders are included as <code>{instructions}</code> where the previously constructed JSON instructions will go, and <code>history</code> where past nodes and edges will be inserted – the format isn’t critical, but we’ll stick to the JSON schema we’re using for the output.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-30">
 <div id="cell-30" class="cell" data-tags="[&quot;graph_creator&quot;]" data-execution_count="112">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>graph_creator_content <span class="op">=</span> <span class="op">\</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">"""You are a brilliant and efficient creator of JSON objects that capture the essence of passages and who follows instructions unbelievably well.</span></span>
@@ -660,7 +660,7 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="pass_passage_template" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="pass_passage_template"><span class="header-section-number">2.2</span> pass_passage_template</h2>
 <p>The human message portion of this template consists of something as simple as:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-31">
 <div id="cell-31" class="cell" data-tags="[&quot;pass_passage&quot;]" data-execution_count="110">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pass_passage_content <span class="op">=</span> <span class="st">"Below is the passage to extract the values from.</span><span class="ch">\n</span><span class="st">*****</span><span class="ch">\n</span><span class="st">Passage:</span><span class="ch">\n</span><span class="sc">{passage}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -670,7 +670,7 @@ Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
 <section id="combining-the-prompt-templates" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="combining-the-prompt-templates"><span class="header-section-number">2.3</span> Combining the Prompt Templates</h2>
 <p>To create our Langchain pipeline, we wrap the templates we created in <code>SystemMessagePromptTemplate</code> and <code>HumanMessagePromptTemplate</code> classes, and then combine them into <code>gen_template</code>.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-32">
 <div id="cell-32" class="cell" data-tags="[&quot;template_agg&quot;]" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> (</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    HumanMessagePromptTemplate,</span>
@@ -712,7 +712,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 <h1 data-number="3"><span class="header-section-number">3</span> Knowledge Graph Generation (Without History)</h1>
 <p>We now, more or less, have the components necessary to give knowledge graph generation a first go. Development is generally iterative so we’ll leave out the history aspect of it for the time being.</p>
 <p>We now will take a gander at the LCEL in action:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-34">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-34">
 <div id="cell-34" class="cell" data-tags="[&quot;test1&quot;]" data-execution_count="117">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -723,7 +723,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 </div>
 <p>That’s all there is to it. We pipe(<code>|</code>) the output from invoking the <code>gen_template</code> straight to the <code>chat_model</code> which also gets invoked.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-35">
 <div id="cell-35" class="cell" data-tags="[&quot;test2&quot;]" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> llm_pipe.invoke({<span class="st">'passage'</span>: paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>],</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'history'</span>: <span class="st">''</span>,</span>
@@ -732,7 +732,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 <p><code>llm_pipe</code> is passed the same arguments that <code>gen_template</code> would’ve been.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-36">
 <div id="cell-36" class="cell" data-tags="[&quot;response_contents&quot;]" data-execution_count="119">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pprint(response.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -800,7 +800,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 <p>Would you look at that, it did what we told it to, and it cost less than a penny. However, it’s still a string, so we need to convert it into a more amiable format.</p>
 <div id="parsed_output_example" style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-37">
 <div id="cell-37" class="cell" data-tags="[&quot;json_parsed&quot;]" data-execution_count="120">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.output_parsers <span class="im">import</span> JsonOutputParser</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -839,7 +839,7 @@ Generally, we can use <a href="https://python.langchain.com/docs/modules/model_i
 </div>
 </div>
 <p>Using Langchain’s <code>JsonOutputParser</code> allows us to easily convert the JSON string into a Python dictionary object. We’re once again calling <code>invoke</code> which means it could easily be inserted into our pipeline:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-39">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-39">
 <div id="cell-39" class="cell" data-tags="[&quot;whole_pipe&quot;]" data-execution_count="122">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>llm_pipe <span class="op">=</span> gen_template <span class="op">|</span> chat_model <span class="op">|</span> json_output_parser</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -853,7 +853,7 @@ This was your output:
 <section id="visualization-with-rustworkx" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="visualization-with-rustworkx"><span class="header-section-number">3.1</span> Visualization with rustworkx</h2>
 <p>The easiest way to visualize our newly-formed knowledge graph is by using a network graph library; in our case, I’ve chosen <a href="https://www.rustworkx.org/index.html">rustworkx</a>. It’s a Python library that allows for the creation, manipulation, and rendering of directed graphs. If you’re familiar with networkx, then the syntax will be very similar, however the performance is a magnitude faster given that all of the internal goodies are written in Rust.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-42">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-42">
 <div id="cell-42" class="cell" data-tags="[&quot;base_graph_viz&quot;]" data-execution_count="246">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
@@ -904,7 +904,7 @@ This was your output:
 </ul>
 <p>To do this, we will create a magnificent <code>GraphHistory</code> class that manages this storage and retrieval.</p>
 <p>(Unfolding the code not for the faint of heart)</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-44">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-44">
 <div id="cell-44" class="cell" data-tags="[&quot;history_class&quot;]" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1052,7 +1052,7 @@ This was your output:
 <li>The <code>paragraph_idx</code> is added to the nodes to indicate which paragraph it was generated from.</li>
 <li>The nodes and edges we generate are stored in <code>graph_history</code>, which is a list of objects similar to what we generated <a href="#parsed_output_example">here</a>, but with UUIDs for unique identification(the <code>semantic_id</code> generated may, by chance alone, be the same)</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-46">
 <div id="cell-46" class="cell" data-tags="[&quot;history_pipe&quot;]" data-execution_count="128">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> json <span class="im">import</span> JSONDecodeError</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
@@ -1106,7 +1106,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
 <div id="cell-48" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
@@ -1742,7 +1742,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <section id="show-me-the-money" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="show-me-the-money"><span class="header-section-number">5.1</span> Show Me the Money</h2>
 <p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
 <div id="cell-49" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="172">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
@@ -1784,7 +1784,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <p>Messy, but you get the idea.</p>
 <p>We can do a little graph analytics to find the most connected nodes(nodes with the most connections). <code>incident_edges(n)</code> identifies the edges of a node with index <code>n</code>, so all we have to do is get the length of the edge list returned and then sort it.</p>
 <div style="max-height: 400px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
 <div id="cell-50" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
@@ -1857,7 +1857,7 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 </div>
 </div>
 <p>The most connections a single node has is 9, while most nodes merely have a single connection, and a minority of nodes have no connections. Here is said node:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
+<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-54">
 <div id="cell-54" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1913,7 +1913,7 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 <p>Well…<strong>almost!</strong></p>
 <p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
 <p>Thanks for reading, I hope you managed to stay awake.</p>
-<p><a href="../../technical_blog/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
+<p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
 
 
 <div class="hidden" aria-hidden="true">
@@ -2364,7 +2364,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
