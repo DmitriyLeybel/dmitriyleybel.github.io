@@ -1097,7 +1097,7 @@ font-style: inherit;">'evidence'</span>: evidence})</span></code></pre></div>
 <div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="../../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="../../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -2460,7 +2460,7 @@ paragraph 1 - paragraph 19 comparisons:  0.3139882121419234 0.2947411460832846</
 <div id="fig-similarity-comparison" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/similarity_comparison.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
+<a href="images/similarity_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar than nodes generated from different paragraphs
@@ -3307,7 +3307,7 @@ font-style: inherit;">'ids'</span>]</span></code></pre></div>
 <p>The top 10 results are returned based on the cosine distance metric specified, once again, in the <code>create_collection()</code> command. To illustrate the process up till here, have a flowchart.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
+<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
 <figcaption>Population and querying of the vector database</figcaption>
 </figure>
 </div>
@@ -3651,7 +3651,7 @@ Why did the horse refuse to get on the airplane? Because it already had a stable
 <div id="fig-prompts" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
+<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Prompt Template Composition
@@ -3684,7 +3684,7 @@ The difference between a prompt and a template is the fact that a template can c
 <div id="fig-node-edge" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/node_edge.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
+<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The node-edge structure we construct from the outputs.
@@ -4023,7 +4023,7 @@ font-style: inherit;">"</span></span>
 <div id="fig-fido" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/fido.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
+<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
@@ -6502,7 +6502,7 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 <div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
