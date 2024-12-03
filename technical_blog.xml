@@ -145,7 +145,7 @@
 <p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
+<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
 <figcaption>Illustrated flow from question to structured answer.</figcaption>
 </figure>
 </div>
@@ -941,7 +941,7 @@ font-style: inherit;">'answer'</span>]</span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/cman_c.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
+<p><a href="images/cman_c.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
 <figcaption>It’s okay to feel all sorts of things when you don’t get your expected result.</figcaption>
 </figure>
 </div>
@@ -7043,7 +7043,7 @@ These are the values as of this writing. They may change in the future.
 <div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
@@ -7054,7 +7054,7 @@ Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
 <div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-needle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
@@ -7071,7 +7071,7 @@ Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal m
 <div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: OpenAI Tokenization Example
@@ -7337,7 +7337,7 @@ Number of tokens in paragraph: 48</code></pre>
 <div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lmsys-compare.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Comparison of performance and cost among top models
@@ -7382,7 +7382,7 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paragraph-chunks.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
@@ -7406,7 +7406,7 @@ When I say ‘nodes and edges’, I also mean any attributes thereof
 <div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sliding-window.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
+<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
@@ -7420,7 +7420,7 @@ Figure&nbsp;6: Sliding window with overlap tends to be the standard approach whe
 <div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/context.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
+<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
@@ -7441,7 +7441,7 @@ Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previ
 <div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sparse_connectivity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Sparsely Connected Knowledge Graph
@@ -7452,7 +7452,7 @@ Figure&nbsp;8: Sparsely Connected Knowledge Graph
 <div id="fig-new-connections" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/connection-building.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
+<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Building New Connections
@@ -7517,7 +7517,7 @@ Figure&nbsp;9: Building New Connections
 <div id="fig-rag_techniques_langchain" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
+<a href="images/paste-4.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Soiree of RAG techniques<br>
@@ -7534,7 +7534,7 @@ Source: Langchain blog
 <div id="fig-simple-rag" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
+<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Basic RAG Example
@@ -7548,7 +7548,7 @@ Figure&nbsp;2: Basic RAG Example
 <div id="fig-basic-knowledege-graph-example" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
+<a href="images/paste-1.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: An example of a basic knowledge graph.
@@ -7616,7 +7616,7 @@ Note
 <div id="fig-graph-gen" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/graph generation.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
+<a href="images/graph generation.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Knowledge Graph and Embedding Generation
@@ -7630,7 +7630,7 @@ Figure&nbsp;4: Knowledge Graph and Embedding Generation
 <div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" data-glightbox="description: .lightbox-desc-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -7644,7 +7644,7 @@ Figure&nbsp;5: One strategy of retrieval through first finding a close embedding
 <div id="fig-graph-query-retrieval" class="preview-image quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" data-glightbox="description: .lightbox-desc-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
+<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.
@@ -7666,7 +7666,7 @@ Figure&nbsp;6: Another strategy for retrieval is to generate queries against the
 <div id="fig-rag-datasets" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" data-glightbox="description: .lightbox-desc-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
+<a href="images/paste-2.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: RAG Datasets
@@ -7678,7 +7678,7 @@ Figure&nbsp;7: RAG Datasets
 <div id="fig-rag-metrics" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" data-glightbox="description: .lightbox-desc-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
+<a href="images/paste-3.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: RAG Metrics
@@ -7708,7 +7708,7 @@ Figure&nbsp;8: RAG Metrics
 <div id="fig-mus-q" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/mus_hop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" data-glightbox="description: .lightbox-desc-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
+<a href="images/mus_hop.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
@@ -7722,7 +7722,7 @@ Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
 <div id="fig-leaderboard" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/musique-leaderboards.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" data-glightbox="description: .lightbox-desc-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
+<a href="images/musique-leaderboards.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10: MuSiQue Leaderboard Comparison
