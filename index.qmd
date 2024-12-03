@@ -1,33 +1,49 @@
 ---
-title: "Dmitriy Leybel"
-page-layout: article
-subtitle: "Howdy!"
+page-layout: full
+lightbox: true
 ---
+<div style="margin: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .05em; line-height: 1.2; margin-bottom: 1em;">
+   <span style="font-weight: 900; font-size: 3em;">Dmitriy Leybel</span>
+   <hr style="width: 25%;">
+   <span style="font-weight: 100; font-size: .80em;">*AI Engineer, Data Scientist, Statistician, Enjoyer of the outdoors*</span>
+</div>
 
-::: {layout="[20,80]"}
-<img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="169"/>
+::: {layout="[25,80]"}
+<img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="250"/>
 
 <div>
+I'm an AI/ML engineer and data scientist focused on building practical solutions at the intersection of knowledge systems, large language models, and predictive analytics.
 
-If you're here, you probably know my name. If you don't, it's Dmitriy.
+I run a consultancy, [Prudent Patterns](https://prudentpatterns.com) where I help startups and more seasoned companies acquire their footing in the space of extracting value from their data and create impactful AI solutions using the latest developments in this rapidly evolving field. I also enjoy teaching stakeholders about the current ecosystem of AI to help them make informed decisions about how to best leverage these technologies.
 
-In any case, **welcome** to my page!
-
-By profession, I'm a founder, consultant, and data scientist. Those are but some of the hats I've worn. At this point, [I've probably worked](resume.qmd) with every part of the tech stack(including MPUs and MCUs).
-
-<sub><sup>Except for bare-metal DevOps. We don't speak of bare-metal DevOps in these parts.</sup></sub>
-
-Above all else, I consider myself a tinkerer.
-
+**If you'd like to discuss potential collaborations or learn more about AI solutions for your business, feel free to [reach out✉️](mailto:dmleybel@gmail.com), I'd love to connect.**
 </div>
 :::
 
-I run a data consultancy, [Prudent Patterns](https://prudentpatterns.com), specializing in data of all sizes, big and small alike. If you're looking for strategic guidance around machine learning, data quality, data infrastructure, Large Language Models, statistical analysis, data visualization, or experimentation, feel free to shoot me an [email, here](mailto:dmleybel@gmail.com).
+::: {layout="[80,30]"}
 
+🧠[Pyllments](https://github.com/Prudent-Patterns/pyllments) is a Python framework I am currently developing for quickly building and deploying LLM-powered applications, batteries included. By combining the separate *elements* in various flows, it enables the quick deployment of an infinitely customizeable user interface with minimal overhead of projects as simple as a bare-bones chatbot to an entire RAG application. It also enables lightning-quick API creation over existing workflows by simply attaching special API *elements* that trigger and capture the results of any of the specified *elements*.
+It enables quick and simple iteration and experimentation over a large array of LLM use cases through its modularity, composability, and extensibility.
 
+![](images/ragflow.png){.lightbox width="220"} ![](images/ragflow_GUI.jpg){.lightbox width="220"}
+:::
 
-A side project of mine and micro-startup that I've founded is [Hippograph](https://hippograph.io). The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on its [site](https://hippograph.io). :)
-Also, feel free to [reach out](mailto:dmleybel@gmail.com) if you're interested in teaming up.
+::: {layout="[24,80]"}
+
+![](images/hippograph_scn.jpg){.lightbox width="220"}
+
+🦛[Hippograph](https://hippograph.io) is another project of mine. The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on [its site](https://hippograph.io). 
+
+:::
+<span style="font-size: 4em; text-align: center; display: block">⛰️🌲</span>
+
+I absolutely love the outdoors and try to get out as often as possible. Sometimes, the laptop comes along for the ride, but usually not.
+
+<div style="margin: auto; display: block; text-align: center;">
+![](images/outdoor_1.jpg){height="230" style="border-top-left-radius: 20%; border-bottom-left-radius: 20%;"}![](images/outdoor_2.jpg){height="230"}![](images/outdoor_3.jpg){height="230"}![](images/outdoor_0.jpg){height="230" style="border-top-right-radius: 25%; border-bottom-right-radius: 25%;"}
+</div>
+
+<span style="font-size: 4em; text-align: center; display: block">🐶</span>
 
 I am also an avid enjoyer of Corgis. A *corgoisseur*, one may say.
 
