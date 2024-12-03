@@ -1,4 +1,5 @@
 ---
+pagetitle: "dmlbl"
 page-layout: full
 lightbox: true
 ---
@@ -40,7 +41,10 @@ It enables quick and simple iteration and experimentation over a large array of 
 I absolutely love the outdoors and try to get out as often as possible. Sometimes, the laptop comes along for the ride, but usually not.
 
 <div style="margin: auto; display: block; text-align: center;">
-![](images/outdoor_1.jpg){height="230" style="border-top-left-radius: 20%; border-bottom-left-radius: 20%;"}![](images/outdoor_2.jpg){height="230"}![](images/outdoor_3.jpg){height="230"}![](images/outdoor_0.jpg){height="230" style="border-top-right-radius: 25%; border-bottom-right-radius: 25%;"}
+![](images/outdoor_1.jpg){height="230" style="border-top-left-radius: 20%; border-bottom-left-radius: 20%;"}
+![](images/outdoor_2.jpg){height="230"}
+![](images/outdoor_3.jpg){height="230"}
+![](images/outdoor_0.jpg){height="230" style="border-top-right-radius: 25%; border-bottom-right-radius: 25%;"}
 </div>
 
 <span style="font-size: 4em; text-align: center; display: block">🐶</span>
