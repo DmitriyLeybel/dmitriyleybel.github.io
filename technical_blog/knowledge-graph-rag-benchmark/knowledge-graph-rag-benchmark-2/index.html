@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-9d6e2ef09f0f55792d6a02cb88d083c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -149,7 +149,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -168,7 +168,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools tools-wide">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
@@ -258,7 +258,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
@@ -403,10 +403,10 @@ Why did the horse refuse to get on the airplane? Because it already had a stable
 <p><a href="images/dotenv_ex.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/dotenv_ex.jpg" class="img-fluid" width="132"></a></p>
 </div></div><p>It’s <em>so over</em> for stand up comedians.</p>
 <p>While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we’ll be using.</p>
-<div id="fig-prompts" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-prompts" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
+<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Prompt Template Composition"><img src="images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Prompt Template Composition
@@ -436,10 +436,10 @@ The difference between a prompt and a template is the fact that a template can c
 <p>To programatically build a knowledge graph, the output of the LLM will have to be very specific and in a format we can easily process. Foundational models like Claude 3 excel at processing code and various formatted specifications. The specification that’s of interest to us is the <a href="https://json-schema.org">JSON Schema</a>, which is designed to describe the structure of JSON data. <a href="https://json-schema.org/learn/json-schema-examples">Here</a> are some examples of this specification. It describes the fields, their types, and any particular data structures you need in your JSON.</p>
 <p>I trust you’ve perused the examples and are not too stoked to write all of that out yourself. Well, you won’t have to because we can express the same thing in a cleaner pythonic format using the <a href="https://docs.pydantic.dev/latest/">Pydantic library</a> – it makes structured outputs a breeze. In fact, there are entire libraries, like <a href="https://github.com/jxnl/instructor">Instructor</a> that are centered on using Pydantic to generate structured output from LLMs that help you validate the output against the schema specification.</p>
 <p>The nodes and edges we need to construct for the knowledge graph aren’t overly complex, but they do have their nuances and enough moving parts to warrant a systemic approach to their production.</p>
-<div id="fig-node-edge" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-node-edge" class="preview-image quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
+<a href="images/node_edge.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: The node-edge structure we construct from the outputs."><img src="images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The node-edge structure we construct from the outputs.
@@ -629,10 +629,10 @@ You can <em>probably</em> use Pydantic classes to describe the JSON output we ne
 <p>Fido was hungry and stole a donut.</p>
 </blockquote>
 <p>The <code>semantic_id</code> that identifies Fido would persist, so that the particular entity wouldn’t be duplicated.</p>
-<div id="fig-fido" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-fido" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/fido.png" class="img-fluid figure-img" width="526"></a>
+<a href="images/fido.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’"><img src="images/fido.png" class="img-fluid figure-img" width="526"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
@@ -1101,15 +1101,17 @@ This was your output:
 <pre><code>KeyError: silver-lake or minnewawa-brook not found in latest_history_mapping
 KeyError: minnewawa-brook or the-branch not found in latest_history_mapping
 KeyError: the-branch or ashuelot-river not found in latest_history_mapping
-KeyError: ashuelot-river or connecticut-river not found in latest_history_mapping
-KeyError: veteran-banker or treasury not found in latest_history_mapping</code></pre>
+KeyError: ashuelot-river or connecticut-river not found in latest_history_mapping</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>KeyError: veteran-banker or treasury not found in latest_history_mapping</code></pre>
 </div>
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
 <div id="cell-48" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>graph_history.history</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>OrderedDict([(UUID('acc73dc0-d5ae-499e-8cc4-63f70f2d935f'),
               {'nodes': {'semantic_id': 'insular_government',
@@ -1745,34 +1747,34 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we <a href="#visualization-with-rustworkx">saw earlier</a> in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
 <div id="cell-49" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="172">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through the history to add nodes and edges</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'nodes'</span> <span class="kw">in</span> data:</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add node to the graph and store the index with its UUID</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        node_index <span class="op">=</span> digraph.add_node(data[<span class="st">'nodes'</span>])</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>        node_indices[uuid] <span class="op">=</span> node_index</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> data:</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Retrieve indices of the from and to nodes using their UUIDs</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        from_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'from_node'</span>])</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        to_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'to_node'</span>])</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> from_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> to_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add edge to the graph</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>            digraph.add_edge(from_index, to_index, data[<span class="st">'edges'</span>])</span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op">=</span><span class="dv">50</span>, num_iter<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>, pos<span class="op">=</span>layout,</span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>, node_size<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>digraph <span class="op">=</span> rx.PyDiGraph()</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>node_indices <span class="op">=</span> {}</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through the history to add nodes and edges</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'nodes'</span> <span class="kw">in</span> data:</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add node to the graph and store the index with its UUID</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        node_index <span class="op">=</span> digraph.add_node(data[<span class="st">'nodes'</span>])</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>        node_indices[uuid] <span class="op">=</span> node_index</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uuid, data <span class="kw">in</span> graph_history.history.items():</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'edges'</span> <span class="kw">in</span> data:</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Retrieve indices of the from and to nodes using their UUIDs</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>        from_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'from_node'</span>])</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>        to_index <span class="op">=</span> node_indices.get(data[<span class="st">'edges'</span>][<span class="st">'to_node'</span>])</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> from_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> to_index <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add edge to the graph</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>            digraph.add_edge(from_index, to_index, data[<span class="st">'edges'</span>])</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op">=</span><span class="dv">50</span>, num_iter<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>mpl_draw(digraph, with_labels<span class="op">=</span><span class="va">True</span>, pos<span class="op">=</span>layout,</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>, node_size<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1787,9 +1789,9 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <div style="max-height: 400px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
 <div id="cell-50" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>len_list[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>len_list <span class="op">=</span> [<span class="bu">len</span>(digraph.incident_edges(n, all_edges<span class="op">=</span><span class="va">True</span>)) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(digraph.node_indices()))]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>len_list.sort(reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>len_list[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="81">
 <pre><code>[9,
  5,
@@ -1862,28 +1864,28 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <div id="cell-54" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'graph' is your existing PyDiGraph object</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>node_index <span class="op">=</span> <span class="dv">35</span>  <span class="co"># Example node index</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predecessors and successors</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>predecessors <span class="op">=</span> <span class="bu">list</span>(digraph.predecessor_indices(node_index))</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>successors <span class="op">=</span> <span class="bu">list</span>(digraph.successor_indices(node_index))</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Include the original node and ensure uniqueness of nodes</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>subgraph_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>([node_index] <span class="op">+</span> predecessors <span class="op">+</span> successors))</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the subgraph</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>subgraph <span class="op">=</span> digraph.subgraph(subgraph_nodes)</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>mpl_draw(subgraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rustworkx <span class="im">as</span> rx</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rustworkx.visualization <span class="im">import</span> mpl_draw</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'graph' is your existing PyDiGraph object</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>node_index <span class="op">=</span> <span class="dv">35</span>  <span class="co"># Example node index</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predecessors and successors</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>predecessors <span class="op">=</span> <span class="bu">list</span>(digraph.predecessor_indices(node_index))</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>successors <span class="op">=</span> <span class="bu">list</span>(digraph.successor_indices(node_index))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Include the original node and ensure uniqueness of nodes</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>subgraph_nodes <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>([node_index] <span class="op">+</span> predecessors <span class="op">+</span> successors))</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the subgraph</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>subgraph <span class="op">=</span> digraph.subgraph(subgraph_nodes)</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the graph with labels based on node and edge categories</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>mpl_draw(subgraph, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>         labels<span class="op">=</span><span class="kw">lambda</span> node: <span class="ss">f'</span><span class="sc">{</span>node[<span class="st">"category"</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>node<span class="sc">.</span>get(<span class="st">"attributes"</span>, <span class="st">""</span>)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>         edge_labels<span class="op">=</span><span class="kw">lambda</span> edge: <span class="ss">f'</span><span class="sc">{</span>edge[<span class="st">"category"</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>         font_size<span class="op">=</span><span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1896,10 +1898,10 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 </div>
 <p>Do recall, our token window is fairly small, with all of 70 tokens, however, we’re using 600 tokens to store the history of generated nodes and edges which are fed back to the model. Perhaps this a good amount of connectivity given these parameters and the fact that only a few paragraphs should have a connection between them, or perhaps not. The lack of quantifiable best practices in a bleeding edge field is 😢sad but expected.</p>
 <p>To jog your memory a bit, here is what 70 tokens looks like:</p>
-<div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-tokens" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;4: An example text consisting of 70 tokens"><img src="images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
@@ -1917,12 +1919,6 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;1: Prompt Template Composition</span>
-<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;2: The node-edge structure we construct from the outputs.</span>
-<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’</span>
-<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;4: An example text consisting of 70 tokens</span>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -1961,18 +1957,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2004,7 +1989,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
@@ -2012,7 +2017,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -2109,7 +2114,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -2365,30 +2369,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","openEffect":"zoom"});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
     }
-  });
-
-};
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
           </script>
 
 

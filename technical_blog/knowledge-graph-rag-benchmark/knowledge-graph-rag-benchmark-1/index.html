@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-9d6e2ef09f0f55792d6a02cb88d083c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -149,7 +149,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -168,7 +168,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools tools-wide">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
@@ -262,7 +262,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
@@ -563,12 +563,22 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <pre><code>{'id': '2hop__460946_294723',
  'predicted_answer': 'Jennifer Garner',
  'predicted_answerable': True,
- 'predicted_support_idxs': [0, 10]}
-{'id': '2hop__252311_366220',
+ 'predicted_support_idxs': [0, 10]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__252311_366220',
  'predicted_answer': 'Steven Spielberg',
  'predicted_answerable': True,
- 'predicted_support_idxs': [10, 18]}
-{'id': '2hop__701895_752697',
+ 'predicted_support_idxs': [10, 18]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__701895_752697',
  'predicted_answer': 'Cypriot part was merged into the Bank of Cyprus '
                      '(including insured deposits under 100,000 Euro) and the '
                      "'bad' part or legacy entity holds all the overseas "
@@ -622,8 +632,13 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
                      'administration made political decisions and took legal '
                      'measures that allowed the elite throughout Mexico',
  'predicted_answerable': True,
- 'predicted_support_idxs': [11, 16, 18]}
-{'id': '2hop__259228_793698',
+ 'predicted_support_idxs': [11, 16, 18]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__259228_793698',
  'predicted_answer': 'Fairfield, Connecticut. Its main offices are located at '
                      '30 Rockefeller Plaza at Rockefeller Center in New York '
                      'City, known now as the Comcast Building. It was formerly '
@@ -639,8 +654,13 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
                      'Egyptian hieroglyphs. "Philae" was monitored and '
                      "operated from DLR's Lander Control Center in Cologne",
  'predicted_answerable': True,
- 'predicted_support_idxs': [2, 10, 14]}
-{'id': '2hop__481349_302087',
+ 'predicted_support_idxs': [2, 10, 14]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__481349_302087',
  'predicted_answer': 'Bombardier Inc. the former CRJ100 and CRJ200 series are '
                      'no longer in production but still in active airline '
                      'service, while the more recent CRJ700, CRJ900 and '
@@ -678,18 +698,6 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <div class="cell-output cell-output-display">
 <pre><code>None</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -721,10 +729,10 @@ These are the values as of this writing. They may change in the future.
 </div>
 </div>
 <p>There has been a lot of hype regarding enormous <em>input</em> context windows, which has led to articles such as <a href="https://qdrant.tech/articles/rag-is-dead/">RAG is dead, long live RAG</a>. When we refer to these huge context windows, we’re primarily referring to the input and not the output. <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#gemini-models">Google Gemini 1.5</a> has a 1 million context window, however, the allowed output is only 8192 tokens. Similarly, <a href="https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4">OpenAI’s GPT-4</a> models have a 128k context window and only a 4096 token output.</p>
-<div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-gpt4-gemini-tokens" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes"><img src="images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
@@ -732,10 +740,10 @@ Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
 </figure>
 </div>
 <p>Initially, large context windows were untenable as they ate resources like fat kids eat cake – they were also unreliable, where the model would only remember the beginning and end of the input, while generally ‘forgetting’ the middle. This has improved over time, to the point of near perfect performance with these enormous context windows. From the <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf">Gemini 1.5 whitepaper</a>, we see their <strong>needle-in-a-haystack(NiaH)</strong> performance to be stellar. It is able to locate key phrases and words within huge contexts. They use a 10 million token context window for their stress testing.</p>
-<div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-gemini-needle" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+<a href="images/gemini-needle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)"><img src="images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
@@ -749,10 +757,10 @@ Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal m
 <h3 data-number="2.0.1" class="anchored" data-anchor-id="tokens"><span class="header-section-number">2.0.1</span> Tokens?</h3>
 <p>What the heck is a token anyways? Please skip this section if you’re a token master – or don’t if you fancy my prose, up to you.</p>
 <p>I’m not going to describe <strong>byte-pair encodings(BPE)</strong> at length, but I will try to prime your intuition a bit. All current performant foundational models use BPE for their model inputs, so this should be relevant for maybe another, y’know, three hours(I jest). OpenAI offers a fun little <a href="https://platform.openai.com/tokenizer">token visualizer tool</a>.</p>
-<div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-tokenization-example" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: OpenAI Tokenization Example"><img src="images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: OpenAI Tokenization Example
@@ -770,11 +778,11 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="98">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Token models**'</span>), tiktoken.model.MODEL_TO_ENCODING)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> tiktoken.encoding_for_model(<span class="st">'gpt-3.5-turbo'</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokenizer we are using**'</span>), tokenizer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Token models**'</span>), tiktoken.model.MODEL_TO_ENCODING)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> tiktoken.encoding_for_model(<span class="st">'gpt-3.5-turbo'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokenizer we are using**'</span>), tokenizer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Token models</strong></p>
@@ -836,14 +844,14 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="99">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_line <span class="op">=</span> lines[<span class="dv">1</span>]</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test_paragraphs <span class="op">=</span> test_line[<span class="st">'paragraphs'</span>]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Paragraph Example**'</span>), test_paragraphs[<span class="dv">0</span>])</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>test_tokens <span class="op">=</span> tokenizer.encode(test_paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>])</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokens**'</span>), test_tokens)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Number of Tokens**'</span>), <span class="bu">len</span>(test_tokens))</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>test_line <span class="op">=</span> lines[<span class="dv">1</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_paragraphs <span class="op">=</span> test_line[<span class="st">'paragraphs'</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Paragraph Example**'</span>), test_paragraphs[<span class="dv">0</span>])</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>test_tokens <span class="op">=</span> tokenizer.encode(test_paragraphs[<span class="dv">0</span>][<span class="st">'paragraph_text'</span>])</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Tokens**'</span>), test_tokens)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">'**Number of Tokens**'</span>), <span class="bu">len</span>(test_tokens))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Paragraph Example</strong></p>
@@ -914,10 +922,10 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="100">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> test_paragraphs:</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    paragraph_text <span class="op">=</span> paragraph[<span class="st">'paragraph_text'</span>]</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    paragraph_tokens <span class="op">=</span> tokenizer.encode(paragraph_text)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Number of tokens in paragraph: </span><span class="sc">{</span><span class="bu">len</span>(paragraph_tokens)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> paragraph <span class="kw">in</span> test_paragraphs:</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    paragraph_text <span class="op">=</span> paragraph[<span class="st">'paragraph_text'</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    paragraph_tokens <span class="op">=</span> tokenizer.encode(paragraph_text)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Number of tokens in paragraph: </span><span class="sc">{</span><span class="bu">len</span>(paragraph_tokens)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of tokens in paragraph: 39
@@ -959,10 +967,10 @@ Number of tokens in paragraph: 48</code></pre>
 <section id="jean-claude-van-damme-tell-me-a-haiku" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="jean-claude-van-damme-tell-me-a-haiku"><span class="header-section-number">4.1</span> Jean-<em>Claude</em> Van Damme, tell me a <em>Haiku</em></h2>
 <p>What. Just kidding. We’ll be talking about <a href="https://www.anthropic.com/news/claude-3-family">Anthropic’s Claude 3 models</a>. The following chart is from the <a href="https://chat.lmsys.org">LMSYS Chatbot Arena</a> where models go head to head in answering questions which are then chosen by users.</p>
-<div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-lmsys" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+<a href="images/lmsys-compare.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Comparison of performance and cost among top models"><img src="images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Comparison of performance and cost among top models
@@ -1004,10 +1012,10 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <section id="sliding-windows" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="sliding-windows"><span class="header-section-number">5.1.1</span> Sliding Windows</h3>
 <p>To answer the questions asked in the MuSiQue benchmark, we will create a unique knowledge graph for every individual question, consisting out of the twenty provided paragraphs. Each paragraph can be arbitrarily divided into multiple chunks of text which the LLM can take as input into its context.</p>
-<div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-text-chunks" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+<a href="images/paragraph-chunks.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks."><img src="images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
@@ -1028,10 +1036,10 @@ When I say ‘nodes and edges’, I also mean any attributes thereof
 
 </div>
 </div>
-<div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sliding-window" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="images/sliding-window.png" class="img-fluid figure-img"></a>
+<a href="images/sliding-window.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs"><img src="images/sliding-window.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
@@ -1042,10 +1050,10 @@ Figure&nbsp;6: Sliding window with overlap tends to be the standard approach whe
 <section id="knowledge-stuffing" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="knowledge-stuffing"><span class="header-section-number">5.1.2</span> Knowledge-Stuffing</h3>
 <p>Connections are the bread and butter of knowledge graphs. If our LLM is producing nodes and edges only from our limited context window, it appears that we’re missing out on the connectivity benefit of knowledge graphs. To increase the connectivity of our knowledge graph, we can inform our LLM of previous nodes and edges it has created by passing them into the context of the LLM. Conveniently, this gives me the opportunity to introduce our composition of the context we’ll be using.</p>
-<div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-llm-context" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/context.png" class="img-fluid figure-img"></a>
+<a href="images/context.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges"><img src="images/context.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
@@ -1063,10 +1071,10 @@ Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previ
 <section id="letting-the-llm-loose" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="letting-the-llm-loose"><span class="header-section-number">5.1.3</span> Letting the LLM Loose</h3>
 <p>Consider the knowledge graph obtained after we process the 20 paragraphs pertaining to one question using the previously discussed method. We’d get something like:</p>
-<div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sparse" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+<a href="images/sparse_connectivity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;8: Sparsely Connected Knowledge Graph"><img src="images/sparse_connectivity.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Sparsely Connected Knowledge Graph
@@ -1074,10 +1082,10 @@ Figure&nbsp;8: Sparsely Connected Knowledge Graph
 </figure>
 </div>
 <p>The facts we obtain from the text chunks will likely be connected in fairly atomic clusters as there wouldn’t be great continuity, even with passing some of the previously computed nodes and edges into our context window. One way to fix this would be to feed random sets of nodes(and/or edges) to the LLM and let it generate new connections between the nodes.</p>
-<div id="fig-new-connections" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-new-connections" class="preview-image quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="images/connection-building.png" class="preview-image img-fluid figure-img"></a>
+<a href="images/connection-building.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;9: Building New Connections"><img src="images/connection-building.png" class="preview-image img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Building New Connections
@@ -1101,17 +1109,6 @@ Figure&nbsp;9: Building New Connections
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes</span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)</span>
-<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;3: OpenAI Tokenization Example</span>
-<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;4: Comparison of performance and cost among top models</span>
-<span class="glightbox-desc lightbox-desc-6">Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.</span>
-<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs</span>
-<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges</span>
-<span class="glightbox-desc lightbox-desc-9">Figure&nbsp;8: Sparsely Connected Knowledge Graph</span>
-<span class="glightbox-desc lightbox-desc-10">Figure&nbsp;9: Building New Connections</span>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -1150,18 +1147,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1193,7 +1179,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
@@ -1201,7 +1207,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1298,7 +1304,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1554,30 +1559,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","loop":false,"closeEffect":"zoom","selector":".lightbox"});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
     }
-  });
-
-};
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
           </script>
 
 

@@ -9,7 +9,7 @@
 <link>https://www.dmlbl.com/technical_blog.html</link>
 <atom:link href="https://www.dmlbl.com/technical_blog.xml" rel="self" type="application/rss+xml"/>
 <description>Dmitriy Leybel&#39;s personal website and technical blog</description>
-<generator>quarto-1.4.553</generator>
+<generator>quarto-1.6.39</generator>
 <lastBuildDate>Tue, 11 Jun 2024 07:00:00 GMT</lastBuildDate>
 <item>
   <title>LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</title>
@@ -145,7 +145,7 @@
 <p>Below is a flow-charted summary of what this post will be focusing on. The <a href="../knowledge-graph-rag-benchmark-3/">vector database</a> and <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html">knowledge graph</a> are generated in previous posts.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
+<p class="page-columns page-full"><a href="images/question-answering-flow_tnspt.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Illustrated flow from question to structured answer."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow_tnspt.png" class="column-page img-fluid figure-img" alt="Illustrated flow from question to structured answer."></a></p>
 <figcaption>Illustrated flow from question to structured answer.</figcaption>
 </figure>
 </div>
@@ -340,6 +340,7 @@ font-style: inherit;">"</span></span>
 <span id="cb4-12"></span>
 <span id="cb4-13"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> Answer(BaseModel):</span>
 <span id="cb4-14">    answerable: <span class="bu" style="color: null;
 background-color: null;
@@ -500,8 +501,10 @@ font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> uuid_str <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> uuid_strs]</span></code></pre></div>
 </div>
 </div>
@@ -511,13 +514,17 @@ font-style: inherit;">in</span> uuid_strs]</span></code></pre></div>
 <div id="cell-108" class="cell" data-tags="[&quot;suc_pred_nodes&quot;]" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> top_uuid <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> top_uuids:</span>
 <span id="cb9-2">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> idx <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">list</span>(digraph.successor_indices(node_indices[top_uuid])) <span class="op" style="color: #5E5E5E;
@@ -571,8 +578,10 @@ background-color: null;
 font-style: inherit;"># used for creating new easily-parseable ids</span></span>
 <span id="cb11-7"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> top_uuid <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> top_uuids:</span>
 <span id="cb11-8">    top_idx <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -584,8 +593,10 @@ font-style: inherit;">=</span> [(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'s'</span>, successor) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> successor <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> digraph.successor_indices(top_idx)]</span>
 <span id="cb11-11">    predecessor_idxs <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -593,8 +604,10 @@ font-style: inherit;">=</span> [(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'p'</span>, predecessor) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> predecessor <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> digraph.predecessor_indices(top_idx)]</span>
 <span id="cb11-12">    neighbor_idxs <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -603,10 +616,13 @@ background-color: null;
 font-style: inherit;">+</span> predecessor_idxs</span>
 <span id="cb11-13">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> top_idx <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">not</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> node_hist_dict: <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Add the top node if it's not already in the node_hist_dict</span></span>
@@ -628,12 +644,14 @@ background-color: null;
 font-style: inherit;">1</span></span>
 <span id="cb11-18">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb11-19">        main_node <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> node_hist_dict[top_idx]</span>
 <span id="cb11-20">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(neighbor_idxs) <span class="op" style="color: #5E5E5E;
@@ -643,13 +661,17 @@ background-color: null;
 font-style: inherit;">0</span>):</span>
 <span id="cb11-21">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> connection_type, idx <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> neighbor_idxs: </span>
 <span id="cb11-22">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> idx <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> node_hist_dict:</span>
 <span id="cb11-23">                secondary_connecting_id <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -658,6 +680,7 @@ background-color: null;
 font-style: inherit;">'connecting_id'</span>]</span>
 <span id="cb11-24">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb11-25">                secondary_connecting_id <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -680,16 +703,20 @@ background-color: null;
 font-style: inherit;"># If the connections are already in the edge_hist_dict, skip</span></span>
 <span id="cb11-30">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> ((connection_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'s'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">and</span> (top_idx, idx) <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> edge_hist_dict) <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">or</span> </span>
 <span id="cb11-31">                (connection_type <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -697,14 +724,18 @@ font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'p'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">and</span> (idx, top_idx) <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> edge_hist_dict)):</span>
 <span id="cb11-32">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">continue</span></span>
 <span id="cb11-33">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">elif</span> connection_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="st" style="color: #20794D;
@@ -727,6 +758,7 @@ background-color: null;
 font-style: inherit;">=</span> secondary_connecting_id</span>
 <span id="cb11-37">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">elif</span> connection_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="st" style="color: #20794D;
@@ -941,7 +973,7 @@ font-style: inherit;">'answer'</span>]</span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/cman_c.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
+<p><a href="images/cman_c.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="It’s okay to feel all sorts of things when you don’t get your expected result."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/cman_c.jpg" class="img-fluid figure-img" alt="It’s okay to feel all sorts of things when you don’t get your expected result."></a></p>
 <figcaption>It’s okay to feel all sorts of things when you don’t get your expected result.</figcaption>
 </figure>
 </div>
@@ -1061,7 +1093,6 @@ font-style: inherit;">'evidence'</span>: evidence})</span></code></pre></div>
 </ol>
 
 
-
 </section>
 
  ]]></description>
@@ -1094,10 +1125,10 @@ font-style: inherit;">'evidence'</span>: evidence})</span></code></pre></div>
 <section id="review" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Review</h1>
 <p>First, a quick review of the workflow between knowledge graphs and vector databases <a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html#retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency">mentioned eons ago</a>. This is more or less the implementation we’ll strive towards, and will motivate this post. We’ve already constructed the knowledge graph, so now we have a vector database to build and link to it.</p>
-<div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-adjacency-strategy" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="../../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="../../..\technical_blog/knowledge-graph-rag-benchmark-0\images\adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -2351,18 +2382,23 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb7-5"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> v <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> graph_history.history.values():</span>
 <span id="cb7-6">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> v:</span>
 <span id="cb7-7">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (v[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span>][<span class="st" style="color: #20794D;
@@ -2377,6 +2413,7 @@ background-color: null;
 font-style: inherit;">'nodes'</span>])</span>
 <span id="cb7-9">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> v[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span>][<span class="st" style="color: #20794D;
@@ -2457,10 +2494,10 @@ paragraph 1 - paragraph 19 comparisons:  0.3139882121419234 0.2947411460832846</
 </div>
 </div>
 <p>Luckily, the values make my point for me. There is more similarity between the nodes generated from within a paragraph than between nodes generated from different paragraphs.</p>
-<div id="fig-similarity-comparison" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-similarity-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/similarity_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
+<a href="images/similarity_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar than nodes generated from different paragraphs"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/similarity_comparison.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-similarity-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Nodes originating from a paragraph are likely to be more similar than nodes generated from different paragraphs
@@ -3240,15 +3277,19 @@ font-style: inherit;">"cosine"</span>}</span>
 <div id="cell-72" class="cell" data-tags="[&quot;building_collection&quot;]" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> k,v <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> graph_history.history.items():</span>
 <span id="cb12-2">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> v:</span>
 <span id="cb12-3">        collection.add(documents<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3307,7 +3348,7 @@ font-style: inherit;">'ids'</span>]</span></code></pre></div>
 <p>The top 10 results are returned based on the cosine distance metric specified, once again, in the <code>create_collection()</code> command. To illustrate the process up till here, have a flowchart.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
-<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
+<p class="page-columns page-full"><a href="images/vec_populate.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Population and querying of the vector database"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/images/vec_populate.png" class="column-page preview-image img-fluid figure-img" alt="Population and querying of the vector database"></a></p>
 <figcaption>Population and querying of the vector database</figcaption>
 </figure>
 </div>
@@ -3363,8 +3404,10 @@ font-style: inherit;">=</span> digraph[node_indices[top_uuid]]</span>
 <div id="cell-78" class="cell" data-tags="[&quot;top_connections&quot;]" data-execution_count="186">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> idx <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> digraph.neighbors(node_indices[top_uuid]):</span>
 <span id="cb17-2">    <span class="bu" style="color: null;
 background-color: null;
@@ -3382,7 +3425,6 @@ font-style: inherit;">print</span>(digraph[idx])</span></code></pre></div>
 <p>See, promised I’d keep it short and sweet.</p>
 <p>Next up, we’ll focus on using our vector database and knowledge graph to not only answer questions, but also cite the paragraphs with contributing evidence – at least that’s the plan.</p>
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html"><strong>Part Four &gt;&gt;&gt;</strong></a></p>
-
 
 
 </section>
@@ -3426,6 +3468,7 @@ font-style: inherit;">import</span> tiktoken</span>
 <span id="cb1-2"></span>
 <span id="cb1-3"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> token_len(text: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>, model: <span class="bu" style="color: null;
@@ -3444,6 +3487,7 @@ background-color: null;
 font-style: inherit;">=</span> tiktoken.encoding_for_model(model)</span>
 <span id="cb1-5">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(encoder.encode(text))</span>
@@ -3530,8 +3574,10 @@ font-style: inherit;">+</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>(token_len(s)), s) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> splits0]</span>
 <span id="cb3-6">splits1 <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3550,8 +3596,10 @@ font-style: inherit;">+</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>(token_len(s)), s) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> splits1]</span>
 <span id="cb3-8"></span>
 <span id="cb3-9">display(Markdown(<span class="st" style="color: #20794D;
@@ -3648,10 +3696,10 @@ Why did the horse refuse to get on the airplane? Because it already had a stable
 <p><a href="images/dotenv_ex.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/dotenv_ex.jpg" class="img-fluid" width="132"></a></p>
 </div></div><p>It’s <em>so over</em> for stand up comedians.</p>
 <p>While we can easily pass strings into the LLM call, LangChain provides us with templates, which enable endless composability and modularity, as will be witnessed as we create our fairly elaborate prompts – but first, an illustration of the structure we’ll be using.</p>
-<div id="fig-prompts" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-prompts" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
+<a href="images/prompt_structure.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Prompt Template Composition"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/prompt_structure.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prompts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Prompt Template Composition
@@ -3681,10 +3729,10 @@ The difference between a prompt and a template is the fact that a template can c
 <p>To programatically build a knowledge graph, the output of the LLM will have to be very specific and in a format we can easily process. Foundational models like Claude 3 excel at processing code and various formatted specifications. The specification that’s of interest to us is the <a href="https://json-schema.org">JSON Schema</a>, which is designed to describe the structure of JSON data. <a href="https://json-schema.org/learn/json-schema-examples">Here</a> are some examples of this specification. It describes the fields, their types, and any particular data structures you need in your JSON.</p>
 <p>I trust you’ve perused the examples and are not too stoked to write all of that out yourself. Well, you won’t have to because we can express the same thing in a cleaner pythonic format using the <a href="https://docs.pydantic.dev/latest/">Pydantic library</a> – it makes structured outputs a breeze. In fact, there are entire libraries, like <a href="https://github.com/jxnl/instructor">Instructor</a> that are centered on using Pydantic to generate structured output from LLMs that help you validate the output against the schema specification.</p>
 <p>The nodes and edges we need to construct for the knowledge graph aren’t overly complex, but they do have their nuances and enough moving parts to warrant a systemic approach to their production.</p>
-<div id="fig-node-edge" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-node-edge" class="preview-image quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/node_edge.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
+<a href="images/node_edge.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: The node-edge structure we construct from the outputs."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/node_edge.png" class="preview-image img-fluid figure-img" width="665"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-node-edge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The node-edge structure we construct from the outputs.
@@ -3725,6 +3773,7 @@ font-style: inherit;">import</span> json</span>
 <span id="cb9-4"></span>
 <span id="cb9-5"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> Node(BaseModel):</span>
 <span id="cb9-6">    semantic_id: <span class="bu" style="color: null;
 background-color: null;
@@ -3769,6 +3818,7 @@ font-style: inherit;">"Additional properties of the node"</span>)</span>
 <span id="cb9-10"></span>
 <span id="cb9-11"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> Edge(BaseModel):</span>
 <span id="cb9-12">    from_node: <span class="bu" style="color: null;
 background-color: null;
@@ -3817,6 +3867,7 @@ font-style: inherit;">"Additional properties of the edge"</span>)</span>
 <span id="cb9-16"></span>
 <span id="cb9-17"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> Graph(BaseModel):</span>
 <span id="cb9-18">    nodes: List[Node] <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4020,10 +4071,10 @@ font-style: inherit;">"</span></span>
 <p>Fido was hungry and stole a donut.</p>
 </blockquote>
 <p>The <code>semantic_id</code> that identifies Fido would persist, so that the particular entity wouldn’t be duplicated.</p>
-<div id="fig-fido" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-fido" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/fido.png" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
+<a href="images/fido.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/fido.png" class="img-fluid figure-img" width="526"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fido-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: The semantic id allows for continuity of the entity ‘Fido’
@@ -4385,8 +4436,10 @@ background-color: null;
 font-style: inherit;">=</span> {}</span>
 <span id="cb25-9"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> node <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> nodes_edges_json[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"nodes"</span>]:</span>
@@ -4404,8 +4457,10 @@ background-color: null;
 font-style: inherit;"># Add edges to the graph</span></span>
 <span id="cb25-14"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> edge <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> nodes_edges_json[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"edges"</span>]:</span>
@@ -4433,6 +4488,7 @@ font-style: inherit;">True</span>,</span>
 background-color: null;
 font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> node: <span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
@@ -4460,6 +4516,7 @@ font-style: inherit;">'</span>,</span>
 background-color: null;
 font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> edge: <span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
@@ -4553,6 +4610,7 @@ font-style: inherit;">import</span> Union, List, Dict</span>
 <span id="cb26-9"></span>
 <span id="cb26-10"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">with</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">open</span>(<span class="st" style="color: #20794D;
@@ -4574,6 +4632,7 @@ font-style: inherit;">'root'</span>)</span>
 <span id="cb26-14"></span>
 <span id="cb26-15"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> GraphHistory(param.Parameterized):</span>
 <span id="cb26-16">    nodes_alias <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4629,6 +4688,7 @@ font-style: inherit;">400</span>)</span>
 <span id="cb26-25">    </span>
 <span id="cb26-26">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> add_history(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, new_items: Union[List, Dict], return_with_uuid: <span class="bu" style="color: null;
@@ -4658,6 +4718,7 @@ background-color: null;
 font-style: inherit;">=</span> deepcopy(new_items)</span>
 <span id="cb26-33">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">isinstance</span>(new_items, <span class="bu" style="color: null;
@@ -4673,8 +4734,10 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb26-36">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> item <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> new_items:</span>
 <span id="cb26-37">            item_type <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4682,12 +4745,15 @@ font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> item <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.edges_alias</span>
@@ -4699,6 +4765,7 @@ background-color: null;
 font-style: inherit;">=</span> item[item_type]</span>
 <span id="cb26-40">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> item_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="va" style="color: #111111;
@@ -4714,10 +4781,12 @@ background-color: null;
 font-style: inherit;"># No need to add to latest_history, since it won't be used since item exists in it already, and will be reset on next get_history_str call</span></span>
 <span id="cb26-43">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> item_dict[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'semantic_id'</span>] <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.latest_history_mapping:</span>
@@ -4753,6 +4822,7 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-48">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb26-49">                    uuid_gen <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4793,16 +4863,19 @@ background-color: null;
 font-style: inherit;">=</span> uuid_gen</span>
 <span id="cb26-54">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> return_with_uuid:</span>
 <span id="cb26-55">                    history_list.append((<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>(uuid_gen), item))</span>
 <span id="cb26-56">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb26-57">                    history_list.append(item)</span>
 <span id="cb26-58">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Handling edges</span></span>
@@ -4828,6 +4901,7 @@ background-color: null;
 font-style: inherit;"> Add exception handling for when the LLM thinks that a node exists when it doesn't. Try, except</span></span>
 <span id="cb26-63">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">try</span>:</span>
 <span id="cb26-64">                    item_dict[<span class="st" style="color: #20794D;
 background-color: null;
@@ -4845,6 +4919,7 @@ background-color: null;
 font-style: inherit;">self</span>.latest_history_mapping[to_semantic_id]</span>
 <span id="cb26-66">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">KeyError</span>:</span>
@@ -4867,12 +4942,14 @@ background-color: null;
 font-style: inherit;"> not found in latest_history_mapping"</span>)</span>
 <span id="cb26-68">                    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">continue</span></span>
 <span id="cb26-69">                <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># If the edge is in the latest history according to its from and to nodes, then we update it</span></span>
 <span id="cb26-70">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> (from_to_tuple<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">:=</span>(item_dict[<span class="st" style="color: #20794D;
@@ -4881,6 +4958,7 @@ font-style: inherit;">'from_node'</span>], item_dict[<span class="st" style="col
 background-color: null;
 font-style: inherit;">'to_node'</span>])) <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.latest_history_mapping:</span>
@@ -4914,6 +4992,7 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-75">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb26-76">                    uuid_gen <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -4942,20 +5021,24 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-79">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> return_with_uuid:</span>
 <span id="cb26-80">                    history_list.append((<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>(uuid_gen), item))</span>
 <span id="cb26-81">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb26-82">                    history_list.append(item)</span>
 <span id="cb26-83">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> deepcopy(history_list[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>]) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(history_list) <span class="op" style="color: #5E5E5E;
@@ -4964,10 +5047,12 @@ font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span> <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> deepcopy(history_list)</span>
 <span id="cb26-84">    </span>
 <span id="cb26-85">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> get_history_window(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, token_max: <span class="bu" style="color: null;
@@ -4979,8 +5064,10 @@ background-color: null;
 font-style: inherit;">None</span>):</span>
 <span id="cb26-86">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> token_max <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">is</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>:</span>
@@ -5011,8 +5098,10 @@ background-color: null;
 font-style: inherit;">0</span></span>
 <span id="cb26-92">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> uuid, item <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">reversed</span>(<span class="va" style="color: #111111;
@@ -5024,12 +5113,15 @@ font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> item <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.edges_alias</span>
@@ -5043,6 +5135,7 @@ background-color: null;
 font-style: inherit;">self</span>._item_to_json_str(deepcopy(item)))</span>
 <span id="cb26-96">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> token_tracking <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span> token_max:</span>
@@ -5055,6 +5148,7 @@ background-color: null;
 font-style: inherit;"># Update latest_history with the current item</span></span>
 <span id="cb26-98">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> item_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="va" style="color: #111111;
@@ -5088,6 +5182,7 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-101">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">elif</span> item_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="va" style="color: #111111;
@@ -5129,14 +5224,17 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-104">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span>:</span>
 <span id="cb26-105">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">break</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Stop adding items if token_max is reached</span></span>
 <span id="cb26-106">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> deepcopy(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.latest_history)  <span class="co" style="color: #5E5E5E;
@@ -5145,6 +5243,7 @@ font-style: inherit;"># Return the history as a string</span></span>
 <span id="cb26-107"></span>
 <span id="cb26-108">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> _item_to_json_str(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, item):</span>
@@ -5154,12 +5253,15 @@ font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.nodes_alias <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> item <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">else</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.edges_alias</span>
@@ -5168,6 +5270,7 @@ background-color: null;
 font-style: inherit;">=</span> item[item_type]</span>
 <span id="cb26-111">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> item_type <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="va" style="color: #111111;
@@ -5201,10 +5304,12 @@ background-color: null;
 font-style: inherit;">'semantic_id'</span>]</span>
 <span id="cb26-114">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> json.dumps(item_dict)</span>
 <span id="cb26-115">            </span>
 <span id="cb26-116">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> get_history_str(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, token_max: <span class="bu" style="color: null;
@@ -5233,14 +5338,17 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb26-122">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> uuid, item <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> latest_history.items():</span>
 <span id="cb26-123">            json_list.append(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>._item_to_json_str(item))</span>
 <span id="cb26-124">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> json_list:</span>
 <span id="cb26-125">            json_str <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -5262,6 +5370,7 @@ background-color: null;
 font-style: inherit;">"</span>)</span>
 <span id="cb26-127">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> json_str</span></code></pre></div>
 </details>
 </div>
@@ -5344,8 +5453,10 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb27-15"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> paragraph <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> paragraphs:</span>
 <span id="cb27-16">    splits <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -5354,8 +5465,10 @@ background-color: null;
 font-style: inherit;">'paragraph_text'</span>])</span>
 <span id="cb27-17">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> split <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> splits:</span>
 <span id="cb27-18">        local_history <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -5366,6 +5479,7 @@ background-color: null;
 font-style: inherit;">600</span>)</span>
 <span id="cb27-19">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">try</span>:</span>
 <span id="cb27-20">            response <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -5381,6 +5495,7 @@ background-color: null;
 font-style: inherit;">'instructions'</span>: json_prompt_instructions})</span>
 <span id="cb27-24">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">except</span> RateLimitError <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> e:</span>
@@ -5406,32 +5521,41 @@ background-color: null;
 font-style: inherit;">'instructions'</span>: json_prompt_instructions})</span>
 <span id="cb27-31">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">continue</span></span>
 <span id="cb27-32">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> response:</span>
 <span id="cb27-33">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> node <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> response[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span>]:</span>
 <span id="cb27-34">                <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'semantic_id'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">not</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> node:</span>
 <span id="cb27-35">                    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">continue</span></span>
 <span id="cb27-36">                node[<span class="st" style="color: #20794D;
 background-color: null;
@@ -5449,15 +5573,19 @@ background-color: null;
 font-style: inherit;">False</span>)</span>
 <span id="cb27-38">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> response:</span>
 <span id="cb27-39">            <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> edge <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> response[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span>]:</span>
@@ -5474,15 +5602,17 @@ font-style: inherit;">False</span>)</span>
 <pre><code>KeyError: silver-lake or minnewawa-brook not found in latest_history_mapping
 KeyError: minnewawa-brook or the-branch not found in latest_history_mapping
 KeyError: the-branch or ashuelot-river not found in latest_history_mapping
-KeyError: ashuelot-river or connecticut-river not found in latest_history_mapping
-KeyError: veteran-banker or treasury not found in latest_history_mapping</code></pre>
+KeyError: ashuelot-river or connecticut-river not found in latest_history_mapping</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>KeyError: veteran-banker or treasury not found in latest_history_mapping</code></pre>
 </div>
 </div>
 </div>
 <div style="max-height: 400px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-48">
 <div id="cell-48" class="cell" data-tags="[&quot;graph_components&quot;]" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">graph_history.history</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1">graph_history.history</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>OrderedDict([(UUID('acc73dc0-d5ae-499e-8cc4-63f70f2d935f'),
               {'nodes': {'semantic_id': 'insular_government',
@@ -6118,108 +6248,122 @@ KeyError: veteran-banker or treasury not found in latest_history_mapping</code><
 <p>Or the knowledge graph. Back to rustworkx we go. Some minor tweaks were made to the visualization code we saw earlier in order for all of the nodes and edges to not be concealed by the <em>massive</em> amounts of text we’ve generated. I’ve left the node categories visible. The graph generation code was modified to work with the the history stored within our <code>graph_history</code> object.</p>
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-49">
 <div id="cell-49" class="cell" data-tags="[&quot;paragraphs_viz&quot;]" data-execution_count="172">
-<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> rustworkx <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> rx</span>
-<span id="cb31-2"><span class="im" style="color: #00769E;
+<span id="cb32-2"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> rustworkx.visualization <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> mpl_draw</span>
-<span id="cb31-3"></span>
-<span id="cb31-4">digraph <span class="op" style="color: #5E5E5E;
+<span id="cb32-3"></span>
+<span id="cb32-4">digraph <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> rx.PyDiGraph()</span>
-<span id="cb31-5"></span>
-<span id="cb31-6">node_indices <span class="op" style="color: #5E5E5E;
+<span id="cb32-5"></span>
+<span id="cb32-6">node_indices <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {}</span>
-<span id="cb31-7"><span class="co" style="color: #5E5E5E;
+<span id="cb32-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Iterate through the history to add nodes and edges</span></span>
-<span id="cb31-8"><span class="cf" style="color: #003B4F;
+<span id="cb32-8"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> uuid, data <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> graph_history.history.items():</span>
-<span id="cb31-9">    <span class="cf" style="color: #003B4F;
+<span id="cb32-9">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> data:</span>
-<span id="cb31-10">        <span class="co" style="color: #5E5E5E;
+<span id="cb32-10">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Add node to the graph and store the index with its UUID</span></span>
-<span id="cb31-11">        node_index <span class="op" style="color: #5E5E5E;
+<span id="cb32-11">        node_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> digraph.add_node(data[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'nodes'</span>])</span>
-<span id="cb31-12">        node_indices[uuid] <span class="op" style="color: #5E5E5E;
+<span id="cb32-12">        node_indices[uuid] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> node_index</span>
-<span id="cb31-13"></span>
-<span id="cb31-14"><span class="cf" style="color: #003B4F;
+<span id="cb32-13"></span>
+<span id="cb32-14"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> uuid, data <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> graph_history.history.items():</span>
-<span id="cb31-15">    <span class="cf" style="color: #003B4F;
+<span id="cb32-15">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> data:</span>
-<span id="cb31-16">        <span class="co" style="color: #5E5E5E;
+<span id="cb32-16">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Retrieve indices of the from and to nodes using their UUIDs</span></span>
-<span id="cb31-17">        from_index <span class="op" style="color: #5E5E5E;
+<span id="cb32-17">        from_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> node_indices.get(data[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span>][<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'from_node'</span>])</span>
-<span id="cb31-18">        to_index <span class="op" style="color: #5E5E5E;
+<span id="cb32-18">        to_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> node_indices.get(data[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span>][<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'to_node'</span>])</span>
-<span id="cb31-19">        <span class="cf" style="color: #003B4F;
+<span id="cb32-19">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> from_index <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">not</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">and</span> to_index <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">not</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>:</span>
-<span id="cb31-20">            <span class="co" style="color: #5E5E5E;
+<span id="cb32-20">            <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Add edge to the graph</span></span>
-<span id="cb31-21">            digraph.add_edge(from_index, to_index, data[<span class="st" style="color: #20794D;
+<span id="cb32-21">            digraph.add_edge(from_index, to_index, data[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'edges'</span>])</span>
-<span id="cb31-22"></span>
-<span id="cb31-23"><span class="co" style="color: #5E5E5E;
+<span id="cb32-22"></span>
+<span id="cb32-23"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb31-24">layout <span class="op" style="color: #5E5E5E;
+<span id="cb32-24">layout <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> rx.digraph_spring_layout(digraph, repulsive_exponent<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6230,17 +6374,18 @@ background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">200</span>)</span>
-<span id="cb31-25">mpl_draw(digraph, with_labels<span class="op" style="color: #5E5E5E;
+<span id="cb32-25">mpl_draw(digraph, with_labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>, pos<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>layout,</span>
-<span id="cb31-26">         labels<span class="op" style="color: #5E5E5E;
+<span id="cb32-26">         labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> node: <span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
@@ -6252,10 +6397,10 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'</span>,</span>
-<span id="cb31-27">        <span class="co" style="color: #5E5E5E;
+<span id="cb32-27">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#  edge_labels=lambda edge: f'{edge["category"]}',</span></span>
-<span id="cb31-28">         font_size<span class="op" style="color: #5E5E5E;
+<span id="cb32-28">         font_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
@@ -6278,7 +6423,7 @@ font-style: inherit;">50</span>)</span></code></pre></div>
 <div style="max-height: 400px; overflow: auto">
 <div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\notebooks\kg_build.ipynb" data-notebook-title="Explore" data-notebook-cellid="cell-50">
 <div id="cell-50" class="cell" data-tags="[&quot;node_incident_edges&quot;]" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1">len_list <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1">len_list <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [<span class="bu" style="color: null;
 background-color: null;
@@ -6288,19 +6433,21 @@ font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)) <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(digraph.node_indices()))]</span>
-<span id="cb32-2">len_list.sort(reverse<span class="op" style="color: #5E5E5E;
+<span id="cb33-2">len_list.sort(reverse<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb32-3">len_list[:]</span></code></pre></div>
+<span id="cb33-3">len_list[:]</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="81">
 <pre><code>[9,
  5,
@@ -6373,46 +6520,46 @@ font-style: inherit;">True</span>)</span>
 <div id="cell-54" class="cell" data-tags="[&quot;chad_nine&quot;]" data-execution_count="71">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> rustworkx <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> rx</span>
-<span id="cb34-2"><span class="im" style="color: #00769E;
+<span id="cb35-2"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> rustworkx.visualization <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> mpl_draw</span>
-<span id="cb34-3"></span>
-<span id="cb34-4"><span class="co" style="color: #5E5E5E;
+<span id="cb35-3"></span>
+<span id="cb35-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Assuming 'graph' is your existing PyDiGraph object</span></span>
-<span id="cb34-5">node_index <span class="op" style="color: #5E5E5E;
+<span id="cb35-5">node_index <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">35</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Example node index</span></span>
-<span id="cb34-6"></span>
-<span id="cb34-7"><span class="co" style="color: #5E5E5E;
+<span id="cb35-6"></span>
+<span id="cb35-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Get predecessors and successors</span></span>
-<span id="cb34-8">predecessors <span class="op" style="color: #5E5E5E;
+<span id="cb35-8">predecessors <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">list</span>(digraph.predecessor_indices(node_index))</span>
-<span id="cb34-9">successors <span class="op" style="color: #5E5E5E;
+<span id="cb35-9">successors <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">list</span>(digraph.successor_indices(node_index))</span>
-<span id="cb34-10"></span>
-<span id="cb34-11"><span class="co" style="color: #5E5E5E;
+<span id="cb35-10"></span>
+<span id="cb35-11"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Include the original node and ensure uniqueness of nodes</span></span>
-<span id="cb34-12">subgraph_nodes <span class="op" style="color: #5E5E5E;
+<span id="cb35-12">subgraph_nodes <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
@@ -6423,27 +6570,28 @@ background-color: null;
 font-style: inherit;">+</span> predecessors <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> successors))</span>
-<span id="cb34-13"></span>
-<span id="cb34-14"><span class="co" style="color: #5E5E5E;
+<span id="cb35-13"></span>
+<span id="cb35-14"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Create the subgraph</span></span>
-<span id="cb34-15">subgraph <span class="op" style="color: #5E5E5E;
+<span id="cb35-15">subgraph <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> digraph.subgraph(subgraph_nodes)</span>
-<span id="cb34-16"></span>
-<span id="cb34-17"></span>
-<span id="cb34-18"><span class="co" style="color: #5E5E5E;
+<span id="cb35-16"></span>
+<span id="cb35-17"></span>
+<span id="cb35-18"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Visualize the graph with labels based on node and edge categories</span></span>
-<span id="cb34-19">mpl_draw(subgraph, with_labels<span class="op" style="color: #5E5E5E;
+<span id="cb35-19">mpl_draw(subgraph, with_labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>,</span>
-<span id="cb34-20">         labels<span class="op" style="color: #5E5E5E;
+<span id="cb35-20">         labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> node: <span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
@@ -6467,10 +6615,11 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'</span>,</span>
-<span id="cb34-21">         edge_labels<span class="op" style="color: #5E5E5E;
+<span id="cb35-21">         edge_labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> edge: <span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
@@ -6482,7 +6631,7 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'</span>,</span>
-<span id="cb34-22">         font_size<span class="op" style="color: #5E5E5E;
+<span id="cb35-22">         font_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
@@ -6499,10 +6648,10 @@ font-style: inherit;">9</span>)</span></code></pre></div>
 </div>
 <p>Do recall, our token window is fairly small, with all of 70 tokens, however, we’re using 600 tokens to store the history of generated nodes and edges which are fed back to the model. Perhaps this a good amount of connectivity given these parameters and the fact that only a few paragraphs should have a connection between them, or perhaps not. The lack of quantifiable best practices in a bleeding edge field is 😢sad but expected.</p>
 <p>To jog your memory a bit, here is what 70 tokens looks like:</p>
-<div id="fig-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-tokens" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/70_tokens.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
+<a href="images/70_tokens.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;4: An example text consisting of 70 tokens"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/images/70_tokens.jpg" class="img-fluid figure-img" width="637"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: An example text consisting of 70 tokens
@@ -6518,7 +6667,6 @@ Figure&nbsp;4: An example text consisting of 70 tokens
 <p>Now that we have a workflow for generating knowledge graphs for questions in the MuSiQue dataset, we can move on to attaching a vector database to it in the <strong>next post</strong>.</p>
 <p>Thanks for reading, I hope you managed to stay awake.</p>
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html"><strong>Part Three &gt;&gt;&gt;</strong></a></p>
-
 
 
 </section>
@@ -6573,6 +6721,7 @@ By ‘predictions’, we mean ‘the answers’ and any other expected outputs. 
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">with</span> jsonlines.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">open</span>(musique_dir <span class="op" style="color: #5E5E5E;
@@ -6586,8 +6735,10 @@ font-style: inherit;">as</span> reader:</span>
 background-color: null;
 font-style: inherit;">=</span> [reader.read() <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> _ <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -6849,6 +7000,7 @@ background-color: null;
 font-style: inherit;">'**Examples of predictions**'</span>))</span>
 <span id="cb4-2"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">with</span> jsonlines.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">open</span>(musique_dir <span class="op" style="color: #5E5E5E;
@@ -6864,8 +7016,10 @@ background-color: null;
 font-style: inherit;">file</span>:</span>
 <span id="cb4-3">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -6882,12 +7036,22 @@ font-style: inherit;">file</span>.read()))</span></code></pre></div>
 <pre><code>{'id': '2hop__460946_294723',
  'predicted_answer': 'Jennifer Garner',
  'predicted_answerable': True,
- 'predicted_support_idxs': [0, 10]}
-{'id': '2hop__252311_366220',
+ 'predicted_support_idxs': [0, 10]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__252311_366220',
  'predicted_answer': 'Steven Spielberg',
  'predicted_answerable': True,
- 'predicted_support_idxs': [10, 18]}
-{'id': '2hop__701895_752697',
+ 'predicted_support_idxs': [10, 18]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__701895_752697',
  'predicted_answer': 'Cypriot part was merged into the Bank of Cyprus '
                      '(including insured deposits under 100,000 Euro) and the '
                      "'bad' part or legacy entity holds all the overseas "
@@ -6941,8 +7105,13 @@ font-style: inherit;">file</span>.read()))</span></code></pre></div>
                      'administration made political decisions and took legal '
                      'measures that allowed the elite throughout Mexico',
  'predicted_answerable': True,
- 'predicted_support_idxs': [11, 16, 18]}
-{'id': '2hop__259228_793698',
+ 'predicted_support_idxs': [11, 16, 18]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__259228_793698',
  'predicted_answer': 'Fairfield, Connecticut. Its main offices are located at '
                      '30 Rockefeller Plaza at Rockefeller Center in New York '
                      'City, known now as the Comcast Building. It was formerly '
@@ -6958,8 +7127,13 @@ font-style: inherit;">file</span>.read()))</span></code></pre></div>
                      'Egyptian hieroglyphs. "Philae" was monitored and '
                      "operated from DLR's Lander Control Center in Cologne",
  'predicted_answerable': True,
- 'predicted_support_idxs': [2, 10, 14]}
-{'id': '2hop__481349_302087',
+ 'predicted_support_idxs': [2, 10, 14]}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': '2hop__481349_302087',
  'predicted_answer': 'Bombardier Inc. the former CRJ100 and CRJ200 series are '
                      'no longer in production but still in active airline '
                      'service, while the more recent CRJ700, CRJ900 and '
@@ -6997,18 +7171,6 @@ font-style: inherit;">file</span>.read()))</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>None</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre><code>None</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -7040,10 +7202,10 @@ These are the values as of this writing. They may change in the future.
 </div>
 </div>
 <p>There has been a lot of hype regarding enormous <em>input</em> context windows, which has led to articles such as <a href="https://qdrant.tech/articles/rag-is-dead/">RAG is dead, long live RAG</a>. When we refer to these huge context windows, we’re primarily referring to the input and not the output. <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#gemini-models">Google Gemini 1.5</a> has a 1 million context window, however, the allowed output is only 8192 tokens. Similarly, <a href="https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4">OpenAI’s GPT-4</a> models have a 128k context window and only a 4096 token output.</p>
-<div id="fig-gpt4-gemini-tokens" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-gpt4-gemini-tokens" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
+<a href="images/gemini-gpt4-tokens.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-gpt4-tokens.png" class="img-fluid figure-img" width="805"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt4-gemini-tokens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
@@ -7051,10 +7213,10 @@ Figure&nbsp;1: Context Sizes of GPT-4 and Gemini 1.5 and their max output sizes
 </figure>
 </div>
 <p>Initially, large context windows were untenable as they ate resources like fat kids eat cake – they were also unreliable, where the model would only remember the beginning and end of the input, while generally ‘forgetting’ the middle. This has improved over time, to the point of near perfect performance with these enormous context windows. From the <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf">Gemini 1.5 whitepaper</a>, we see their <strong>needle-in-a-haystack(NiaH)</strong> performance to be stellar. It is able to locate key phrases and words within huge contexts. They use a 10 million token context window for their stress testing.</p>
-<div id="fig-gemini-needle" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-gemini-needle" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/gemini-needle.png" class="lightbox" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
+<a href="images/gemini-needle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/gemini-needle.png" class="img-fluid figure-img" width="642"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gemini-needle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal model, so it is able to take audio and video as inputs as well)
@@ -7068,10 +7230,10 @@ Figure&nbsp;2: Gemini 1.5 Needle in a Haystack Performance (It is a multimodal m
 <h3 data-number="2.0.1" class="anchored" data-anchor-id="tokens"><span class="header-section-number">2.0.1</span> Tokens?</h3>
 <p>What the heck is a token anyways? Please skip this section if you’re a token master – or don’t if you fancy my prose, up to you.</p>
 <p>I’m not going to describe <strong>byte-pair encodings(BPE)</strong> at length, but I will try to prime your intuition a bit. All current performant foundational models use BPE for their model inputs, so this should be relevant for maybe another, y’know, three hours(I jest). OpenAI offers a fun little <a href="https://platform.openai.com/tokenizer">token visualizer tool</a>.</p>
-<div id="fig-tokenization-example" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-tokenization-example" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
+<a href="images/openai-tokenization.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: OpenAI Tokenization Example"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/openai-tokenization.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tokenization-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: OpenAI Tokenization Example
@@ -7089,19 +7251,19 @@ Figure&nbsp;3: OpenAI Tokenization Example
 <div id="cell-11" class="cell" data-tags="[&quot;tokenizer&quot;]" data-execution_count="98">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> tiktoken</span>
-<span id="cb11-2"></span>
-<span id="cb11-3">display(Markdown(<span class="st" style="color: #20794D;
+<span id="cb15-2"></span>
+<span id="cb15-3">display(Markdown(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'**Token models**'</span>), tiktoken.model.MODEL_TO_ENCODING)</span>
-<span id="cb11-4">tokenizer <span class="op" style="color: #5E5E5E;
+<span id="cb15-4">tokenizer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tiktoken.encoding_for_model(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'gpt-3.5-turbo'</span>)</span>
-<span id="cb11-5">display(Markdown(<span class="st" style="color: #20794D;
+<span id="cb15-5">display(Markdown(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'**Tokenizer we are using**'</span>), tokenizer)</span></code></pre></div>
 </details>
@@ -7165,38 +7327,38 @@ font-style: inherit;">'**Tokenizer we are using**'</span>), tokenizer)</span></c
 <div id="cell-12" class="cell" data-tags="[&quot;paragraph_tokens&quot;]" data-execution_count="99">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">test_line <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">test_line <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> lines[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>]</span>
-<span id="cb14-2">test_paragraphs <span class="op" style="color: #5E5E5E;
+<span id="cb18-2">test_paragraphs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> test_line[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'paragraphs'</span>]</span>
-<span id="cb14-3"></span>
-<span id="cb14-4">display(Markdown(<span class="st" style="color: #20794D;
+<span id="cb18-3"></span>
+<span id="cb18-4">display(Markdown(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'**Paragraph Example**'</span>), test_paragraphs[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>])</span>
-<span id="cb14-5">test_tokens <span class="op" style="color: #5E5E5E;
+<span id="cb18-5">test_tokens <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer.encode(test_paragraphs[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'paragraph_text'</span>])</span>
-<span id="cb14-6">display(Markdown(<span class="st" style="color: #20794D;
+<span id="cb18-6">display(Markdown(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'**Tokens**'</span>), test_tokens)</span>
-<span id="cb14-7">display(Markdown(<span class="st" style="color: #20794D;
+<span id="cb18-7">display(Markdown(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'**Number of Tokens**'</span>), <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(test_tokens))</span>
-<span id="cb14-8"></span></code></pre></div>
+<span id="cb18-8"></span></code></pre></div>
 </details>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Paragraph Example</strong></p>
@@ -7267,20 +7429,22 @@ font-style: inherit;">len</span>(test_tokens))</span>
 <div id="cell-13" class="cell" data-tags="[&quot;paragraphs_tokens&quot;]" data-execution_count="100">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><span class="cf" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> paragraph <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> test_paragraphs:</span>
-<span id="cb18-2">    paragraph_text <span class="op" style="color: #5E5E5E;
+<span id="cb22-2">    paragraph_text <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> paragraph[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'paragraph_text'</span>]</span>
-<span id="cb18-3">    paragraph_tokens <span class="op" style="color: #5E5E5E;
+<span id="cb22-3">    paragraph_tokens <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer.encode(paragraph_text)</span>
-<span id="cb18-4">    <span class="bu" style="color: null;
+<span id="cb22-4">    <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -7334,10 +7498,10 @@ Number of tokens in paragraph: 48</code></pre>
 <section id="jean-claude-van-damme-tell-me-a-haiku" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="jean-claude-van-damme-tell-me-a-haiku"><span class="header-section-number">4.1</span> Jean-<em>Claude</em> Van Damme, tell me a <em>Haiku</em></h2>
 <p>What. Just kidding. We’ll be talking about <a href="https://www.anthropic.com/news/claude-3-family">Anthropic’s Claude 3 models</a>. The following chart is from the <a href="https://chat.lmsys.org">LMSYS Chatbot Arena</a> where models go head to head in answering questions which are then chosen by users.</p>
-<div id="fig-lmsys" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-lmsys" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lmsys-compare.jpg" class="lightbox" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
+<a href="images/lmsys-compare.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Comparison of performance and cost among top models"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/lmsys-compare.jpg" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lmsys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Comparison of performance and cost among top models
@@ -7379,10 +7543,10 @@ Although Claude had the very large context window months before GPT-4, the jury 
 <section id="sliding-windows" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="sliding-windows"><span class="header-section-number">5.1.1</span> Sliding Windows</h3>
 <p>To answer the questions asked in the MuSiQue benchmark, we will create a unique knowledge graph for every individual question, consisting out of the twenty provided paragraphs. Each paragraph can be arbitrarily divided into multiple chunks of text which the LLM can take as input into its context.</p>
-<div id="fig-text-chunks" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-text-chunks" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paragraph-chunks.png" class="lightbox" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
+<a href="images/paragraph-chunks.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/paragraph-chunks.png" class="img-fluid figure-img" width="652"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-chunks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Each question contains multiple paragraphs, and each paragraph is made out of multiple text chunks.
@@ -7403,10 +7567,10 @@ When I say ‘nodes and edges’, I also mean any attributes thereof
 
 </div>
 </div>
-<div id="fig-sliding-window" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sliding-window" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sliding-window.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
+<a href="images/sliding-window.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sliding-window.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sliding-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Sliding window with overlap tends to be the standard approach when inserting text into LLMs
@@ -7417,10 +7581,10 @@ Figure&nbsp;6: Sliding window with overlap tends to be the standard approach whe
 <section id="knowledge-stuffing" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="knowledge-stuffing"><span class="header-section-number">5.1.2</span> Knowledge-Stuffing</h3>
 <p>Connections are the bread and butter of knowledge graphs. If our LLM is producing nodes and edges only from our limited context window, it appears that we’re missing out on the connectivity benefit of knowledge graphs. To increase the connectivity of our knowledge graph, we can inform our LLM of previous nodes and edges it has created by passing them into the context of the LLM. Conveniently, this gives me the opportunity to introduce our composition of the context we’ll be using.</p>
-<div id="fig-llm-context" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-llm-context" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/context.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
+<a href="images/context.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/context.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-context-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previously generated nodes and edges
@@ -7438,10 +7602,10 @@ Figure&nbsp;7: We provide the LLM with the system prompt, text chunks, and previ
 <section id="letting-the-llm-loose" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="letting-the-llm-loose"><span class="header-section-number">5.1.3</span> Letting the LLM Loose</h3>
 <p>Consider the knowledge graph obtained after we process the 20 paragraphs pertaining to one question using the previously discussed method. We’d get something like:</p>
-<div id="fig-sparse" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-sparse" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/sparse_connectivity.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
+<a href="images/sparse_connectivity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;8: Sparsely Connected Knowledge Graph"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/sparse_connectivity.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Sparsely Connected Knowledge Graph
@@ -7449,10 +7613,10 @@ Figure&nbsp;8: Sparsely Connected Knowledge Graph
 </figure>
 </div>
 <p>The facts we obtain from the text chunks will likely be connected in fairly atomic clusters as there wouldn’t be great continuity, even with passing some of the previously computed nodes and edges into our context window. One way to fix this would be to feed random sets of nodes(and/or edges) to the LLM and let it generate new connections between the nodes.</p>
-<div id="fig-new-connections" class="preview-image quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-new-connections" class="preview-image quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/connection-building.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
+<a href="images/connection-building.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;9: Building New Connections"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/images/connection-building.png" class="preview-image img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new-connections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Building New Connections
@@ -7474,7 +7638,6 @@ Figure&nbsp;9: Building New Connections
 <p>That’ll be happening in the next one – pinky promise. I’m hoping that this was a good amount of background and theory behind what we’ll be doing next.</p>
 <p>You can reach out to me if you have any questions via X or email.</p>
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html"><strong>Part Deux &gt;&gt;</strong></a></p>
-
 
 
 </section>
@@ -7514,10 +7677,10 @@ Figure&nbsp;9: Building New Connections
 <p>For this reason, RAG has been a fundamental component of truthiness. It also allows you to augment the LLM output through context-stuffing. The amount of tokens you can stuff into your context is not limitless, and so you can’t merely stuff all of your documents and tables into it. Out of this limit emerge dozens of RAG techniques which try to <a href="https://twitter.com/jxnlco/status/1757938871843651858">hydrate</a> the prompt. The fine folks at <a href="https://python.langchain.com/docs/get_started/introduction">Langchain</a> have illustrated a small portion of these techniques here(Fig&nbsp;1). Even with the promise of a <a href="https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/">10 million token context window</a>, there is no abatement of upcoming RAG techniques and companies built around it.</p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 46.2%;justify-content: flex-start;">
-<div id="fig-rag_techniques_langchain" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-rag_techniques_langchain" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-4.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
+<a href="images/paste-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Soiree of RAG techniques (Click to enlarge) Source: Langchain blog"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Soiree of RAG techniques<br>
@@ -7531,10 +7694,10 @@ Source: Langchain blog
 </div>
 <p>An <a href="https://github.com/hymie122/RAG-Survey">ever-growing survey</a> of these techniques exists - and even that is not fully exhaustive. P.S. <a href="https://exa.ai/search?c=all">exa.ai</a> is a fantastic source for research. <img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/exaai.png" class="img-fluid"></p>
 <p>For reference, here(Fig&nbsp;2) is a diagram of one of the simplest versions of RAG being implemented.</p>
-<div id="fig-simple-rag" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-simple-rag" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
+<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic RAG Example"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Basic RAG Example
@@ -7545,10 +7708,10 @@ Figure&nbsp;2: Basic RAG Example
 <section id="knowledge-graphs" class="level2 page-columns page-full" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="knowledge-graphs"><span class="header-section-number">1.2</span> Knowledge Graphs</h2>
 <p>It’s much easier to illustrate than explicate what a knowledge graph is(Fig&nbsp;3). Below, we have a knowledge graph that represents places, people, and things along with their relationships to one another. This is a directed graph, in the sense that the connections flow in one direction - this generally makes it easier to specify the relationships between entities. There are many names for the entities within a knowledge graph as well as the connections between them; one of the most common naming conventions for them are <strong>nodes</strong> for the entities such as “Bob” or “The Louvre” and <strong>edges</strong> for the connections between the nodes such as “was created by” or “is located in”. Additionally, these nodes and edges can both have properties or <strong>attributes</strong> - for instance, the ‘Museum’ node can have attributes that enrich it such as “capacity: 2,000” and the edge ‘visited’ can be assigned a date attribute “date: March 28th, 2005”. You’ll often hear the word <strong>triple</strong> in reference to two nodes connected by an edge(<code>Node A</code>, <code>Edge</code>, <code>Node B</code>)</p>
-<div id="fig-basic-knowledege-graph-example" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-basic-knowledege-graph-example" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-1.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
+<a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: An example of a basic knowledge graph."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: An example of a basic knowledge graph.
@@ -7613,10 +7776,10 @@ Note
 <p>Building the knowledge graph sounds simpler than it is, and just as the architectural design of these systems, it is open to myriads of potential options – some good, and some not so good. This will be addressed.</p>
 </div>
 </div>
-<div id="fig-graph-gen" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-graph-gen" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/graph generation.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
+<a href="images/graph generation.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Knowledge Graph and Embedding Generation"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/graph generation.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Knowledge Graph and Embedding Generation
@@ -7627,10 +7790,10 @@ Figure&nbsp;4: Knowledge Graph and Embedding Generation
 <section id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency" class="level3 page-columns page-full" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency"><span class="header-section-number">1.3.2</span> Retrieval Strategy #1 Focused on Embeddings Search Followed by Knowledge Graph Adjacency</h3>
 <p>With a populated vector store and knowledge graph, we are set to experiment with a wide array of retrieval strategies in pursuit of finding the best one to hydrate our prompt. Fig&nbsp;5 involves using the vector store to find the nearest matching embedding, find its reference in the knowledge graph, and then find the adjacent nodes within the knowledge graph to add to our prompt. This makes intuitive sense because concepts related to the initial node are likely to be relevant for the LLM in addressing the user’s query.</p>
-<div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-adjacency-strategy" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -7641,10 +7804,10 @@ Figure&nbsp;5: One strategy of retrieval through first finding a close embedding
 <section id="retrieval-strategy-2-focused-on-graph-query-generation" class="level3 page-columns page-full" data-number="1.3.3">
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="retrieval-strategy-2-focused-on-graph-query-generation"><span class="header-section-number">1.3.3</span> Retrieval Strategy #2 Focused on Graph Query Generation</h3>
 <p>Another retrieval strategy would switch the knowledge graph and vector store steps around. This will involve an extra call to the LLM in order to construct the query we’ll send to the knowledge graph. Once the nodes(and edges) are returned, we can trace the node to its referenced embedding, and retrieve the neighborhood of embeddings along with their text. Alternatively, we can ignore the embeddings and simply focus on the neighborhood of the returned nodes. For the example in Fig&nbsp;6, I’ll focus on the former. As much as we both love flowcharts, I have a feeling you’re getting somewhat tired of them. That said, here’s one more.</p>
-<div id="fig-graph-query-retrieval" class="preview-image quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-graph-query-retrieval" class="preview-image quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
+<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then."><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.
@@ -7663,10 +7826,10 @@ Figure&nbsp;6: Another strategy for retrieval is to generate queries against the
 <div class="quarto-layout-panel" data-layout="[30, 70]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
-<div id="fig-rag-datasets" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-rag-datasets" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-2.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
+<a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: RAG Datasets"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: RAG Datasets
@@ -7675,10 +7838,10 @@ Figure&nbsp;7: RAG Datasets
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div id="fig-rag-metrics" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-rag-metrics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-3.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
+<a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: RAG Metrics"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/paste-3.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: RAG Metrics
@@ -7705,10 +7868,10 @@ Figure&nbsp;8: RAG Metrics
 <p>This is a great augmentation because this is the type of eval that will often be present in the real world, since we often expect real world retrieval of information retrieval to come up short.</p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div id="fig-mus-q" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-mus-q" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/mus_hop.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
+<a href="images/mus_hop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/mus_hop.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
@@ -7719,10 +7882,10 @@ Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
 </div>
 </div>
 <p>MuSiQue contains two evaluations, one with only answerable questions, and the other, evenly divided between non-answerable and answerable questions. If we look at the MuSiQue leaderboards in Fig&nbsp;10, we see that the F1 score(harmonic mean of precision and recall – the higher the better) is substantially better for the Answerable dataset, as it removed the option of there being unanswerable questions for the models to hallucinate on.</p>
-<div id="fig-leaderboard" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-leaderboard" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/musique-leaderboards.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
+<a href="images/musique-leaderboards.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: MuSiQue Leaderboard Comparison"><img src="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/musique-leaderboards.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10: MuSiQue Leaderboard Comparison
@@ -7744,6 +7907,7 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb2-4"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">with</span> jsonlines.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">open</span>(<span class="st" style="color: #20794D;
@@ -7753,8 +7917,10 @@ background-color: null;
 font-style: inherit;">as</span> reader:</span>
 <span id="cb2-5">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -7882,8 +8048,10 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb4-4"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> paragraph <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> js_list[<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
@@ -7893,6 +8061,7 @@ background-color: null;
 font-style: inherit;">'paragraphs'</span>]:</span>
 <span id="cb4-5">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> paragraph.get(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'is_supporting'</span>, <span class="va" style="color: #111111;
@@ -7929,7 +8098,6 @@ font-style: inherit;">False</span>):</span>
 <h1 data-number="3"><span class="header-section-number">3</span> Finale(more of a cliffhanger)</h1>
 <p>That’s it for this initial explanatory and exploratory chapter. In the next post, we’ll dive into constructing knowledge graphs from the provided paragraphs used to answer the questions or deem them unanswerable.</p>
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
-
 
 
 </section>

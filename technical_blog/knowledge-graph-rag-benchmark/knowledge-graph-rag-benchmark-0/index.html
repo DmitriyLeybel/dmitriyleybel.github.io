@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-9d6e2ef09f0f55792d6a02cb88d083c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -148,7 +148,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -167,7 +167,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools tools-wide">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
@@ -253,7 +253,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
@@ -280,10 +280,10 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <p>For this reason, RAG has been a fundamental component of truthiness. It also allows you to augment the LLM output through context-stuffing. The amount of tokens you can stuff into your context is not limitless, and so you can’t merely stuff all of your documents and tables into it. Out of this limit emerge dozens of RAG techniques which try to <a href="https://twitter.com/jxnlco/status/1757938871843651858">hydrate</a> the prompt. The fine folks at <a href="https://python.langchain.com/docs/get_started/introduction">Langchain</a> have illustrated a small portion of these techniques here(<a href="#fig-rag_techniques_langchain" class="quarto-xref">Fig&nbsp;1</a>). Even with the promise of a <a href="https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/">10 million token context window</a>, there is no abatement of upcoming RAG techniques and companies built around it.</p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 46.2%;justify-content: flex-start;">
-<div id="fig-rag_techniques_langchain" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-rag_techniques_langchain" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-4.png" class="lightbox" data-glightbox="description: .lightbox-desc-1" data-gallery="quarto-lightbox-gallery-1"><img src="images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
+<a href="images/paste-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Soiree of RAG techniques (Click to enlarge) Source: Langchain blog"><img src="images/paste-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="437"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag_techniques_langchain-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Soiree of RAG techniques<br>
@@ -297,10 +297,10 @@ Source: Langchain blog
 </div>
 <p>An <a href="https://github.com/hymie122/RAG-Survey">ever-growing survey</a> of these techniques exists - and even that is not fully exhaustive. P.S. <a href="https://exa.ai/search?c=all">exa.ai</a> is a fantastic source for research. <img src="images/exaai.png" class="img-fluid"></p>
 <p>For reference, here(<a href="#fig-simple-rag" class="quarto-xref">Fig&nbsp;2</a>) is a diagram of one of the simplest versions of RAG being implemented.</p>
-<div id="fig-simple-rag" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-simple-rag" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-2" data-gallery="quarto-lightbox-gallery-2"><img src="images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
+<a href="images/simple rag.drawio.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic RAG Example"><img src="images/simple rag.drawio.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Basic RAG Example
@@ -311,10 +311,10 @@ Figure&nbsp;2: Basic RAG Example
 <section id="knowledge-graphs" class="level2 page-columns page-full" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="knowledge-graphs"><span class="header-section-number">1.2</span> Knowledge Graphs</h2>
 <p>It’s much easier to illustrate than explicate what a knowledge graph is(<a href="#fig-basic-knowledege-graph-example" class="quarto-xref">Fig&nbsp;3</a>). Below, we have a knowledge graph that represents places, people, and things along with their relationships to one another. This is a directed graph, in the sense that the connections flow in one direction - this generally makes it easier to specify the relationships between entities. There are many names for the entities within a knowledge graph as well as the connections between them; one of the most common naming conventions for them are <strong>nodes</strong> for the entities such as “Bob” or “The Louvre” and <strong>edges</strong> for the connections between the nodes such as “was created by” or “is located in”. Additionally, these nodes and edges can both have properties or <strong>attributes</strong> - for instance, the ‘Museum’ node can have attributes that enrich it such as “capacity: 2,000” and the edge ‘visited’ can be assigned a date attribute “date: March 28th, 2005”. You’ll often hear the word <strong>triple</strong> in reference to two nodes connected by an edge(<code>Node A</code>, <code>Edge</code>, <code>Node B</code>)</p>
-<div id="fig-basic-knowledege-graph-example" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-basic-knowledege-graph-example" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-1.png" class="lightbox" data-glightbox="description: .lightbox-desc-3" data-gallery="quarto-lightbox-gallery-3"><img src="images/paste-1.png" class="img-fluid figure-img"></a>
+<a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: An example of a basic knowledge graph."><img src="images/paste-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic-knowledege-graph-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: An example of a basic knowledge graph.
@@ -379,10 +379,10 @@ Note
 <p>Building the knowledge graph sounds simpler than it is, and just as the architectural design of these systems, it is open to myriads of potential options – some good, and some not so good. This will be addressed.</p>
 </div>
 </div>
-<div id="fig-graph-gen" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-graph-gen" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/graph generation.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-4" data-gallery="quarto-lightbox-gallery-4"><img src="images/graph generation.png" class="img-fluid figure-img column-page"></a>
+<a href="images/graph generation.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Knowledge Graph and Embedding Generation"><img src="images/graph generation.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-gen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Knowledge Graph and Embedding Generation
@@ -393,10 +393,10 @@ Figure&nbsp;4: Knowledge Graph and Embedding Generation
 <section id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency" class="level3 page-columns page-full" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="retrieval-strategy-1-focused-on-embeddings-search-followed-by-knowledge-graph-adjacency"><span class="header-section-number">1.3.2</span> Retrieval Strategy #1 Focused on Embeddings Search Followed by Knowledge Graph Adjacency</h3>
 <p>With a populated vector store and knowledge graph, we are set to experiment with a wide array of retrieval strategies in pursuit of finding the best one to hydrate our prompt. <a href="#fig-adjacency-strategy" class="quarto-xref">Fig&nbsp;5</a> involves using the vector store to find the nearest matching embedding, find its reference in the knowledge graph, and then find the adjacent nodes within the knowledge graph to add to our prompt. This makes intuitive sense because concepts related to the initial node are likely to be relevant for the LLM in addressing the user’s query.</p>
-<div id="fig-adjacency-strategy" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-adjacency-strategy" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-5" data-gallery="quarto-lightbox-gallery-5"><img src="images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
+<a href="images/adjacency strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt"><img src="images/adjacency strategy.png" class="img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjacency-strategy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt
@@ -407,10 +407,10 @@ Figure&nbsp;5: One strategy of retrieval through first finding a close embedding
 <section id="retrieval-strategy-2-focused-on-graph-query-generation" class="level3 page-columns page-full" data-number="1.3.3">
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="retrieval-strategy-2-focused-on-graph-query-generation"><span class="header-section-number">1.3.3</span> Retrieval Strategy #2 Focused on Graph Query Generation</h3>
 <p>Another retrieval strategy would switch the knowledge graph and vector store steps around. This will involve an extra call to the LLM in order to construct the query we’ll send to the knowledge graph. Once the nodes(and edges) are returned, we can trace the node to its referenced embedding, and retrieve the neighborhood of embeddings along with their text. Alternatively, we can ignore the embeddings and simply focus on the neighborhood of the returned nodes. For the example in <a href="#fig-graph-query-retrieval" class="quarto-xref">Fig&nbsp;6</a>, I’ll focus on the former. As much as we both love flowcharts, I have a feeling you’re getting somewhat tired of them. That said, here’s one more.</p>
-<div id="fig-graph-query-retrieval" class="preview-image quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<div id="fig-graph-query-retrieval" class="preview-image quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-glightbox="description: .lightbox-desc-6" data-gallery="quarto-lightbox-gallery-6"><img src="images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
+<a href="images/nearest embedding strategy.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then."><img src="images/nearest embedding strategy.png" class="preview-image img-fluid figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-query-retrieval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.
@@ -429,10 +429,10 @@ Figure&nbsp;6: Another strategy for retrieval is to generate queries against the
 <div class="quarto-layout-panel" data-layout="[30, 70]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
-<div id="fig-rag-datasets" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-rag-datasets" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-2.png" class="lightbox" data-glightbox="description: .lightbox-desc-7" data-gallery="quarto-lightbox-gallery-7"><img src="images/paste-2.png" class="img-fluid figure-img"></a>
+<a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: RAG Datasets"><img src="images/paste-2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: RAG Datasets
@@ -441,10 +441,10 @@ Figure&nbsp;7: RAG Datasets
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div id="fig-rag-metrics" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-rag-metrics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/paste-3.png" class="lightbox" data-glightbox="description: .lightbox-desc-8" data-gallery="quarto-lightbox-gallery-8"><img src="images/paste-3.png" class="img-fluid figure-img"></a>
+<a href="images/paste-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: RAG Metrics"><img src="images/paste-3.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: RAG Metrics
@@ -471,10 +471,10 @@ Figure&nbsp;8: RAG Metrics
 <p>This is a great augmentation because this is the type of eval that will often be present in the real world, since we often expect real world retrieval of information retrieval to come up short.</p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div id="fig-mus-q" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-mus-q" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/mus_hop.png" class="lightbox" data-glightbox="description: .lightbox-desc-9" data-gallery="quarto-lightbox-gallery-9"><img src="images/mus_hop.png" class="img-fluid figure-img"></a>
+<a href="images/mus_hop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions"><img src="images/mus_hop.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mus-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
@@ -485,10 +485,10 @@ Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions
 </div>
 </div>
 <p>MuSiQue contains two evaluations, one with only answerable questions, and the other, evenly divided between non-answerable and answerable questions. If we look at the MuSiQue leaderboards in <a href="#fig-leaderboard" class="quarto-xref">Fig&nbsp;10</a>, we see that the F1 score(harmonic mean of precision and recall – the higher the better) is substantially better for the Answerable dataset, as it removed the option of there being unanswerable questions for the models to hallucinate on.</p>
-<div id="fig-leaderboard" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-leaderboard" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/musique-leaderboards.png" class="lightbox" data-glightbox="description: .lightbox-desc-10" data-gallery="quarto-lightbox-gallery-10"><img src="images/musique-leaderboards.png" class="img-fluid figure-img"></a>
+<a href="images/musique-leaderboards.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: MuSiQue Leaderboard Comparison"><img src="images/musique-leaderboards.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leaderboard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;10: MuSiQue Leaderboard Comparison
@@ -651,20 +651,6 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 <p><a href="../../../technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html"><strong>Onwards to part one &gt;&gt;</strong></a></p>
 
 
-<div class="hidden" aria-hidden="true">
-<span class="glightbox-desc lightbox-desc-1">Figure&nbsp;1: Soiree of RAG techniques<br>
-(Click to enlarge)<br>
-Source: Langchain blog</span>
-<span class="glightbox-desc lightbox-desc-2">Figure&nbsp;2: Basic RAG Example</span>
-<span class="glightbox-desc lightbox-desc-3">Figure&nbsp;3: An example of a basic knowledge graph.</span>
-<span class="glightbox-desc lightbox-desc-4">Figure&nbsp;4: Knowledge Graph and Embedding Generation</span>
-<span class="glightbox-desc lightbox-desc-5">Figure&nbsp;5: One strategy of retrieval through first finding a close embedding, and then utilizing the adjacency of nodes in the knowledge graph to hydrate the prompt</span>
-<span class="glightbox-desc lightbox-desc-6">Figure&nbsp;6: Another strategy for retrieval is to generate queries against the graph database containing the knowledge graph, and then.</span>
-<span class="glightbox-desc lightbox-desc-7">Figure&nbsp;7: RAG Datasets</span>
-<span class="glightbox-desc lightbox-desc-8">Figure&nbsp;8: RAG Metrics</span>
-<span class="glightbox-desc lightbox-desc-9">Figure&nbsp;9: Answerable and Nonanswerable Multihop Questions</span>
-<span class="glightbox-desc lightbox-desc-10">Figure&nbsp;10: MuSiQue Leaderboard Comparison</span>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -703,18 +689,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -746,7 +721,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.dmlbl\.com");
@@ -754,7 +749,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -851,7 +846,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1107,30 +1101,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
-window.onload = () => {
-  lightboxQuarto.on('slide_before_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    const href = trigger.getAttribute('href');
-    if (href !== null) {
-      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-      if (imgEl !== null) {
-        const srcAttr = imgEl.getAttribute("src");
-        if (srcAttr && srcAttr.startsWith("data:")) {
-          slideConfig.href = srcAttr;
-        }
-      }
-    } 
-  });
-
-  lightboxQuarto.on('slide_after_load', (data) => {
-    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-    if (window.Quarto?.typesetMath) {
-      window.Quarto.typesetMath(slideNode);
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
     }
-  });
-
-};
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
           </script>
 
 
