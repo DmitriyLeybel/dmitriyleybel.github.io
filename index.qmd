@@ -32,8 +32,11 @@ It enables quick and simple iteration and experimentation over a large array of 
 ::: {layout="[24,80]"}
 
 ![](images/hippograph_scn.jpg){.lightbox width="220"}
+<div>
+🦛[Hippograph](https://hippograph.io) is another project of mine. It's a portmanteau of *hippocampus* and *graph*, as well as a play on the word *hippogriff*, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on [its site](https://hippograph.io).
 
-🦛[Hippograph](https://hippograph.io) is another project of mine. The nomenclature combines hippocampus and graph, as well as a play on the word hippogriff, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on [its site](https://hippograph.io). 
+For more on the combination of LLMs and knowledge graphs, I have an entire in-depth series of posts on it in my [technical blog](technical_blog.qmd).
+</div>
 
 :::
 <span style="font-size: 4em; text-align: center; display: block">⛰️🌲</span>
