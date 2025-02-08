@@ -3,7 +3,8 @@
 
 /*-- scss:defaults --*/
 $navbar-brand-font-family: "Anonymous Pro", monospace !default;
-$font-weight-base: 100;
+$font-weight-base: 300;
+// $body-font-weight: 300;
 
 /*-- scss:rules --*/
 
@@ -26,9 +27,9 @@ $font-weight-base: 100;
 p code:not(.sourceCode),
 li code:not(.sourceCode) {
     background-color: #2c3f4e;
-    font-size: 1.2em;
+    font-size: 1em;
     color: $orange;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 
@@ -98,52 +99,52 @@ figure figcaption {
   }
 //
 
-.merriweather-light {
-    font-family: "Merriweather", serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-  .merriweather-regular {
-    font-family: "Merriweather", serif;
-    font-weight: 400;
-    font-style: normal;
-  }
+// .merriweather-light {
+//     font-family: "Merriweather", serif;
+//     font-weight: 300;
+//     font-style: normal;
+//   }
+//   .merriweather-regular {
+//     font-family: "Merriweather", serif;
+//     font-weight: 400;
+//     font-style: normal;
+//   }
   
-  .merriweather-bold {
-    font-family: "Merriweather", serif;
-    font-weight: 700;
-    font-style: normal;
-  }
+//   .merriweather-bold {
+//     font-family: "Merriweather", serif;
+//     font-weight: 700;
+//     font-style: normal;
+//   }
   
-  .merriweather-black {
-    font-family: "Merriweather", serif;
-    font-weight: 900;
-    font-style: normal;
-  }
+//   .merriweather-black {
+//     font-family: "Merriweather", serif;
+//     font-weight: 900;
+//     font-style: normal;
+//   }
   
-  .merriweather-light-italic {
-    font-family: "Merriweather", serif;
-    font-weight: 300;
-    font-style: italic;
-  }
+//   .merriweather-light-italic {
+//     font-family: "Merriweather", serif;
+//     font-weight: 300;
+//     font-style: italic;
+//   }
   
-  .merriweather-regular-italic {
-    font-family: "Merriweather", serif;
-    font-weight: 400;
-    font-style: italic;
-  }
+//   .merriweather-regular-italic {
+//     font-family: "Merriweather", serif;
+//     font-weight: 400;
+//     font-style: italic;
+//   }
   
-  .merriweather-bold-italic {
-    font-family: "Merriweather", serif;
-    font-weight: 700;
-    font-style: italic;
-  }
+//   .merriweather-bold-italic {
+//     font-family: "Merriweather", serif;
+//     font-weight: 700;
+//     font-style: italic;
+//   }
   
-  .merriweather-black-italic {
-    font-family: "Merriweather", serif;
-    font-weight: 900;
-    font-style: italic;
-  }
+//   .merriweather-black-italic {
+//     font-family: "Merriweather", serif;
+//     font-weight: 900;
+//     font-style: italic;
+//   }
 
 
   .inconsolata-regular {

@@ -2,11 +2,11 @@
   /* Changing the border color to be 40% transparent using rgba */
   border-top: 1px solid rgba(206, 212, 218, 0.2);
   /* Adding z level priority */
-  line-height: 1.8;
+  line-height: 1.5;
 }
 
 #quarto-document-content p {
-  font-size: .85em;
+  font-size: 1em;
 }
 
 #quarto-document-content li {

@@ -4,16 +4,17 @@ title: "Technical Blog"
 listing:
     - id: kg-rag-listing
       contents: technical_blog/knowledge-graph-rag-benchmark/*/index.qmd
-      categories: true
+      categories: false
       feed:
         title: "Technical Blog"
       sort: "date asc"
     - id: thinking-out-loud
       contents: technical_blog/thinking-out-loud/*/index.qmd
-      categories: true
+      categories: false
       feed:
         title: "Technical Blog"
       filter-ui: false
+      sort-ui: false
       type: "table"
       sort: "date desc"
 ---

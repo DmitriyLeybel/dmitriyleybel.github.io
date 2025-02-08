@@ -41,7 +41,7 @@ format:
       - superhero
       - custom.scss
     toc: true
-    mainfont: Merriweather
+    mainfont: Hanken Grotesk
     monofont: Inconsolata
     title-block-banner: true
     email-obfuscation: 'javascript'
