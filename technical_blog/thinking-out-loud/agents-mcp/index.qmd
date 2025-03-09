@@ -1,0 +1,54 @@
+---
+title: "Tool Wrangling: Agents, MCPs, and Patterns"
+date: 2024-06-11
+description: "As MCP tooling is gaining wider and wider adoption, it is worthwhile to consider the usage patterns of the available tooling."
+number-sections: false
+toc-depth: 5
+code-fold: true
+categories:
+    - Agents
+    - MCP
+    - LLMs
+draft: true
+---
+
+# Heading
+
+Something goes here
+
+![simple-flow](images/agents-mcp-simple.png){#simple-flow .column-page}
+
+# Tool Calling Patterns:
+## Simple Tool Calling
+### Pattern 1: Flat tool calling
+
+1. Query comes in
+2. Tools are retrieved from MCP or multiple MCPs(and aggregated)
+3. Prompt passes the LLM the query and the set of tools available along with the option to either reply directly or call a tool
+4. If a tool is called, the response is passed to the LLM 
+5. LLM constructs a response and sends it to the user.
+
+### Pattern 2: Categorical tool calling
+
+![simple-flow](images/agents-mcp-simple.png){.column-page}
+
+
+1. Query comes in
+2. Prompt passes the available categories of tools to the LLM in order to have it decide which categories may be necessary in answering the query, or if an answer can be provided without any tools.
+3. If tools are necessary and categories are chosen, then the tool categories and the available tools within are passed to the LLM.
+4. LLM has the choice of calling tools or replying directly.
+5. If tools are called, the response is passed to the LLM and the LLM constructs a response.
+
+![picture-lake](images/picture-lake.jpg){.column-page}
+
+## Code Construction for tool calling
+### Pattern 3: Flat tool calling coding construction
+
+### Pattern 4: Categorical tool calling coding construction
+
+## Stochastic MCPs
+### Pattern 5: Central Stochastic MCP
+
+### Pattern 6: Categorical Stochastic MCPs
+
+

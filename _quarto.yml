@@ -22,11 +22,12 @@ website:
         href: mailto:dmleybel@gmail.com
   page-footer:
     center:
-      - text: "© 2024 - Dmitriy Leybel"
+      - text: "© 2025 - Dmitriy Leybel"
       - icon: twitter-x
         href: https://twitter.com/dmitriyleybel
       - icon: linkedin
         href: https://www.linkedin.com/in/dmlbl/
+
   google-analytics: "G-SB4HQ6BZVQ"
   twitter-card:
     creator: "@dmitriyleybel"
