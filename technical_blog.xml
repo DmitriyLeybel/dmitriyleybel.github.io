@@ -10,7 +10,68 @@
 <atom:link href="https://www.dmlbl.com/technical_blog.xml" rel="self" type="application/rss+xml"/>
 <description>Dmitriy Leybel&#39;s personal website and technical blog</description>
 <generator>quarto-1.6.41</generator>
-<lastBuildDate>Tue, 11 Jun 2024 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 09 Mar 2025 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Manus Blew My Mind A Bit</title>
+  <dc:creator>Dmitriy Leybel</dc:creator>
+  <link>https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I recently got access to Manus, the AI agent from China that’s been making the rounds. The user experience of it is what AI should feel like in 2025. It has the polish to wow even experienced AI developers.</p>
+<p>Manus gracefully connects multiple systems and gives you tiers of complexity and observability at your fingertips.</p>
+<p>Lets give it a go, starting with a simple request from an interface we’re all intimately familiar with:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>Wait, it’s not only calling search APIs, it’s browsing websites and giving you a direct view into what the agent is doing on the site.</p>
+<p>That’s not all. You can actually step into the browser environment it is using and interact:</p>
+<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-2.png" class="img-fluid"></a></p>
+<p>I’m not fully certain whether your interactions can guide it or not at this point in time, but given the integration of it, I see zero reason why not.</p>
+<p>Here’s the virtual browser you can interact with as if you’re using your very own machine:</p>
+<p class="page-columns page-full"><a href="images/paste-3.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-3.png" class="column-body-outset img-fluid"></a></p>
+<p>That’s pretty cool, eh? That’s just the start of it.</p>
+<p>If you look at the screenshot I posted above with the option to select the browser you may also notice an option to open VS Code.</p>
+<p>Wait, what? In its workflow, Manus shows us its progress and the commands it is running.</p>
+<p class="page-columns page-full"><a href="images/paste-4.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-4.png" class="column-page img-fluid"></a></p>
+<p>It is telling us that it’s running shell commands somewhere.</p>
+<p>‘Somewhere’ is a remote development environment it spins up. A remote development environment that you have ACCESS to.</p>
+<p class="page-columns page-full"><a href="images/paste-5.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-5.png" class="column-page img-fluid"></a></p>
+<p>Like with Windsurf and Cursor agents, you see the entire development environment shift as Manus uses it to build your report.</p>
+<p>Here it is creating markdown documents, taking screenshots, and even keeping a todo to track its progress.</p>
+<p class="page-columns page-full"><a href="images/paste-6.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-6.png" class="column-page img-fluid"></a></p>
+<p>The UX wonder here is the sync between the different views. It provides an overview of what it is doing, and if you want to step into the details, you have that option.</p>
+<p>Here, we see the command it is running in the terminal to concatenate its generated markdown files into one report. On the overview screen, we just see the pertinent actions and outputs, but if we open up the shared remote dev environment, we can see and explore the outputs just as we would our own instance of VS Code.</p>
+<p>Hell, we can even use its terminal.</p>
+<p class="page-columns page-full"><a href="images/paste-7.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-7"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-7.png" class="column-page img-fluid"></a></p>
+<p>At the end of the process, it shares all of the artifacts it created with you:</p>
+<p><a href="images/paste-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-8.png" class="img-fluid"></a></p>
+<p><a href="images/paste-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-9.png" class="img-fluid"></a></p>
+<p class="page-columns page-full"><a href="images/paste-10.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-10"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-10.png" class="column-page img-fluid"></a></p>
+<p>After the generation is completed, you are still capable of interacting and asking your agent more questions:</p>
+<p><a href="images/paste-11.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-11.png" class="img-fluid"></a></p>
+<p>But wait, there’s more. You can also ask it to generate new artifacts after the fact using the same environment and continue your conversation/exploration.</p>
+<p class="page-columns page-full"><a href="images/paste-14.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-12"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-14.png" class="column-page img-fluid"></a></p>
+<p>As far as I can intuit, this is the gold standard now. (and to be fair, I don’t even know what models it is using under the hood)</p>
+<p>It feels a bit slow given that it’s VERY VERY agentic, but that’s easily improved in a myriad of ways.</p>
+<p>Oh, and lets not forget its benchmark performance:</p>
+<p class="page-columns page-full"><a href="images/paste-13.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-13"><img src="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-13.png" class="column-page img-fluid"></a></p>
+<p>Now pardon me while I go and ponder the implications of this amazing product.</p>
+
+
+
+ ]]></description>
+  <category>Agents</category>
+  <category>LLMs</category>
+  <guid>https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/</guid>
+  <pubDate>Sun, 09 Mar 2025 08:00:00 GMT</pubDate>
+  <media:content url="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-4.png" medium="image" type="image/png" height="72" width="144"/>
+</item>
 <item>
   <title>LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</title>
   <dc:creator>Dmitriy Leybel</dc:creator>

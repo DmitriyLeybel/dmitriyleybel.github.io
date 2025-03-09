@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dmitriy Leybel">
+<meta name="dcterms.date" content="2025-03-09">
+<meta name="description" content="Manus as a gold standard?">
 
-<title>Technical Blog</title>
+<title>Manus Blew My Mind A Bit</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +26,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f5b3e349297e2cb9bb8a3119aac7d4f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-f5b3e349297e2cb9bb8a3119aac7d4f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,63 +73,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-kg-rag-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-kg-rag-listing'] = new List('listing-kg-rag-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-thinking-out-loud .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-thinking-out-loud'] = new List('listing-thinking-out-loud', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SB4HQ6BZVQ"></script>
 
 <script type="text/javascript">
@@ -136,57 +83,31 @@ gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="alternate" type="application/rss+xml" title="Technical Blog" href="technical_blog.xml" data-external="1"><meta property="og:title" content="Technical Blog">
-<meta property="og:image" content="https://www.dmlbl.com/technical_blog/rss.png">
-<meta property="og:image:height" content="1024">
-<meta property="og:image:width" content="1024">
-<meta name="twitter:title" content="Technical Blog">
-<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/rss.png">
+<link rel="stylesheet" href="../../technical_blog.css">
+<meta property="og:title" content="Manus Blew My Mind A Bit">
+<meta property="og:description" content="Manus as a gold standard?">
+<meta property="og:image" content="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-4.png">
+<meta property="og:image:height" content="600">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Manus Blew My Mind A Bit">
+<meta name="twitter:description" content="Manus as a gold standard?">
+<meta name="twitter:image" content="https://www.dmlbl.com/technical_blog/thinking-out-loud/manus/images/paste-4.png">
 <meta name="twitter:creator" content="@dmitriyleybel">
-<meta name="twitter:image-height" content="1024">
-<meta name="twitter:image-width" content="1024">
+<meta name="twitter:image-height" content="600">
+<meta name="twitter:image-width" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/dmlbl_logo.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/dmlbl_logo.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -196,21 +117,21 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./technical_blog.html" aria-current="page"> 
+    <a class="nav-link" href="../../../technical_blog.html"> 
 <span class="menu-text">Technical Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./personal_blog.html"> 
+    <a class="nav-link" href="../../../personal_blog.html"> 
 <span class="menu-text">Personal Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools tools-wide">
-    <a href="./resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
+    <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
     <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
@@ -219,17 +140,38 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Technical Blog</h1>
-                      </div>
+      <h1 class="title">Manus Blew My Mind A Bit</h1>
+                  <div>
+        <div class="description">
+          Manus as a gold standard?
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Agents</div>
+                <div class="quarto-category">LLMs</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Dmitriy Leybel </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 9, 2025</p>
+      </div>
+    </div>
     
       
     </div>
@@ -237,9 +179,12 @@ window.Quarto = {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
@@ -248,208 +193,47 @@ window.Quarto = {
 
 
 
-<div class="column-page">
-<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">
-Thinking Out Loud <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"></a></span>
-</h1>
+<p>I recently got access to Manus, the AI agent from China that’s been making the rounds. The user experience of it is what AI should feel like in 2025. It has the polish to wow even experienced AI developers.</p>
+<p>Manus gracefully connects multiple systems and gives you tiers of complexity and observability at your fingertips.</p>
+<p>Lets give it a go, starting with a simple request from an interface we’re all intimately familiar with:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/paste-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/paste-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
 </div>
-<div id="listing-thinking-out-loud" class="column-page quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Date
-</th>
-<th>
-Title
-</th>
-<th>
-Author
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="QWdlbnRzJTJDTExNcw==" data-listing-date-sort="1741507200000" data-listing-file-modified-sort="1741556951724" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="480" data-listing-title-sort="Manus Blew My Mind A Bit" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Mar 9, 2025</span>
-</td>
-<td>
-<a href="./technical_blog/thinking-out-loud/manus/index.html" class="title listing-title">Manus Blew My Mind A Bit</a>
-</td>
-<td>
-<span class="listing-author">Dmitriy Leybel</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="TExNcyUyQ0JyYWluJTJDQUdJ" data-listing-date-sort="1718089200000" data-listing-file-modified-sort="1733105790799" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2260" data-listing-title-sort="LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jun 11, 2024</span>
-</td>
-<td>
-<a href="./technical_blog/thinking-out-loud/llms-brains-reality/index.html" class="title listing-title">LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</a>
-</td>
-<td>
-<span class="listing-author">Dmitriy Leybel</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<div class="column-page">
-<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">
-Knowledge Graph RAG Benchmarking Series <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"></a></span>
-</h1>
-</div>
-<div id="listing-kg-rag-listing" class="column-page quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1738998859178" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2603">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\images\nearest embedding strategy.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" class="no-external">
-<div class="listing-date">
-Apr 5, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1712905200000" data-listing-file-modified-sort="1715368953518" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2367">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-1\images\connection-building.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" class="no-external">
-<div class="listing-date">
-Apr 12, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1713596400000" data-listing-file-modified-sort="1715368912988" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2928">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-2\images\node_edge.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" class="no-external">
-<div class="listing-date">
-Apr 20, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1713855600000" data-listing-file-modified-sort="1715835570159" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1013">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<p class="card-img-top"><img src="technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-3\images\vec_populate.png" alt="Population and querying of the vector database"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">Hybridizing our Knowledge Graphs With Vector Databases</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" class="no-external">
-<div class="listing-date">
-Apr 23, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZyUyQ3ZlY3Rvci1kYXRhYmFzZXM=" data-listing-date-sort="1715842800000" data-listing-file-modified-sort="1717983534188" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2301">
-<div class="thumbnail">
-<p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
-<p><img loading="lazy" src="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/images/question-answering-flow.png" class="thumbnail-image"></p>
-</a><p><a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – <em>Part Four</em></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" class="no-external">
-<div class="listing-date">
-May 16, 2024
-</div>
-<div class="listing-author">
-Dmitriy Leybel
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-
+<p>Wait, it’s not only calling search APIs, it’s browsing websites and giving you a direct view into what the agent is doing on the site.</p>
+<p>That’s not all. You can actually step into the browser environment it is using and interact:</p>
+<p><a href="images/paste-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/paste-2.png" class="img-fluid"></a></p>
+<p>I’m not fully certain whether your interactions can guide it or not at this point in time, but given the integration of it, I see zero reason why not.</p>
+<p>Here’s the virtual browser you can interact with as if you’re using your very own machine:</p>
+<p class="page-columns page-full"><a href="images/paste-3.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3"><img src="images/paste-3.png" class="column-body-outset img-fluid"></a></p>
+<p>That’s pretty cool, eh? That’s just the start of it.</p>
+<p>If you look at the screenshot I posted above with the option to select the browser you may also notice an option to open VS Code.</p>
+<p>Wait, what? In its workflow, Manus shows us its progress and the commands it is running.</p>
+<p class="page-columns page-full"><a href="images/paste-4.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4"><img src="images/paste-4.png" class="column-page img-fluid"></a></p>
+<p>It is telling us that it’s running shell commands somewhere.</p>
+<p>‘Somewhere’ is a remote development environment it spins up. A remote development environment that you have ACCESS to.</p>
+<p class="page-columns page-full"><a href="images/paste-5.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-5"><img src="images/paste-5.png" class="column-page img-fluid"></a></p>
+<p>Like with Windsurf and Cursor agents, you see the entire development environment shift as Manus uses it to build your report.</p>
+<p>Here it is creating markdown documents, taking screenshots, and even keeping a todo to track its progress.</p>
+<p class="page-columns page-full"><a href="images/paste-6.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6"><img src="images/paste-6.png" class="column-page img-fluid"></a></p>
+<p>The UX wonder here is the sync between the different views. It provides an overview of what it is doing, and if you want to step into the details, you have that option.</p>
+<p>Here, we see the command it is running in the terminal to concatenate its generated markdown files into one report. On the overview screen, we just see the pertinent actions and outputs, but if we open up the shared remote dev environment, we can see and explore the outputs just as we would our own instance of VS Code.</p>
+<p>Hell, we can even use its terminal.</p>
+<p class="page-columns page-full"><a href="images/paste-7.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-7"><img src="images/paste-7.png" class="column-page img-fluid"></a></p>
+<p>At the end of the process, it shares all of the artifacts it created with you:</p>
+<p><a href="images/paste-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="images/paste-8.png" class="img-fluid"></a></p>
+<p><a href="images/paste-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="images/paste-9.png" class="img-fluid"></a></p>
+<p class="page-columns page-full"><a href="images/paste-10.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-10"><img src="images/paste-10.png" class="column-page img-fluid"></a></p>
+<p>After the generation is completed, you are still capable of interacting and asking your agent more questions:</p>
+<p><a href="images/paste-11.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="images/paste-11.png" class="img-fluid"></a></p>
+<p>But wait, there’s more. You can also ask it to generate new artifacts after the fact using the same environment and continue your conversation/exploration.</p>
+<p class="page-columns page-full"><a href="images/paste-14.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-12"><img src="images/paste-14.png" class="column-page img-fluid"></a></p>
+<p>As far as I can intuit, this is the gold standard now. (and to be fair, I don’t even know what models it is using under the hood)</p>
+<p>It feels a bit slow given that it’s VERY VERY agentic, but that’s easily improved in a myriad of ways.</p>
+<p>Oh, and lets not forget its benchmark performance:</p>
+<p class="page-columns page-full"><a href="images/paste-13.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-13"><img src="images/paste-13.png" class="column-page img-fluid"></a></p>
+<p>Now pardon me while I go and ponder the implications of this amazing product.</p>
 
 
 
@@ -901,6 +685,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
