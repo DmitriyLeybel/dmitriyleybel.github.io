@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.dmlbl.com/technical_blog.html</loc>
-    <lastmod>2025-02-08T07:22:30.438Z</lastmod>
+    <lastmod>2025-03-09T19:28:36.437Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html</loc>
-    <lastmod>2024-06-10T01:38:54.188Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html</loc>
-    <lastmod>2024-05-10T19:21:52.988Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html</loc>
-    <lastmod>2024-05-10T19:22:33.518Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/notebooks/cross_test.html</loc>
-    <lastmod>2024-03-28T18:33:16.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/resume.html</loc>
-    <lastmod>2024-04-06T01:17:09.127Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/index.html</loc>
-    <lastmod>2025-02-08T06:57:04.339Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/about.html</loc>
-    <lastmod>2024-04-06T03:58:02.882Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/personal_blog.html</loc>
-    <lastmod>2024-04-06T17:10:47.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html</loc>
-    <lastmod>2025-02-08T07:14:19.178Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/notebooks/musique_eda.html</loc>
-    <lastmod>2024-04-10T21:19:24.000Z</lastmod>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html</loc>
+    <lastmod>2024-05-16T04:59:30.159Z</lastmod>
   </url>
   <url>
     <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/notebooks/kg_build.html</loc>
     <lastmod>2024-05-15T18:28:07.000Z</lastmod>
   </url>
   <url>
-    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html</loc>
-    <lastmod>2024-05-16T04:59:30.159Z</lastmod>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/notebooks/musique_eda.html</loc>
+    <lastmod>2024-04-10T21:19:24.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html</loc>
+    <lastmod>2025-02-08T07:14:19.178Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/personal_blog.html</loc>
+    <lastmod>2024-04-06T17:10:47.854Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/about.html</loc>
+    <lastmod>2024-04-06T03:58:02.882Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/index.html</loc>
+    <lastmod>2025-02-08T06:57:04.339Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/resume.html</loc>
+    <lastmod>2024-04-06T01:17:09.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/notebooks/cross_test.html</loc>
+    <lastmod>2024-03-28T18:33:16.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html</loc>
+    <lastmod>2024-05-10T19:22:33.518Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html</loc>
+    <lastmod>2024-05-10T19:21:52.988Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html</loc>
+    <lastmod>2024-06-10T01:38:54.188Z</lastmod>
   </url>
   <url>
     <loc>https://www.dmlbl.com/technical_blog/thinking-out-loud/llms-brains-reality/index.html</loc>
