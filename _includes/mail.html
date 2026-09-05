@@ -1,0 +1,66 @@
+<script>
+// Envelope clicks open a popover; the address is stored Caesar-shifted and decoded only then.
+(function () {
+  var SHIFT = 5;
+  var CIPHER = "irqjdgjq@lrfnq.htr";
+  var pop = null;
+  var owner = null;
+
+  function shiftLetters(text, n) {
+    return text.replace(/[a-z]/gi, function (ch) {
+      var base = ch <= "Z" ? 65 : 97;
+      return String.fromCharCode((((ch.charCodeAt(0) - base + n) % 26) + 26) % 26 + base);
+    });
+  }
+
+  function closePop() {
+    if (pop) pop.remove();
+    pop = null;
+    owner = null;
+    document.removeEventListener("click", onDocClick);
+    document.removeEventListener("keydown", onKey);
+  }
+
+  function onDocClick(event) {
+    if (!pop) return;
+    if (pop.contains(event.target) || event.target.closest('a[href="#mail"], a[href$="#mail"]')) return;
+    closePop();
+  }
+
+  function onKey(event) {
+    if (event.key === "Escape") closePop();
+  }
+
+  function openPop(anchor) {
+    closePop();
+    var email = shiftLetters(CIPHER, -SHIFT);
+    pop = document.createElement("div");
+    pop.className = "mail-pop";
+    pop.setAttribute("role", "dialog");
+    pop.innerHTML = '<p class="kicker">Email</p><a class="ink-link" href="mailto:' + email + '">' + email + "</a>";
+    document.body.appendChild(pop);
+    owner = anchor;
+    var box = anchor.getBoundingClientRect();
+    var left = Math.min(box.left, window.innerWidth - pop.offsetWidth - 16);
+    pop.style.top = box.bottom + 8 + "px";
+    pop.style.left = Math.max(16, left) + "px";
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onKey);
+  }
+
+  function onMailClick(event) {
+    event.preventDefault();
+    if (pop && owner === event.currentTarget) {
+      closePop();
+      return;
+    }
+    openPop(event.currentTarget);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('a[href="#mail"], a[href$="#mail"]').forEach(function (link) {
+      link.addEventListener("click", onMailClick);
+    });
+  });
+})();
+</script>

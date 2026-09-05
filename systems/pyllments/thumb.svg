@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="130" viewBox="0 0 280 130" fill="none">
+  <!-- One element (box + unlabeled inner port), copied and wired as a small graph. -->
+  <defs>
+    <marker id="py-arr" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+      <path d="M1 1 L6 3.5 L1 6" stroke="#df6919" stroke-opacity="0.8"/>
+    </marker>
+    <marker id="py-arr-dim" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+      <path d="M1 1 L6 3.5 L1 6" stroke="#ebebeb" stroke-opacity="0.45"/>
+    </marker>
+  </defs>
+
+  <path d="M82 34H190" stroke="#ebebeb" stroke-opacity="0.35" marker-end="url(#py-arr-dim)"/>
+  <path d="M46 54v8" stroke="#df6919" stroke-opacity="0.7" marker-end="url(#py-arr)"/>
+  <path d="M144 80C168 68 176 48 190 40" stroke="#df6919" stroke-opacity="0.55" marker-end="url(#py-arr)"/>
+  <path d="M144 98H186" stroke="#df6919" stroke-opacity="0.7" marker-end="url(#py-arr)"/>
+  <path d="M230 54v20" stroke="#ebebeb" stroke-opacity="0.3" marker-end="url(#py-arr-dim)"/>
+
+  <g>
+    <rect x="10" y="14" width="72" height="40" rx="6" stroke="#ebebeb" opacity="0.55"/>
+    <rect x="20" y="32" width="16" height="12" rx="3" stroke="#ebebeb" opacity="0.5"/>
+    <text x="20" y="28" fill="#8b9aa6" font-size="9" font-family="sans-serif">element</text>
+  </g>
+
+  <g>
+    <rect x="16" y="66" width="128" height="52" rx="8" stroke="#df6919"/>
+    <rect x="30" y="92" width="22" height="14" rx="3" stroke="#f0a266"/>
+    <text x="30" y="84" fill="#f0a266" font-size="10" font-family="sans-serif">element</text>
+  </g>
+
+  <g>
+    <rect x="192" y="14" width="76" height="40" rx="6" stroke="#ebebeb" opacity="0.42"/>
+    <rect x="202" y="32" width="16" height="12" rx="3" stroke="#ebebeb" opacity="0.4"/>
+    <text x="202" y="28" fill="#8b9aa6" font-size="9" font-family="sans-serif">element</text>
+  </g>
+
+  <g>
+    <rect x="192" y="78" width="76" height="40" rx="6" stroke="#ebebeb" opacity="0.35"/>
+    <rect x="202" y="96" width="16" height="12" rx="3" stroke="#ebebeb" opacity="0.35"/>
+    <text x="202" y="92" fill="#8b9aa6" font-size="9" font-family="sans-serif">element</text>
+  </g>
+</svg>

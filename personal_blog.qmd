@@ -1,3 +1,22 @@
 ---
 title: Personal Blog
+page-layout: full
+toc: false
+render: false
+listing:
+  - id: personal-posts
+    contents: personal_blog/*/index.qmd
+    template: _templates/post-row.ejs.md
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    date-format: "MMM D, YYYY"
+    sort: "date desc"
 ---
+
+::: {.blog-index}
+
+::: {.card #personal-posts}
+:::
+
+:::

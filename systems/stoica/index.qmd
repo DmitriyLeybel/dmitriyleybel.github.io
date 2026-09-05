@@ -1,0 +1,31 @@
+---
+title: Stoica
+date: 2025-07-01
+description: A company built around an open-source knowledge graph visualizer, plus the tooling that lets AI agents construct and manipulate the graph itself.
+status: Building
+order: 2
+categories:
+  - Company
+  - Open source
+image: thumb.svg
+system: true
+render: false
+---
+
+Stoica is both a company and an open-source product. The product is the knowledge graph visualizer and the agent tooling around it. The company is what develops and supports that work.
+
+## Problem
+
+Placeholder. Same page shape as Pyllments: the problem first.
+
+## How it works
+
+Placeholder. Structure · discipline · loop is the thumb sketch. Replace with the actual loop.
+
+## Who it is for
+
+Placeholder.
+
+## Links
+
+None yet.

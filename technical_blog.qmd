@@ -1,34 +1,45 @@
 ---
-title: "Technical Blog"
-
+title: Writing
+page-layout: full
+toc: false
+include-after-body: _includes/net.html
 listing:
-    - id: kg-rag-listing
-      contents: technical_blog/knowledge-graph-rag-benchmark/*/index.qmd
-      categories: false
-      feed:
-        title: "Technical Blog"
-      sort: "date asc"
-    - id: thinking-out-loud
-      contents: technical_blog/thinking-out-loud/*/index.qmd
-      categories: false
-      feed:
-        title: "Technical Blog"
-      filter-ui: false
-      sort-ui: false
-      type: "table"
-      sort: "date desc"
+  - id: thinking-out-loud
+    contents: technical_blog/thinking-out-loud/*/index.qmd
+    template: _templates/post-row.ejs.md
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    date-format: "MMM D, YYYY"
+    sort: "date desc"
+    feed:
+      title: "Writing"
+  - id: kg-rag-listing
+    contents: technical_blog/knowledge-graph-rag-benchmark/*/index.qmd
+    template: _templates/post-row.ejs.md
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    date-format: "MMM D, YYYY"
+    sort: "date asc"
+    feed:
+      title: "Writing"
 ---
-::: {.column-page}
-<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">Thinking Out Loud <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"/></a></span></h1> 
+
+::: {.blog-index .has-net}
+
+## Thinking Out Loud {#thinking}
+
+<a class="rss-link" href="./technical_blog.xml"><img src="technical_blog/rss.png" width="18" alt="RSS"/></a>
+
+::: {.card .frost-pane #thinking-out-loud}
 :::
 
-::: {.column-page #thinking-out-loud}
+## Knowledge Graph RAG Benchmarking Series {#kg-rag}
+
+<a class="rss-link" href="./technical_blog.xml"><img src="technical_blog/rss.png" width="18" alt="RSS"/></a>
+
+::: {.card .frost-pane #kg-rag-listing}
 :::
 
-::: {.column-page}
-<h1 style="margin-bottom: 50px; border-bottom: 1px solid rgba(223, 105, 25, 0.5);">Knowledge Graph RAG Benchmarking Series <span><a href="./technical_blog.xml"><img src="technical_blog/rss.png" width="20px" style="opacity: 0.5;"/></a></span></h1> 
 :::
-
-::: {.column-page #kg-rag-listing}
-:::
-

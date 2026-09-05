@@ -1,0 +1,30 @@
+---
+title: DuxMedic
+date: 2025-06-01
+description: A medical workspace that helps people and caregivers manage their health information, guide them through the healthcare system, and research complex conditions by integrating all of their health data while using cutting-edge medical research search tools and frontier thinking language models.
+status: Building
+order: 1
+categories:
+  - Health
+  - Company
+image: thumb.svg
+live: https://duxmedic.com
+system: true
+render: false
+---
+
+## Problem
+
+Placeholder. State the real problem, the user, and why the current tools fail them.
+
+## How it works
+
+Placeholder. Signal → protocol → decision is the shape on the card. Replace this with what the system actually does.
+
+## Who it is for
+
+Placeholder.
+
+## Links
+
+None yet.

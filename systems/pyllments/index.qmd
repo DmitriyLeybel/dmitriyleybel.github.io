@@ -1,0 +1,36 @@
+---
+title: Pyllments
+date: 2025-03-01
+description: A Python framework for composing LLM apps from elements. Same chassis for a bare chatbot, a RAG system, or an API over the flow.
+status: Building
+order: 4
+categories:
+  - Python
+  - LLM apps
+  - Composable
+image: thumb.svg
+repo: https://github.com/Prudent-Patterns/pyllments
+system: true
+---
+
+## Problem
+
+Building an LLM app usually means re-deriving the same chassis: a chat loop, a retrieval path, a place to hang an API. Those pieces should compose, not restart from a blank file each time.
+
+## How it works
+
+Pyllments is a Python workbench for composing LLM applications from *elements*. Combine them into a flow and the same setup can be a chatbot, a RAG system, or an API over that workflow — attach API elements that trigger and capture results from any specified element.
+
+The point is iteration: modularity, composability, and a UI you can stand up without a separate frontend project.
+
+![Pyllments RAG flow](../../images/ragflow.png){fig-alt="Pyllments RAG flow diagram"}
+
+![Pyllments interface](../../images/ragflow_GUI.jpg){fig-alt="Pyllments interface"}
+
+## Who it is for
+
+People who want a Python-first way to try LLM use cases without committing to a full product scaffold on day one.
+
+## Links
+
+- [GitHub](https://github.com/Prudent-Patterns/pyllments)

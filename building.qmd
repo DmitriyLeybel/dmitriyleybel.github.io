@@ -1,0 +1,25 @@
+---
+title: Building
+page-layout: full
+toc: false
+render: false
+aliases:
+  - /systems.html
+listing:
+  - id: building-index
+    contents: systems/*/index.qmd
+    template: _templates/system-card.ejs.md
+    sort: "order"
+    field-types:
+      order: number
+    categories: false
+    sort-ui: false
+    filter-ui: false
+---
+
+::: {.building-index}
+
+::: {#building-index}
+:::
+
+:::

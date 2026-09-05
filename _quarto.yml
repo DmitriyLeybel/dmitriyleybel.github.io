@@ -2,15 +2,19 @@ project:
   type: website
   preview:
     port: 6222
+    host: 0.0.0.0
+    browser: false
 website:
+  draft-mode: gone
   navbar:
     logo: "images/dmlbl_logo.png"
     left:
-      - text: Technical Blog
+      - text: Building
+        href: index.qmd#building
+      - text: Writing
         href: technical_blog.qmd
-      - text: Personal Blog
-        href: personal_blog.qmd
-      - about.qmd
+      - text: About
+        href: about.qmd
     tools:
       - icon: file-person-fill
         href: resume.qmd
@@ -19,10 +23,10 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/dmlbl/
       - icon: envelope-fill
-        href: mailto:dmleybel@gmail.com
+        href: "#mail"
   page-footer:
     center:
-      - text: "© 2025 - Dmitriy Leybel"
+      - text: "© 2026 - Dmitriy Leybel"
       - icon: twitter-x
         href: https://twitter.com/dmitriyleybel
       - icon: linkedin
@@ -42,14 +46,12 @@ format:
       - superhero
       - custom.scss
     toc: true
-    mainfont: Hanken Grotesk
+    mainfont: "Source Sans 3"
     monofont: Inconsolata
-    title-block-banner: true
+    title-block-banner: false
     email-obfuscation: 'javascript'
-  
+    include-in-header: _includes/mail.html
 
 resources:
   - CNAME
-
-
-
+  - js/net.js

@@ -1,57 +1,169 @@
 ---
 pagetitle: "dmlbl"
 page-layout: full
-lightbox: true
+toc: false
+title-block-banner: false
+include-after-body: _includes/net.html
+listing:
+  - id: building-cards
+    contents: systems/*/index.qmd
+    template: _templates/system-card.ejs.md
+    sort: "order"
+    field-types:
+      order: number
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: technical
+    contents: technical_blog/knowledge-graph-rag-benchmark/*/index.qmd
+    template: _templates/post-row.ejs.md
+    sort: "date desc"
+    max-items: 5
+    date-format: "MMM YYYY"
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: thinking
+    contents: technical_blog/thinking-out-loud/*/index.qmd
+    template: _templates/post-row.ejs.md
+    sort: "date desc"
+    max-items: 5
+    date-format: "MMM YYYY"
+    categories: false
+    sort-ui: false
+    filter-ui: false
 ---
-<div style="margin: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .05em; line-height: 1.2; margin-bottom: 1em;">
-   <span style="font-weight: 900; font-size: 3em;">Dmitriy Leybel</span>
-   <hr style="width: 25%;">
-   <span style="font-weight: 100; font-size: .80em;">*AI Engineer, Data Scientist, Statistician, Enjoyer of the outdoors*</span>
+
+::: {.home}
+
+::: {.home-hero}
+::: {.frost-pane}
+
+<p class="kicker">AI engineer · founder · Curious Fella</p>
+
+<h1 class="home-name display">Dmitriy Leybel</h1>
+
+<p class="home-thesis">I work on knowledge systems and integrate language models into the cool things I build.</p>
+
+<p class="home-lede">Right now that looks like DuxMedic, Stoica, Hippograph, and Pyllments. Consultancy through [Prudent Patterns](https://prudentpatterns.com){.ink-link}.</p>
+
+<div class="home-actions">
+<a class="btn-copper" href="#work">Work with me</a>
+<a class="btn-ghost" href="#writing">Read the writing</a>
 </div>
 
-::: {layout="[25,80]"}
-<img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="250"/>
+:::
 
+::: {.home-aside}
+::: {.frost-pane}
+<p class="kicker">Now</p>
+Building DuxMedic. Advising through Prudent Patterns.\
+Refining Pyllments.
+:::
+
+::: {.frost-pane}
+<p class="kicker">Elsewhere</p>
+[GitHub](https://github.com/Prudent-Patterns/pyllments){.ink-link} · [X](https://twitter.com/dmitriyleybel){.ink-link} · [LinkedIn](https://www.linkedin.com/in/dmlbl/){.ink-link}
+:::
+
+::: {.frost-pane}
+<p class="kicker">About</p>
+Born in Kiev, raised in Los Angeles, now in Oregon.
+
+```{=html}
+<p class="home-aside-more"><span class="home-aside-more-mark">The longer version.<svg class="home-aside-border" aria-hidden="true"><rect x="0.5" y="0.5" width="99%" height="99%" rx="50%"/></svg></span></p>
+<a class="home-aside-hit" href="about.html" aria-label="About"></a>
+```
+:::
+:::
+:::
+
+<hr class="rule"/>
+
+::: {#building .home-section}
+
+::: {.home-section-head .frost-pane}
 <div>
-I'm an AI/ML engineer and data scientist focused on building practical solutions at the intersection of knowledge systems, large language models, and predictive analytics.
-
-I run a consultancy, [Prudent Patterns](https://prudentpatterns.com) where I help startups and more seasoned companies acquire their footing in the space of extracting value from their data and create impactful AI solutions using the latest developments in this rapidly evolving field. I also enjoy teaching stakeholders about the current ecosystem of AI to help them make informed decisions about how to best leverage these technologies.
-
-**If you'd like to discuss potential collaborations or learn more about AI solutions for your business, feel free to [reach out✉️](mailto:dmleybel@gmail.com), I'd love to connect.**
+<p class="kicker">Building</p>
+<h2 class="display">Things I am working on</h2>
 </div>
+<p class="home-section-note">My companies, projects, passion.</p>
 :::
 
-::: {layout="[80,30]"}
-
-🧠[Pyllments](https://github.com/Prudent-Patterns/pyllments) is a Python framework I am currently developing for quickly building and deploying LLM-powered applications, batteries included. By combining the separate *elements* in various flows, it enables the quick deployment of an infinitely customizeable user interface with minimal overhead of projects as simple as a bare-bones chatbot to an entire RAG application. It also enables lightning-quick API creation over existing workflows by simply attaching special API *elements* that trigger and capture the results of any of the specified *elements*.
-It enables quick and simple iteration and experimentation over a large array of LLM use cases through its modularity, composability, and extensibility.
-
-![](images/ragflow.png){.lightbox width="220"} ![](images/ragflow_GUI.jpg){.lightbox width="220"}
+::: {#building-cards}
 :::
 
-::: {layout="[24,80]"}
+:::
 
-![](images/hippograph_scn.jpg){.lightbox width="220"}
+::: {#writing .home-section}
+
+::: {.home-section-head .frost-pane}
 <div>
-🦛[Hippograph](https://hippograph.io) is another project of mine. It's a portmanteau of *hippocampus* and *graph*, as well as a play on the word *hippogriff*, y'know, the mythical creature(*yeah, sometimes I consider myself clever)*. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It's easier demo'd than said, so I'd suggest you check out the video on [its site](https://hippograph.io).
-
-For more on the combination of LLMs and knowledge graphs, I have an entire in-depth series of posts on it in my [technical blog](technical_blog.qmd).
+<p class="kicker">Writing</p>
+<h2 class="display">Technical writing, and meanderings</h2>
 </div>
+<p class="home-section-note">Build notes and benchmarks on one side. Looser thinking about technology on the other.</p>
+:::
+
+::: {.writing-columns}
+
+::: {.card .frost-pane}
+::: {.writing-card-head}
+<div>
+### [Technical](technical_blog.qmd)
+<p class="writing-card-note">Notes, series, and the work itself.</p>
+</div>
+:::
+
+::: {.blog-scroll}
+::: {#technical}
+:::
+:::
+
+::: {.writing-card-foot}
+[All technical posts →](technical_blog.qmd){.ink-link}
+:::
+:::
+
+::: {.card .frost-pane}
+::: {.writing-card-head}
+<div>
+### [Thinking Out Loud](technical_blog.qmd#thinking)
+<p class="writing-card-note">Meanderings about technology and the rest of it.</p>
+</div>
+:::
+
+::: {.blog-scroll}
+::: {#thinking}
+:::
+:::
+
+::: {.writing-card-foot}
+[All thinking out loud posts →](technical_blog.qmd#thinking){.ink-link}
+:::
+:::
 
 :::
-<span style="font-size: 4em; text-align: center; display: block">⛰️🌲</span>
+:::
 
-I absolutely love the outdoors and try to get out as often as possible. Sometimes, the laptop comes along for the ride, but usually not.
+::: {#work .home-section .work-grid}
+::: {.frost-pane}
+<p class="kicker">Consulting</p>
+<h2 class="display">Prudent Patterns</h2>
+:::
 
-<div style="margin: auto; display: block; text-align: center;">
-![](images/outdoor_1.jpg){height="230" style="border-top-left-radius: 20%; border-bottom-left-radius: 20%;"}
-![](images/outdoor_2.jpg){height="230"}
-![](images/outdoor_3.jpg){height="230"}
-![](images/outdoor_0.jpg){height="230" style="border-top-right-radius: 25%; border-bottom-right-radius: 25%;"}
-</div>
+::: {.work-copy .frost-pane}
+I work with startups and established companies to get value out of their data and to build AI systems that hold up once they meet the real problem. Along the way I help stakeholders understand the current landscape well enough to decide what is worth doing and what isn't.
 
-<span style="font-size: 4em; text-align: center; display: block">🐶</span>
+If you're thinking about a collaboration or an AI system for your business, get in touch. I'd like to hear about it.
 
-I am also an avid enjoyer of Corgis. A *corgoisseur*, one may say.
+```{=html}
+<p class="work-contact">
+<a class="mail-link" href="#mail" aria-label="Email"><i class="bi bi-envelope-fill" aria-hidden="true"></i></a>
+<a class="ink-link" href="https://prudentpatterns.com">prudentpatterns.com</a>
+</p>
+```
+:::
+:::
 
-<img src="images/corgo_pic.jpg" alt="corgi lol" style="border-radius: 20%;  object-fit: cover;" width="293"/>
+:::

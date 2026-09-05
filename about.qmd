@@ -1,8 +1,46 @@
 ---
-title: "About"
-about:
-    template: jolla
+title: About
+page-layout: full
+title-block-banner: false
+toc: false
+lightbox: true
+include-after-body: _includes/net.html
 ---
-![](images/horse.jpg){fig-align="center"}
 
-I was born in Kiev, Ukraine but I moved to Los Angeles, CA at the age of 5 -- where I've lived most of my life. After a couple of decades of unyielding sun and pleasant weather, I decided that a change of scenery was in order. So I moved to Oregon.
+::: {.about-page .has-net}
+
+::: {.about-layout}
+::: {.about-photo}
+![](images/profile_pic.jpg){fig-alt="Portrait of Dmitriy Leybel"}
+![](images/horse.jpg){fig-alt="A childhood photo on horseback"}
+:::
+
+::: {.about-copy .frost-pane}
+Born in Kiev, Ukraine. Moved to Los Angeles at five and stayed for a couple of decades of pleasant weather before Oregon. AI/ML engineer, data scientist, statistician.
+
+I work on knowledge systems and language models — building them, teaching them, and deciding when not to use them. Consultancy is [Prudent Patterns](https://prudentpatterns.com){.ink-link}; the writeups live on this site.
+
+::: {.about-meta}
+These days I build systems, write about them here, and get outside when I can.
+:::
+:::
+:::
+
+<p class="kicker">Otherwise</p>
+
+I absolutely love the outdoors and try to get out as often as possible. Sometimes the laptop comes along for the ride, but usually not.
+
+::: {.photo-strip}
+![](images/outdoor_1.jpg){.lightbox fig-alt="Sitting on a fallen tree over water"}
+![](images/outdoor_2.jpg){.lightbox fig-alt="Outdoors"}
+![](images/outdoor_3.jpg){.lightbox fig-alt="Hiking"}
+![](images/outdoor_0.jpg){.lightbox fig-alt="In the woods"}
+:::
+
+::: {.about-aside .frost-pane}
+![](images/corgo_pic.jpg){fig-alt="Dmitriy with a corgi"}
+
+I am also an avid enjoyer of Corgis. A *corgoisseur*, one may say.
+:::
+
+:::

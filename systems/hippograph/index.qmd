@@ -1,0 +1,35 @@
+---
+title: Hippograph
+date: 2024-06-01
+description: Knowledge graphs as structured memory. A corpus is deconstructed into the fundamentals a line of questioning actually needs.
+status: Live
+order: 3
+categories:
+  - Knowledge graphs
+  - RAG
+  - Memory
+image: thumb.svg
+live: https://hippograph.io
+system: true
+---
+
+## Problem
+
+Asking a model about a corpus without structure gives you fluency without a trail. The useful unit of memory is not the whole document dump — it is the graph of what the question actually depends on.
+
+## How it works
+
+Hippograph is a portmanteau of *hippocampus* and *graph*, and a play on *hippogriff*. It uses knowledge graphs as structured memory over a corpus: deconstruct first, then ask with sources.
+
+It is easier demo'd than said — there is a video on [the site](https://hippograph.io). The long writeup is the [KG-RAG series](../../technical_blog.qmd#kg-rag) on the technical blog.
+
+![Hippograph answering a question with a knowledge graph](../../images/hippograph_scn.jpg){fig-alt="Hippograph answering a question with a knowledge graph"}
+
+## Who it is for
+
+Anyone who needs answers that can point back at a structured representation of a corpus, not just a nearest-neighbor chunk.
+
+## Links
+
+- [hippograph.io](https://hippograph.io)
+- [Technical series](../../technical_blog.qmd#kg-rag)
