@@ -4,7 +4,9 @@ page-layout: full
 title-block-banner: false
 toc: false
 lightbox: true
-include-after-body: _includes/net.html
+include-after-body:
+  - _includes/remnant.html
+  - _includes/net.html
 ---
 
 ::: {.about-page .has-net}

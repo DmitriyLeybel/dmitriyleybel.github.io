@@ -351,21 +351,147 @@ a.card,
 
 html {
     background-color: $paper;
+    // Quiet left wash; the remnant in the opposite corner is the light source
+    background-image: radial-gradient(ellipse 50% 40% at 8% 0%, rgba(240, 162, 102, 0.06), transparent 50%);
+    background-repeat: no-repeat;
     scroll-behavior: smooth;
 }
 
-// Inner pages get a quiet copper wash so the island is not sitting on flat navy
-body:not(:has(.home)) {
-    background-color: $paper;
-    background-image:
-        radial-gradient(ellipse 70% 55% at 78% -8%, rgba(223, 105, 25, 0.16), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 8% 0%, rgba(240, 162, 102, 0.07), transparent 50%);
-    background-repeat: no-repeat;
+// Supernova remnant: one shared core point (--cx/--cy) and radius scale (--r) drive every layer.
+// The core sits just past the top-right corner so only the shell's arcs and rays enter the frame.
+#remnant {
+    --r: 300px;
+    --cx: calc(100vw + var(--r) * 0.3);
+    --cy: calc(var(--r) * -0.17);
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+}
+
+// Each layer is a square centered on the core and big enough to hold its gradient, so nothing is
+// clipped by the viewport before it is transformed and rotate/scale pivot on the core for free.
+#remnant > div {
+    position: absolute;
+    left: calc(var(--cx) - var(--r) * 3.5);
+    top: calc(var(--cy) - var(--r) * 3.5);
+    width: calc(var(--r) * 7);
+    height: calc(var(--r) * 7);
+    will-change: transform;
+}
+
+.remnant-halo {
+    background:
+        radial-gradient(ellipse calc(var(--r) * 2.2) calc(var(--r) * 1.9) at center,
+            rgba(223, 105, 25, 0.2) 0%,
+            rgba(223, 105, 25, 0.06) 42%,
+            transparent 70%),
+        radial-gradient(circle calc(var(--r) * 1.1) at calc(50% - var(--r) * 0.4) calc(50% + var(--r) * 0.6),
+            rgba(90, 160, 200, 0.12) 0%,
+            transparent 100%);
+}
+
+.remnant-ring-outer {
+    background: radial-gradient(circle var(--r) at center,
+        transparent 54%,
+        rgba(223, 105, 25, 0.22) 69%,
+        rgba(96, 168, 210, 0.1) 81%,
+        transparent 100%);
+}
+
+.remnant-ring-mid {
+    background: radial-gradient(circle calc(var(--r) * 0.78) at center,
+        transparent 54%,
+        rgba(240, 162, 102, 0.34) 69%,
+        rgba(223, 105, 25, 0.14) 81%,
+        transparent 100%);
+    animation: remnant-breathe 10s ease-in-out infinite;
+}
+
+.remnant-ring-inner {
+    background: radial-gradient(circle calc(var(--r) * 0.63) at center,
+        transparent 47%,
+        rgba(255, 236, 190, 0.42) 62%,
+        rgba(255, 248, 230, 0.18) 76%,
+        transparent 100%);
+}
+
+.remnant-hot {
+    background: radial-gradient(circle calc(var(--r) * 0.84) at center,
+        rgba(255, 252, 245, 0.95) 0%,
+        rgba(255, 230, 170, 0.55) 18%,
+        rgba(240, 162, 102, 0.28) 40%,
+        rgba(223, 105, 25, 0.1) 64%,
+        transparent 100%);
+    mix-blend-mode: screen;
+}
+
+// Rays are long ellipses placed to the left of the core so their visible inner end begins at the
+// outer shell (~0.8r) rather than crossing the core; the JS rotates each one about the core.
+.remnant-ray {
+    filter: blur(16px);
+}
+
+// Very long and thin, visible ~0.85r to 3.1r
+.remnant-ray-a {
+    background: radial-gradient(ellipse calc(var(--r) * 1.55) calc(var(--r) * 0.09) at calc(50% - var(--r) * 1.95) 50%,
+        rgba(223, 105, 25, 0.45), transparent 74%);
+}
+
+// Fat main plume, ~0.76r to 2.34r
+.remnant-ray-b {
+    background: radial-gradient(ellipse calc(var(--r) * 1.1) calc(var(--r) * 0.24) at calc(50% - var(--r) * 1.55) 50%,
+        rgba(255, 214, 150, 0.55), transparent 72%);
+}
+
+// Short stub tucked beside the plume, ~0.8r to 1.6r
+.remnant-ray-c {
+    background: radial-gradient(ellipse calc(var(--r) * 0.55) calc(var(--r) * 0.08) at calc(50% - var(--r) * 1.2) 50%,
+        rgba(240, 162, 102, 0.4), transparent 70%);
+}
+
+// Medium-long ray splayed well below the others, ~0.78r to 2.5r
+.remnant-ray-d {
+    background: radial-gradient(ellipse calc(var(--r) * 1.2) calc(var(--r) * 0.12) at calc(50% - var(--r) * 1.65) 50%,
+        rgba(255, 230, 190, 0.42), transparent 72%);
+    animation: remnant-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes remnant-breathe {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+@keyframes remnant-drift {
+    0% { opacity: 0.85; }
+    100% { opacity: 1; }
+}
+
+@media (max-width: 767.98px) {
+    #remnant {
+        --r: 160px;
+        --cx: calc(100vw + var(--r) * 0.15);
+        --cy: calc(var(--r) * -0.25);
+    }
+
+    .remnant-ray {
+        opacity: 0.55;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .remnant-ring-mid,
+    .remnant-ray-d {
+        animation: none;
+    }
+}
+
+body {
+    background-color: transparent !important;
 }
 
 body:has(.home),
 body:has(.has-net) {
-    background-color: transparent !important;
     isolation: isolate;
 }
 

@@ -1,0 +1,92 @@
+<!-- Every layer is a square centered on the shared --cx/--cy core (see custom.scss); only the rays rotate. -->
+<div id="remnant" aria-hidden="true">
+  <div class="remnant-halo"></div>
+  <div class="remnant-ring remnant-ring-outer"></div>
+  <div class="remnant-ring remnant-ring-mid"></div>
+  <div class="remnant-ring remnant-ring-inner"></div>
+  <div class="remnant-hot"></div>
+  <div class="remnant-ray remnant-ray-a"></div>
+  <div class="remnant-ray remnant-ray-b"></div>
+  <div class="remnant-ray remnant-ray-c"></div>
+  <div class="remnant-ray remnant-ray-d"></div>
+</div>
+<script>
+(function remnantLook() {
+  var root = document.getElementById("remnant");
+  if (!root) return;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // depth: px moved per px scrolled. Shell layers recede into the corner (far ones least, so the
+  // stack shears); rays carry a `rot` and instead fly outward along their own axis.
+  // grow: scale over a full scroll. Uniform for shells (expanding shock), along-axis for rays (lengthening).
+  var layers = [
+    { sel: ".remnant-halo", depth: 0.01 },
+    { sel: ".remnant-ring-outer", depth: 0.02, grow: 0.1 },
+    { sel: ".remnant-ring-mid", depth: 0.03, grow: 0.07 },
+    { sel: ".remnant-ring-inner", depth: 0.04, grow: 0.04 },
+    { sel: ".remnant-hot", depth: 0.06 },
+    { sel: ".remnant-ray-a", depth: 0.12, rot: -12, grow: 0.3 },
+    { sel: ".remnant-ray-b", depth: 0.07, rot: -29, grow: 0.2 },
+    { sel: ".remnant-ray-c", depth: 0.1, rot: -36, grow: 0.4 },
+    { sel: ".remnant-ray-d", depth: 0.09, rot: -61, grow: 0.3 }
+  ].map(function (L, i) {
+    L.el = root.querySelector(L.sel);
+    L.idle = Math.min(L.depth * 90, 5);
+    L.phase = i * 1.7;
+    L.speed = 0.00026 + i * 0.00002;
+    if (L.rot != null) {
+      var a = (L.rot * Math.PI) / 180;
+      // Unit vector pointing out of the shell (the ellipse sits on the -x side before rotation).
+      L.dir = [-Math.cos(a), -Math.sin(a)];
+      L.el.style.rotate = L.rot + "deg";
+    }
+    return L;
+  });
+
+  var MAX = 900;
+  var scroll = 0;
+  var scrollT = 0;
+  var raf = 0;
+
+  function tick(now) {
+    scroll += (scrollT - scroll) * 0.1;
+    var t = scroll / MAX;
+    for (var i = 0; i < layers.length; i++) {
+      var L = layers[i];
+      var d = scroll * L.depth;
+      var x = L.dir ? L.dir[0] * d : d * 0.5;
+      var y = L.dir ? L.dir[1] * d : -d;
+      if (!reduce) {
+        x += Math.sin(now * L.speed + L.phase) * L.idle;
+        y += Math.cos(now * L.speed * 0.8 + L.phase) * L.idle;
+      }
+      // Individual transform props compose as translate -> rotate -> scale, so translate stays in
+      // viewport space and a ray's x-scale stretches along its own rotated axis.
+      L.el.style.translate = x + "px " + y + "px";
+      if (L.grow) L.el.style.scale = L.dir ? 1 + t * L.grow + " 1" : String(1 + t * L.grow);
+    }
+    // Only keep ticking while there is idle motion or the scroll ease is still settling.
+    raf = !reduce || Math.abs(scrollT - scroll) > 0.05 ? requestAnimationFrame(tick) : 0;
+  }
+
+  function wake() {
+    if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
+  }
+
+  function onScroll() {
+    scrollT = Math.min(window.scrollY, MAX);
+    wake();
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    } else {
+      wake();
+    }
+  });
+  onScroll();
+})();
+</script>

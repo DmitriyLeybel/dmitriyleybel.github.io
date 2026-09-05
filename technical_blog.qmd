@@ -2,7 +2,9 @@
 title: Writing
 page-layout: full
 toc: false
-include-after-body: _includes/net.html
+include-after-body:
+  - _includes/remnant.html
+  - _includes/net.html
 listing:
   - id: thinking-out-loud
     contents: technical_blog/thinking-out-loud/*/index.qmd

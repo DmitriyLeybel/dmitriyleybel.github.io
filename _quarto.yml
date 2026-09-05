@@ -51,6 +51,7 @@ format:
     title-block-banner: false
     email-obfuscation: 'javascript'
     include-in-header: _includes/mail.html
+    include-after-body: _includes/remnant.html
 
 resources:
   - CNAME
