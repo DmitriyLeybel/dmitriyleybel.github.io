@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="130" viewBox="0 0 280 130" fill="none">
+  <!-- Corpus as a page, then a graph of what was extracted from it. -->
+  <defs>
+    <marker id="hg-arr" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+      <path d="M1 1 L6 3.5 L1 6" stroke="#df6919" stroke-opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <g>
+    <rect x="26" y="22" width="70" height="86" rx="5" stroke="#ebebeb" opacity="0.55"/>
+    <path d="M80 22v16h16" stroke="#ebebeb" opacity="0.4"/>
+    <path d="M80 22l16 16" stroke="#ebebeb" opacity="0.4"/>
+    <path d="M38 52h38M38 64h30M38 76h34M38 88h22" stroke="#ebebeb" opacity="0.35"/>
+  </g>
+
+  <path d="M110 65h38" stroke="#df6919" stroke-opacity="0.8" marker-end="url(#hg-arr)"/>
+
+  <g>
+    <path d="M168 48L200 32M168 48L186 80M200 32L242 50M200 32L186 80M186 80L228 90M242 50L228 90M242 50L214 64M214 64L186 80" stroke="#df6919" stroke-opacity="0.55"/>
+    <circle cx="168" cy="48" r="7" stroke="#df6919"/>
+    <circle cx="200" cy="32" r="6" stroke="#ebebeb" opacity="0.7"/>
+    <circle cx="242" cy="50" r="8" stroke="#f0a266"/>
+    <circle cx="186" cy="80" r="6" stroke="#ebebeb" opacity="0.5"/>
+    <circle cx="228" cy="90" r="7" stroke="#ebebeb" opacity="0.65"/>
+    <circle cx="214" cy="64" r="5" stroke="#ebebeb" opacity="0.4"/>
+  </g>
+</svg>

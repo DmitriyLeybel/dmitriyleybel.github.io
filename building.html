@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Personal Blog</title>
+<title>Building</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,20 +72,20 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-personal-posts .list');
+    const listingTargetEl = window.document.querySelector('#listing-building-index .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-project','listing-website','listing-format','listing-resources','listing-language','listing-draft-mode','listing-author','listing-toc','listing-toc-title','listing-toc-location','listing-lightbox','listing-title-block-banner','listing-title','listing-date','listing-description','listing-status','listing-order','listing-categories','listing-image','listing-live','listing-system','listing-render','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-repo',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-order-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: [],
+      searchColumns: ["listing-project","listing-website","listing-format","listing-resources","listing-language","listing-draft-mode","listing-author","listing-toc","listing-toc-title","listing-toc-location","listing-lightbox","listing-title-block-banner","listing-title","listing-date","listing-description","listing-status","listing-order","listing-categories","listing-image","listing-live","listing-system","listing-render","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-repo"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-personal-posts'] = new List('listing-personal-posts', options);
+    window['quarto-listings']['listing-building-index'] = new List('listing-building-index', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -270,10 +270,14 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Personal Blog">
-<meta name="twitter:title" content="Personal Blog">
+<meta property="og:title" content="Building">
+<meta property="og:image" content="https://www.dmlbl.com/systems/duxmedic/thumb.svg">
+<meta property="og:image:alt" content="">
+<meta name="twitter:title" content="Building">
+<meta name="twitter:image" content="https://www.dmlbl.com/systems/duxmedic/thumb.svg">
 <meta name="twitter:creator" content="@dmitriyleybel">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image:alt" content="">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -326,7 +330,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Personal Blog</h1>
+<h1 class="title">Building</h1>
 </div>
 
 
@@ -343,17 +347,158 @@ window.Quarto = {
 </header>
 
 
-<div class="blog-index">
-<div id="listing-personal-posts" class="card quarto-listing quarto-listing-container-custom">
-<div class="row-list list">
+<div class="building-index">
+<div id="listing-building-index" class="quarto-listing quarto-listing-container-custom">
+<div class="system-grid list">
 
-  <div class="row">
-    <div class="row-date">No posts yet</div>
-    <div>
-      <div class="row-title display">Nothing published here yet</div>
-      <p class="row-deck">When a post ships, it will show up with a date, a title, and a one-line deck.</p>
+  <article class="card frost-pane" data-index="0" data-categories="SGVhbHRoJTJDQ29tcGFueQ==" data-listing-date-sort="1748761200000" data-listing-file-modified-sort="1788636847992" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="42" data-listing-order-sort="1">
+    
+    <div class="thumb">
+      <img src="./systems/duxmedic/thumb.svg" alt="">
     </div>
-  </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>DuxMedic</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A medical workspace that helps people and caregivers manage their health information, guide them through the healthcare system, and research complex conditions by integrating all of their health data while using cutting-edge medical research search tools and frontier thinking language models.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Health</span>
+        
+        <span class="chip">Company</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        
+        <a class="ink-link" href="https://duxmedic.com">Live</a>
+        
+      </div>
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="1" data-categories="Q29tcGFueSUyQ09wZW4lMjBzb3VyY2U=" data-listing-date-sort="1751353200000" data-listing-file-modified-sort="1788636848016" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="62" data-listing-order-sort="2">
+    
+    <div class="thumb">
+      <img src="./systems/stoica/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Stoica</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A company built around an open-source knowledge graph visualizer, plus the tooling that lets AI agents construct and manipulate the graph itself.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Company</span>
+        
+        <span class="chip">Open source</span>
+        
+      </div>
+      
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="2" data-categories="S25vd2xlZGdlJTIwZ3JhcGhzJTJDUkFHJTJDTWVtb3J5" data-listing-date-sort="1717225200000" data-listing-file-modified-sort="1788584918743" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="133" data-listing-order-sort="3">
+    
+    <div class="thumb">
+      <img src="./systems/hippograph/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Hippograph</p>
+        </h3>
+        
+        <span class="chip listing-status">Live</span>
+        
+      </div>
+      
+      <p class="listing-description">Knowledge graphs as structured memory. A corpus is deconstructed into the fundamentals a line of questioning actually needs.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Knowledge graphs</span>
+        
+        <span class="chip">RAG</span>
+        
+        <span class="chip">Memory</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        
+        <a class="ink-link" href="https://hippograph.io">Live</a>
+        
+      </div>
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="3" data-categories="UHl0aG9uJTJDTExNJTIwYXBwcyUyQ0NvbXBvc2FibGU=" data-listing-date-sort="1740816000000" data-listing-file-modified-sort="1788584918867" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="132" data-listing-order-sort="4">
+    
+    <div class="thumb">
+      <img src="./systems/pyllments/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Pyllments</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A Python framework for composing LLM apps from elements. Same chassis for a bare chatbot, a RAG system, or an API over the flow.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Python</span>
+        
+        <span class="chip">LLM apps</span>
+        
+        <span class="chip">Composable</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        <a class="ink-link" href="https://github.com/Prudent-Patterns/pyllments">Repo</a>
+        
+        
+      </div>
+      
+    </div>
+  </article>
 
 </div>
 <div class="listing-no-matching d-none">

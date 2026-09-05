@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-f5b3e349297e2cb9bb8a3119aac7d4f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-57a8cc6af9d3671cffcb02dae5564eac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -116,12 +116,143 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
+<script>
+
+// Envelope clicks open a popover; the address is stored Caesar-shifted and decoded only then.
+
+(function () {
+
+  var SHIFT = 5;
+
+  var CIPHER = "irqjdgjq@lrfnq.htr";
+
+  var pop = null;
+
+  var owner = null;
+
+
+
+  function shiftLetters(text, n) {
+
+    return text.replace(/[a-z]/gi, function (ch) {
+
+      var base = ch <= "Z" ? 65 : 97;
+
+      return String.fromCharCode((((ch.charCodeAt(0) - base + n) % 26) + 26) % 26 + base);
+
+    });
+
+  }
+
+
+
+  function closePop() {
+
+    if (pop) pop.remove();
+
+    pop = null;
+
+    owner = null;
+
+    document.removeEventListener("click", onDocClick);
+
+    document.removeEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onDocClick(event) {
+
+    if (!pop) return;
+
+    if (pop.contains(event.target) || event.target.closest('a[href="#mail"], a[href$="#mail"]')) return;
+
+    closePop();
+
+  }
+
+
+
+  function onKey(event) {
+
+    if (event.key === "Escape") closePop();
+
+  }
+
+
+
+  function openPop(anchor) {
+
+    closePop();
+
+    var email = shiftLetters(CIPHER, -SHIFT);
+
+    pop = document.createElement("div");
+
+    pop.className = "mail-pop";
+
+    pop.setAttribute("role", "dialog");
+
+    pop.innerHTML = '<p class="kicker">Email</p><a class="ink-link" href="mailto:' + email + '">' + email + "</a>";
+
+    document.body.appendChild(pop);
+
+    owner = anchor;
+
+    var box = anchor.getBoundingClientRect();
+
+    var left = Math.min(box.left, window.innerWidth - pop.offsetWidth - 16);
+
+    pop.style.top = box.bottom + 8 + "px";
+
+    pop.style.left = Math.max(16, left) + "px";
+
+    document.addEventListener("click", onDocClick);
+
+    document.addEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onMailClick(event) {
+
+    event.preventDefault();
+
+    if (pop && owner === event.currentTarget) {
+
+      closePop();
+
+      return;
+
+    }
+
+    openPop(event.currentTarget);
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('a[href="#mail"], a[href$="#mail"]').forEach(function (link) {
+
+      link.addEventListener("click", onMailClick);
+
+    });
+
+  });
+
+})();
+
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<link rel="stylesheet" href="../../technical_blog.css">
 <meta property="og:title" content="Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – Part Zero">
 <meta property="og:description" content="Foundational preamble to the benchmarking of knowledge graph-centric RAG flows">
 <meta property="og:image" content="https://www.dmlbl.com/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/images/nearest embedding strategy.png">
@@ -139,7 +270,7 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 <body class="floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -154,12 +285,12 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../technical_blog.html"> 
-<span class="menu-text">Technical Blog</span></a>
+    <a class="nav-link" href="../../../index.html#building"> 
+<span class="menu-text">Building</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../personal_blog.html"> 
-<span class="menu-text">Personal Blog</span></a>
+    <a class="nav-link" href="../../../technical_blog.html"> 
+<span class="menu-text">Writing</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../../about.html"> 
@@ -171,57 +302,13 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <a href="../../../resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
-    <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+    <a href="../../../#mail" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></h1>
-                  <div>
-        <div class="description">
-          Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">knowledge-graphs</div>
-                <div class="quarto-category">rag</div>
-                <div class="quarto-category">benchmarking</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Dmitriy Leybel </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">April 5, 2024</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  <div>
-    <div class="abstract">
-      <div class="block-title">Abstract</div>
-      Out of the many retrieval algorithms, building knowledge graphs in conjuction with vector stores is a promising path forward as tracing and veracity of LLMs becomes more and more critical in the successful adoption and application in this newfound frontier of AI. It is my goal to convince you that the combination of symbolic representational knowledge and semantic embeddings is a powerful venue to explore in this space.
-    </div>
-  </div>
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
@@ -256,10 +343,53 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">knowledge-graphs</div>
+    <div class="quarto-category">rag</div>
+    <div class="quarto-category">benchmarking</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Foundational preamble to the benchmarking of knowledge graph-centric RAG flows
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dmitriy Leybel </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 5, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    Out of the many retrieval algorithms, building knowledge graphs in conjuction with vector stores is a promising path forward as tracing and veracity of LLMs becomes more and more critical in the successful adoption and application in this newfound frontier of AI. It is my goal to convince you that the combination of symbolic representational knowledge and semantic embeddings is a powerful venue to explore in this space.
+  </div>
+</div>
+
+
+</header>
 
 
 <p>It’s finally happening. <em>It</em>, being me writing a blog entry. (I’m editing this at 10k words. I guess it’s more of an article and less of a blog entry)</p>
@@ -497,7 +627,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 <p>Before wrapping up, I’d like to at least share some of the dev dataset meant to be used in the development of your data pipeline, published in the <a href="https://github.com/StonyBrookNLP/musique">MuSiQue github repo</a>.</p>
 <div style="max-height: 200px; overflow: auto">
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
+<div class="quarto-embed-nb-cell" data-notebook="\wsl.localhost\Debian\home\dleybel\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-1">
 <div id="cell-1" class="cell" data-tags="[&quot;musique_entry&quot;]" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
@@ -609,7 +739,7 @@ Figure&nbsp;10: MuSiQue Leaderboard Comparison
 </div>
 <p>This is but one entry in the <code>jsonl</code> file. Although it has an answer <code>'answer': 'Walt Disney'</code>, there is not enough supporting evidence within the 20 accompanying paragraph to substantiate that and so it has a label of&nbsp;<code>'answerable': False</code>. Each paragraph has a <code>is_supporting</code> label that is to be used in evaluating the pipeline’s ability to not only use the information found in these paragraphs, but to also classify these paragraphs as being supporting elements.</p>
 <p>And furthermore, here are examples of a couple of gold paragraphs from another question, where <code>is_supporting == True</code>. Here you can witness for yourself the necessary connection between Lloyd Dane and the county of his birthplace. Just one of the paragraphs by itself wouldn’t be enough to make that connection:</p>
-<div class="quarto-embed-nb-cell" data-notebook="C:\Users\dmley\OneDrive\Desktop\Sites\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
+<div class="quarto-embed-nb-cell" data-notebook="\wsl.localhost\Debian\home\dleybel\dmitriyleybel.github.io\technical_blog\knowledge-graph-rag-benchmark\knowledge-graph-rag-benchmark-0\notebooks\musique_eda.ipynb" data-notebook-title="Example usage" data-notebook-cellid="cell-8">
 <div id="cell-8" class="cell" data-tags="[&quot;gold_examples&quot;]" data-execution_count="21">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1080,7 +1210,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
- © 2025 - Dmitriy Leybel
+ © 2026 - Dmitriy Leybel
   </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/dmitriyleybel">

@@ -1,14 +1,41 @@
 [
   {
+    "listing": "/index.html",
+    "items": [
+      "/systems/duxmedic/index.html",
+      "/systems/stoica/index.html",
+      "/systems/hippograph/index.html",
+      "/systems/pyllments/index.html",
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html",
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html",
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html",
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html",
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html",
+      "/technical_blog/thinking-out-loud/llms-brains-reality/index.html"
+    ]
+  },
+  {
+    "listing": "/personal_blog.html",
+    "items": []
+  },
+  {
     "listing": "/technical_blog.html",
     "items": [
+      "/technical_blog/thinking-out-loud/llms-brains-reality/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html",
-      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html",
-      "/technical_blog/thinking-out-loud/manus/index.html",
-      "/technical_blog/thinking-out-loud/llms-brains-reality/index.html"
+      "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html"
+    ]
+  },
+  {
+    "listing": "/building.html",
+    "items": [
+      "/systems/duxmedic/index.html",
+      "/systems/stoica/index.html",
+      "/systems/hippograph/index.html",
+      "/systems/pyllments/index.html"
     ]
   }
 ]

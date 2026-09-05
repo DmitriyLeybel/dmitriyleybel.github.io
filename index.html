@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./images/favicon.ico" rel="icon">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -39,10 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f5b3e349297e2cb9bb8a3119aac7d4f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
-<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-57a8cc6af9d3671cffcb02dae5564eac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,6 +69,91 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-building-cards .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-project','listing-website','listing-format','listing-resources','listing-language','listing-draft-mode','listing-author','listing-toc','listing-toc-title','listing-toc-location','listing-lightbox','listing-title-block-banner','listing-title','listing-date','listing-description','listing-status','listing-order','listing-categories','listing-image','listing-live','listing-system','listing-render','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-repo',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-order-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      
+      searchColumns: ["listing-project","listing-website","listing-format","listing-resources","listing-language","listing-draft-mode","listing-author","listing-toc","listing-toc-title","listing-toc-location","listing-lightbox","listing-title-block-banner","listing-title","listing-date","listing-description","listing-status","listing-order","listing-categories","listing-image","listing-live","listing-system","listing-render","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-repo"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-building-cards'] = new List('listing-building-cards', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-technical .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-project','listing-website','listing-format','listing-resources','listing-language','listing-draft-mode','listing-author','listing-notebook-links','listing-title','listing-date','listing-description','listing-abstract','listing-aliases','listing-number-sections','listing-code-fold','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      
+      searchColumns: ["listing-project","listing-website","listing-format","listing-resources","listing-language","listing-draft-mode","listing-author","listing-notebook-links","listing-title","listing-date","listing-description","listing-abstract","listing-aliases","listing-number-sections","listing-code-fold","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-image"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-technical'] = new List('listing-technical', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-thinking .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-project','listing-website','listing-format','listing-resources','listing-language','listing-draft-mode','listing-author','listing-notebook-links','listing-title','listing-date','listing-description','listing-number-sections','listing-toc-depth','listing-code-fold','listing-categories','listing-aliases','listing-toc','listing-image','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      
+      searchColumns: ["listing-project","listing-website","listing-format","listing-resources","listing-language","listing-draft-mode","listing-author","listing-notebook-links","listing-title","listing-date","listing-description","listing-number-sections","listing-toc-depth","listing-code-fold","listing-categories","listing-aliases","listing-toc","listing-image","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-thinking'] = new List('listing-thinking', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SB4HQ6BZVQ"></script>
 
 <script type="text/javascript">
@@ -79,24 +163,183 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
+<script>
 
+// Envelope clicks open a popover; the address is stored Caesar-shifted and decoded only then.
+
+(function () {
+
+  var SHIFT = 5;
+
+  var CIPHER = "irqjdgjq@lrfnq.htr";
+
+  var pop = null;
+
+  var owner = null;
+
+
+
+  function shiftLetters(text, n) {
+
+    return text.replace(/[a-z]/gi, function (ch) {
+
+      var base = ch <= "Z" ? 65 : 97;
+
+      return String.fromCharCode((((ch.charCodeAt(0) - base + n) % 26) + 26) % 26 + base);
+
+    });
+
+  }
+
+
+
+  function closePop() {
+
+    if (pop) pop.remove();
+
+    pop = null;
+
+    owner = null;
+
+    document.removeEventListener("click", onDocClick);
+
+    document.removeEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onDocClick(event) {
+
+    if (!pop) return;
+
+    if (pop.contains(event.target) || event.target.closest('a[href="#mail"], a[href$="#mail"]')) return;
+
+    closePop();
+
+  }
+
+
+
+  function onKey(event) {
+
+    if (event.key === "Escape") closePop();
+
+  }
+
+
+
+  function openPop(anchor) {
+
+    closePop();
+
+    var email = shiftLetters(CIPHER, -SHIFT);
+
+    pop = document.createElement("div");
+
+    pop.className = "mail-pop";
+
+    pop.setAttribute("role", "dialog");
+
+    pop.innerHTML = '<p class="kicker">Email</p><a class="ink-link" href="mailto:' + email + '">' + email + "</a>";
+
+    document.body.appendChild(pop);
+
+    owner = anchor;
+
+    var box = anchor.getBoundingClientRect();
+
+    var left = Math.min(box.left, window.innerWidth - pop.offsetWidth - 16);
+
+    pop.style.top = box.bottom + 8 + "px";
+
+    pop.style.left = Math.max(16, left) + "px";
+
+    document.addEventListener("click", onDocClick);
+
+    document.addEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onMailClick(event) {
+
+    event.preventDefault();
+
+    if (pop && owner === event.currentTarget) {
+
+      closePop();
+
+      return;
+
+    }
+
+    openPop(event.currentTarget);
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('a[href="#mail"], a[href$="#mail"]').forEach(function (link) {
+
+      link.addEventListener("click", onMailClick);
+
+    });
+
+  });
+
+})();
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="dmlbl">
-<meta property="og:description" content="Dmitriy Leybel’s personal website and technical blog">
-<meta property="og:image" content="https://www.dmlbl.com/images/profile_pic.jpg">
-<meta property="og:image:alt" content="profile picture">
+<meta property="og:image" content="https://www.dmlbl.com/systems/duxmedic/thumb.svg">
+<meta property="og:image:alt" content="">
 <meta name="twitter:title" content="dmlbl">
-<meta name="twitter:description" content="Dmitriy Leybel’s personal website and technical blog">
-<meta name="twitter:image" content="https://www.dmlbl.com/images/profile_pic.jpg">
+<meta name="twitter:image" content="https://www.dmlbl.com/systems/duxmedic/thumb.svg">
 <meta name="twitter:creator" content="@dmitriyleybel">
-<meta name="twitter:image:alt" content="profile picture">
+<meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -111,12 +354,12 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./technical_blog.html"> 
-<span class="menu-text">Technical Blog</span></a>
+    <a class="nav-link" href="./index.html#building"> 
+<span class="menu-text">Building</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./personal_blog.html"> 
-<span class="menu-text">Personal Blog</span></a>
+    <a class="nav-link" href="./technical_blog.html"> 
+<span class="menu-text">Writing</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -128,89 +371,469 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <a href="./resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
-    <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+    <a href="./#mail" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<div style="margin: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .05em; line-height: 1.2; margin-bottom: 1em;">
-<span style="font-weight: 900; font-size: 3em;">Dmitriy Leybel</span>
-<hr style="width: 25%;">
-<span style="font-weight: 100; font-size: .80em;"><em>AI Engineer, Data Scientist, Statistician, Enjoyer of the outdoors</em></span>
+<div class="home">
+<div class="home-hero">
+<div class="frost-pane">
+<p class="kicker">
+AI engineer · founder · Curious Fella
+</p>
+<h1 class="home-name display">
+Dmitriy Leybel
+</h1>
+<p class="home-thesis">
+I work on knowledge systems and integrate language models into the cool things I build.
+</p>
+<p class="home-lede">
+Right now that looks like DuxMedic, Stoica, Hippograph, and Pyllments. Consultancy through <a href="https://prudentpatterns.com" class="ink-link">Prudent Patterns</a>.
+</p>
+<div class="home-actions">
+<p><a class="btn-copper" href="#work">Work with me</a> <a class="btn-ghost" href="#writing">Read the writing</a></p>
 </div>
+</div>
+<div class="home-aside">
+<div class="frost-pane">
+<p class="kicker">
+Now
+</p>
+<p>Building DuxMedic. Advising through Prudent Patterns.<br>
+Refining Pyllments.</p>
+</div>
+<div class="frost-pane">
+<p class="kicker">
+Elsewhere
+</p>
+<p><a href="https://github.com/Prudent-Patterns/pyllments" class="ink-link">GitHub</a> · <a href="https://twitter.com/dmitriyleybel" class="ink-link">X</a> · <a href="https://www.linkedin.com/in/dmlbl/" class="ink-link">LinkedIn</a></p>
+</div>
+<div class="frost-pane">
+<p class="kicker">
+About
+</p>
+<p>Born in Kiev, raised in Los Angeles, now in Oregon.</p>
+<p class="home-aside-more"><span class="home-aside-more-mark">The longer version.<svg class="home-aside-border" aria-hidden="true"><rect x="0.5" y="0.5" width="99%" height="99%" rx="50%"></rect></svg></span></p>
+<a class="home-aside-hit" href="about.html" aria-label="About"></a>
+</div>
+</div>
+</div>
+<hr class="rule">
+<div id="building" class="home-section">
+<div class="home-section-head frost-pane">
 <div>
+<p class="kicker">
+Building
+</p>
+<h2 class="display anchored">
+Things I am working on
+</h2>
+</div>
+<p class="home-section-note">
+My companies, projects, passion.
+</p>
+</div>
+<div id="listing-building-cards" class="quarto-listing quarto-listing-container-custom">
+<div class="system-grid list">
+
+  <article class="card frost-pane" data-index="0" data-categories="SGVhbHRoJTJDQ29tcGFueQ==" data-listing-date-sort="1748761200000" data-listing-file-modified-sort="1788636847992" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="42" data-listing-order-sort="1">
+    
+    <div class="thumb">
+      <img src="./systems/duxmedic/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>DuxMedic</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A medical workspace that helps people and caregivers manage their health information, guide them through the healthcare system, and research complex conditions by integrating all of their health data while using cutting-edge medical research search tools and frontier thinking language models.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Health</span>
+        
+        <span class="chip">Company</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        
+        <a class="ink-link" href="https://duxmedic.com">Live</a>
+        
+      </div>
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="1" data-categories="Q29tcGFueSUyQ09wZW4lMjBzb3VyY2U=" data-listing-date-sort="1751353200000" data-listing-file-modified-sort="1788636848016" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="62" data-listing-order-sort="2">
+    
+    <div class="thumb">
+      <img src="./systems/stoica/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Stoica</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A company built around an open-source knowledge graph visualizer, plus the tooling that lets AI agents construct and manipulate the graph itself.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Company</span>
+        
+        <span class="chip">Open source</span>
+        
+      </div>
+      
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="2" data-categories="S25vd2xlZGdlJTIwZ3JhcGhzJTJDUkFHJTJDTWVtb3J5" data-listing-date-sort="1717225200000" data-listing-file-modified-sort="1788584918743" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="133" data-listing-order-sort="3">
+    
+    <div class="thumb">
+      <img src="./systems/hippograph/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Hippograph</p>
+        </h3>
+        
+        <span class="chip listing-status">Live</span>
+        
+      </div>
+      
+      <p class="listing-description">Knowledge graphs as structured memory. A corpus is deconstructed into the fundamentals a line of questioning actually needs.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Knowledge graphs</span>
+        
+        <span class="chip">RAG</span>
+        
+        <span class="chip">Memory</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        
+        <a class="ink-link" href="https://hippograph.io">Live</a>
+        
+      </div>
+      
+    </div>
+  </article>
+
+  <article class="card frost-pane" data-index="3" data-categories="UHl0aG9uJTJDTExNJTIwYXBwcyUyQ0NvbXBvc2FibGU=" data-listing-date-sort="1740816000000" data-listing-file-modified-sort="1788584918867" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="132" data-listing-order-sort="4">
+    
+    <div class="thumb">
+      <img src="./systems/pyllments/thumb.svg" alt="">
+    </div>
+    
+    <div class="system-card-body">
+      <div class="system-card-head">
+        <h3 class="display listing-title anchored">
+<p>Pyllments</p>
+        </h3>
+        
+        <span class="chip listing-status">Building</span>
+        
+      </div>
+      
+      <p class="listing-description">A Python framework for composing LLM apps from elements. Same chassis for a bare chatbot, a RAG system, or an API over the flow.</p>
+      
+      
+      <div class="system-card-chips">
+        
+        <span class="chip">Python</span>
+        
+        <span class="chip">LLM apps</span>
+        
+        <span class="chip">Composable</span>
+        
+      </div>
+      
+      
+      <div class="system-card-links">
+        
+        <a class="ink-link" href="https://github.com/Prudent-Patterns/pyllments">Repo</a>
+        
+        
+      </div>
+      
+    </div>
+  </article>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[25,80]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 23.8%;justify-content: flex-start;">
-<p><img src="images/profile_pic.jpg" alt="profile picture" style="border-radius: 40%;  object-fit: cover;" width="250"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 76.2%;justify-content: flex-start;">
-<p>I’m an AI/ML engineer and data scientist focused on building practical solutions at the intersection of knowledge systems, large language models, and predictive analytics.</p>
-<p>I run a consultancy, <a href="https://prudentpatterns.com">Prudent Patterns</a> where I help startups and more seasoned companies acquire their footing in the space of extracting value from their data and create impactful AI solutions using the latest developments in this rapidly evolving field. I also enjoy teaching stakeholders about the current ecosystem of AI to help them make informed decisions about how to best leverage these technologies.</p>
-<p><strong>If you’d like to discuss potential collaborations or learn more about AI solutions for your business, feel free to <script type="text/javascript">
-<!--
-h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#100;&#x6d;&#108;&#x65;&#x79;&#98;&#x65;&#108;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#114;&#x65;&#x61;&#x63;&#104;&#32;&#x6f;&#x75;&#116;&#x2709;&#xfe0f;'+'<\/'+'a'+'>');
-// -->
-</script><noscript>reach out✉️ (dmleybel at gmail dot com)</noscript>, I’d love to connect.</strong></p>
+<div class="listing-no-matching d-none">
+No matching items
 </div>
 </div>
 </div>
+<div id="writing" class="home-section">
+<div class="home-section-head frost-pane">
 <div>
+<p class="kicker">
+Writing
+</p>
+<h2 class="display anchored">
+Technical writing, and meanderings
+</h2>
+</div>
+<p class="home-section-note">
+Build notes and benchmarks on one side. Looser thinking about technology on the other.
+</p>
+</div>
+<div class="writing-columns">
+<div class="card frost-pane">
+<div class="writing-card-head">
+<section id="technical" class="level3">
+<h3 class="anchored" data-anchor-id="technical"><a href="./technical_blog.html">Technical</a></h3>
+<p class="writing-card-note">
+Notes, series, and the work itself.
+</p>
+</section>
+</div>
+<div class="blog-scroll">
+<div id="listing-technical" class="quarto-listing quarto-listing-container-custom">
+<div class="row-list list">
+
+  <a class="row" href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html" data-index="0" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZyUyQ3ZlY3Rvci1kYXRhYmFzZXM=" data-listing-date-sort="1715842800000" data-listing-file-modified-sort="1788572170801" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2301">
+    <div class="row-date listing-date">May 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Combining Knowledge Graphs and Vector DBs to Answer Questions(With Sourcing) – <em>Part Four</em></p>
+      </div>
+      
+      <p class="row-deck listing-description">Building the answering segment of the QA system centering around the knowledge graph and vector db once both are populated.</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">knowledge-graphs</span>
+        
+        <span class="chip">rag</span>
+        
+        <span class="chip">benchmarking</span>
+        
+        <span class="chip">vector-databases</span>
+        
+      </div>
+      
+    </div>
+  </a>
+
+  <a class="row" href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-3/index.html" data-index="1" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1713855600000" data-listing-file-modified-sort="1788572170781" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1013">
+    <div class="row-date listing-date">Apr 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Adding a Vector Database – <em>Part Three</em></p>
+      </div>
+      
+      <p class="row-deck listing-description">Hybridizing our Knowledge Graphs With Vector Databases</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">knowledge-graphs</span>
+        
+        <span class="chip">rag</span>
+        
+        <span class="chip">benchmarking</span>
+        
+      </div>
+      
+    </div>
+  </a>
+
+  <a class="row" href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-2/index.html" data-index="2" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1713596400000" data-listing-file-modified-sort="1788572170769" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2928">
+    <div class="row-date listing-date">Apr 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Finally Building a Knowledge Graph – <em>Part Two</em></p>
+      </div>
+      
+      <p class="row-deck listing-description">Building a knowledge graph in Python with Claude 3 Haiku(Works for ≥ GPT 3.5 as well)</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">knowledge-graphs</span>
+        
+        <span class="chip">rag</span>
+        
+        <span class="chip">benchmarking</span>
+        
+      </div>
+      
+    </div>
+  </a>
+
+  <a class="row" href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-1/index.html" data-index="3" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1712905200000" data-listing-file-modified-sort="1788572170709" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2367">
+    <div class="row-date listing-date">Apr 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>Don’t RAG on Knowledge Graphs(Or Do) Benchmarking: Theory behind using an LLM to Build Knowledge Graphs – <em>Part One</em></p>
+      </div>
+      
+      <p class="row-deck listing-description">Going into the nitty gritty (theoretical) details and nuances of building knowledge graphs with Large Language Models</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">knowledge-graphs</span>
+        
+        <span class="chip">rag</span>
+        
+        <span class="chip">benchmarking</span>
+        
+      </div>
+      
+    </div>
+  </a>
+
+  <a class="row" href="./technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-0/index.html" data-index="4" data-categories="a25vd2xlZGdlLWdyYXBocyUyQ3JhZyUyQ2JlbmNobWFya2luZw==" data-listing-date-sort="1712300400000" data-listing-file-modified-sort="1788572170661" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2603">
+    <div class="row-date listing-date">Apr 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>Don’t RAG on Knowledge Graphs(Or Do): RAG, Knowledge Graphs, and Benchmarks – <em>Part Zero</em></p>
+      </div>
+      
+      <p class="row-deck listing-description">Foundational preamble to the benchmarking of knowledge graph-centric RAG flows</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">knowledge-graphs</span>
+        
+        <span class="chip">rag</span>
+        
+        <span class="chip">benchmarking</span>
+        
+      </div>
+      
+    </div>
+  </a>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[80,30]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 72.7%;justify-content: flex-start;">
-<p>🧠<a href="https://github.com/Prudent-Patterns/pyllments">Pyllments</a> is a Python framework I am currently developing for quickly building and deploying LLM-powered applications, batteries included. By combining the separate <em>elements</em> in various flows, it enables the quick deployment of an infinitely customizeable user interface with minimal overhead of projects as simple as a bare-bones chatbot to an entire RAG application. It also enables lightning-quick API creation over existing workflows by simply attaching special API <em>elements</em> that trigger and capture the results of any of the specified <em>elements</em>. It enables quick and simple iteration and experimentation over a large array of LLM use cases through its modularity, composability, and extensibility.</p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 27.3%;justify-content: flex-start;">
-<p><a href="images/ragflow.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/ragflow.png" class="img-fluid" width="220"></a> <a href="images/ragflow_GUI.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/ragflow_GUI.jpg" class="img-fluid" width="220"></a></p>
+<div class="listing-no-matching d-none">
+No matching items
 </div>
 </div>
 </div>
-<div>
+<div class="writing-card-foot">
+<p><a href="./technical_blog.html" class="ink-link">All technical posts →</a></p>
+</div>
+</div>
+<div class="card frost-pane">
+<div class="writing-card-head">
+<section id="thinking-out-loud" class="level3">
+<h3 class="anchored" data-anchor-id="thinking-out-loud"><a href="./technical_blog.html#thinking">Thinking Out Loud</a></h3>
+<p class="writing-card-note">
+Meanderings about technology and the rest of it.
+</p>
+</section>
+</div>
+<div class="blog-scroll">
+<div id="listing-thinking" class="quarto-listing quarto-listing-container-custom">
+<div class="row-list list">
+
+  <a class="row" href="./technical_blog/thinking-out-loud/llms-brains-reality/index.html" data-index="0" data-categories="TExNcyUyQ0JyYWluJTJDQUdJ" data-listing-date-sort="1718089200000" data-listing-file-modified-sort="1788572170889" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2260">
+    <div class="row-date listing-date">Jun 2024</div>
+    <div>
+      <div class="row-title display listing-title">
+<p>LLMs, Brains, Physical Reality. Can Large Language Models really lead to superintelligence?</p>
+      </div>
+      
+      <p class="row-deck listing-description">If LLMs are bootstrapping themselves with the product of billions of years of evolution, how would their capacity expand beyond that?</p>
+      
+      
+      <div class="row-chips">
+        
+        <span class="chip">LLMs</span>
+        
+        <span class="chip">Brain</span>
+        
+        <span class="chip">AGI</span>
+        
+      </div>
+      
+    </div>
+  </a>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[24,80]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 23.1%;justify-content: flex-start;">
-<a href="images/hippograph_scn.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/hippograph_scn.jpg" class="img-fluid" width="220"></a>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 76.9%;justify-content: flex-start;">
-<p>🦛<a href="https://hippograph.io">Hippograph</a> is another project of mine. It’s a portmanteau of <em>hippocampus</em> and <em>graph</em>, as well as a play on the word <em>hippogriff</em>, y’know, the mythical creature(<em>yeah, sometimes I consider myself clever)</em>. As the name suggests, it uses knowledge graphs as a structured memory for answering questions about corpuses of data, which it first deconstructs to the fundamentals necessary for approaching the desired lines of questioning. It’s easier demo’d than said, so I’d suggest you check out the video on <a href="https://hippograph.io">its site</a>.</p>
-<p>For more on the combination of LLMs and knowledge graphs, I have an entire in-depth series of posts on it in my <a href="./technical_blog.html">technical blog</a>.</p>
+<div class="listing-no-matching d-none">
+No matching items
 </div>
 </div>
 </div>
-<p><span style="font-size: 4em; text-align: center; display: block">⛰️🌲</span></p>
-<p>I absolutely love the outdoors and try to get out as often as possible. Sometimes, the laptop comes along for the ride, but usually not.</p>
-<div style="margin: auto; display: block; text-align: center;">
-<p><img src="images/outdoor_1.jpg" style="border-top-left-radius: 20%; border-bottom-left-radius: 20%;" height="230"> <img src="images/outdoor_2.jpg" height="230"> <img src="images/outdoor_3.jpg" height="230"> <img src="images/outdoor_0.jpg" style="border-top-right-radius: 25%; border-bottom-right-radius: 25%;" height="230"></p>
+<div class="writing-card-foot">
+<p><a href="./technical_blog.html#thinking" class="ink-link">All thinking out loud posts →</a></p>
 </div>
-<p><span style="font-size: 4em; text-align: center; display: block">🐶</span></p>
-<p>I am also an avid enjoyer of Corgis. A <em>corgoisseur</em>, one may say.</p>
-<p><img src="images/corgo_pic.jpg" alt="corgi lol" style="border-radius: 20%;  object-fit: cover;" width="293"></p>
+</div>
+</div>
+</div>
+<div id="work" class="home-section work-grid">
+<div class="frost-pane">
+<p class="kicker">
+Consulting
+</p>
+<h2 class="display anchored">
+Prudent Patterns
+</h2>
+</div>
+<div class="work-copy frost-pane">
+<p>I work with startups and established companies to get value out of their data and to build AI systems that hold up once they meet the real problem. Along the way I help stakeholders understand the current landscape well enough to decide what is worth doing and what isn’t.</p>
+<p>If you’re thinking about a collaboration or an AI system for your business, get in touch. I’d like to hear about it.</p>
+<p class="work-contact">
+<a class="mail-link" href="#mail" aria-label="Email"><i class="bi bi-envelope-fill" aria-hidden="true"></i></a>
+<a class="ink-link" href="https://prudentpatterns.com">prudentpatterns.com</a>
+</p>
+</div>
+</div>
+</div>
 
 
-</main></div>
 
- <!-- /main -->
+
+</main> <!-- /main -->
+<canvas id="net" aria-hidden="true"></canvas>
+
+<script src="js/net.js?v=21"></script>
+
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -628,7 +1251,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
- <!-- /content -->
+</div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
@@ -637,7 +1260,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
- © 2025 - Dmitriy Leybel
+ © 2026 - Dmitriy Leybel
   </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/dmitriyleybel">
@@ -658,38 +1281,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

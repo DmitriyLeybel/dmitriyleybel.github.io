@@ -34,11 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f5b3e349297e2cb9bb8a3119aac7d4f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-57a8cc6af9d3671cffcb02dae5564eac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,22 +79,154 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
 </script>
+<script>
+
+// Envelope clicks open a popover; the address is stored Caesar-shifted and decoded only then.
+
+(function () {
+
+  var SHIFT = 5;
+
+  var CIPHER = "irqjdgjq@lrfnq.htr";
+
+  var pop = null;
+
+  var owner = null;
+
+
+
+  function shiftLetters(text, n) {
+
+    return text.replace(/[a-z]/gi, function (ch) {
+
+      var base = ch <= "Z" ? 65 : 97;
+
+      return String.fromCharCode((((ch.charCodeAt(0) - base + n) % 26) + 26) % 26 + base);
+
+    });
+
+  }
+
+
+
+  function closePop() {
+
+    if (pop) pop.remove();
+
+    pop = null;
+
+    owner = null;
+
+    document.removeEventListener("click", onDocClick);
+
+    document.removeEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onDocClick(event) {
+
+    if (!pop) return;
+
+    if (pop.contains(event.target) || event.target.closest('a[href="#mail"], a[href$="#mail"]')) return;
+
+    closePop();
+
+  }
+
+
+
+  function onKey(event) {
+
+    if (event.key === "Escape") closePop();
+
+  }
+
+
+
+  function openPop(anchor) {
+
+    closePop();
+
+    var email = shiftLetters(CIPHER, -SHIFT);
+
+    pop = document.createElement("div");
+
+    pop.className = "mail-pop";
+
+    pop.setAttribute("role", "dialog");
+
+    pop.innerHTML = '<p class="kicker">Email</p><a class="ink-link" href="mailto:' + email + '">' + email + "</a>";
+
+    document.body.appendChild(pop);
+
+    owner = anchor;
+
+    var box = anchor.getBoundingClientRect();
+
+    var left = Math.min(box.left, window.innerWidth - pop.offsetWidth - 16);
+
+    pop.style.top = box.bottom + 8 + "px";
+
+    pop.style.left = Math.max(16, left) + "px";
+
+    document.addEventListener("click", onDocClick);
+
+    document.addEventListener("keydown", onKey);
+
+  }
+
+
+
+  function onMailClick(event) {
+
+    event.preventDefault();
+
+    if (pop && owner === event.currentTarget) {
+
+      closePop();
+
+      return;
+
+    }
+
+    openPop(event.currentTarget);
+
+  }
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('a[href="#mail"], a[href$="#mail"]').forEach(function (link) {
+
+      link.addEventListener("click", onMailClick);
+
+    });
+
+  });
+
+})();
+
+</script>
+
 
 
 <meta property="og:title" content="About">
-<meta property="og:description" content="Dmitriy Leybel’s personal website and technical blog">
-<meta property="og:image" content="https://www.dmlbl.com/images/horse.jpg">
+<meta property="og:image" content="https://www.dmlbl.com/images/profile_pic.jpg">
+<meta property="og:image:alt" content="Portrait of Dmitriy Leybel">
 <meta name="twitter:title" content="About">
-<meta name="twitter:description" content="Dmitriy Leybel’s personal website and technical blog">
-<meta name="twitter:image" content="https://www.dmlbl.com/images/horse.jpg">
+<meta name="twitter:image" content="https://www.dmlbl.com/images/profile_pic.jpg">
 <meta name="twitter:creator" content="@dmitriyleybel">
+<meta name="twitter:image:alt" content="Portrait of Dmitriy Leybel">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -105,12 +241,12 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./technical_blog.html"> 
-<span class="menu-text">Technical Blog</span></a>
+    <a class="nav-link" href="./index.html#building"> 
+<span class="menu-text">Building</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./personal_blog.html"> 
-<span class="menu-text">Personal Blog</span></a>
+    <a class="nav-link" href="./technical_blog.html"> 
+<span class="menu-text">Writing</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./about.html" aria-current="page"> 
@@ -122,38 +258,71 @@ gtag('config', 'G-SB4HQ6BZVQ', { 'anonymize_ip': true});
     <a href="./resume.html" title="Resume" class="quarto-navigation-tool px-1" aria-label="Resume"><i class="bi bi-file-person-fill"></i></a>
     <a href="https://twitter.com/dmitriyleybel" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.linkedin.com/in/dmlbl/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
-    <a href="mailto:dmleybel@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
+    <a href="./#mail" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope-fill"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">About</h1>
-                      </div>
-  </div>
-  <div class="quarto-title-meta">
-    </div>
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-jolla">
- <main class="content quarto-banner-title-block" id="quarto-document-content">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/horse.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
-</figure>
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">About</h1>
 </div>
-<p>I was born in Kiev, Ukraine but I moved to Los Angeles, CA at the age of 5 – where I’ve lived most of my life. After a couple of decades of unyielding sun and pleasant weather, I decided that a change of scenery was in order. So I moved to Oregon.</p>
 
 
-</main>  
+
+<div class="quarto-title-meta column-page">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="about-page has-net">
+<div class="about-layout">
+<div class="about-photo">
+<p><img src="images/profile_pic.jpg" class="img-fluid" alt="Portrait of Dmitriy Leybel"> <img src="images/horse.jpg" class="img-fluid" alt="A childhood photo on horseback"></p>
 </div>
- <!-- /main -->
+<div class="about-copy frost-pane">
+<p>Born in Kiev, Ukraine. Moved to Los Angeles at five and stayed for a couple of decades of pleasant weather before Oregon. AI/ML engineer, data scientist, statistician.</p>
+<p>I work on knowledge systems and language models — building them, teaching them, and deciding when not to use them. Consultancy is <a href="https://prudentpatterns.com" class="ink-link">Prudent Patterns</a>; the writeups live on this site.</p>
+<div class="about-meta">
+<p>These days I build systems, write about them here, and get outside when I can.</p>
+</div>
+</div>
+</div>
+<p class="kicker">
+Otherwise
+</p>
+<p>I absolutely love the outdoors and try to get out as often as possible. Sometimes the laptop comes along for the ride, but usually not.</p>
+<div class="photo-strip">
+<p><a href="images/outdoor_1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/outdoor_1.jpg" class="img-fluid" alt="Sitting on a fallen tree over water"></a> <a href="images/outdoor_2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/outdoor_2.jpg" class="img-fluid" alt="Outdoors"></a> <a href="images/outdoor_3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/outdoor_3.jpg" class="img-fluid" alt="Hiking"></a> <a href="images/outdoor_0.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="images/outdoor_0.jpg" class="img-fluid" alt="In the woods"></a></p>
+</div>
+<div class="about-aside frost-pane">
+<p><a href="images/corgo_pic.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="images/corgo_pic.jpg" class="img-fluid" alt="Dmitriy with a corgi"></a></p>
+<p>I am also an avid enjoyer of Corgis. A <em>corgoisseur</em>, one may say.</p>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<canvas id="net" aria-hidden="true"></canvas>
+
+<script src="js/net.js?v=21"></script>
+
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -174,6 +343,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
@@ -573,7 +749,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
- © 2025 - Dmitriy Leybel
+ © 2026 - Dmitriy Leybel
   </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/dmitriyleybel">
@@ -594,6 +770,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
