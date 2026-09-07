@@ -47,7 +47,7 @@ listing:
 
 <p class="home-thesis">I work on knowledge systems and integrate language models into the cool things I build.</p>
 
-<p class="home-lede">Right now that looks like DuxMedic, Stoica, Hippograph, and Pyllments. Consultancy through [Prudent Patterns](https://prudentpatterns.com){.ink-link}.</p>
+<p class="home-lede">Right now that looks like DuxMedic, TidyAtlas, Hippograph, and Pyllments. Consultancy through [Prudent Patterns](https://prudentpatterns.com){.ink-link}.</p>
 
 <div class="home-actions">
 <a class="btn-copper" href="#work">Work with me</a>
@@ -59,7 +59,7 @@ listing:
 ::: {.home-aside}
 ::: {.frost-pane}
 <p class="kicker">Now</p>
-Building DuxMedic. Advising through Prudent Patterns.\
+Building DuxMedic and TidyAtlas. Advising through Prudent Patterns.\
 Refining Pyllments.
 :::
 

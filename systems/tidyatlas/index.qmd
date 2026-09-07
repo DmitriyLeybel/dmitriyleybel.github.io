@@ -1,7 +1,7 @@
 ---
-title: Stoica
+title: TidyAtlas
 date: 2025-07-01
-description: A company built around an open-source knowledge graph visualizer, plus the tooling that lets AI agents construct and manipulate the graph itself.
+description: A company built around an open-source knowledge graph library — the visualizer, plus the tooling that lets AI agents construct and manipulate the graph itself.
 status: Building
 order: 2
 categories:
@@ -12,7 +12,7 @@ system: true
 render: false
 ---
 
-Stoica is both a company and an open-source product. The product is the knowledge graph visualizer and the agent tooling around it. The company is what develops and supports that work.
+TidyAtlas is the company. The library is open source: a knowledge graph visualizer and the agent tooling around it. The business is what I'm building around that work.
 
 ## Problem
 
