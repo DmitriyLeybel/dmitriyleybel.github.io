@@ -3,7 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/systems/duxmedic/index.html",
-      "/systems/stoica/index.html",
+      "/systems/tidyatlas/index.html",
       "/systems/hippograph/index.html",
       "/systems/pyllments/index.html",
       "/technical_blog/knowledge-graph-rag-benchmark/knowledge-graph-rag-benchmark-4/index.html",
@@ -33,7 +33,7 @@
     "listing": "/building.html",
     "items": [
       "/systems/duxmedic/index.html",
-      "/systems/stoica/index.html",
+      "/systems/tidyatlas/index.html",
       "/systems/hippograph/index.html",
       "/systems/pyllments/index.html"
     ]

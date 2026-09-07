@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="130" viewBox="0 0 280 130" fill="none">
+  <!-- Tabular KG: category cards on a faint grid, orthogonal routes. -->
+  <g stroke="#ebebeb" opacity="0.12">
+    <path d="M10 8h260M10 40h260M10 72h260M10 104h260"/>
+    <path d="M10 8v108M75 8v108M140 8v108M205 8v108M270 8v108"/>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M84 30h12q6 0 6 6v23q0 6 6 6h8" stroke="#f28ba6"/>
+    <path d="M84 100h12q6 0 6-6v-23q0-6 6-6h8" stroke="#4ec9d4"/>
+    <path d="M182 65h14q6 0 6-6V30q0-6 6-6h8" stroke="#df6919"/>
+    <path d="M182 65h14q6 0 6 6v29q0 6 6 6h8" stroke="#e8c44a"/>
+  </g>
+
+  <g>
+    <rect x="14" y="16" width="70" height="28" rx="6" stroke="#f28ba6"/>
+    <circle cx="27" cy="25" r="3.2" stroke="#f28ba6"/>
+    <path d="M23.5 32.5a5 3.2 0 0 1 7 0" stroke="#f28ba6"/>
+    <path d="M38 24h36" stroke="#ebebeb" opacity="0.4"/>
+    <path d="M38 32h20" stroke="#ebebeb" opacity="0.25"/>
+  </g>
+
+  <g>
+    <rect x="14" y="86" width="70" height="28" rx="6" stroke="#4ec9d4"/>
+    <rect x="23" y="95" width="8" height="8" rx="1" stroke="#4ec9d4"/>
+    <path d="M38 94h36" stroke="#ebebeb" opacity="0.4"/>
+    <path d="M38 102h20" stroke="#ebebeb" opacity="0.25"/>
+  </g>
+
+  <g>
+    <rect x="116" y="50" width="66" height="30" rx="6" stroke="#df6919"/>
+    <path d="M128 72l6.5-14 6.5 14z" stroke="#f0a266"/>
+    <path d="M146 61h26" stroke="#f0a266" opacity="0.8"/>
+    <path d="M146 69h16" stroke="#f0a266" opacity="0.4"/>
+  </g>
+
+  <g>
+    <rect x="216" y="16" width="50" height="28" rx="6" stroke="#e8c44a"/>
+    <path d="M226 30h8M230 26v8" stroke="#e8c44a"/>
+    <path d="M240 24h18" stroke="#ebebeb" opacity="0.4"/>
+    <path d="M240 32h10" stroke="#ebebeb" opacity="0.25"/>
+  </g>
+
+  <g>
+    <rect x="216" y="86" width="50" height="28" rx="6" stroke="#df6919" opacity="0.75"/>
+    <path d="M226 108l5-12 5 12z" stroke="#f0a266" opacity="0.85"/>
+    <path d="M240 94h18" stroke="#ebebeb" opacity="0.35"/>
+    <path d="M240 102h10" stroke="#ebebeb" opacity="0.2"/>
+  </g>
+</svg>
